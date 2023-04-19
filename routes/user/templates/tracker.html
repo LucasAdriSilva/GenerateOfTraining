@@ -1,0 +1,514 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row mt-3">
+    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+        {% if data[0].category != data[1].category%}
+        <h1>{{data[0].category}}/{{data[1].category}}</h1>
+        {% else %}
+        <h1>{{data.category}}</h1>
+        {% endif %}
+        <small>Lembre de fazer os alogamentos par evitar <span class="reset text-danger text-uppercase">lesões</small>
+    </div>
+</div>
+
+
+<span class="d-none" id="dataDB">{{data}}</span>
+
+{% for exer in data%}
+{% set contador = loop.index %}
+    {% if exer.newExer%}
+    {% set newExer = exer.newExer %}
+    <div id="div{{contador}}" class="row position-relative py-4">
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer{{contador}}" width="68" height="68" src="{{exer.url}}" alt="">
+        </div>
+
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">{{contador}}º{{exer.name}}</span>
+                    <span class="d-none" id="name{{contador}}">{{exer}}</span>
+                </div>
+                <div class="col-12  d-flex justify-content-center align-items-center">
+                    <img src="assets/img/atencao.jpg" class="jump-image" alt="" style="width: 110%; height: auto;">
+                </div>
+
+                <div class="d-flex justify-content-center align-items-center gap-3">
+                    <button class="btn btn-success" onclick="openModalToggleExer('{{exer.name}}')">Trocar</button>
+                    <button class="btn btn-success" data-bs-target="#toggleExer" onclick="notToggleExer(JSON.stringify({{exer}}))">Continuar</button>
+                </div>
+            </div>
+
+        </div>
+
+        <audio id="myAudio">
+            <source src="assets/audio/not.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+
+    {% else%}
+    <div id="div{{contador}}" class="row position-relative py-4">
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer{{contador}}" width="68" height="68" src="{{exer.url}}" alt="">
+        </div>
+
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div id="reptDiv{{contador}}" class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">{{contador}}º{{exer.name}}</span>
+                    <span class="d-none" id="name{{contador}}">{{exer}}</span>
+                </div>
+
+                {% for e in range(exer.rept)%}
+                {% set contadorSerie = loop.index %}
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
+                </div>
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    {% if exer.segs %}
+                    <p class="reset text-uppercase text-gray1">SEGS</p>
+                    {% else %}
+                    <p class="reset text-uppercase text-gray1">REPS</p>
+                    {% endif %}
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidExer{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
+
+{% endfor %}
+
+<audio id="myAudio">
+    <source src="assets/audio/not.mp3" type="audio/mp3">
+</audio>
+<!-- Modal -->
+<div class="modal fade" id="toggleExer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="toggleExerLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="toggleExerLabel">Escolha um exercicio</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div id="toggleExerContent" class="modal-body d-flex flex-column justify-content-center align-items-center">
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class=" row mb-5 mt-2">
+    <div class="col-12 d-flex justify-content-center align-itemns-center">
+        <button onclick="finishedTraining()" class="btn btn-success text-uppercase">Finalizar treino</button>
+    </div>
+</div>
+
+<script>
+    var newTraining = []
+    let exer = giveExer()
+    var Data;
+
+    function creatVar() {
+        const valueData = document.getElementById(`dataDB`)
+        let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"");
+        return Data = JSON.parse(dataOfDataBase);
+    }
+
+    window.addEventListener("load", function () {
+        creatVar()
+        for (let i = 1; i < 9; i++) {
+            for (let e = 1; e < 4; e++) {
+                validationInpt(i, e)
+            }
+        }
+    });
+
+    function validationInpt(id, serie) {
+        const input = document.getElementById(`ValidExer${id}Serie${serie}`)
+        if (input != null) {
+            input.addEventListener('blur', function () {
+                //Pega o dados do exercicio que o backend enviou
+                const exerBack = document.getElementById(`name${id}`);
+                let exer = exerBack.innerHTML.replace(/'/g, "\"");
+                let Exer = JSON.parse(exer);
+
+                if (Exer.segs) {
+                    let segundos = parseInt(input.value) / 2 //Resposta em segundos
+                    let repeticao = 60 / Math.round(segundos) // Repostas em repetição
+                    repeticao = Math.round(repeticao)
+                    let sugundosTotais = segundos * repeticao
+
+                    if (repeticao <= 4 && input.value < 60) {
+                        //desabilitCardTracker(id, serie)
+                        addTraining(id, serie)
+                    }
+
+                    if (repeticao > 6 || input.value >= 60) {
+                        console.log('Muito pesado')
+                        addTraining(id, serie)
+                    }
+                    if (repeticao < 2) {
+                        console.log('Muito leve')
+                        addTraining(id, serie)
+                    }
+                }
+                else {
+                    if (input.value <= 6) {
+                        console.log('Muito Pesado')
+                        addTraining(id, serie)
+
+                    }
+
+                    if (input.value >= 6 && input.value <= 15) {
+                        //desabilitCardTracker(id, serie)
+                        addTraining(id, serie)
+                    }
+
+
+                    if (input.value >= 15 && input.value <= 31) {
+                        console.log('Muito Leve')
+                        addTraining(id, serie)
+
+                    }
+
+                    if (input.value >= 31) {
+                        console.log('Extremamente Leve')
+                        addTraining(id, serie)
+
+                    }
+                }
+
+
+            })
+        }
+    }
+
+    function desabilitCardTracker(id, serie) {
+        const audio = document.getElementById("myAudio");
+
+        let numberInput = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
+        // Monta o array de id sem o id que está sendo tratado
+        let indexinput = numberInput[id - 1]
+        let input = indexinput.findIndex(e => e == serie)
+
+        if (input != -1) {
+            indexinput.splice(input, 1);
+            numberInput[id - 1] = indexinput
+        }
+
+        // Desabilita todos os inpust e add uma class aos cards
+        let x = 1
+        numberInput.forEach(e => {
+            e.forEach(i => {
+                const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                inputDesabilit.disabled = true;
+            })
+
+            const divExer = document.getElementById('exer' + x)
+            divExer.classList.add('desabilited')
+            x++
+        })
+
+        let cronometro = document.getElementById(`reset${id}Serie${serie}`);
+        let segundosRestantes = 3; // 3 minutos em segundos
+        let interval; // Declarando a variável fora da função para poder usar em outro escopo
+        cronometro.placeholder = ''
+        cronometro.placeholder = '0:4'
+
+
+        clearInterval(interval); // Parar o cronômetro se ele já estiver rodando
+        segundosRestantes = 3; // Reiniciar o tempo
+
+        interval = setInterval(function () {
+            segundosRestantes--;
+            let minutos = Math.floor(segundosRestantes / 60);
+            let segundos = segundosRestantes % 60;
+            cronometro.placeholder = minutos + ":" + segundos + "";
+
+            if (segundosRestantes <= 0) {
+                audio.play();
+                clearInterval(interval); // Parar o cronômetro
+                // Habilitar input
+                cronometro.placeholder = "FIM";
+                let x = 1
+                numberInput.forEach(e => {
+                    e.forEach(i => {
+                        const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                        inputDesabilit.disabled = false;
+                    })
+
+                    const divExer = document.getElementById('exer' + x)
+                    divExer.classList.remove('desabilited')
+                    x++
+                })
+            }
+        }, 1000); // Atualizar o cronômetro a cada segundo
+
+    }
+
+    function addTraining(id, serie) {
+        const name = document.getElementById(`name${id}`);
+        let Name = name.innerHTML.replace(/'/g, "\"");
+        let newData = JSON.parse(Name);
+
+        const input = document.getElementById(`ValidExer${id}Serie${serie}`)
+
+        let index = newTraining.findIndex(e => e.name === newData.name)
+
+        if (index == -1) {
+            newData[`rept${serie}`] = parseInt(input.value);
+            newTraining.push(newData);
+        } else {
+            newTraining[index][`rept${serie}`] = parseInt(input.value);
+        }
+        console.log(newTraining)
+    }
+
+    async function finishedTraining() {
+        loading(true)
+
+        newTraining.forEach(training => {
+            delete training.newExer;
+            if (training.rept1 === training.rept2 && training.rept2 === training.rept3 && training.rept1 >= 15 && training.segs == null) {
+                training.newExer = true;
+            }
+            if (training.rept1 === training.rept2 && training.rept2 === training.rept3 && training.rept1 >= 60 && training.segs == 'true') {
+                training.newExer = true;
+            }
+        });
+
+        if (newTraining.length >= 8) {
+            
+            try {
+                const response = await fetch('/saveTrainingTracker', {
+                    method: 'POST',
+                    body: JSON.stringify(newTraining),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    window.location.href = '/user';
+                } else {
+                    loading(false)
+                    throw new Error('Erro na requisição:', response.status);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
+    function openModalToggleExer(exer) {
+        let info = creatVar()
+        //Filtrando o valor do data atraves da string ('Nome do exercicio')
+        let listNewExer = info.filter(e => e.name == exer)[0]
+
+        var modal = new bootstrap.Modal(document.querySelector(`#toggleExer`));
+        modal.show()
+
+        const modal2 = document.getElementById('toggleExerContent')
+        modal2.innerHTML = ''
+        let contentDiv = modal2.innerHTML
+
+        listNewExer.newExer.forEach(e => {
+            contentDiv += `
+            <div class="row reset-Padding-x mt-5">
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                    <h3>${e.name}</h3>
+                    <h5>Categora: ${e.category} / Nivel: ${e.nivel}</h5>
+                </div>
+                <div class="col-12 d-flex justify-content-center align-items-center">
+                    <img src="${e.url}" style="width: 80%; height: auto;">
+                </div>
+                <div class="col-12 d-flex justify-content-center align-items-center mt-3">
+                    <button data-bs-toggle="modal" data-bs-target="#toggleExer" onclick="attTraining('${e.name}', '${exer}')"
+                        class="btn btn-success text-uppercase w-100">Troca por esse</button>
+                </div>
+            </div>
+            `
+            modal2.innerHTML = contentDiv
+        })
+
+    }
+
+    function attTraining(name, oldName) {
+        let info = creatVar()
+        let indexDiv
+        let dataExer
+        Data.forEach(obj => {
+            if (obj.newExer != null) {
+                obj.newExer.forEach(exer => {
+                    // aqui você pode fazer a verificação do item desejado dentro de "newExer"
+                    if (exer.name === name) {
+                        //Atualizar o traino
+                        let ind = info.findIndex(e => e.name == oldName)
+
+                        if (ind != -1) {
+                            indexDiv = ind + 1
+                            //Trocando os exercicios
+                            exer.num = Data[ind].num
+                            exer.required = Data[ind].required
+                            Data[ind].segs ? exer.segs = Data[ind].segs : null
+                            exer.rept = Data[ind].rept
+                            exer.count = 0
+                            exer.rept1 = 0
+                            exer.rept2 = 0
+                            exer.rept3 = 0
+                            exer.rest = 3
+                            Data[ind] = exer
+                            dataExer = Data[ind]
+                        }
+                    }
+                })
+            }
+        })
+
+        const div = document.getElementById(`div${indexDiv}`)
+        div.innerHTML = `
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer${indexDiv}" width="68" height="68" src="${dataExer.url}" alt="">
+        </div>
+    
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div id="reptDiv${indexDiv}" class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">${indexDiv}º${dataExer.name}</span>
+                    <span class="d-none" id="name${indexDiv}">${JSON.stringify(dataExer)}</span>
+
+                </div>               
+              
+            </div>
+    
+        </div>`
+
+        const divReptExer = document.getElementById(`reptDiv${indexDiv}`)
+        let num = dataExer.rept
+
+        for (let i = 1; i - 1 < num; i++) {
+            divReptExer.innerHTML += `
+            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                <input class="w-75 text-center rounded-3" type="text" placeholder="${i}" disabled>
+            </div>
+
+            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                ${dataExer.segs ? '<p class="reset text-uppercase text-gray1">SEGS</p>' : '<p class="reset text-uppercase text-gray1">REPS</p>'}
+                <input required="true" id="ValidExer${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
+                    type="number">
+
+            </div>
+
+            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                <input id="reset${indexDiv}Serie${i}" required="true" disabled placeholder="3min"
+                    class="w-75 input-value text-center rounded-3" type="text">
+            </div>
+            `
+        }
+        for (let i = 1; i < 9; i++) {
+            for (let e = 1; e < 4; e++) {
+                validationInpt(i, e)
+            }
+        }
+    }
+
+    function notToggleExer(exer) {
+        let dataExer = JSON.parse(exer);
+        let info = creatVar()
+        let indexDiv
+
+        let index = info.findIndex(e => e.name == dataExer.name)
+        if (index != -1){
+            indexDiv = index + 1 
+        }
+
+        const div = document.getElementById(`div${indexDiv}`)
+        div.innerHTML = `
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer${indexDiv}" width="68" height="68" src="${dataExer.url}" alt="">
+        </div>
+    
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div id="reptDiv${indexDiv}" class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">${indexDiv}º${dataExer.name}</span>
+                    <span class="d-none" id="name${indexDiv}">${JSON.stringify(dataExer)}</span>
+
+                </div>               
+              
+            </div>
+    
+        </div>`
+
+        const divReptExer = document.getElementById(`reptDiv${indexDiv}`)
+        let num = dataExer.rept
+
+        for (let i = 1; i - 1 < num; i++) {
+            divReptExer.innerHTML += `
+            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                <input class="w-75 text-center rounded-3" type="text" placeholder="${i}" disabled>
+            </div>
+
+            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                ${dataExer.segs ? '<p class="reset text-uppercase text-gray1">SEGS</p>' : '<p class="reset text-uppercase text-gray1">REPS</p>'}
+                <input required="true" id="ValidExer${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
+                    type="number">
+
+            </div>
+
+            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                <input id="reset${indexDiv}Serie${i}" required="true" disabled placeholder="3min"
+                    class="w-75 input-value text-center rounded-3" type="text">
+            </div>
+            `
+        }
+        
+        delete info[index].newExer;
+
+        for (let i = 1; i < 9; i++) {
+            for (let e = 1; e < 4; e++) {
+                validationInpt(i, e)
+            }
+        }
+        
+    }
+
+
+
+
+</script>
+{% endblock %}

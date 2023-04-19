@@ -1,0 +1,366 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="filterPage" class="row mx-20px">
+    <div class="col-12 d-flex justify-content-center align-items-center my-4">
+        <h1 class="reset">Filtro dos Exercícios</h1>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <input id="searchName" class="form-control text-center" type="search" placeholder="Pesquisar por nome"
+            aria-label="Search">
+    </div>
+
+    <div class="col-12 gap-1  d-flex justify-content-center align-items-center mt-2">
+
+        <select id="GM" class="form-select" aria-label="Grupo Muscular">
+            <option selected>Grupo Muscular</option>
+            <option value="Core" class="text-center">Core</option>
+            <option value="Legs" class="text-center">Legs</option>
+            <option value="Push" class="text-center">Push</option>
+            <option value="Pull" class="text-center">Pull</option>
+        </select>
+
+        <select id="N" class="form-select" aria-label="Nivel">
+            <option selected>Nivel</option>
+            <option value="1" class="text-center">1</option>
+            <option value="2" class="text-center">2</option>
+            <option value="3" class="text-center">3</option>
+            <option value="4" class="text-center">4</option>
+            <option value="5" class="text-center">5</option>
+            <option value="6" class="text-center">6</option>
+        </select>
+
+        <select id="E" class="form-select" aria-label="Equipamentos">
+            <option selected>Equipamentos</option>
+            <option value="1" class="text-center">Barra Fixa</option>
+            <option value="2" class="text-center">Argolas</option>
+            <option value="3" class="text-center">Ridinha Abdominal</option>
+            <option value="4" class="text-center">Paralelas</option>
+            <option value="5" class="text-center">SuperBand</option>
+            <option value="6" class="text-center">Trx</option>
+        </select>
+
+
+
+    </div>
+
+</div>
+
+<div id="listFilter" class="row mt-5 mx-5 listFilter mx-20px">
+
+</div>
+
+<div id="page" class="row d-none mx-20px">
+    <div class="col-12 d-flex justify-content-center align-items-center mt-5 mb-3 reset-Padding-x">
+        <h1>Nome do exercicio</h1>
+    </div>
+
+    <div class="col-5 d-flex justify-content-start align-items-center rounded-4 reset-Padding-x">
+        <img class="rounded-4 img-res" id="img1" width="120" height="120"
+            src="https://jmonline.com.br/userfiles/image/2022/05/01/interna_0001_8-10.jpg" alt="">
+    </div>
+
+    <div class="col-7 d-flex flex-column justify-content-around align-items-start">
+        <span class="reset text-start"> Informações</span>
+
+        <div class="d-flex  justify-content-center align-items-start gap-2">
+            <span class="text-start">Equipamentos:</span>
+            <span>Barra</span>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-start gap-2">
+            <span class="text-start">Grupo Muscular:</span>
+            <span>Core</span>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-start gap-2">
+            <span class="text-start">Nivel:</span>
+            <span>3</span>
+        </div>
+
+    </div>
+
+    <div class="col-12 flex-column d-flex justify-content-center align-items-center my-5">
+        <h3 class="reset text-uppercase">estátisticas</h3>
+        <select class="form-select" aria-label="Ultima semana">
+            <option value="2" class="text-center">Ultimas 2 semanas</option>
+            <option value="5" class="text-center">Ultimas 5 semanas</option>
+            <option value="12" class="text-center">Ultimas 12 semanas</option>
+        </select>
+    </div>
+
+    <!-- Gráfico -->
+    <div class="col-12">
+        <h5>Evolução</h5>
+        <div id="contenitore">
+            <div class="left d-none">
+                <table>
+                    <caption>Date table</caption>
+                    <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td>25%</td>
+                            <td style="background-color:#336699">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>38%</td>
+                            <td style="background-color:#003366">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>49%</td>
+                            <td style="background-color:#ff6600">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>79%</td>
+                            <td style="background-color:#ffcc00">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="button" onclick="viewGraph()">Rerun</div>
+            </div>
+            <div class="left">
+                <div id="grafico">
+                    <div class="riga" style="top:25%">
+                        <div>75%</div>
+                    </div>
+                    <div class="riga" style="top:50%">
+                        <div>50%</div>
+                    </div>
+                    <div class="riga" style="top:75%">
+                        <div>25%</div>
+                    </div>
+                    <div id="col0" style="left:0; background-color:#ebc25c;" class="column"></div>
+                    <div id="col1" style="left:25%; background-color:#2e2e2e;" class="column"></div>
+                    <div id="col2" style="left:50%; background-color:#ebc25c;" class="column"></div>
+                    <div id="col3" style="left:75%; background-color:#2e2e2e;" class="column"></div>
+                </div>
+            </div>
+            <div class="canc"></div>
+        </div>
+    </div>
+
+    <div class="col-12 my-5 d-flex justify-content-center align-content-center gap-1">
+        <button class="btn btn-success rounded-3"> Nivel anterior</button>
+        <button class="btn btn-success rounded-3" onclick="backPage()"> Voltar</button>
+        <button class="btn btn-success rounded-3"> Nivel Posterior</button>
+    </div>
+</div>
+
+
+
+<script src="cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    window.addEventListener("load", function () {
+        loadExer()
+      });
+    // Grafico
+    function viewGraph() {
+        $('.column').css('height', '0');
+        $('table tr').each(function (index) {
+            var ha = $(this).children('td').eq(1).text();
+            $('#col' + index).animate({ height: ha }, 1500).html("<div>" + ha + "</div>");
+        });
+    }
+    $(document).ready(function () {
+        viewGraph();
+    });
+
+    let exer = giveExer()
+    let aux = []
+
+    const searchName = document.getElementById('searchName');
+    searchName.addEventListener('input', function () {
+        const regex = new RegExp(searchName.value, 'i');
+        aux = exer.filter(e => regex.test(e.name));
+
+        if (GM.value != 'Grupo Muscular'){
+            aux = aux.filter(e => e.category == GM.value)
+        }
+        if (N.value != 'Nivel'){
+            aux = aux.filter(e => e.nivel == parseInt(N.value))
+        }
+        if (E.value != 'Equipamentos'){
+            aux = aux.filter(e => e.required == E.value)
+        }
+        filterPage(aux);
+    });
+
+    const GM = document.getElementById('GM')
+    GM.addEventListener('change', function () {
+        if (GM.value != 'Grupo Muscular') {
+            aux = exer.filter(e => e.category == GM.value)
+
+            if (E.value != 'Equipamentos') {
+                aux = aux.filter(e => e.required == E.value)
+            }
+            if (N.value != 'Nivel') {
+                aux = aux.filter(e => e.nivel == parseInt(N.value))
+            }
+            filterPage(aux)
+        }
+        else {
+            aux = exer
+            if (E.value != 'Equipamentos') {
+                aux = exer.filter(e => e.required == E.value)
+            }
+            if (N.value != 'Nivel') {
+                aux = aux.filter(e => e.nivel == parseInt(N.value))
+            }
+            filterPage(aux)
+        }
+    })
+
+    const N = document.getElementById('N')
+    N.addEventListener('change', function () {
+        if (N.value != 'Nivel') {
+            aux = exer.filter(e => e.nivel == parseInt(N.value))
+
+            if (E.value != 'Equipamentos') {
+                aux = aux.filter(e => e.required == E.value)
+            }
+            if (GM.value != 'Grupo Muscular') {
+                aux = aux.filter(e => e.category == GM.value)
+            }
+
+            filterPage(aux)
+        }
+        else {
+            aux = exer
+            if (E.value != 'Equipamentos') {
+                aux = exer.filter(e => e.required == E.value)
+            }
+            if (GM.value != 'Grupo Muscular') {
+                aux = aux.filter(e => e.category == GM.value)
+            }
+            filterPage(aux)
+        }
+    })
+
+    const E = document.getElementById('E')
+    E.addEventListener('change', function () {
+        if (E.value != 'Equipamentos') {
+            aux = exer.filter(e => e.required == E.value)
+
+            if (N.value != 'Nivel') {
+                aux = aux.filter(e => e.nivel == parseInt(N.value))
+            }
+            if (GM.value != 'Grupo Muscular') {
+                aux = aux.filter(e => e.category == GM.value)
+            }
+
+            filterPage(aux)
+        }
+        else {
+            aux = exer
+            if (N.value != 'Nivel') {
+                aux = exer.filter(e => e.nivel == parseInt(N.value))
+            }
+            if (GM.value != 'Grupo Muscular') {
+                aux = aux.filter(e => e.category == GM.value)
+            }
+            filterPage(aux)
+        }
+    })
+
+</script>
+
+<style>
+    #contenitore {
+        position: relative;
+        width: 100vw;
+        margin: 20px auto;
+        text-align: center;
+        overflow: hidden;
+        font: 14px 'Trebuchet MS', sans serif;
+    }
+
+    .left {
+        float: left;
+        margin-left: 50px;
+        width: 70%;
+    }
+
+    #grafico {
+        position: relative;
+        height: 300px;
+        border-left: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .riga {
+        position: absolute;
+        left: 0;
+        height: 1px;
+        background-color: gray;
+        width: 100%;
+    }
+
+    .riga div {
+        float: left;
+        margin: -8px 0 0 -40px;
+    }
+
+    .canc {
+        clear: both;
+    }
+
+    table {
+        width: 60%;
+        background-color: white;
+        color: #000;
+        margin: 1em auto;
+    }
+
+    table caption {
+        background-color: #D8EED8;
+        color: #004156;
+        text-align: left;
+    }
+
+    table tr:nth-child(2n) {
+        background-color: #D8EED8;
+    }
+
+    table tr:nth-child(2n+1) {
+        background-color: #BFDFFF;
+    }
+
+    table td {
+        text-align: center;
+        border-bottom: 1px solid #CDCDCD;
+        padding: 6px;
+    }
+
+    .column {
+        position: absolute;
+        width: 16%;
+        bottom: 0;
+        background-color: #003366;
+        margin-left: 5%;
+    }
+
+    div.button {
+        margin: 0 auto;
+        text-align: center;
+        width: 100px;
+        background-color: #003366;
+        border: 1px solid #003366;
+        border-radius: 5px;
+        padding: 8px;
+        color: #E1E2CF;
+        cursor: pointer;
+    }
+
+    .column div {
+        margin-top: -20px;
+        height: 20px;
+    }
+</style>
+{% endblock %}

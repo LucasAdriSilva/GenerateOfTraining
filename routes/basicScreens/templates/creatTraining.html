@@ -1,0 +1,1064 @@
+{% extends 'base.html' %}
+<!-- 
+    allTreinos.regularTraining -- fullbody -- pushPull -- upperLower
+    allTreinos.pairedSetsTraining -- fullbodyPS -- pushPullPS  -- upperLowerPS
+-->
+{% block content %}
+{% if data.allTreinos is not none%}
+<div>
+    {% if data.days == 4 %}    
+    <div id="text1" class="row mt-3">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <h5 class="text-center">Verificamos que você tem disponiblidade para 4 dias de treino, neste caso você tem
+                algumas opções de rotina</h5>
+        </div>
+    </div>
+    <div id="text2"  class="row my-3">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalQuiz">
+                Escolher Rotina
+            </button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalQuiz" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="modalQuizLabel" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalQuizLabel">Rotinas</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body reset-Padding-x">
+                    <div id="quizRotina" data-bs-touch="false" class="carousel slide mt-1 mb-3">
+                        <div class="carousel-inner px-3">
+                            <div class="carousel-item active">
+                                <div class="row gap-3">
+                                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                        <h2 class="text-center">FullBody</h2>
+                                    </div>
+
+                                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                        <span class="text-center">3x por semana - 8 exercicios por dia</span>
+                                        <span class="text-center">Duração: 1h30 á 2h por treino</span>
+                                        <span class="text-center">Duração com Paired Sets: 50m á 1h20 por treino</span>
+                                    </div>
+                                    <div
+                                        class="col-12 d-flex flex-column justify-content-center align-items-center py-2 rounded-3 bg-success-50">
+                                        <span class="text-center text-uppercase fw-bold">Vantagens: </span>
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    Ideial para iniciantes com mais de quase 2h disponiveis para treiar.
+                                                </span>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                    <div
+                                        class="col-12 d-flex flex-column justify-content-center align-items-center py-2 rounded-3 bg-danger-50">
+                                        <span class="text-center text-uppercase fw-bold">Desvantagens:</span>
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    Ruim para pessoas com sobrepeso e homens com mais de 50 anos.
+                                                </span>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                    <div class="col-12 gap-2 d-flex justify-content-center align-items-center">
+                                        <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                            data-bs-slide="prev">
+                                            <span class=" text-black correct-size"
+                                                style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                < </span>
+                                        </button>
+
+                                        <button class="btn btn-success text-uppercase" data-bs-dismiss="modal"
+                                            onclick="chosenRoutine('Fullbody')">Quero esse!</button>
+
+                                        <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                            data-bs-slide="next">
+                                            <span class=" text-black correct-size"
+                                                style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                > </span>
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="carousel-item ">
+                                <div class="row gap-3">
+                                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                        <h2 class="text-center">Push/Pull</h2>
+                                    </div>
+
+                                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                        <span class="text-center">4x na semana - 4 exercicios por dia</span>
+                                        <span class="text-center">Duração: 1h á 1h30 por treino</span>
+                                        <span class="text-center">Duração com Paired Sets: 35 min a 1h por treino</span>
+                                    </div>
+                                    <div
+                                        class="col-12 d-flex flex-column justify-content-center align-items-center py-2 rounded-3 bg-success-50">
+                                        <span class="text-center text-uppercase fw-bold">Vantagens: </span>
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    A duração de cada treino é menor.
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    Funciona bem para Iniciantes, Intermediários e Avançados.
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    Ideal para pessoas com sobrepeso e homens acima dos 50 anos.
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div
+                                        class="col-12 d-flex flex-column justify-content-center align-items-center py-2 rounded-3 bg-danger-50">
+                                        <span class="text-center text-uppercase fw-bold">Desvantagens:</span>
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    Tem menos dias de descanso, você treina 4x na semana.
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-12 gap-2 d-flex  justify-content-center align-items-center">
+                                        <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                            data-bs-slide="prev">
+                                            <span class=" text-black correct-size"
+                                                style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                < </span>
+                                        </button>
+
+                                        <button class="btn btn-success text-uppercase" data-bs-dismiss="modal"
+                                            onclick="chosenRoutine('PushPull')">Quero esse!</button>
+
+                                        <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                            data-bs-slide="next">
+                                            <span class=" text-black correct-size"
+                                                style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                > </span>
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="carousel-item ">
+                                <div class="row gap-3">
+                                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                        <h2 class="text-center">Upper/Lower</h2>
+                                    </div>
+
+                                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                        <span class="text-center">4x na semana - 8 exercicios por dia</span>
+                                        <span class="text-center">Duração: 1h á 1h30 por treino</span>
+                                        <span class="text-center">Duração com Paired Sets: 35 min a 1h por treino</span>
+                                    </div>
+                                    <div
+                                        class="col-12 d-flex flex-column justify-content-center align-items-center  rounded-3 bg-success-50">
+                                        <span class="text-center text-uppercase fw-bold">Vantagens: </span>
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    Rotina de menor duração.
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    Ideial para iniciantes a avançados.
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    Ideal para praticantes de luta, futebol, volley e outros
+                                                    esportes.
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div
+                                        class="col-12 d-flex flex-column justify-content-center align-items-center rounded-3 bg-danger-50">
+                                        <span class="text-center text-uppercase fw-bold">Desvantagens:</span>
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    Tem menos dias de descanso, você treina 4x na semana.
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-12 gap-2 d-flex  justify-content-center align-items-center">
+                                        <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                            data-bs-slide="prev">
+                                            <span class=" text-black correct-size"
+                                                style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                < </span>
+                                        </button>
+
+                                        <button class="btn btn-success text-uppercase" data-bs-dismiss="modal"
+                                            onclick="chosenRoutine('UpperLower')">Quero esse!</button>
+
+                                        <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                            data-bs-slide="next">
+                                            <span class=" text-black correct-size"
+                                                style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                > </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if data.days == 3 %}   
+    
+    <div class="row border-bottom">
+        <div class="col-12">
+            <h1 class="reset text-center my-4" style="font-size: 3rem;">Seu treino</h1>
+        </div>
+    </div>
+
+    {% if data.pairedSets == True %}
+
+        {% for e in  data.allTreinos.pairedSetsTraining.fullbodyPS %}
+            <div
+            class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+            <div class="row position-relative">
+                <div class="col-3 d-flex justify-content-center align-items-center">
+                    <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                </div>
+
+                <div class="col-9 d-flex align-items-center ps-3 pe-5">
+                    <div class="row">
+                        <div class="col-12 reset-Padding">
+                            <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                        </div>
+
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                            <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                        </div>
+
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+
+                            {% if e.segs %}
+                            <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                            {% else %}
+                            <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                            {% endif %}
+
+
+                        </div>
+
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                            <p class="reset text-uppercase text-gray1">PAUSA</p>
+                        </div>
+
+
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                            <span>{{e.rept_num}}</span>
+                        </div>
+
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding">
+
+                            <span>{{e.count}}</span>
+
+                        </div>
+
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding">
+                            <span>{{e.reset}}</span>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+
+        {% for e in  data.allTreinos.regularTraining.fullbody %}
+        <div
+            class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+            <div class="row position-relative">
+                <div class="col-3 d-flex justify-content-center align-items-center">
+                    <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                </div>
+
+                <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                    <div class="row">
+                        <div class="col-12 reset-Padding">
+                            <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                        </div>
+
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                            <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                        </div>
+
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                            {% if e.segs %}
+                            <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                            {% else %}
+                            <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                            <p class="reset text-uppercase text-gray1">PAUSA</p>
+                        </div>
+                        {% for i in range(e.rept)%}
+                        <div
+                            class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                            <span>{{i+1}}</span>
+                        </div>
+
+                        <div
+                            class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                            <span>{{e.count}}</span>
+
+                        </div>
+
+                        <div
+                            class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                            <span>{{e.rest}}</span>
+                        </div>
+
+                        {% endfor%}
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+        {% endfor %}
+
+    {% endif %}
+{% endif %}
+
+
+<div id="Fullbody" class="d-none my-3">
+    <div class="row border-bottom">
+        <div class="col-12">
+            <h1 class="reset text-center my-4" style="font-size: 3rem;">Seu treino</h1>
+        </div>
+    </div>
+    {% if data.pairedSets == True %}
+        {% for e in  data.allTreinos.pairedSetsTraining.fullbodyPS %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        {% for e in  data.allTreinos.regularTraining.fullbody %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+</div>
+
+<div id="PushPull" class="d-none my-3">
+    <div class="row border-bottom">
+        <div class="col-12">
+            <h1 class="reset text-center my-4" style="font-size: 3rem;">Seu treino</h1>
+        </div>
+    </div>
+    {% if data.pairedSets == True %}
+        <div class="row bg-gray2">
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <h1>Segunda e Quinta</h1>
+            </div>
+        </div>
+        {% for e in  data.allTreinos.pairedSetsTraining.pushPullPS.d1 %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="row bg-gray2">
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <h1>Terça e Sexta</h1>
+            </div>
+        </div>
+        {% for e in  data.allTreinos.pairedSetsTraining.pushPullPS.d2 %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+
+        <div class="row bg-gray2">
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <h1>Segunda e Quinta</h1>
+            </div>
+        </div>
+        {% for e in  data.allTreinos.regularTraining.pushPull.d1 %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="row bg-gray2">
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <h1>Terça e Sexta</h1>
+            </div>
+        </div>
+        {% for e in  data.allTreinos.regularTraining.pushPull.d2 %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+</div>
+
+<div id="UpperLower" class="d-none my-3">
+    <div class="row border-bottom">
+        <div class="col-12">
+            <h1 class="reset text-center my-4" style="font-size: 3rem;">Seu treino</h1>
+        </div>
+    </div>
+    {% if data.pairedSets == True %}
+        <div class="row bg-gray2">
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <h1>Segunda e Quinta</h1>
+            </div>
+        </div>
+        {% for e in  data.allTreinos.pairedSetsTraining.upperLowerPS.d1 %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="row bg-gray2">
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <h1>Terça e Sexta</h1>
+            </div>
+        </div>
+        {% for e in  data.allTreinos.pairedSetsTraining.upperLowerPS.d2 %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+
+        <div class="row bg-gray2">
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <h1>Segunda e Quinta</h1>
+            </div>
+        </div>
+        {% for e in  data.allTreinos.regularTraining.upperLower.d1 %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="row bg-gray2">
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <h1>Terça e Sexta</h1>
+            </div>
+        </div>
+        {% for e in  data.allTreinos.regularTraining.upperLower.d2 %}
+            <div
+                class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white ">
+                <div class="row position-relative">
+                    <div class="col-3 d-flex justify-content-center align-items-center">
+                        <img class="rounded-4" id="img1" width="68" height="68" src="{{e.url}}" alt="">
+                    </div>
+
+                    <div class="col-9 d-flex align-items-center ps-3 pe-5">
+
+                        <div class="row">
+                            <div class="col-12 reset-Padding">
+                                <span class="reset text-uppercase fw-bolder" style="font-size: 18px;">{{e.name}}</span>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                                {% if e.segs %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">SEGS</p>
+                                {% else %}
+                                <p id="repts1" class="reset text-uppercase text-gray1">REPT</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                            </div>
+                            {% for i in range(e.rept)%}
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{i+1}}</span>
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-center my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+
+                                <span>{{e.count}}</span>
+
+                            </div>
+
+                            <div
+                                class="col-4 d-flex flex-column justify-content-center align-items-end my-2 reset-Padding {% if i % 2 == 1 %} bg-gray {% endif %}">
+                                <span>{{e.rest}}</span>
+                            </div>
+
+                            {% endfor%}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+<div id="bntPdf" class="row {% if data.days == 4 %}d-none {% endif %}">
+    <div class="col-12 d-flex justify-content-center align-items-center my-3">
+        <form method="POST" action="{{ url_for('basicScreens.download_pdf') }}" target="_blank">
+            <input type="hidden" name="data" value="{{ data.allTreinos }}">
+            <button class="btn btn-success" type="submit">Baixar PDF</button>
+        </form>
+    </div>
+</div>
+</div>
+{% else %}
+
+<h1>teste</h1>
+{% endif %}
+
+
+{% endblock %}

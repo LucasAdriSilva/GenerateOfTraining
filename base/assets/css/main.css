@@ -1,0 +1,453 @@
+/* :root {
+  --font-default: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-primary: "Inter", sans-serif;
+  --font-secondary: "Poppins", sans-serif;
+}
+:root {
+  --color-default: rgb(181,41,133);
+  --color-primary: rgb(255,93,94);
+  --color-secondary: #272727;
+
+  --color-font-default: #1f1e1e;
+  --color-font-secondary: #7c7c7c;
+  --color-move: #c5c5c5;
+}
+:root {
+  scroll-behavior: smooth;
+} */
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+a {
+  text-decoration: none !important;
+}
+
+.reset {
+  padding: 0;
+  margin: 0;
+}
+
+.reset-Padding-x {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+html,
+body {
+  background-color: rgb(255, 255, 255);
+  overflow-x: hidden !important;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.w100 {
+  width: 35vw;
+  min-width: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .w100 {
+    width: 80vw;
+  }
+}
+
+.bg-title {
+  background-color: rgb(26, 26, 26);
+}
+
+.exer {
+  background-color: white;
+  height: 100px;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.margin-content {
+  margin: 0px 20px;
+}
+
+.margin-Body {
+  margin-right: 150px;
+  margin-left: 150px;
+  width: auto;
+}
+
+@media screen and (max-width: 1255px) {
+  .margin-Body {
+    margin-right: 100px;
+    margin-left: 100px;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .margin-Body {
+    margin-right: 50px;
+    margin-left: 50px;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .margin-Body {
+    margin-right: 0px;
+    margin-left: 0px;
+    width: auto;
+  }
+}
+
+.btn-primary {
+  background-color: #eebc3b;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #ebc25c;
+  color: white;
+  /* border: rgb(0, 0, 0); */
+
+}
+
+.bg-nav-active {
+  background-color: rgb(170, 170, 170) !important;
+  border: 1px solid rgb(170, 170, 170) !important;
+}
+
+.offcanvas {
+  width: 500px !important;
+}
+
+.input-exer {
+  border-radius: 5px !important;
+  max-width: 100px !important;
+  border-color: rgb(0, 0, 0);
+}
+
+.input-exer-fail {
+  border: 1px solid #dc3545 !important;
+  ;
+  border-radius: 5px;
+  max-width: 100px;
+}
+
+.bg-quiz {
+  background-color: rgb(255, 199, 0);
+}
+
+.bg-orange2 {
+  background-color: #ff7a05;
+  color: white;
+}
+
+.bg-orange {
+  background-color: #ffa500;
+  color: white;
+}
+
+.color-gree {
+  color: #6FBB3F;
+}
+
+.toggle-exer {
+  z-index: 9999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  width: 50%;
+  /* height: 50%; */
+  border-radius: 20px;
+  border: 2px solid #ffa500;
+}
+
+@media screen and (max-width: 500px) {
+  .toggle-exer {
+    width: 75%;
+    z-index: 9999;
+
+  }
+}
+
+.mod {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.img-card {
+  width: 150px;
+  height: 150px;
+  margin: auto;
+}
+
+.img-resolution {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.reset-Padding {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.selected {
+  border-bottom: 1px solid red;
+}
+
+.input-value {
+  border: 1px solid rgb(133, 133, 133);
+}
+
+.text-gray1 {
+  color: #929191;
+}
+
+.input-danger {
+  border: 1px solid rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
+  ;
+}
+
+.bg-gray {
+  background-color: #e2e2e2;
+}
+
+.form-check-square .form-check-input[type="radio"] {
+  width: 1.3em !important;
+  height: 1.3em !important;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25em !important;
+}
+
+.form-check-square .form-check-input[type="checkbox"]:checked {
+  background-color: rgb(255, 199, 0);
+  border-color: rgb(255, 199, 0);
+}
+
+.icon-err {
+  width: 50px;
+  height: 50px;
+}
+
+.bg-gray2 {
+  background-color: #ececec;
+}
+
+
+input[type="radio"]:checked {
+  /* Estilos para botão de opção marcado */
+  background-color: #ffffff !important;
+}
+
+.form-check-input {
+  box-shadow: none !important;
+}
+
+.form-check-input:checked[type=radio] {
+  /* --bs-form-check-bg-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e); */
+  --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='%23000' d='M13.354 4.646a.5.5 0 0 0-.708 0L6.5 10.793 3.854 8.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0 0-.708z'/%3e%3c/svg%3e");
+}
+
+.selecte-err {
+  background-color: #f57a86;
+  color: rgb(255, 255, 255);
+}
+
+.form-select {
+  box-shadow: none !important;
+}
+
+.font-capt {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.font-title-modal {
+  font-size: 18px;
+}
+
+.form-check-input:checked {
+  background-color: rgb(255, 199, 0);
+  border-color: rgb(255, 199, 0);
+}
+
+.border-switch {
+  border: 1px solid #696969 !important;
+  background-color: #ebebeb;
+}
+
+.form-switch .form-check-input {
+  --bs-form-switch-bg: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff' /%3e%3c/svg%3e) !important;
+  background-image: var(--bs-form-switch-bg);
+  background-position: left center;
+}
+
+
+.form-switch .form-check-input:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e") !important;
+}
+
+.bg-success2 {
+  background-color: #aed199;
+}
+
+.correct-size {
+  padding-top: -10px !important;
+}
+
+.bg-success-50 {
+  background-color: #c1e7d5;
+  /* #198754 */
+}
+
+.bg-danger-50 {
+  background-color: #f3c6cb;
+  /* #dc3545 */
+}
+
+.btn-gray {
+  background-color: #b9b9b9;
+}
+
+.btn-orange {
+  background-color: rgb(255, 199, 0);
+}
+
+.desabilited {
+  opacity: 0.3;
+  background-color: white;
+}
+
+.img-res {
+  object-fit: cover;
+  object-position: center;
+  /* aspect-ratio: 16/9; */
+}
+
+.accordion-button:focus {
+  border-color: none !important;
+  box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+  color: rgb(20, 20, 20);
+  background-color: rgb(219, 219, 219) !important;
+  box-shadow: none;
+}
+
+.border-orange {
+  border: 1px solid #ffc700 !important;
+}
+
+.listFilter {
+  width: 80vw;
+  height: 60vh;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.mx-20px {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.max-height {
+  max-height: 154px;
+}
+
+.squad2-active {
+  width: 55px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: orange;
+}
+
+.jump-image {
+  transform-origin: center bottom;
+  /* define o ponto de origem para a transformação */
+  animation-name: jump;
+  /* define o nome da animação */
+  animation-duration: 2s;
+  /* define a duração da animação */
+  animation-fill-mode: forwards;
+  /* mantém o último estado da animação após a execução */
+  animation-iteration-count: infinite;
+  /* faz com que a animação se repita infinitamente */
+}
+
+/* Define a animação */
+@keyframes jump {
+  0% {
+    transform: scale(1);
+    /* define o tamanho normal */
+  }
+
+  50% {
+    transform: scale(0.9);
+    /* aumenta o tamanho em 20% */
+  }
+
+  100% {
+    transform: scale(1);
+    /* retorna ao tamanho normal */
+  }
+}
+
+
+/* .show {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.show.visible {
+  opacity: 1;
+  transform: translateX(0%);
+} */
+#install-button {
+  border: none;
+  border-radius: 10px;
+  padding-inline: 30px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: black;
+  background-color: #ffc700;
+}
+
+.loading {
+  width: fit-content;
+  margin: 30% auto 0;
+  overflow: hidden;
+}
+
+.loading span {
+  color: #969696;
+  font-weight: 600;
+  display: inline-block;
+  padding: 2px;
+  font-size: 15px;
+
+}
+
+.roll-loading {
+  width: 100px;
+  height: 100px;
+  border: 8px solid #e3e3e3;
+  border-radius: 50%;
+  border-right-color: #ffc700;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

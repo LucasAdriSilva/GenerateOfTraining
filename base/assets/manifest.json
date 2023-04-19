@@ -1,0 +1,17 @@
+{
+  "name": "Trakcer",
+  "short_name": "Trakcer",
+  "theme_color": "#000000",
+  "background_color": "#ffc700",
+  "display": "standalone",
+  "Scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "img/BW.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "splash_pages": null
+}

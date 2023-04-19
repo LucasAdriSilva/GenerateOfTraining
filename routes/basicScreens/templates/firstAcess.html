@@ -1,0 +1,593 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<div id="quiz" data-bs-touch="false" class="carousel slide my-5">
+    <div class="row mb-2">
+        <div class="col-12 d-flex justify-content-center align-items-center ">
+            <h5 class="reset text-uppercase">
+                Para gerar seu treino
+            </h5>
+        </div>
+    </div>
+    <div class="row mb-5 mx-3">
+        <div class="col-12 d-flex justify-content-center align-items-center rounded-2 bg-quiz p-2">
+            <h4 class="reset text-uppercase fw-bolder">Responda o quiz abaixo</h4>
+        </div>
+    </div>
+
+    <div class="carousel-inner px-3">
+        <div class="carousel-item active">
+            <div class="row gap-3">
+                <!-- Quest -->
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                    <h3 class="text-center">Quais equiamentos você tem para trienar? Marque abaixo:</h3>
+                </div>
+
+                <div class="col-12 bg-gray2 px-3 py-2 d-flex justify-content-between align-items-center">
+                    <span class="w-50">Barra Paralela 80cm</span>
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="paralelas" id="ParalelaT" value="true">
+                        <label class="form-check-label" for="ParalelaT">
+                            Sim
+                        </label>
+                    </div>
+
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="paralelas" id="ParalelaF" value="false">
+                        <label class="form-check-label" for="ParalelaF">
+                            Não
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-12 bg-gray2 px-3 py-2 d-flex justify-content-between align-items-center">
+                    <span class="w-50">Barra fixa de porta, parede ou de chão</span>
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="barraFixa" id="barraFixaT" value="true">
+                        <label class="form-check-label" for="barraFixaT">
+                            Sim
+                        </label>
+                    </div>
+
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="barraFixa" id="barraFixaF" value="false">
+                        <label class="form-check-label" for="barraFixaF">
+                            Não
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-12  bg-gray2 px-3 py-2 d-flex justify-content-between align-items-center">
+                    <span class="w-50">TRX</span>
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="trx" id="trxT" value="true">
+                        <label class="form-check-label" for="trxT">
+                            Sim
+                        </label>
+                    </div>
+
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="trx" id="trxF" value="false">
+                        <label class="form-check-label" for="trxF">
+                            Não
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-12  bg-gray2 px-3 py-2 d-flex justify-content-between align-items-center">
+                    <span class="w-50">Rodinha Abdominal</span>
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="rodinha" id="rodinhaT" value="true">
+                        <label class="form-check-label" for="rodinhaT">
+                            Sim
+                        </label>
+                    </div>
+
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="rodinha" id="rodinhaF" value="false">
+                        <label class="form-check-label" for="rodinhaF">
+                            Não
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-12  bg-gray2 px-3 py-2 d-flex justify-content-between align-items-center">
+                    <span class="w-50">Argolas de madeira</span>
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="argolas" id="argolasT" value="true">
+                        <label class="form-check-label" for="argolasT">
+                            Sim
+                        </label>
+                    </div>
+
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="argolas" id="argolasF" value="false">
+                        <label class="form-check-label" for="argolasF">
+                            Não
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-12  bg-gray2 px-3 py-2 d-flex justify-content-between align-items-center">
+                    <span class="w-50">Super Bands</span>
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="superband" id="superbandT" value="true">
+                        <label class="form-check-label" for="superbandT">
+                            Sim
+                        </label>
+                    </div>
+
+                    <div class="form-check form-check-square">
+                        <input class="form-check-input" type="radio" name="superband" id="superbandF" value="false">
+                        <label class="form-check-label" for="superbandF">
+                            Não
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item ">
+            <div class="row gap-1">
+                <!-- Quest -->
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                    <h3 class="text-center">Quantos dias você tem para treinar?</h3>
+                </div>
+
+                <div class="col-12 bg-gray px-3 py-2 rounded-2 d-flex justify-content-between align-items-center">
+                    <span class="w-50">Dias</span>
+                    <select id="days" class="form-select w-50" aria-label="Default select example">
+                        <option class="text-center" selected>Dias</option>
+                        <option class="text-center" value="3">3</option>
+                        <option class="text-center" value="4">4</option>
+                    </select>
+                </div>
+
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center mt-5">
+                    <h3 class="text-center">Quanto tempo por dia você tem (com certeza)?</h3>
+                </div>
+                <div class="col-12  bg-gray px-3 py-2 rounded-2 d-flex justify-content-between align-items-center">
+                    <span class="w-50">Horas</span>
+
+                    <select id="hours" class="form-select w-50 mx-3" aria-label="Default select example">
+                        <option class="text-center" selected value="0">Horas</option>
+                        <option class="text-center" value="0">0 Hora</option>
+                        <option class="text-center" value="1">1 Hora</option>
+                        <option class="text-center" value="2">2 Horas</option>
+                        <option class="text-center" value="3">3 Horas</option>
+                        <option class="text-center" value="4">4 Horas</option>
+                    </select>
+
+
+                    <select id="min" class="form-select w-50 mx-3" aria-label="Default select example">
+                        <option class="text-center" selected value="0">Min.</option>
+                        <option class="text-center" value="0">0 Min</option>
+                        <option class="text-center" value="5">5 Min</option>
+                        <option class="text-center" value="10">10 Min</option>
+                        <option class="text-center" value="15">15 Min</option>
+                        <option class="text-center" value="20">20 Min</option>
+                        <option class="text-center" value="25">25 Min</option>
+                        <option class="text-center" value="30">30 Min</option>
+                        <option class="text-center" value="35">35 Min</option>
+                        <option class="text-center" value="40">40 Min</option>
+                        <option class="text-center" value="45">45 Min</option>
+                        <option class="text-center" value="50">50 Min</option>
+                        <option class="text-center" value="55">55 Min</option>
+                    </select>
+
+                </div>
+
+                <div id="timeErr" class="col-12 d-none d-flex justify-content-center align-i">
+
+                    <span class="text-danger text-center">O limite minimo de tempo é de 40 minutos, por favor altere
+                        o
+                        tempo do seu treino</span>
+                </div>
+
+                <!-- <div class="col-12  bg-gray px-3 py-2 rounded-2 d-flex justify-content-between align-items-center">
+                    <span class class="text-center"="w-50">Minutos</span>
+
+                    <select id="min" class="form-select w-50" aria-label="Default select example">
+                        <option class="text-center" selected>Min.</option>
+                        <option class="text-center" value="0">0 Min</option>
+                        <option class="text-center" value="5">5 Min</option>
+                        <option class="text-center" value="10">10 Min</option>
+                        <option class="text-center" value="15">15 Min</option>
+                        <option class="text-center" value="20">20 Min</option>
+                        <option class="text-center" value="25">25 Min</option>
+                        <option class="text-center" value="30">30 Min</option>
+                        <option class="text-center" value="35">35 Min</option>
+                        <option class="text-center" value="40">40 Min</option>
+                        <option class="text-center" value="45">45 Min</option>
+                        <option class="text-center" value="50">50 Min</option>
+                        <option class="text-center" value="55">55 Min</option>
+                    </select>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <button class="carousel-control-prev" type="button" data-bs-target="#quiz" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#quiz" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button> -->
+</div>
+
+<div id="msgErr" class="row d-none my-5">
+    <div class="col-12 mb-2 d-flex justify-content-center align-items-center">
+        <h1 class="reset text-uppercase fw-bolder">Ops! </h1>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <div class="rounded-4 bg-orange2 p-3 text-center">
+            <span class="reset fs-6 text-uppercase fw-bold">
+                Parece que você não possui todos os equipamentos necessários para gerar este treino personalizado.
+            </span>
+        </div>
+
+    </div>
+
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <span class="p-4 reset fs-6 text-center ">
+            Nós entendemos que isso pode ser frustrante, mas estamos aqui para ajudar. Para obter melhores
+            resultados,
+            sugerimos outras opções
+        </span>
+    </div>
+
+    <div class="col-12">
+        <div class="row px-4 py-1">
+            <div class="col-12 d-flex justify-content-center align-items-center"
+                style="background-color: rgb(192, 192, 192);">
+                <span class="reset text-uppercase fs-5 fw-bolder p-2"> opção 1</span>
+            </div>
+            <div class="col-12 d-flex justify-content-center align-items-center" style="background-color: rgb(240, 240, 240);
+            ">
+                <span class="reset fs-4 py-3 px-2"> Comprar uma barra fixa</span>
+            </div>
+        </div>
+
+        <div class="row px-4 py-1">
+            <div class="col-12 d-flex justify-content-center align-items-center"
+                style="background-color: rgb(192, 192, 192);">
+                <span class="reset text-uppercase fs-5 fw-bolder p-2"> opção 2</span>
+            </div>
+            <div class="col-12 d-flex justify-content-center align-items-center" style="background-color: rgb(240, 240, 240);
+            ">
+                <span class="reset fs-4 py-3 px-2 text-center">Fazer o programa na academia</span>
+            </div>
+        </div>
+
+        <div class="row px-4 py-1">
+            <div class="col-12 d-flex justify-content-center align-items-center"
+                style="background-color: rgb(192, 192, 192);">
+                <span class="reset text-uppercase fs-5 fw-bolder p-2"> opção 3</span>
+            </div>
+            <div class="col-12 d-flex justify-content-center align-items-center" style="background-color: rgb(240, 240, 240);
+            ">
+                <span class="reset fs-4 py-3 px-2 text-center">Improvisar a barra australiana em algum lugar, ou a
+                    barra
+                    australiana pode ser seu único exercício de pull</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="div2" class="row d-none mt-5 rounded-3 d-flex justify-content-center align-content-center ">
+
+    <div class="col-12">
+        <h1 class="reset text-center">Crie seu treino</h1>
+        <h3 class="reset text-center">Com o peso do corpo</h3>
+    </div>
+
+    <div class="col-12 p-3 d-flex flex-column">
+        <span class="text-center">Utilize esse treino pronto para saber seu nivel.</span>
+        <span class="text-center">Faça o maximo de repetições que conseguir fazer</span>
+        <span class="text-center">E adicione as informações abaixo</span>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center align-items-center gap-1">
+        <div class="form-check form-switch">
+            <input class="form-check-input border-switch" type="checkbox" role="switch" id="pairedSetsValue">
+            <label class="form-check-label" for="pairedSetsValue">Paired Sets</label>
+        </div>
+        <img src="assets/img/interrog.jpg" onclick="openModal('pairedSets')" width="20" height="20" alt="">
+    </div>
+
+    <!-- <div id="exer1" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
+
+        <div class="row position-relative">
+            
+            <div class="col-3 d-flex justify-content-center align-items-center">
+                <img class="rounded-4" id="img1" width="68" height="68"
+                    src="https://aprovataf.com.br/wp-content/uploads/2016/04/Flex%C3%A3o-de-bra%C3%A7o-no-solo-AprovaTAF.jpg"
+                    alt="">
+            </div>
+
+            <div class="col-9 d-flex align-items-center ps-3 pe-5" >
+                <div class="row" >
+                    <div class="col-12 reset-Padding">
+                        <span class="reset text-uppercase" style="font-size: 18px;">Nome do exercicio 
+                            exercicio</span>
+                    </div>
+
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                        <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                        <input class="w-75 text-center rounded-3" type="text" placeholder="1" disabled>
+                    </div>
+
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                        <p id="rept1" class="reset text-uppercase text-gray1">REPS</p>
+                        <input required="true" id="ValidExer1" class=" w-75 input-value text-center rounded-3"
+                            type="text">
+                    </div>
+
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                        <p  class="reset text-uppercase text-gray1">RESET</p>
+                        <input required="true" disabled placeholder="3min"
+                            class="w-75 input-value text-center rounded-3" type="text">
+                    </div>
+                </div>
+                
+                <i class="bi bi-three-dots-vertical position-absolute top-0 end-0 "></i>
+            </div>
+            
+            <div id="toggleExer1" class="col-12 d-none d-flex flex-column justify-content-center">
+                <button id="btn1" onclick="filter(1, 'Push', 'Horizontal')" class="btn btn-primary w-100" type="button">Trocar Exercicío</button>
+
+                <span id="heavy1" class="reset text-center d-none" style="font-size: 10px;">
+                    *Ops, sua quantidade de repetição está baixa! Vamos trocar para um mais leve?
+                </span>
+
+                <span id="light1" class="reset text-center d-none" style="font-size: 10px;">
+                    *Ops, sua quantidade de repetição está alta! Vamos trocar para um mais pesado?
+                </span> 
+
+                <span id="success1" class="reset text-center text-success d-none" style="font-size: 10px;">
+                    Perfeito, podemos prosseguir!
+                </span> 
+            </div>
+        </div>
+    </div> -->
+    <!-- <div id="exer1" class="col-lg-5 col-11 position-relative rounded-3 m-2 bg-white"
+        style="border: 1px solid rgb(20, 20, 20);">
+        <div class="row reset-Padding h-100">
+            <div class="col-6 d-flex justify-content-center img-card reset-Padding"><img
+                    class="img-fluid img-resolution" id="img1" width="150" height="150"
+                    src="https://aprovataf.com.br/wp-content/uploads/2016/04/Flex%C3%A3o-de-bra%C3%A7o-no-solo-AprovaTAF.jpg"
+                    alt=""></div>
+            <div class="col-6 d-flex flex-column justify-content-around align-items-start reset-Padding"
+                style="height: 200px;">
+                <div style="width: fit-content;">
+                    <h6 class="reset text-start" id="category1">(Push Horizontal)</h6>
+                    <h5 class="reset text-start text-uppercase" id="ValidTitle1">Flexões
+                        Padrão</h5>
+                </div>
+                <div class="d-flex flex-column align-items-start justify-content-start">
+                    <span>Num. maximo de repet.</span>
+                    <input id="ValidExer1" class="input-exer text-start" type="number"
+                        required="true">
+                </div>
+            </div>
+            <div id="toggleExer1" class="d-none mb-4"><button id="btn1"
+                    onclick="filter(1, 'Push', 'Horizontal')" class="btn btn-primary"
+                    type="button">Trocar Exercicío</button></div>
+        </div>
+    </div> -->
+    <!-- Sugestões de troca -->
+    <!-- <div class="row d-none d-flex justify-content-center toggle-exer" > -->
+    <!-- <div class="col-12 d-flex justify-content-between mb-5"
+            style="border-bottom: 1px solid rgb(20, 20, 20); height: 30px !important;">
+
+
+            <h4 class="mb-0">Sugestão de troca</h4>
+            <i class="bi bi-x-lg "
+                style="color:black; font-size: large; right: 0; cursor: pointer;"
+                onclick="closer()"></i>
+        </div>
+
+        <div class=" col-6 rounded-3 bg-white my-5" style="border: 1px solid rgb(20, 20, 20);">
+
+            <h3 class="reset" id="ValidTitle8">name</h3>
+            <h4>category</h4>
+            <div class="d-flex justify-content-center">
+                <img width="150px" height="150px"
+                    src="https://cdn.w600.comps.canstockphoto.com.br/trabalhando-dela-joelho-femininas-vetor-clip-arte_csp89802369.jpg">
+            </div>
+            <button onclick="subs(8, 'name', 'category', 'img')"
+                class="btn btn-primary mt-2">Trocar</button>
+        </div>  -->
+    <!-- </div> -->
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Sugestão de troca</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Caso nao tiver nenhum exercicio -->
+                <div id="zeroExer" class="row d-none modal-body">
+                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                        <span id="titleSugest" class="mt-2 text-center font-capt">Verificamos que não conseguiu
+                            fazer o
+                            exercicio de
+                            NIVEL 0 da categoria</span>
+
+                        <span class=" text-center font-capt fs-4 fw-bolder" id="categoryNull"></span>
+
+                        <span class=" text-center font-capt"></span>
+
+                        <span id="sugest" class=" text-center font-capt">
+                            Sugerimos mudar para <strong>Treino Hibrido</strong> ou <strong>Treino de
+                                Musculação</strong>
+                        </span>
+
+
+                    </div>
+                    <div id="btnSugest" class="col-12 d-flex justify-content-around align-items-center my-3">
+                        <button data-bs-dismiss="modal" class="btn btn-success w-25">Hibrido</button>
+                        <button data-bs-dismiss="modal" class="btn btn-success w-25">Musculação</button>
+                    </div>
+                </div>
+
+                <!-- Caso tiver algum exericio e o atual for o ultimo -->
+                <div id="exerLeve" class="row d-none modal-body px-3">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <span class="mt-2 text-center font-capt">Esse era o exercicio mais leve, mas não tem
+                            problema!</span>
+                    </div>
+                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                        <span class="text-center font-capt">Verificamos que você conseguiu fazer o exercicio </span>
+                        <span id="exerSameCategory" class="font-capt fw-bolder fs-4"></span>
+                        <span class="text-center font-capt">então vamos fazer o seguinte:</span>
+                    </div>
+                    <div class="col-12 bg-success2 rounded-3 d-flex justify-content-center align-items-center">
+                        <span class="mt-2 text-center font-capt">
+                            Você ira progredir apenas
+                            com um exercicio e
+                            assim que tiver mais forte iremos sugerir um exercicio novo
+                        </span>
+                    </div>
+                    <div class="col-12 mt-4 d-flex justify-content-center align-items-center">
+                        <button id="exerLeveRemove" data-bs-dismiss="modal" class="btn btn-success w-50">OK</button>
+                    </div>
+                </div>
+
+                <div class="modal-body" id="divToggle">
+                    <!-- <div class="row reset-Padding my-3">
+                        <div class="col-5 reset-Padding d-flex justify-content-center align-items-center">
+                            <img width="125" height="125"
+                                src="https://cdn.w600.comps.canstockphoto.com.br/trabalhando-dela-joelho-femininas-vetor-clip-arte_csp89802369.jpg">
+                        </div>
+
+                        <div class="col-7 d-flex align-items-center reset-Padding">
+                            <div class="row reset-Padding">
+                                <div class="col-12 d-flex justify-content-start align-items-center reset-Padding">
+                                    <span class="reset">Knee Push Ups (de joelho)</span>
+                                </div>
+
+                                <div class="col-12 d-flex justify-content-start align-items-center reset-Padding">
+                                    <span class="reset">(Push Horizontal)</span>
+                                </div>
+
+                                <div class="col-12 d-flex justify-content-center align-items-center reset-Padding W-100">
+                                    <button class="btn btn-primary mt-2 " data-bs-dismiss="modal" style="width: 100%;">Trocar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>  -->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="btnGera" class="row d-none my-4">
+    <!-- <div class="col-12 d-flex justify-content-center align-items-center">
+        <button type="button" id="saveTraining" onclick="enviarTreino()" class="btn btn-primary">Gerar Treino</button>
+    </div> -->
+
+    <!-- <form id="form-treino" method="POST" action="/teste">
+        <input class="d-none" id="check" type="button"  name="treino" value="{{treino}}">
+        <button type="submit" class="btn btn-primary">Enviar Treino</button>
+    </form>  -->
+
+    <!-- <form method="POST" action="/teste">
+        <input type="hidden" name="try" value="{{treino}}">
+        <button type="submit">Enviar</button>
+    </form> -->
+
+
+    <button type="button" class="btn btn-primary" onclick="enviarTreino2()">Gerar Treino</button>
+
+</div>
+
+<!-- Modal de Exercicios com segundos-->
+<div class="modal fade" id="toggleExerSegs" tabindex="-1" aria-labelledby="toggleExerSegsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center">
+                <span class="text-center text-uppercase font-title-modal fw-bold" id="toggleExerSegsLabel">Seu
+                    exercicio
+                    está pesado!</span>
+            </div>
+            <div class="modal-body">
+                <div class="row reset-Padding">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <span class="text-center font-title-modal">Sugerimos excluir o exercicio </span>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center align-items-cente">
+                        <span id="exerDeleter" class="text-center fw-bolder text-uppercase"></span>
+                    </div>
+                    <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-cente">
+                        <span class="mt-2 text-center font-capt">
+                            Você terá que fazer muitas séries de
+                            <span id="nameExer" class="fw-bolder text-uppercase"></span> e por isso ele pode valer
+                            por 2
+                            exercícios ao mesmo tempo.
+                        </span>
+                        <span class="mt-2 text-center font-capt text-danger">
+                            Se não quiser excluir, terá que excolher um mais fácil para diminuir o numero de
+                            séries.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer d-flex justify-content-center">
+                <button id="removeExer" data-bs-dismiss="modal" class="btn btn-success">Excluir</button>
+                <button id="notRemove" data-bs-dismiss="modal" class="btn btn-success">Não Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Paired Sets-->
+<div class="modal fade" id="pairedSets" tabindex="-1" aria-labelledby="pairedSetsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="pairedSetsLabel">O que é Paired Sets?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span>
+                    Os paired sets é uma técnica de treinamento em que realizamos exercícios de grupos musculares
+                    diferentes em sequência, com um descanso mais curto entre eles do que o usual. Por exemplo, se
+                    você
+                    fizer um exercício para o peito, seguido de um exercício para as costas, em vez de descansar
+                    completamente entre os dois, você descansaria apenas metade do tempo usual. Essa técnica ajuda a
+                    aumentar a intensidade do treino e pode ser uma ótima maneira de otimizar o tempo.
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+{% endblock %}
