@@ -45,7 +45,7 @@ class Db:
         end_time = time.time()
         print(f"Tempo gasto em get_ip(): {end_time - start_time} segundos")
         return response
-     
+    
     def get(param, value):
         start_time = time.time()
         response = Response()
@@ -76,15 +76,33 @@ class Db:
             if verification_ip != None:
                 conn = sqlite3.connect(DATABASE)
                 c= conn.cursor()               
-                treino_str = json.dumps(newUser['Treino'])
+                Training = json.dumps(newUser['Training'])
+                BaseTraining = json.dumps(newUser['BaseTraining'])
+                Requireds = json.dumps(newUser['Requireds'])
+
                 c.execute("""
-                            INSERT INTO user(ip, Treino, days, pairedSets)
-                            VALUES (?,?,?,?)
+                            INSERT INTO user(
+                                ip, Login, Password, UserData, BaseTraining, TrainingDays, Requireds, Training, 
+                                 ChosenTraining, HistoryTraining
+                            )
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                             ON CONFLICT(ip) DO UPDATE SET
-                            Treino = ?,
-                            days = ?,
-                            pairedSets = ?
-                        """, (ip, treino_str, newUser['days'], newUser['pairedSets'], treino_str, newUser['days'], newUser['pairedSets']))
+                                Login = ?,
+                                Password = ?,
+                                UserData = ?,
+                                BaseTraining = ?,
+                                TrainingDays = ?,
+                                Requireds = ?,
+                                Training = ?,
+                                ChosenTraining = ?,
+                                HistoryTraining = ?
+                        """, (ip, None, None, None, BaseTraining, newUser['TrainingDays'], Requireds,   Training,  None, None, None, None, None, BaseTraining, 
+                            newUser['TrainingDays'], Requireds, Training, 
+                            None, None))
+
+                            # ChosenTraining = ?,
+                            # HistoryTraining = ?
+                # 'ip': session['ip'], 'BaseTraining': allTreinos, 'TrainingDays': days,'Requireds': requireds, 'PairedSets': pairedSets, 'Training': allTreinos['regularTraining'], 'TrainingPairedSets': allTreinos['pairedSetsTraining'], 
                 conn.commit()
                 c.close()           
         except Exception as e:
@@ -131,12 +149,15 @@ class Db:
         if not result:
             c.execute(f'''CREATE TABLE {name} (
                         IP TEXT UNIQUE,
-                        Treino TEXT,
-                        days INTEGER,
-                        pairedSets TEXT,
+                        Login TEXT,
+                        Password TEXT,
+                        UserData TEXT,
+                        BaseTraining TEXT,
+                        TrainingDays INTEGER,
+                        Requireds TEXT,
                         Training TEXT,
-                        chosenTraining TEXT,
-                        historyTraining TEXT
+                        ChosenTraining TEXT,
+                        HistoryTraining TEXT
                         )''')
 
         # Salve as mudanças

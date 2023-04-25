@@ -14,47 +14,32 @@ def index():
     ip_found = Db.get_ip(session['ip']).data
     # Verifica o retorno do banco nao é null
     if ip_found is not None:
+
       # Verifica se é o priemiro treino
       if  ip_found[-1] is not None:
         last_training =  json.loads(ip_found[-1])[-1]  
-        
-        if len(last_training) > 1:
-          trainingD1 = list(last_training.values())[0]
-          trainingD2 = list(last_training.values())[1]
-
-          data= {
-            'nav': 'home', 
-            'dayTraining': 3,
-            'nameRotina': json.loads(ip_found[-2]),
-            'trainingD1': trainingD1,
-            'trainingD2': trainingD2
-          }
-        else:
-          training = list(last_training.values())[0]
-
-          data= {
-            'nav': 'home', 
-            'dayTraining': 3,
-            'nameRotina': json.loads(ip_found[-2]),
-            'training': training
-          }
+        data= {
+          'nav': 'home', 
+          'ip': ip_found[0],
+          'dayTraining': 3,
+          'nameRotina': ip_found[-2],
+          'training': last_training,
+        }
       else: 
-          if ip_found[-2] == 'Fullbody':
-            data = {
-              'nav': 'home', 
-              'dayTraining': 3,
-              'nameRotina': ip_found[-2],
-              'training':  json.loads(ip_found[4])
-            }
-          else:
-            data = {
-              'nav': 'home', 
-              'dayTraining': 4,
-              'nameRotina': ip_found[-2],
-              'trainingD1':  json.loads(ip_found[4]),
-              'trainingD2':  json.loads(ip_found[4])
-            }
-      return render_template("home.html", data = data)
+        training = json.loads(ip_found[4])
+        chosen = ip_found[-2]
+        for choseName in training:
+            if choseName.upper() == chosen.upper():
+              training = training[choseName]
+        data = {
+          'nav': 'home', 
+          'ip': ip_found[0],
+          'dayTraining': ip_found[5],
+          'nameRotina': chosen,
+          'training':  training
+        }  
+        return render_template("home.html", data = data)    
+
     else:
        data = {'nav': 'home'}
     return render_template("firstAcess.html", data = data)
@@ -81,9 +66,9 @@ def creatTraining():
     if res != None:
       treino = json.loads(res.replace("'", "\""))
       
-      # pega o valor de dias
-      days = treino['treino'][-1]
-      # remove o days do array de treino
+      # pega o valor dos requireds
+      requireds = treino['treino'][-1]
+      # remove o requireds do array de treino
       treino['treino'].pop(-1)
       
       # pega o valor do Paired Sets
@@ -105,7 +90,7 @@ def creatTraining():
             
         # Cria um array qeu repete o num de veses de acordo com o exer, e add infos
         for e in data_all:
-          repeated_e = [e.copy() for _ in range(e['rept'])]  # cria uma cópia do dicionário e rept vezes
+          repeated_e = [e.copy() for _ in range(e['rept'])]  # cria uma cópia do dicionário e "rept" vezes
           for i, d in enumerate(repeated_e):
               d['rept_num'] = i + 1  # adiciona um novo campo 'rept_num' com o número de repetição
               d['rest'] = '1:30'   # altera o campo 'reset' para '1:30'
@@ -123,24 +108,7 @@ def creatTraining():
         #  Cria 2 arrays para fazer a intecalação
         array1 = []
         array2 = []
-        # Criando a rotina FULLBODY com Paired Sets intercalada 
-        array1 = [valor for par in zip(categories['Push'], categories['Core']) for valor in par]
-        array2 = [valor for par in zip(categories['Pull'], categories['Legs']) for valor in par]
-        array1.extend(array2)
-        fullbodyPS = array1
-
-        # Criando a rotina Push/Pull com Paired Sets intercalada 
-        array1 = [valor for par in zip(categories['Push'], categories['Legs']) for valor in par]
-        array2 = [valor for par in zip(categories['Pull'], categories['Core']) for valor in par]
-        pushPullPS = {'d1' : array1 , 'd2': array2}
-
-         # Criando a rotina Upper/Lowe com Paired Sets intercalada 
-        array1 = [valor for par in zip(categories['Push'], categories['Pull']) for valor in par]
-        array2 = [valor for par in zip(categories['Core'], categories['Legs']) for valor in par]
-        upperLowerPS = {'d1' : array1 , 'd2': array2}
-
-        pairedSetsTraining = {'fullbodyPS': fullbodyPS,'pushPullPS': pushPullPS,'upperLowerPS': upperLowerPS}
-        #-----------------------------------------------------------------------------------------------------Treino Normal 
+        
         # Agrupa os objetos por categoria, sem ter erpetições
         grupCategories = {}
         for a in data_all:
@@ -165,38 +133,45 @@ def creatTraining():
         array2 = [valor for par in zip(grupCategories['Legs'], grupCategories['Core']) for valor in par]
         upperLower = {'d1' : array1 , 'd2': array2}
 
-        regularTraining = {'fullbody': fullbody,'pushPull':pushPull,'upperLower': upperLower}
+        Training = {'fullbody': fullbody,'pushPull':pushPull,'upperLower': upperLower}
       except Exception as e:
         print(f"{e}")
         
-      allTreinos = {'regularTraining': regularTraining, 'pairedSetsTraining': pairedSetsTraining}
-      days = days['value']
+
+      for required in requireds:
+        if required['name'] == 'Days':
+          days = int(required['value'])
+  
       pairedSets = pairedSets['value']
 
-      # Salvando uasndo IP
+      # Salvando usando IP
       if session['ip'] is not None:
-        user = {'ip': session['ip'], 'Treino': allTreinos, 'days': days, 'pairedSets': pairedSets}
+
+        user = {
+            'ip': session['ip'], 
+            'BaseTraining': Training, 
+            'TrainingDays': days,
+            'Requireds': requireds, 
+            'Training': Training
+          }
+
         if Db.get_ip(session['ip']).data == None:
           Db.save(user)
         else:
-          Db.update_user(session['ip'], user)
+          attUser = {
+            'ip': session['ip'], 
+            'TrainingDays': days,
+            'BaseTraining': Training, 
+            'Requireds': requireds, 
+            'Training': Training
+          }
+          Db.update_user(session['ip'], attUser)
 
-      # Tratando a resposta
-      if pairedSets== 'true':
-        data = {
-            'nav': 'creat',
-            'allTreinos': allTreinos,
-            'pairedSets': True,
-            'days': days
-          }
-      else:
-          data = {
-            'nav': 'creat',
-            'allTreinos': allTreinos,
-            'pairedSets': False,
-            'days': days
-          }
-  
+      data = {
+          'nav': 'creat',
+          'allTreinos': Training,
+          'days': days
+        }
       return render_template("creatTraining.html", data=data)
     else: 
       data = {

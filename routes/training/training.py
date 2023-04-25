@@ -27,33 +27,18 @@ def saveTraining():
     ip_found = Db.get_ip(session['ip']).data
 
     if ip_found:
-      days = ip_found[2]
-      pairedSets = ip_found[3]
       chosen = data
 
-      treino = json.loads(ip_found[1])
+      treino = json.loads(ip_found[4])
+ 
+      if chosen == 'Fullbody':
+        chosenTraining = treino['fullbody']
 
-      if pairedSets == 'true':
-        if chosen == 'Fullbody':
-          chosenTraining = treino['pairedSetsTraining'][
-            'fullbodyPS']
+      if chosen == 'PushPull':
+        chosenTraining = treino['pushPull']
 
-        if chosen == 'PushPull':
-          chosenTraining = treino['pairedSetsTraining'][
-            'pushPullPS']
-
-        if chosen == 'UpperLower':
-          chosenTraining = treino['pairedSetsTraining'][
-            'upperLowerPS']
-      else:
-        if chosen == 'Fullbody':
-          chosenTraining = treino['regularTraining']['fullbody']
-
-        if chosen == 'PushPull':
-          chosenTraining = treino['regularTraining']['pushPull']
-
-        if chosen == 'UpperLower':
-          chosenTraining = treino['regularTraining']['upperLower']
+      if chosen == 'UpperLower':
+        chosenTraining = treino['upperLower']
 
       Db.update_data(session['ip'],'Training', chosenTraining)
       Db.update_data(session['ip'], 'chosenTraining', data)
@@ -78,20 +63,14 @@ def saveTrainingTracker():
 
   historyTrainig = ip_found[-1]
   
+  # Verifica se tem algum treino se tiver acrecenta se não add pela primeira vez
   if historyTrainig is not None:
     historyTrainig.append({date_str: data})
   else:
     historyTrainig = [{date_str: data}]
 
-
-  # if 'historyTraining' in ip_found:
-  #   ip_found['historyTraining'].append({date_str: data})
-  # else:
-  #   historyTraining = [{date_str: data}]
-  #   ip_found[-1] = historyTraining
-
-  # Db.update_user(session['ip'], {'historyTraining': ip_found['historyTraining']})
   Db.update_data(session['ip'], 'historyTraining', historyTrainig)
+  Db.update_data(session['ip'], 'Training', data)
 
   response_data = {"message": "Training saved successfully."}
   return jsonify(response_data), 200

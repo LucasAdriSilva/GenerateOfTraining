@@ -4,11 +4,9 @@
 {% block content %}
 <div class="row mt-3">
     <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-        {% if data[0].category != data[1].category%}
-        <h1>{{data[0].category}}/{{data[1].category}}</h1>
-        {% else %}
-        <h1>{{data.category}}</h1>
-        {% endif %}
+
+        <h1>{{data.chosenTraining}}</h1>
+
         <small>Lembre de fazer os alogamentos par evitar <span class="reset text-danger text-uppercase">lesões</small>
     </div>
 </div>
@@ -16,10 +14,21 @@
 
 <span class="d-none" id="dataDB">{{data}}</span>
 
-{% for exer in data%}
-{% set contador = loop.index %}
+<div id="btnPS" class="row">
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <div class="form-check form-switch">
+            <input class="form-check-input border-switch" type="checkbox" role="switch" id="trainingValue">
+            <label class="form-check-label" for="trainingValue">Paired Sets</label>
+        </div>
+        <!-- <img src="assets/img/interrog.jpg" onclick="openModal('pairedSets')" width="20" height="20" alt=""> -->
+
+    </div>
+</div>
+
+<section id="TrainingRegular">
+    {% for exer in data.training%}
+    {% set contador = loop.index %}
     {% if exer.newExer%}
-    {% set newExer = exer.newExer %}
     <div id="div{{contador}}" class="row position-relative py-4">
         <div class="col-3 d-flex justify-content-center align-items-center">
             <img class="rounded-4" id="exer{{contador}}" width="68" height="68" src="{{exer.url}}" alt="">
@@ -38,7 +47,8 @@
 
                 <div class="d-flex justify-content-center align-items-center gap-3">
                     <button class="btn btn-success" onclick="openModalToggleExer('{{exer.name}}')">Trocar</button>
-                    <button class="btn btn-success" data-bs-target="#toggleExer" onclick="notToggleExer(JSON.stringify({{exer}}))">Continuar</button>
+                    <button class="btn btn-success" data-bs-target="#toggleExer"
+                        onclick="notToggleExer(JSON.stringify({{exer}}))">Continuar</button>
                 </div>
             </div>
 
@@ -48,7 +58,6 @@
             <source src="assets/audio/not.mp3" type="audio/mp3">
         </audio>
     </div>
-
 
     {% else%}
     <div id="div{{contador}}" class="row position-relative py-4">
@@ -97,7 +106,11 @@
     </div>
     {% endif %}
 
-{% endfor %}
+    {% endfor %}
+</section>
+
+<section id="TrainingPs"></section>
+
 
 <audio id="myAudio">
     <source src="assets/audio/not.mp3" type="audio/mp3">
@@ -135,14 +148,19 @@
     var newTraining = []
     let exer = giveExer()
     var Data;
+    const training = document.getElementById('trainingValue')
+    const backupNormal = document.getElementById('TrainingRegular').innerHTML
+    var backupPs = document.getElementById('TrainingPs').innerHTML
+
 
     function creatVar() {
         const valueData = document.getElementById(`dataDB`)
         let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"");
-        return Data = JSON.parse(dataOfDataBase);
+        return Data = JSON.parse(dataOfDataBase).training;
     }
 
     window.addEventListener("load", function () {
+        backupPs.innerHTML = ''
         creatVar()
         for (let i = 1; i < 9; i++) {
             for (let e = 1; e < 4; e++) {
@@ -153,8 +171,12 @@
 
     function validationInpt(id, serie) {
         const input = document.getElementById(`ValidExer${id}Serie${serie}`)
+        const training = document.getElementById('trainingValue')
         if (input != null) {
             input.addEventListener('blur', function () {
+
+                const btnPS = document.getElementById('btnPS')
+                btnPS.classList.add('d-none')
                 //Pega o dados do exercicio que o backend enviou
                 const exerBack = document.getElementById(`name${id}`);
                 let exer = exerBack.innerHTML.replace(/'/g, "\"");
@@ -166,86 +188,105 @@
                     repeticao = Math.round(repeticao)
                     let sugundosTotais = segundos * repeticao
 
-                    if (repeticao <= 4 && input.value < 60) {
-                        //desabilitCardTracker(id, serie)
+                    if(input.value != null && input.value != undefined && input.value != ''){
+                        desabilitCardTracker(id, serie, training.checked)
                         addTraining(id, serie)
                     }
+                    
 
-                    if (repeticao > 6 || input.value >= 60) {
-                        console.log('Muito pesado')
-                        addTraining(id, serie)
-                    }
-                    if (repeticao < 2) {
-                        console.log('Muito leve')
-                        addTraining(id, serie)
-                    }
                 }
                 else {
-                    if (input.value <= 6) {
-                        console.log('Muito Pesado')
-                        addTraining(id, serie)
-
-                    }
-
-                    if (input.value >= 6 && input.value <= 15) {
-                        //desabilitCardTracker(id, serie)
+                    if(input.value != null && input.value != undefined && input.value != ''){
+                        desabilitCardTracker(id, serie, training.checked)
                         addTraining(id, serie)
                     }
 
-
-                    if (input.value >= 15 && input.value <= 31) {
-                        console.log('Muito Leve')
-                        addTraining(id, serie)
-
-                    }
-
-                    if (input.value >= 31) {
-                        console.log('Extremamente Leve')
-                        addTraining(id, serie)
-
-                    }
                 }
-
-
             })
         }
     }
 
-    function desabilitCardTracker(id, serie) {
+    function desabilitCardTracker(id, serie, ps) {
         const audio = document.getElementById("myAudio");
+        let numberInput = []
+        if (ps) {
+            numberInput = [
+                [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
+                [[13, 1], [15, 2], [17, 3]], // quinto exercicio [divID, numberRept]
+                [[14, 1], [16, 2], [18, 3]], // sexto exercicio [divID, numberRept]
+                [[19, 1], [21, 2], [23, 3]], // setimo  exercicio [divID, numberRept]
+                [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
+            ]
+            //Procura o indice do exercicio qu está em execução
+            let indexinput = numberInput[id - 1];
+            let input = -1;
+            for (let i = 0; i < indexinput.length; i++) {
+                if (indexinput[i][1] === serie) {
+                    input = i;
+                    break;
+                }
+            }
 
-        let numberInput = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
-        // Monta o array de id sem o id que está sendo tratado
-        let indexinput = numberInput[id - 1]
-        let input = indexinput.findIndex(e => e == serie)
+            //Remove o indice encontrado
+            if (input !== -1) {
+                indexinput.splice(input, 1);
+                numberInput[id - 1] = indexinput;
+            }
 
-        if (input != -1) {
-            indexinput.splice(input, 1);
-            numberInput[id - 1] = indexinput
+            // Desabilita todos os inpust e add uma class aos cards
+            numberInput.forEach(e => {
+                e.forEach(i => {
+                    const inputDesabilit = document.getElementById(`ValidExer${i[0]}Serie${i[1]}`)
+                    inputDesabilit.disabled = true;
+
+                    const divExer = document.getElementById('exer' + i[0])
+                    divExer.classList.add('desabilited')
+                })
+
+                
+            })
+        }
+        else {
+            numberInput = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
+            // Monta o array de id sem o id que está sendo tratado
+            let indexinput = numberInput[id - 1]
+            let input = indexinput.findIndex(e => e == serie)
+
+            if (input != -1) {
+                indexinput.splice(input, 1);
+                numberInput[id - 1] = indexinput
+            }
+
+            // Desabilita todos os inpust e add uma class aos cards
+            let x = 1
+            numberInput.forEach(e => {
+                e.forEach(i => {
+                    
+                    const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                    inputDesabilit.disabled = true;
+                })
+
+                const divExer = document.getElementById('exer' + x)
+                divExer.classList.add('desabilited')
+                x++
+            })
         }
 
-        // Desabilita todos os inpust e add uma class aos cards
-        let x = 1
-        numberInput.forEach(e => {
-            e.forEach(i => {
-                const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                inputDesabilit.disabled = true;
-            })
 
-            const divExer = document.getElementById('exer' + x)
-            divExer.classList.add('desabilited')
-            x++
-        })
+
 
         let cronometro = document.getElementById(`reset${id}Serie${serie}`);
-        let segundosRestantes = 3; // 3 minutos em segundos
+        let segundosRestantes = ps ? 2 : 180; // 3 minutos em segundos
         let interval; // Declarando a variável fora da função para poder usar em outro escopo
         cronometro.placeholder = ''
-        cronometro.placeholder = '0:4'
+        cronometro.placeholder = ps ? '1:00' : '3:00'
 
 
         clearInterval(interval); // Parar o cronômetro se ele já estiver rodando
-        segundosRestantes = 3; // Reiniciar o tempo
+        segundosRestantes = ps ? 2 : 180; // Reiniciar o tempo
 
         interval = setInterval(function () {
             segundosRestantes--;
@@ -259,16 +300,46 @@
                 // Habilitar input
                 cronometro.placeholder = "FIM";
                 let x = 1
-                numberInput.forEach(e => {
+                if (ps) {
+                    numberInput = [
+                        [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                        [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                        [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                        [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
+                        [[13, 1], [15, 2], [17, 3]], // quinto exercicio [divID, numberRept]
+                        [[14, 1], [16, 2], [18, 3]], // sexto exercicio [divID, numberRept]
+                        [[19, 1], [21, 2], [23, 3]], // setimo  exercicio [divID, numberRept]
+                        [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
+                    ]
+                    
+                   
+        
+                    // Desabilita todos os inpust e add uma class aos cards
+                    numberInput.forEach(e => {
+                        e.forEach(i => {
+                            
+                            const inputDesabilit = document.getElementById(`ValidExer${i[0]}Serie${i[1]}`)
+                            inputDesabilit.disabled = false;
+                            
+                            const divExer = document.getElementById('exer' + i[0])
+                            divExer.classList.remove('desabilited')
+                        })
+        
+                        
+                    })
+                }
+                else{
+                    numberInput.forEach(e => {
                     e.forEach(i => {
                         const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
                         inputDesabilit.disabled = false;
                     })
-
-                    const divExer = document.getElementById('exer' + x)
-                    divExer.classList.remove('desabilited')
-                    x++
-                })
+                    
+                        const divExer = document.getElementById('exer' + x)
+                        divExer.classList.remove('desabilited')
+                        x++
+                    })
+                }
             }
         }, 1000); // Atualizar o cronômetro a cada segundo
 
@@ -294,7 +365,7 @@
 
     async function finishedTraining() {
         loading(true)
-
+       
         newTraining.forEach(training => {
             delete training.newExer;
             if (training.rept1 === training.rept2 && training.rept2 === training.rept3 && training.rept1 >= 15 && training.segs == null) {
@@ -304,9 +375,23 @@
                 training.newExer = true;
             }
         });
+        
+        if (newTraining.length >= 4 && training.checked || newTraining >= 4 && training.checked == false) {
+            const valueData = document.getElementById(`dataDB`)
+            let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"");
+            data = JSON.parse(dataOfDataBase);
+            debugger
+            console.log(data)
+            let training = data.fullTraining
+            if (data.chosenDay == '1'){
+                newTraining = { 'd1': newTraining, 'd2': training.d2}
+            }
+            if (data.chosenDay == '2'){
+                newTraining = { 'd1': training.d1 , 'd2': newTraining}
+            }
+            console.log(newTraining)
 
-        if (newTraining.length >= 8) {
-            
+
             try {
                 const response = await fetch('/saveTrainingTracker', {
                     method: 'POST',
@@ -449,8 +534,8 @@
         let indexDiv
 
         let index = info.findIndex(e => e.name == dataExer.name)
-        if (index != -1){
-            indexDiv = index + 1 
+        if (index != -1) {
+            indexDiv = index + 1
         }
 
         const div = document.getElementById(`div${indexDiv}`)
@@ -496,7 +581,7 @@
             </div>
             `
         }
-        
+
         delete info[index].newExer;
 
         for (let i = 1; i < 9; i++) {
@@ -504,10 +589,129 @@
                 validationInpt(i, e)
             }
         }
-        
+
     }
 
+    training.addEventListener('change', function () {
+        let data = creatVar()
+        const ps = document.getElementById('TrainingPs')
+        const regularTraining = document.getElementById('TrainingRegular')
 
+        var intercalated = transformToParedPairedSets(data)
+        let idExer = []
+        if (training.checked) {
+            if (backupPs != '') {
+                ps.innerHTML = backupPs
+                regularTraining.innerHTML = ''
+            }
+            else {
+                regularTraining.innerHTML = ''
+                ps.innerHTML = ''
+                let div = ps.innerHTML
+                if (intercalated.length == 12) {
+                    idExer = [
+                        [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                        [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                        [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                        [[8, 1], [10, 2], [12, 3]] // quarto exercicio [divID, numberRept]
+                    ]
+                }
+                else {
+                    idExer = [
+                        [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                        [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                        [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                        [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
+                        [[13, 1], [15, 2], [17, 3]], // quinto exercicio [divID, numberRept]
+                        [[14, 1], [16, 2], [18, 3]], // sexto exercicio [divID, numberRept]
+                        [[19, 1], [21, 2], [23, 3]], // setimo  exercicio [divID, numberRept]
+                        [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
+                    ]
+                }
+                let exer = []
+                let aux = 1
+                let sun = 1
+
+                intercalated.forEach(item => {
+                    if (item.hasOwnProperty('newExer')) {
+                        console.log("newExer")
+                    }
+                    else {
+                        itemString = JSON.stringify(item)
+
+                        item['divID'] = sun
+                        exer.push(item)
+                        div += `<div id="div${sun}" class="row position-relative py-4">
+                            <div class="col-3 d-flex justify-content-center align-items-center">
+                                <img class="rounded-4" id="exer${sun}" width="68" height="68" src="${item.url}" alt="">
+                            </div>
+                
+                            <div class="col-9 d-flex align-items-center ps-3 pe-5">
+                                <div id="reptDiv${sun}" class="row">
+                                    <div class="col-12 reset-Padding">
+                                        <input type="hidden" name="nivel">
+                                        <span class="reset text-uppercase" style="font-size: 18px;">${sun}º${item.name}</span>
+                                        <span class="d-none" id="name${sun}">${itemString}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+                    }
+
+                    sun++
+                })
+                ps.innerHTML = div
+
+                let teste = 1
+                idExer.forEach(e => {
+                    // e[] -> matriz do exercicio
+                    e.forEach(i => {
+                        const rep = document.getElementById(`reptDiv${i[0]}`)
+                        if (rep == null) {
+                            rep = document.createElement()
+                        }
+                        // i(int) -> id dos exercicios
+                        teste++
+                        id = i[0]
+                        rpt = i[1]
+                        let info = exer.filter(a => a.divID == i[0])[0]
+
+
+                        rep.innerHTML += `
+                                <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                                    <input class="w-75 text-center rounded-3" type="text" placeholder="${i[0]}" disabled>
+                                </div>
+            
+                                <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">                          
+                                     ${info.hasOwnProperty('segs') ? `<p class="reset text-uppercase text-gray1">SEGS</p>` : `<p class="reset text-uppercase text-gray1">REPS</p>`}
+        
+                                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                                        id="ValidExer${id}Serie${rpt}" class="w-75 input-value text-center rounded-3"
+                                        type="number">
+                                </div>       
+                                <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                                    <input id="reset${id}Serie${rpt}" required="true" disabled placeholder="1:30m"
+                                        class="w-75 input-value text-center rounded-3" type="text">
+                                </div>`
+                        validationInpt(id, rpt)
+
+                    })
+                    console.log('aux ' + aux)
+                    aux++
+                })
+                var contentPS = document.getElementById('TrainingPs')
+                backupPs = contentPS.innerHTML
+            }
+
+        }
+
+        else {
+            ps.innerHTML = ''
+            regularTraining.innerHTML = backupNormal
+        }
+    })
 
 
 </script>
