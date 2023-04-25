@@ -188,16 +188,16 @@
                     repeticao = Math.round(repeticao)
                     let sugundosTotais = segundos * repeticao
 
-                    if(input.value != null && input.value != undefined && input.value != ''){
-                        desabilitCardTracker(id, serie, training.checked)
+                    if (input.value != null && input.value != undefined && input.value != '') {
+                        //desabilitCardTracker(id, serie, training.checked)
                         addTraining(id, serie)
                     }
-                    
+
 
                 }
                 else {
-                    if(input.value != null && input.value != undefined && input.value != ''){
-                        desabilitCardTracker(id, serie, training.checked)
+                    if (input.value != null && input.value != undefined && input.value != '') {
+                        //desabilitCardTracker(id, serie, training.checked)
                         addTraining(id, serie)
                     }
 
@@ -208,18 +208,29 @@
 
     function desabilitCardTracker(id, serie, ps) {
         const audio = document.getElementById("myAudio");
+        let data = creatVar()
         let numberInput = []
         if (ps) {
-            numberInput = [
-                [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
-                [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
-                [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
-                [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
-                [[13, 1], [15, 2], [17, 3]], // quinto exercicio [divID, numberRept]
-                [[14, 1], [16, 2], [18, 3]], // sexto exercicio [divID, numberRept]
-                [[19, 1], [21, 2], [23, 3]], // setimo  exercicio [divID, numberRept]
-                [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
-            ]
+            // Verifica se o treino tem 4 ou 12 exercicios
+            if (data.length == 4) {
+                numberInput = [
+                    [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                    [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                    [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                    [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
+                ]
+            } else {
+                numberInput = [
+                    [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                    [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                    [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                    [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
+                    [[13, 1], [15, 2], [17, 3]], // quinto exercicio [divID, numberRept]
+                    [[14, 1], [16, 2], [18, 3]], // sexto exercicio [divID, numberRept]
+                    [[19, 1], [21, 2], [23, 3]], // setimo  exercicio [divID, numberRept]
+                    [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
+                ]
+            }
             //Procura o indice do exercicio qu está em execução
             let indexinput = numberInput[id - 1];
             let input = -1;
@@ -246,11 +257,18 @@
                     divExer.classList.add('desabilited')
                 })
 
-                
+
             })
         }
         else {
-            numberInput = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
+            
+            // Verifica se o treino tem 4 ou 12 exercicios
+            if (data.length == 4) {
+                numberInput = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
+            }
+            else {
+                numberInput = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
+            }
             // Monta o array de id sem o id que está sendo tratado
             let indexinput = numberInput[id - 1]
             let input = indexinput.findIndex(e => e == serie)
@@ -264,7 +282,7 @@
             let x = 1
             numberInput.forEach(e => {
                 e.forEach(i => {
-                    
+
                     const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
                     inputDesabilit.disabled = true;
                 })
@@ -274,9 +292,6 @@
                 x++
             })
         }
-
-
-
 
         let cronometro = document.getElementById(`reset${id}Serie${serie}`);
         let segundosRestantes = ps ? 2 : 180; // 3 minutos em segundos
@@ -311,30 +326,30 @@
                         [[19, 1], [21, 2], [23, 3]], // setimo  exercicio [divID, numberRept]
                         [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
                     ]
-                    
-                   
-        
+
+
+
                     // Desabilita todos os inpust e add uma class aos cards
                     numberInput.forEach(e => {
                         e.forEach(i => {
-                            
+
                             const inputDesabilit = document.getElementById(`ValidExer${i[0]}Serie${i[1]}`)
                             inputDesabilit.disabled = false;
-                            
+
                             const divExer = document.getElementById('exer' + i[0])
                             divExer.classList.remove('desabilited')
                         })
-        
-                        
+
+
                     })
                 }
-                else{
+                else {
                     numberInput.forEach(e => {
-                    e.forEach(i => {
-                        const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                        inputDesabilit.disabled = false;
-                    })
-                    
+                        e.forEach(i => {
+                            const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                            inputDesabilit.disabled = false;
+                        })
+
                         const divExer = document.getElementById('exer' + x)
                         divExer.classList.remove('desabilited')
                         x++
@@ -365,7 +380,7 @@
 
     async function finishedTraining() {
         loading(true)
-       
+        let data = creatVar()
         newTraining.forEach(training => {
             delete training.newExer;
             if (training.rept1 === training.rept2 && training.rept2 === training.rept3 && training.rept1 >= 15 && training.segs == null) {
@@ -375,19 +390,19 @@
                 training.newExer = true;
             }
         });
-        
-        if (newTraining.length >= 4 && training.checked || newTraining >= 4 && training.checked == false) {
+        debugger
+        if (newTraining.length == data.length ) {
             const valueData = document.getElementById(`dataDB`)
             let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"");
             data = JSON.parse(dataOfDataBase);
-            debugger
+            
             console.log(data)
             let training = data.fullTraining
-            if (data.chosenDay == '1'){
-                newTraining = { 'd1': newTraining, 'd2': training.d2}
+            if (data.chosenDay == '1') {
+                newTraining = { 'd1': newTraining, 'd2': training.d2 }
             }
-            if (data.chosenDay == '2'){
-                newTraining = { 'd1': training.d1 , 'd2': newTraining}
+            if (data.chosenDay == '2') {
+                newTraining = { 'd1': training.d1, 'd2': newTraining }
             }
             console.log(newTraining)
 

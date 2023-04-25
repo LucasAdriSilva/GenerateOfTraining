@@ -17,15 +17,22 @@ def index():
 
       # Verifica se é o priemiro treino
       if  ip_found[-1] is not None:
-        last_training =  json.loads(ip_found[-1])[-1]  
+        # Pega o ultimo treino para montar o exercicio
+        last_training =  json.loads(ip_found[-1])[-1]
+
+        for value in last_training.keys():
+          trainingValue = last_training[value]
+        
         data= {
           'nav': 'home', 
           'ip': ip_found[0],
           'dayTraining': 3,
           'nameRotina': ip_found[-2],
-          'training': last_training,
+          'training': trainingValue,
         }
+        return render_template("home.html", data = data)    
       else: 
+        # pega o training base para montar o exercicio
         training = json.loads(ip_found[4])
         chosen = ip_found[-2]
         for choseName in training:
@@ -62,7 +69,7 @@ def teste():
 @basicScreens.route("/creatTraining" , methods=["GET", "POST"])
 def creatTraining():
     res = request.args.get('data')
-    all = Exercicio.getAllExercicios()
+    all = Exercicio.getExercisesBodyWeight()
     if res != None:
       treino = json.loads(res.replace("'", "\""))
       
