@@ -1,6 +1,6 @@
 
 # classe para tratar os exercicios
-class Exercicio:
+class Exercises:
     def __init__(self,name, url, category, nivel, type, division, required):
         self.name = name
         self.url = url
@@ -118,24 +118,17 @@ class Exercicio:
 
     def getExercisesMusc():
         exercises = [
-            {'name':'Supino', 'url': '', 'category': 'Push', 'nivel': 3, 'type': 'Horizontal','kg': 0 },
-            {'name':'Puxada Vertical', 'url': '', 'category': 'Pull', 'nivel': 3, 'type': 'Vertical','kg': 0 },
-            {'name':'Desenvolvimento', 'url': '', 'category': 'Push', 'nivel': 3, 'type': 'Vertical','kg': 0 },
-            {'name':'Remada Triangulo', 'url': '', 'category': 'Pull', 'nivel': 3, 'type': 'Horizontal','kg': 0 },
-            {'name':'Agachamento Smith', 'url': '', 'category': 'Legs', 'nivel': 3, 'type': 'Parte da frente','kg': 0 },
-            {'name':'Leg Press', 'url': '', 'category': 'Legs', 'nivel': 3, 'type': 'Parte da frente','kg': 0 },
+            {'name':'Supino', 'url': 'https://treinomestre.com.br/wp-content/uploads/2017/08/supino-fechado-cp.jpg.webp', 'category': 'Push', 'nivel': 3, 'type': 'Horizontal','kg': 0 },
+            {'name':'Puxada Vertical', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/10/pulley-frente-puxador.jpg', 'category': 'Pull', 'nivel': 3, 'type': 'Vertical','kg': 0 },
+            {'name':'Desenvolvimento', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/09/desenvolvimento-com-halteres-.jpg', 'category': 'Push', 'nivel': 3, 'type': 'Vertical','kg': 0 },
+            {'name':'Remada Triangulo', 'url': 'https://grandeatleta.com.br/wp-content/uploads/2021/06/remada-baixa-supinada-pronada-neutra.jpg', 'category': 'Pull', 'nivel': 3, 'type': 'Horizontal','kg': 0 },
+            {'name':'Agachamento Smith', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/01/agachamento-no-smith.jpg.webp', 'category': 'Legs', 'nivel': 3, 'type': 'Parte da frente','kg': 0 },
+            {'name':'Leg Press', 'url': 'https://www.tifranco.com.br/uploads/images/2017/11/leg-press-como-torna-lo-mais-poderoso-1510582403.jpeg', 'category': 'Legs', 'nivel': 3, 'type': 'Parte da frente','kg': 0 }
             ]
         return exercises
-        # Supino
-        # Puxada vertical
-        # Desenvolvimento
-        # Remada triangulo
-        # Agachamento smith
-        # Stiff Ou leg press
-        # Os 2 de core é os mesmos com peso do corpo
-
+        
     def get_Name(name):
-        filtered_data = list(filter(lambda e: e.get('name') == name , Exercicio.getExercisesBodyWeight()))
+        filtered_data = list(filter(lambda e: e.get('name') == name , Exercises.getExercisesBodyWeight()))
         if filtered_data:
             return filtered_data[0]
         else:
@@ -157,19 +150,19 @@ class Exercicio:
 
     def getSuggestionExerLight(name): 
     # nivel -1
-        exer = Exercicio.get_Name(name)
+        exer = Exercises.get_Name(name)
         
-        arrayCategory = Exercicio.getAllCategory(exer['category'], Exercicio.getExercisesBodyWeight())
+        arrayCategory = Exercises.getAllCategory(exer['category'], Exercises.getExercisesBodyWeight())
         
         if isinstance(exer['nivel'], int):
             # Se for um número inteiro, use o valor diretamente
-            filter = Exercicio.getAllNivel((exer['nivel'] + 1), arrayCategory)
+            filter = Exercises.getAllNivel((exer['nivel'] + 1), arrayCategory)
             print(filter)
             return filter
         elif isinstance(exer['nivel'], list):
             # Se for uma lista, pegue o menor valor
             min_value = min(exer['nivel'])
-            filter = Exercicio.getAllNivel((min_value + 1), arrayCategory)
+            filter = Exercises.getAllNivel((min_value + 1), arrayCategory)
             print(filter)
             return filter
 

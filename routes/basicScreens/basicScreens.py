@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, make_response, session
 import json
-from model.exercicio import Exercicio 
+from model.exercicio import Exercises 
 from model.db import Db 
 from fpdf import FPDF
 
@@ -32,20 +32,24 @@ def index():
         }
         return render_template("home.html", data = data)    
       else: 
+        if ip_found[4] is not None:
         # pega o training base para montar o exercicio
-        training = json.loads(ip_found[4])
-        chosen = ip_found[-2]
-        for choseName in training:
-            if choseName.upper() == chosen.upper():
-              training = training[choseName]
-        data = {
-          'nav': 'home', 
-          'ip': ip_found[0],
-          'dayTraining': ip_found[5],
-          'nameRotina': chosen,
-          'training':  training
-        }  
-        return render_template("home.html", data = data)    
+          training = json.loads(ip_found[4])
+          chosen = ip_found[-2]
+          for choseName in training:
+              if choseName.upper() == chosen.upper():
+                training = training[choseName]
+          data = {
+            'nav': 'home', 
+            'ip': ip_found[0],
+            'dayTraining': ip_found[5],
+            'nameRotina': chosen,
+            'training':  training
+          }  
+          return render_template("home.html", data = data)    
+        else:
+          data = {'nav': 'home'}
+          return render_template("firstAcess.html", data = data)
 
     else:
        data = {'nav': 'home'}
@@ -58,7 +62,7 @@ def index():
     return render_template("firstAcess.html", data = data)
 
 @basicScreens.route("/sendTraining", methods=["GET", "POST"])
-def teste():
+def sendTraining():
     if request.method == "POST":
         treino = request.get_json()
         data = {'treino': treino}
@@ -69,7 +73,7 @@ def teste():
 @basicScreens.route("/creatTraining" , methods=["GET", "POST"])
 def creatTraining():
     res = request.args.get('data')
-    all = Exercicio.getExercisesBodyWeight()
+    all = Exercises.getExercisesBodyWeight()
     if res != None:
       treino = json.loads(res.replace("'", "\""))
       
@@ -186,7 +190,6 @@ def creatTraining():
             'allTreino': all
           }
       return render_template("exercices.html", data=data)
-
 
 @basicScreens.route("/download-pdf", methods=["POST"])
 def download_pdf():

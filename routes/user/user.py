@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, session, request, flash, jsonify, render_template
 from model.db import Db
 import json
-from model.exercicio import Exercicio
+from model.exercicio import Exercises
 from model.db import Db
 user = Blueprint('user', __name__, template_folder='templates')
 
@@ -104,7 +104,7 @@ def tracker():
     if 'newExer' in d and d['newExer']:
       if d['newExer'] == True:
         name = d['name']
-        listExer = Exercicio.getSuggestionExerLight(name)
+        listExer = Exercises.getSuggestionExerLight(name)
         d['newExer'] =  listExer
     
     inf = {'training': data, 'chosenDay': chosenDay, 'chosenTraining':chosen, 'fullTraining': fullTraining}
@@ -112,3 +112,4 @@ def tracker():
 
 
   return render_template('tracker.html', data=inf)
+

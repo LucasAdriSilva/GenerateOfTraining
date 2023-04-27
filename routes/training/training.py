@@ -51,26 +51,7 @@ def saveTraining():
     return jsonify(response_data), 200
 
 
-@training_bp.route('/saveTrainingTracker', methods=["POST"])
-def saveTrainingTracker():
-  data = request.get_data().decode()
-  data = json.loads(data.replace("'", "\""))
-
-  now = datetime.datetime.now()
-  date_str = now.strftime("%d/%m/%Y")
-
-  ip_found = Db.get_ip(session['ip']).data
-
-  historyTrainig = ip_found[-1]
-  
-  # Verifica se tem algum treino se tiver acrecenta se não add pela primeira vez
-  if historyTrainig is not None:
-    historyTrainig.append({date_str: data})
-  else:
-    historyTrainig = [{date_str: data}]
-
-  Db.update_data(session['ip'], 'historyTraining', historyTrainig)
-  Db.update_data(session['ip'], 'Training', data)
-
-  response_data = {"message": "Training saved successfully."}
-  return jsonify(response_data), 200
+@training_bp.route('/bodybuilding')
+def bodybuilding():
+  data = {'nav': None}
+  return render_template('bodybuilding.html', data=data)

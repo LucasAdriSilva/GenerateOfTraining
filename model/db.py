@@ -125,6 +125,7 @@ class Db:
                 value = json.dumps(value)
             elif isinstance(value, dict):
                 value = json.dumps(value)
+                
             c.execute("UPDATE user SET {} = ? WHERE ip = ? ".format(paran), (value, ip))
             conn.commit()
             c.close()           

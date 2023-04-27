@@ -1,0 +1,687 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div id="div2" class="row mt-5 rounded-3 d-flex justify-content-center align-content-center ">
+
+    <div class="col-12">
+        <h1 class="reset text-center">Crie seu treino</h1>
+        <h3 class="reset text-center">Com a Musculação</h3>
+    </div>
+
+    <div class="col-12 p-3 d-flex flex-column">
+        <span class="text-center">Utilize esse treino pronto para saber seu nivel.</span>
+        <span class="text-center">Esse treino é para identificar qual peso que irá treinar</span>
+        <span class="text-center">Começe pegando 5kg e se for leve vai aumentando</span>
+        <span class="text-center">E adicione as informações abaixo</span>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center align-items-center gap-1">
+        <div class="form-check form-switch">
+            <input class="form-check-input border-switch" type="checkbox" role="switch" id="pairedSetsValue">
+            <label class="form-check-label" for="pairedSetsValue">Paired Sets</label>
+        </div>
+        <img src="assets/img/interrog.jpg" onclick="openModal('pairedSets')" width="20" height="20" alt="">
+    </div>
+
+    <!-- <div id="exer1" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
+
+        <div class="row position-relative">
+            
+            <div class="col-3 d-flex justify-content-center align-items-center">
+                <img class="rounded-4" id="img1" width="68" height="68"
+                    src="https://aprovataf.com.br/wp-content/uploads/2016/04/Flex%C3%A3o-de-bra%C3%A7o-no-solo-AprovaTAF.jpg"
+                    alt="">
+            </div>
+
+            <div class="col-9 d-flex align-items-center ps-3 pe-5" >
+                <div class="row" >
+                    <div class="col-12 reset-Padding">
+                        <span class="reset text-uppercase" style="font-size: 18px;">Nome do exercicio 
+                            exercicio</span>
+                    </div>
+
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                        <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                        <input class="w-75 text-center rounded-3" type="text" placeholder="1" disabled>
+                    </div>
+
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                        <p id="rept1" class="reset text-uppercase text-gray1">REPS</p>
+                        <input required="true" id="ValidExer1" class=" w-75 input-value text-center rounded-3"
+                            type="text">
+                    </div>
+
+                    <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                        <p  class="reset text-uppercase text-gray1">RESET</p>
+                        <input required="true" disabled placeholder="3min"
+                            class="w-75 input-value text-center rounded-3" type="text">
+                    </div>
+                </div>
+                
+                <i class="bi bi-three-dots-vertical position-absolute top-0 end-0 "></i>
+            </div>
+            
+            <div id="toggleExer1" class="col-12 d-none d-flex flex-column justify-content-center">
+                <button id="btn1" onclick="filter(1, 'Push', 'Horizontal')" class="btn btn-primary w-100" type="button">Trocar Exercicío</button>
+
+                <span id="heavy1" class="reset text-center d-none" style="font-size: 10px;">
+                    *Ops, sua quantidade de repetição está baixa! Vamos trocar para um mais leve?
+                </span>
+
+                <span id="light1" class="reset text-center d-none" style="font-size: 10px;">
+                    *Ops, sua quantidade de repetição está alta! Vamos trocar para um mais pesado?
+                </span> 
+
+                <span id="success1" class="reset text-center text-success d-none" style="font-size: 10px;">
+                    Perfeito, podemos prosseguir!
+                </span> 
+            </div>
+        </div>
+    </div> -->
+    <!-- <div id="exer1" class="col-lg-5 col-11 position-relative rounded-3 m-2 bg-white"
+        style="border: 1px solid rgb(20, 20, 20);">
+        <div class="row reset-Padding h-100">
+            <div class="col-6 d-flex justify-content-center img-card reset-Padding"><img
+                    class="img-fluid img-resolution" id="img1" width="150" height="150"
+                    src="https://aprovataf.com.br/wp-content/uploads/2016/04/Flex%C3%A3o-de-bra%C3%A7o-no-solo-AprovaTAF.jpg"
+                    alt=""></div>
+            <div class="col-6 d-flex flex-column justify-content-around align-items-start reset-Padding"
+                style="height: 200px;">
+                <div style="width: fit-content;">
+                    <h6 class="reset text-start" id="category1">(Push Horizontal)</h6>
+                    <h5 class="reset text-start text-uppercase" id="ValidTitle1">Flexões
+                        Padrão</h5>
+                </div>
+                <div class="d-flex flex-column align-items-start justify-content-start">
+                    <span>Num. maximo de repet.</span>
+                    <input id="ValidExer1" class="input-exer text-start" type="number"
+                        required="true">
+                </div>
+            </div>
+            <div id="toggleExer1" class="d-none mb-4"><button id="btn1"
+                    onclick="filter(1, 'Push', 'Horizontal')" class="btn btn-primary"
+                    type="button">Trocar Exercicío</button></div>
+        </div>
+    </div> -->
+    <!-- Sugestões de troca -->
+    <!-- <div class="row d-none d-flex justify-content-center toggle-exer" > -->
+    <!-- <div class="col-12 d-flex justify-content-between mb-5"
+            style="border-bottom: 1px solid rgb(20, 20, 20); height: 30px !important;">
+
+
+            <h4 class="mb-0">Sugestão de troca</h4>
+            <i class="bi bi-x-lg "
+                style="color:black; font-size: large; right: 0; cursor: pointer;"
+                onclick="closer()"></i>
+        </div>
+
+        <div class=" col-6 rounded-3 bg-white my-5" style="border: 1px solid rgb(20, 20, 20);">
+
+            <h3 class="reset" id="ValidTitle8">name</h3>
+            <h4>category</h4>
+            <div class="d-flex justify-content-center">
+                <img width="150px" height="150px"
+                    src="https://cdn.w600.comps.canstockphoto.com.br/trabalhando-dela-joelho-femininas-vetor-clip-arte_csp89802369.jpg">
+            </div>
+            <button onclick="subs(8, 'name', 'category', 'img')"
+                class="btn btn-primary mt-2">Trocar</button>
+        </div>  -->
+    <!-- </div> -->
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Sugestão de troca</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Caso nao tiver nenhum exercicio -->
+                <div id="zeroExer" class="row d-none modal-body">
+                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                        <span id="titleSugest" class="mt-2 text-center font-capt">Verificamos que não conseguiu
+                            fazer o
+                            exercicio de
+                            NIVEL 0 da categoria</span>
+
+                        <span class=" text-center font-capt fs-4 fw-bolder" id="categoryNull"></span>
+
+                        <span class=" text-center font-capt"></span>
+
+                        <span id="sugest" class=" text-center font-capt">
+                            Sugerimos mudar para <strong>Treino Hibrido</strong> ou <strong>Treino de
+                                Musculação</strong>
+                        </span>
+
+
+                    </div>
+                    <div id="btnSugest" class="col-12 d-flex justify-content-around align-items-center my-3">
+                        <button data-bs-dismiss="modal" class="btn btn-success w-25">Hibrido</button>
+                        <button data-bs-dismiss="modal" class="btn btn-success w-25">Musculação</button>
+                    </div>
+                </div>
+
+                <!-- Caso tiver algum exericio e o atual for o ultimo -->
+                <div id="exerLeve" class="row d-none modal-body px-3">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <span class="mt-2 text-center font-capt">Esse era o exercicio mais leve, mas não tem
+                            problema!</span>
+                    </div>
+                    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                        <span class="text-center font-capt">Verificamos que você conseguiu fazer o exercicio </span>
+                        <span id="exerSameCategory" class="font-capt fw-bolder fs-4"></span>
+                        <span class="text-center font-capt">então vamos fazer o seguinte:</span>
+                    </div>
+                    <div class="col-12 bg-success2 rounded-3 d-flex justify-content-center align-items-center">
+                        <span class="mt-2 text-center font-capt">
+                            Você ira progredir apenas
+                            com um exercicio e
+                            assim que tiver mais forte iremos sugerir um exercicio novo
+                        </span>
+                    </div>
+                    <div class="col-12 mt-4 d-flex justify-content-center align-items-center">
+                        <button id="exerLeveRemove" data-bs-dismiss="modal" class="btn btn-success w-50">OK</button>
+                    </div>
+                </div>
+
+                <div class="modal-body" id="divToggle">
+                    <!-- <div class="row reset-Padding my-3">
+                        <div class="col-5 reset-Padding d-flex justify-content-center align-items-center">
+                            <img width="125" height="125"
+                                src="https://cdn.w600.comps.canstockphoto.com.br/trabalhando-dela-joelho-femininas-vetor-clip-arte_csp89802369.jpg">
+                        </div>
+
+                        <div class="col-7 d-flex align-items-center reset-Padding">
+                            <div class="row reset-Padding">
+                                <div class="col-12 d-flex justify-content-start align-items-center reset-Padding">
+                                    <span class="reset">Knee Push Ups (de joelho)</span>
+                                </div>
+
+                                <div class="col-12 d-flex justify-content-start align-items-center reset-Padding">
+                                    <span class="reset">(Push Horizontal)</span>
+                                </div>
+
+                                <div class="col-12 d-flex justify-content-center align-items-center reset-Padding W-100">
+                                    <button class="btn btn-primary mt-2 " data-bs-dismiss="modal" style="width: 100%;">Trocar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>  -->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="module">
+    import { apiGet } from './assets/js/api.js'
+
+    var exercisesMusc;
+    var getExercisesBodyWeight;
+
+    async function creatPage() {
+        exercisesMusc = await apiGet('getExercisesMusc');
+        getExercisesBodyWeight = await apiGet('getExercisesBodyWeight');
+        return 
+    }
+
+    window.addEventListener("load", async function () {
+        await creatPage()
+        creatExercisesBase()
+    });
+
+
+    function creatExercisesBase() {
+        debugger
+        console.log(exercisesMusc)
+        // Div onde sera add os exercicios
+        const divPai2 = document.getElementById('div2')
+        var x = 1
+
+        exercisesMusc.forEach(exer => {
+
+            if (exer == undefined) {
+                return
+            }
+            // Criação da nova div
+            var novaDiv = document.createElement("div");
+            novaDiv.id = "exer" + x;
+            novaDiv.className = "col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white";
+            novaDiv.style.border = "1px solid rgb(163, 163, 163)";
+
+            // Criação do conteúdo da div
+            novaDiv.innerHTML = `
+            <div class="row position-relative">
+              <div class="col-3 d-flex justify-content-center align-items-center">
+                <img class="rounded-4" id="${'img' + x}" width="68" height="68"
+                  src="${exer.url}"
+                  alt="">
+              </div>
+      
+              <div class="col-9 d-flex align-items-center ps-3 pe-5">
+                <div class="row">
+                  <div class="col-12 reset-Padding">
+                    <input type="hidden" id=${'nivel' + x} name="nivel" value="${exer.nivel}">
+                    <span id=${'ValidTitle' + x} class="reset text-uppercase" style="font-size: 18px;">${exer.name}</span>
+                  </div>
+      
+                  <div class="col-${exer.kg == 0 ? `3` :`4`} d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="1" disabled>
+                  </div>
+                  ${exer.kg == 0 ? 
+                     `<div class="col-${exer.kg == 0 ? `3` :`4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
+                        <p class="reset text-uppercase text-gray1">REPT</p>
+                        <input required="true" disabled placeholder="11"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                    </div>`
+                    :
+                    ``
+                    }
+                  
+      
+                  <div class="col-${exer.kg == 0 ? `3` :`4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    <p id="${'repts' + x}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' :  exer.kg == 0 ?'KG': 'REPT'}</p>
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + x}" class="w-75 input-value text-center rounded-3" type="number">
+      
+                  </div>
+      
+                  <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input required="true" disabled placeholder="3m"
+                      class="w-75 input-value text-center rounded-3" type="text">
+                  </div>
+
+                  
+                </div>
+      
+                 <!--<i class="bi bi-three-dots-vertical position-absolute top-0 end-0 "></i>-->
+              </div>
+      
+              <div id="${'toggleExer' + x}"class="col-12 d-none d-flex flex-column justify-content-center">
+      
+                <button id="${'btn' + x}" onclick="filter(${x}, '${exer.name}', '${exer.category}', '${exer.type}', ${exer.nivel})" class="btn btn-primary mb-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Trocar Exercicío</button>
+                  
+                </button>
+      
+                  <span id="${'heavy' + x}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
+                          *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
+                      </span>
+      
+                       <span id="${'light' + x}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
+                          *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está  alta! Vamos trocar para um mais pesado?
+                      </span> 
+      
+                      </div>
+                      <span id="${'success' + x}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
+                      Perfeito, agora é só descansar <span id="cronometro"></span> e fazer o próximo exercício
+                      </span> 
+      
+                      <span id="${'noInput' + x}" class="reset px-3 text-start text-danger d-none" style="font-size: 10px;">
+                      Por favor, insira o numero máximo de ${exer.segs ? 'segundos' : 'repetição'}, para montarmos seu treino.
+                      </span> 
+            </div>`;
+            x ++
+            divPai2.appendChild(novaDiv)
+        })
+
+        // Criando as verificações "Blur"
+        for (let i = 1; i < exercisesMusc.length + 1; i++) {
+            creatStruct(i)
+        }
+
+    }
+
+    function creatStruct(id) {
+        const input = document.getElementById('ValidExer' + id)
+        const title = document.getElementById('ValidTitle' + id)
+        const repts = document.getElementById('repts' + id)
+
+        input.addEventListener('blur', function () {
+            if (input.value == NaN ||
+                input.value == null ||
+                input.value == undefined ||
+                input.value == "") {
+
+                input.classList.remove('input-exer')
+                input.classList.add('input-exer-fail')
+                repts.classList.add('text-danger')
+            } else {
+                repts.classList.remove('text-danger')
+                input.classList.remove('input-exer-fail')
+                input.classList.add('input-exer')
+                openToggleExer(id, title, input, true)
+            }
+        })
+    }
+
+    function openToggleExer(id, Title, Input, bool) {
+        const input = document.getElementById('ValidExer' + id);
+        const btn = document.getElementById('toggleExer' + id)
+        const light = document.getElementById('light' + id)
+        const heavy = document.getElementById('heavy' + id)
+        const repts = document.getElementById('repts' + id)
+        const success = document.getElementById('success' + id)
+        const noInput = document.getElementById('noInput' + id)
+
+        var exer = exercises.filter(e => e.name == Title.innerHTML)
+        // Se for segs
+        if (exer[0].segs) {
+            // Se o exercicio nao for de segundos ira executar essa validação
+
+            let segundos = input.value / 2 //Resposta em segundos
+            let repeticao = 60 / Math.round(segundos) // Repostas em repetição
+            repeticao = Math.round(repeticao)
+            let sugundosTotais = segundos * repeticao // Segundos totais do exer
+
+            // Dentro dos parametros
+            if (repeticao <= 4 && input.value < 60) {
+                // if (bool) {
+                noInput.classList.add('d-none')
+                success.classList.remove('d-none')
+                // Tempo da message de sucesso
+                setTimeout(function () {
+                    success.classList.add("d-none");
+                }, 180000);
+                // }
+                input.classList.remove('text-danger')
+                input.classList.remove('input-danger')
+
+                repts.classList.remove('text-danger')
+                repts.classList.add('text-gray1')
+
+                btn.classList.add('d-none')
+                btn.classList.remove('d-block')
+
+                let card = parseInt(id)
+                // desabilitCard(card)
+                gerarTreino(Title, Input, id)
+            }
+            // Se o numero de repetição for 5 ou 6 mostra o modal
+            if (repeticao == 5 || repeticao == 6) {
+                noInput.classList.add('d-none')
+                //  dar opção de eliminar exercicio
+                var modal = new bootstrap.Modal(document.querySelector('#toggleExerSegs'));
+
+                // Pegar nome do exer que ira ser deletado
+                let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+
+                // Imprimir na tela
+                const exerDeletr = document.getElementById('exerDeleter')
+                exerDeletr.innerHTML = exerRemove[0].name
+
+                // Imprimir nome do exercicio que está pesado
+                const name = document.getElementById('nameExer')
+                name.innerHTML = exer[0].name
+
+
+
+                var fixArray = []
+                newExercisesBase.forEach(e => {
+                    if (e == undefined) {
+                        return
+                    }
+                    fixArray.push(e)
+                })
+
+                var countCategory = fixArray.filter(e => e.category == exer[0].category)
+
+                if (countCategory.length == 1) {
+                    // Mostra o botão de trocar o exercicio
+                    btn.classList.add('d-block')
+                    btn.classList.remove('d-none')
+                }
+                else {
+                    // filtra por categori e pega o outro exercicio da mesma catagoria
+                    let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+
+                    btn.classList.add('d-none')
+
+                    const btnremove = document.getElementById('removeExer')
+                    btnremove.onclick = function () { removeExer(exerRemove, id, Title, Input, exer) };
+
+                    // Exibir o modal
+                    modal.show();
+
+                    const notRemove = document.getElementById('notRemove')
+                    notRemove.onclick = function () { showBtn(btn) }
+                }
+
+            }
+            // Se for maior que 6 mostra messagem de erro PESADO
+            if (repeticao > 6 || input.value >= 60) {
+                noInput.classList.add('d-none')
+                // Texto de sucesso some
+                success.classList.add('d-none')
+
+                // Mostra o botão de trocar o exercicio
+                btn.classList.add('d-block')
+                btn.classList.remove('d-none')
+
+                //Mostra a obs de exer leve
+                light.classList.add('d-block')
+                light.classList.remove('d-none')
+
+                //Oculta a obs de exer pesado
+                heavy.classList.add('d-none')
+                heavy.classList.remove('d-block')
+
+                //Add visuald e erro
+                input.classList.add('text-danger')
+                input.classList.add('input-danger')
+
+                repts.classList.add('text-danger')
+                repts.classList.remove('text-gray1')
+            }
+            // Leve
+            if (repeticao < 2) {
+                noInput.classList.add('d-none')
+                // Texto de sucesso some
+                success.classList.add('d-none')
+
+                // Mostra o botão de trocar o exercicio
+                btn.classList.add('d-block')
+                btn.classList.remove('d-none')
+
+                //Mostra a obs de exer leve
+                light.classList.add('d-block')
+                light.classList.remove('d-none')
+
+                //Oculta a obs de exer pesado
+                heavy.classList.add('d-none')
+                heavy.classList.remove('d-block')
+
+                //Add visuald e erro
+                input.classList.add('text-danger')
+                input.classList.add('input-danger')
+
+                repts.classList.add('text-danger')
+                repts.classList.remove('text-gray1')
+            }
+
+
+        }
+        // Se for repts
+        else {
+            if (exer[0].name == 'Dips na paralela' || exer[0].name == 'Pull Ups') {
+                if (input.value <= 3) {
+                    noInput.classList.add('d-none')
+                    // Texto de sucesso some
+                    success.classList.add('d-none')
+
+                    // Mostra o botão de trocar o exercicio
+                    btn.classList.add('d-block')
+                    btn.classList.remove('d-none')
+
+                    //Mostra a obs de exer pesado
+                    heavy.classList.add('d-block')
+                    heavy.classList.remove('d-none')
+
+                    //Oculta a obs de exer leve
+                    light.classList.add('d-none')
+                    light.classList.remove('d-block')
+
+                    //Add visuald e erro
+                    input.classList.add('text-danger')
+                    input.classList.add('input-danger')
+
+                    repts.classList.add('text-danger')
+                    repts.classList.remove('text-gray1')
+
+                }
+                if (input.value > 3 && input.value < 16) {
+
+                    let card = parseInt(id)
+                    // desabilitCard(card)
+
+                    noInput.classList.add('d-none')
+                    if (bool) {
+                        success.classList.remove('d-none')
+                        // Tempo da message de sucesso
+                        setTimeout(function () {
+                            success.classList.add("d-none");
+                        }, 180000);
+                    }
+                    input.classList.remove('text-danger')
+                    input.classList.remove('input-danger')
+
+                    repts.classList.remove('text-danger')
+                    repts.classList.add('text-gray1')
+
+                    btn.classList.add('d-none')
+                    btn.classList.remove('d-block')
+                    gerarTreino(Title, Input, id)
+
+                    const divPai = document.getElementById('divToggle')
+                    divPai.innerHTML = ''
+                    if (treino.length === 8) {
+                        // fechar model
+                        // const button = document.getElementById('saveTraining')
+                        // button.setAttribute('data-bs-dismiss', 'modal')
+                    }
+                }
+                if (input.value > 15) {
+                    noInput.classList.add('d-none')
+                    // Texto de sucesso some
+                    success.classList.add('d-none')
+
+                    // Mostra o botão de trocar o exercicio
+                    btn.classList.add('d-block')
+                    btn.classList.remove('d-none')
+
+                    //Mostra a obs de exer leve
+                    light.classList.add('d-block')
+                    light.classList.remove('d-none')
+
+                    //Oculta a obs de exer pesado
+                    heavy.classList.add('d-none')
+                    heavy.classList.remove('d-block')
+
+                    //Add visuald e erro
+                    input.classList.add('text-danger')
+                    input.classList.add('input-danger')
+
+                    repts.classList.add('text-danger')
+                    repts.classList.remove('text-gray1')
+                }
+            }
+            else {
+                if (input.value < 6) {
+                    noInput.classList.add('d-none')
+
+                    // Texto de sucesso some
+                    success.classList.add('d-none')
+
+                    // Mostra o botão de trocar o exercicio
+                    btn.classList.add('d-block')
+                    btn.classList.remove('d-none')
+
+                    //Mostra a obs de exer pesado
+                    heavy.classList.add('d-block')
+                    heavy.classList.remove('d-none')
+
+                    //Oculta a obs de exer leve
+                    light.classList.add('d-none')
+                    light.classList.remove('d-block')
+
+                    //Add visuald e erro
+                    input.classList.add('text-danger')
+                    input.classList.add('input-danger')
+
+                    repts.classList.add('text-danger')
+                    repts.classList.remove('text-gray1')
+
+                }
+                if (input.value > 5 && input.value < 16) {
+
+                    let card = parseInt(id)
+                    // desabilitCard(card)
+                    noInput.classList.add('d-none')
+                    if (bool) {
+                        success.classList.remove('d-none')
+                        let divExer = document.getElementById('exer' + id)
+                        // Tempo da message de sucesso
+                        setTimeout(function () {
+                            success.classList.add("d-none");
+                        }, 180000);
+                    }
+
+
+                    input.classList.remove('text-danger')
+                    input.classList.remove('input-danger')
+
+                    repts.classList.remove('text-danger')
+                    repts.classList.add('text-gray1')
+
+                    btn.classList.add('d-none')
+                    btn.classList.remove('d-block')
+                    gerarTreino(Title, Input, id)
+
+                    const divPai = document.getElementById('divToggle')
+                    divPai.innerHTML = ''
+                    if (treino.length === 8) {
+                        // fechar model
+                        // const button = document.getElementById('saveTraining')
+                        // button.setAttribute('data-bs-dismiss', 'modal')
+                    }
+                }
+                if (input.value > 15) {
+                    // Texto de sucesso some
+                    noInput.classList.add('d-none')
+                    success.classList.add('d-none')
+
+                    // Mostra o botão de trocar o exercicio
+                    btn.classList.add('d-block')
+                    btn.classList.remove('d-none')
+
+                    //Mostra a obs de exer leve
+                    light.classList.add('d-block')
+                    light.classList.remove('d-none')
+
+                    //Oculta a obs de exer pesado
+                    heavy.classList.add('d-none')
+                    heavy.classList.remove('d-block')
+
+                    //Add visuald e erro
+                    input.classList.add('text-danger')
+                    input.classList.add('input-danger')
+
+                    repts.classList.add('text-danger')
+                    repts.classList.remove('text-gray1')
+                }
+            }
+        }
+
+
+    }
+
+</script>
+{% endblock %}
