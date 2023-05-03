@@ -1754,8 +1754,18 @@
             // Erro de dia
         }
         else {
-            var newData = { name: 'Days', value: days.value }
-            requireds.push(newData)
+            debugger
+            const index = requireds.findIndex((e) => e.name == 'Days')
+            console.log(requireds)
+            if (index == -1){
+                var newData = { name: 'Days', value: days.value }
+                requireds.push(newData)
+            }
+            else{
+                requireds[index].value = days.value
+            }
+
+            
         }
     })
 
