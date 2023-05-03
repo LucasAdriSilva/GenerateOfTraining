@@ -113,18 +113,21 @@ class Exercises:
         { 'name': 'HR com Pernas Encolhida', 'url': 'https://cdn-0.weighttraining.guide/wp-content/uploads/2022/01/Flat-bench-reverse-hyperextension-1.png?ezimgfmt=ng%3Awebp%2Fngcb4', 'category': 'Core', 'nivel': 2, 'type': 'Lombar', 'division': 'Hiperextensão Reversa (HR) - Lombar', 'required': '' },
         { 'name': 'HR com 1 Perna', 'url': 'https://cdn-0.weighttraining.guide/wp-content/uploads/2022/01/Flat-bench-reverse-hyperextension-1.png?ezimgfmt=ng%3Awebp%2Fngcb4', 'category': 'Core', 'nivel': 3, 'type': 'Lombar', 'division': 'Hiperextensão Reversa (HR) - Lombar', 'required': '' },
         { 'name': 'Hiperextensão Reversa (Full)', 'url': 'https://i.4playercamp.cz/img/e8f1f106582bff976ac2dc1cc8009f.jpg', 'category': 'Core', 'nivel': 4, 'type': 'Lombar', 'division': 'Hiperextensão Reversa (HR) - Lombar', 'required': '' },{ 'name': 'Hiperextensão Reversa com Peso', 'url': 'https://sc02.alicdn.com/kf/HTB1zoEQRVXXXXX8XVXXq6xXFXXXi/222228634/HTB1zoEQRVXXXXX8XVXXq6xXFXXXi.jpg_.webp', 'category': 'Core', 'nivel': 6, 'type': 'Lombar', 'division': 'Hiperextensão Reversa (HR) - Lombar', 'required': '' },
-        { 'name': 'Abdominal Remador', 'url': 'https://grandeatleta.com.br/wp-content/uploads/2021/02/abdominal-remador.jpg', 'nivel': 1, 'category': 'Core', 'type': 'Lombar', 'default': 'true', 'required': ''} ] 
+        { 'name': 'Abdominal Remador', 'url': 'https://grandeatleta.com.br/wp-content/uploads/2021/02/abdominal-remador.jpg', 'nivel': 1, 'category': 'Core', 'type': 'Lombar', 'default': 'true', 'required': ''},{'name':'Pé na barra', 'url': 'https://thumbs.dreamstime.com/b/abs-apto-do-treinamento-da-menina-levantando-os-p%C3%A9s-em-uma-barra-horisontal-exerc%C3%ADcio-da-mulher-da-aptid%C3%A3o-que-faz-exerc%C3%ADcios-81924531.jpg', 'category': 'Core', 'nivel': 3, 'type': 'Lombar','default': True } ] 
         return exercises     
 
     def getExercisesMusc():
         exercises = [
-            {'name':'Supino', 'url': 'https://treinomestre.com.br/wp-content/uploads/2017/08/supino-fechado-cp.jpg.webp', 'category': 'Push', 'nivel': 3, 'type': 'Horizontal','kg': 0 },
-            {'name':'Puxada Vertical', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/10/pulley-frente-puxador.jpg', 'category': 'Pull', 'nivel': 3, 'type': 'Vertical','kg': 0 },
-            {'name':'Desenvolvimento', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/09/desenvolvimento-com-halteres-.jpg', 'category': 'Push', 'nivel': 3, 'type': 'Vertical','kg': 0 },
-            {'name':'Remada Triangulo', 'url': 'https://grandeatleta.com.br/wp-content/uploads/2021/06/remada-baixa-supinada-pronada-neutra.jpg', 'category': 'Pull', 'nivel': 3, 'type': 'Horizontal','kg': 0 },
-            {'name':'Agachamento Smith', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/01/agachamento-no-smith.jpg.webp', 'category': 'Legs', 'nivel': 3, 'type': 'Parte da frente','kg': 0 },
-            {'name':'Leg Press', 'url': 'https://www.tifranco.com.br/uploads/images/2017/11/leg-press-como-torna-lo-mais-poderoso-1510582403.jpeg', 'category': 'Legs', 'nivel': 3, 'type': 'Parte da frente','kg': 0 }
-            ]
+            {'name':'Supino', 'url': 'https://treinomestre.com.br/wp-content/uploads/2017/08/supino-fechado-cp.jpg.webp', 'category': 'Push', 'nivel': 3, 'type': 'Horizontal','kg': 0, 'default': True },
+            {'name':'Puxada Vertical', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/10/pulley-frente-puxador.jpg', 'category': 'Pull', 'nivel': 3, 'type': 'Vertical','kg': 0, 'default': True },      
+            {'name':'Desenvolvimento', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/09/desenvolvimento-com-halteres-.jpg', 'category': 'Push', 'nivel': 3, 'type': 'Vertical','kg': 0, 'default': True },          
+            {'name':'Remada Triangulo', 'url': 'https://grandeatleta.com.br/wp-content/uploads/2021/06/remada-baixa-supinada-pronada-neutra.jpg', 'category': 'Pull', 'nivel': 3, 'type': 'Horizontal','kg': 0, 'default': True },     
+            {'name':'Agachamento Smith', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/01/agachamento-no-smith.jpg.webp', 'category': 'Legs', 'nivel': 3, 'type': 'Parte da frente','kg': 0, 'default': True },      
+            {'name':'Leg Press', 'url': 'https://www.tifranco.com.br/uploads/images/2017/11/leg-press-como-torna-lo-mais-poderoso-1510582403.jpeg', 'category': 'Legs', 'nivel': 3, 'type': 'Parte de trás','kg': 0, 'default': True },
+            {'name':'Tuck L-sit', 'url': 'https://cdn.w600.comps.canstockphoto.com.br/exerc%C3%ADcio-calisthenics-experi%C3%AAncia-vetor-clip-arte_csp75037367.jpg', 'category': 'Core', 'nivel': 3, 'type': 'Abdômen',"segs": 'true','default': True },
+            {'name':'Pé na barra', 'url': 'https://thumbs.dreamstime.com/b/abs-apto-do-treinamento-da-menina-levantando-os-p%C3%A9s-em-uma-barra-horisontal-exerc%C3%ADcio-da-mulher-da-aptid%C3%A3o-que-faz-exerc%C3%ADcios-81924531.jpg', 'category': 'Core', 'nivel': 3, 'type': 'Lombar','default': True }
+            
+            ]            
         return exercises
         
     def get_Name(name):

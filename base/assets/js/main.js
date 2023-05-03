@@ -117,53 +117,7 @@ window.addEventListener("load", function () {
 });
 
 
-function transformToParedPairedSets(data) {
-  // Cria um aray com o numero de repetição do exercicio
-  data.forEach(function (e) {
-    var repeated_e = Array(e['rept']).fill(e).map(function (d, i) {
-      var d_copy = Object.assign({}, d);  // cria uma cópia do objeto
-      d_copy['rept_num'] = i + 1;  // adiciona um novo campo 'rept_num' com o número de repetição
-      d_copy['rest'] = '1:30';  // altera o campo 'reset' para '1:30'
-      return d_copy;
-    });
-    new_order.push.apply(new_order, repeated_e);
-  });
-  // Agrupa esse array por categoria
-  var categories = {};
-  new_order.forEach(function (a) {
-    var category = a['category'];
-    if (!(category in categories)) {
-      categories[category] = [];
-    }
-    categories[category].push(a);
-  });
-  // Pega o nome da rotina e separa achando a letra maiuscula retornando um array 
-  // cat = name.replace(/([A-Z])/g, ' $1').trim().split(' ')
-  names = Object.keys(categories)
-  // Intercala esse array
 
-
-  var array1 = [];
-  if (names.length <= 2) {
-    for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
-      array1.push(categories[names[0]][i]);
-      array1.push(categories[names[1]][i]);
-    }
-  }
-  else {
-    for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
-      array1.push(categories[names[0]][i]);
-      array1.push(categories[names[1]][i]);
-
-    }
-    for (var i = 0; i < Math.min(categories[names[2]].length, categories[names[3]].length); i++) {
-      array1.push(categories[names[2]][i]);
-      array1.push(categories[names[3]][i]);
-    }
-  }
-
-  return array1
-}
 
 function loading(x) {
   if (x == true) {

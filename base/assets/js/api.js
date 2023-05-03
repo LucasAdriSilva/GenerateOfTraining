@@ -9,8 +9,9 @@ function loading(x) {
     }
 }
 
-export async function apiGet(rota) {
-    loading(true)
+export async function apiGet(rota, bool) {
+    bool? loading(true): loading(false)
+    
     const response = await fetch(`/${rota}`, {
         method: 'GET',
         headers: {

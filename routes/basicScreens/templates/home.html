@@ -7,11 +7,11 @@
         <h1 class="reset text-center">Bora treinar</h1>
         <h2 class="reset text-center">Qual treino vai ser hoje?</h2>
     </div>
-    {% if data.nameRotina == 'Fullbody' %}
+    {% if data[3].nameRotina == 'Fullbody' %}
     <div class="col-12 mt-3">
         <div class="card w-100">
             <div class="card-body">
-                <h5 class="card-title">{{data.nameRotina}}</h5>
+                <h5 class="card-title">{{data[3].nameRotina}}</h5>
                 <div class="col-12 d-flex gap-1 reset-Padding-x">
 
                     <div class="squad2-active d-flex justify-content-center align-items-center ">
@@ -30,8 +30,8 @@
                 <p class="card-text">Descrição da rotina</p>
                 <!-- target="_blank" -->
                 <form method="POST" action="{{ url_for('user.tracker') }}">
-                    <input type="hidden" name="data" value="{{ data.training }}">
-                    <input type="hidden" name="ip" value="{{ data.ip }}">
+                    <input type="hidden" name="data" value="{{ data[3].training }}">
+                    <input type="hidden" name="ip" value="{{ data[3].ip }}">
                     <input type="hidden" name="chosenDay" value="0">
                     <button class="btn btn-success w-100 text-uppercase" type="submit">Treinar</button>
                 </form>
@@ -43,7 +43,7 @@
     <div class="col-12 mt-3">
         <div class="card w-100 ">
             <div class="card-body">
-                <h5 class="card-title">{{data.nameRotina}} (1º Dia)</h5>
+                <h5 class="card-title">{{data[3].nameRotina}} (1º Dia)</h5>
                 <div class="col-12 d-flex gap-1 reset-Padding-x">
                     <div class="squad2-active d-flex justify-content-center align-items-center "> <small class="reset"
                             style="font-size: 12px;">Segunda</small> </div>
@@ -52,8 +52,8 @@
                 </div>
                 <p class="card-text">Descrição da rotina</p>
                 <form method="POST" action="{{ url_for('user.tracker') }}">
-                    <input type="hidden" name="data" value="{{ data.training }}">
-                    <input type="hidden" name="ip" value="{{ data.ip }}">
+                    <input type="hidden" name="data" value="{{ data[3].training }}">
+                    <input type="hidden" name="ip" value="{{ data[3].ip }}">
                     <input type="hidden" name="chosenDay" value=1>
                     <button class="btn btn-success w-100 text-uppercase" type="submit">Treinar</button>
                 </form>
@@ -61,7 +61,7 @@
         </div>
         <div class="card w-100 mt-1">
             <div class="card-body">
-                <h5 class="card-title">{{data.nameRotina}} (2º Dia)</h5>
+                <h5 class="card-title">{{data[3].nameRotina}} (2º Dia)</h5>
                 <div class="col-12 d-flex gap-1 reset-Padding-x">
                     <div class="squad2-active d-flex justify-content-center align-items-center "> <small class="reset"
                             style="font-size: 12px;">Quinta</small> </div>
@@ -70,8 +70,8 @@
                 </div>
                 <p class="card-text">Descrição da rotina</p>
                 <form method="POST" action="{{ url_for('user.tracker') }}">
-                    <input type="hidden" name="data" value="{{ data.training }}">
-                    <input type="hidden" name="ip" value="{{ data.ip }}">
+                    <input type="hidden" name="data" value="{{ data[3].training }}">
+                    <input type="hidden" name="ip" value="{{ data[3].ip }}">
                     <input type="hidden" name="chosenDay" value=2>
                     <button class="btn btn-success w-100 text-uppercase" type="submit">Treinar</button>
                 </form>

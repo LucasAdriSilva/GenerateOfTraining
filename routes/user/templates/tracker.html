@@ -5,14 +5,14 @@
 <div class="row mt-3">
     <div class="col-12 d-flex flex-column justify-content-center align-items-center">
 
-        <h1>{{data.chosenTraining}}</h1>
+        <h1>{{data[3].chosenTraining}}</h1>
 
         <small>Lembre de fazer os alogamentos par evitar <span class="reset text-danger text-uppercase">lesões</small>
     </div>
 </div>
 
 
-<span class="d-none" id="dataDB">{{data}}</span>
+<span class="d-none" id="dataDB">{{data[3]}}</span>
 
 <div id="btnPS" class="row">
     <div class="col-12 d-flex justify-content-center align-items-center">
@@ -26,7 +26,7 @@
 </div>
 
 <section id="TrainingRegular">
-    {% for exer in data.training%}
+    {% for exer in data[3].training%}
     {% set contador = loop.index %}
     {% if exer.newExer%}
     <div id="div{{contador}}" class="row position-relative py-4">
@@ -207,7 +207,6 @@
         }
     });
 
-    
     function desabilitCardTracker(id, serie, ps) {
         const audio = document.getElementById("myAudio");
         let data = creatVar()
@@ -392,7 +391,6 @@
                 training.newExer = true;
             }
         });
-        debugger
         if (newTraining.length == data.length ) {
             const valueData = document.getElementById(`dataDB`)
             let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"");
@@ -726,6 +724,52 @@
         }
     })
 
-
+    function transformToParedPairedSets(data) {
+        // Cria um aray com o numero de repetição do exercicio
+        data.forEach(function (e) {
+          var repeated_e = Array(e['rept']).fill(e).map(function (d, i) {
+            var d_copy = Object.assign({}, d);  // cria uma cópia do objeto
+            d_copy['rept_num'] = i + 1;  // adiciona um novo campo 'rept_num' com o número de repetição
+            d_copy['rest'] = '1:30';  // altera o campo 'reset' para '1:30'
+            return d_copy;
+          });
+          new_order.push.apply(new_order, repeated_e);
+        });
+        // Agrupa esse array por categoria
+        var categories = {};
+        new_order.forEach(function (a) {
+          var category = a['category'];
+          if (!(category in categories)) {
+            categories[category] = [];
+          }
+          categories[category].push(a);
+        });
+        // Pega o nome da rotina e separa achando a letra maiuscula retornando um array 
+        // cat = name.replace(/([A-Z])/g, ' $1').trim().split(' ')
+        names = Object.keys(categories)
+        // Intercala esse array
+      
+      
+        var array1 = [];
+        if (names.length <= 2) {
+          for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
+            array1.push(categories[names[0]][i]);
+            array1.push(categories[names[1]][i]);
+          }
+        }
+        else {
+          for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
+            array1.push(categories[names[0]][i]);
+            array1.push(categories[names[1]][i]);
+      
+          }
+          for (var i = 0; i < Math.min(categories[names[2]].length, categories[names[3]].length); i++) {
+            array1.push(categories[names[2]][i]);
+            array1.push(categories[names[3]][i]);
+          }
+        }
+      
+        return array1
+      }
 </script>
 {% endblock %}

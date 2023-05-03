@@ -1,70 +1,61 @@
-from flask import Flask, Blueprint, session, request, flash, jsonify, render_template
+from flask import Flask, Blueprint, session, request, flash, jsonify, render_template, redirect, url_for
 from model.db import Db
 import json
 from model.exercicio import Exercises
 from model.db import Db
+from werkzeug.security import check_password_hash
+from basicFunction import getUrl
 user = Blueprint('user', __name__, template_folder='templates')
 
 @user.route("/user")
 def userRoute():
-  if session['ip'] is not None:
-    ip_found = Db.get_ip(session['ip']).data
+  if 'login' in session:
+    print('1')
+    ip_found = Db.get_login(session['login']).data
 
 
-  if isinstance(ip_found, dict):
-    days = ip_found['days']
-    pairedSets = ip_found['pairedSets']
-    chosen = ip_found['chosenTraining']
+    days = ip_found[5]
+    training = json.loads(ip_found[7])
+    chosen = ip_found[8]
 
-    if pairedSets == 'true':
-      if chosen == 'Fullbody':
-        chosenTraining = ip_found['Treino']['pairedSetsTraining']['fullbodyPS']
+    if chosen.upper() == 'FULBODY':
+      chosenTraining = training['fullbody']
 
-      if chosen == 'PushPull':
-        chosenTraining = ip_found['Treino']['pairedSetsTraining']['pushPullPS']
-  
-      if chosen == 'UpperLower':
-        chosenTraining = ip_found['Treino']['pairedSetsTraining']['upperLowerPS']
-    else:
-      if chosen == 'Fullbody':
-        chosenTraining = ip_found['Treino']['regularTraining']['fullbody']
+    if chosen.upper() == 'PUSHPULL':
+      chosenTraining = training['pushPull']
 
-      if chosen == 'PushPull':
-        chosenTraining = ip_found['Treino']['regularTraining']['pushPull']
-  
-      if chosen == 'UpperLower':
-        chosenTraining = ip_found['Treino']['regularTraining']['upperLower']
+    if chosen.upper() == 'UPPERLOWER':
+      chosenTraining = training['upperLower']
 
 
     data = {
       'nav': 'user',
       'training': chosenTraining,
       'days': days,
-      'pairedSets': pairedSets,
-      'chosenTraining': chosen
+      'chosenTraining': chosenTraining
     }
-    return render_template("user.html", data = data)
+    return getUrl("user.html", value = data)
   else:
+    print('2')
     data = {
       'nav': 'user'
     }
-    return render_template("user.html", data = data)
+    return getUrl("user.html", value= data)
 
 
 @user.route("/pageUser")
 def pageUser():
   data = {'nav': None}
-  return render_template("pageUser.html", data = data)
+  return getUrl("pageUser.html", value = data)
 
 
 @user.route('/tracker',  methods=["POST"])
 def tracker():
   data = request.form['data']
-  ip = request.form['ip']
  
   data = eval(data)
   fullTraining = data
-  ip_found = Db.get_ip(ip).data
+  ip_found = Db.get_login(session['login']).data
 
   chosen = ip_found[-2] #ChosenTrainig -- string
 
@@ -108,8 +99,43 @@ def tracker():
         d['newExer'] =  listExer
     
     inf = {'training': data, 'chosenDay': chosenDay, 'chosenTraining':chosen, 'fullTraining': fullTraining}
-    return render_template('tracker.html', data=inf)
+    return getUrl('tracker.html', value=inf)
 
 
-  return render_template('tracker.html', data=inf)
+  return getUrl('tracker.html', value=inf)
 
+
+@user.route('/login', methods=["GET", "POST"])
+def login():
+  if request.method == "POST":
+    # PEga os dados do formulário
+    login = request.form['login']
+    password = request.form['password']
+    url = request.form['url']
+
+    #Pesquisa o usuário no banco 
+    user_found = Db.get_login(login).data
+  
+    if user_found:
+      authorization_password = check_password_hash(user_found[2], password)
+      if authorization_password:
+        session['login'] = user_found[1]
+
+        # user = Db.get_ip(session['ip'])
+
+        # Db.update_data(login, paran, value)
+
+        session.pop('ip', None)
+        # redirect(url_for('basicScreens.creatTraining'))
+        if url:
+          return getUrl(url, bool=True)
+        else:
+          return getUrl('basicScreens.creatTraining', bool=True)
+      else:
+        err = 'Senha incorreta'
+        return getUrl('login.html', prop='erro', value=err, bool=False)
+    else:
+      err = 'Usuário nao encontado'
+      return getUrl('login.html', prop='erro', value=err, bool=False)
+  else:  
+    return getUrl("basicScreens.creatTraining", bool=True)

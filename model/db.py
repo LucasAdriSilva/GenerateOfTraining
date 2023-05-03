@@ -26,6 +26,65 @@ class Db:
         end_time = time.time()
         print(f"Tempo gasto em save(): {end_time - start_time} segundos")
         return response
+    
+    def newUser(data):
+        start_time = time.time()
+        response = Response()
+        try:
+            conn = sqlite3.connect(DATABASE)
+            c = conn.cursor()
+
+            c.execute("SELECT * FROM user WHERE Login = ?", (data["Login"],))
+            user_exists = c.fetchone()
+            
+            if user_exists:
+                # usuário já existe, pode tomar uma ação aqui (por exemplo, retornar um erro)
+                response.ok = False
+                print('Usuário já cadastrado')
+                return response
+            else:
+                # Insere o login na tabela 'login'
+                if data['Login'] is not None:
+                    c.execute("INSERT INTO user (Login) VALUES (?)", (data["Login"],))
+                # Insere a senha na tabela 'user'
+                if data['Password'] is not None:
+                    c.execute("UPDATE user SET Password = ? WHERE Login = ?", (data["Password"], data["Login"]))
+                # Converte a lista de dados do usuário em uma string
+                user_data_str = json.dumps(data["UserData"])
+                # Insere os dados do usuário na tabela 'user'
+                if user_data_str is not None:
+                    c.execute("UPDATE user SET UserData = ? WHERE Login = ?", (user_data_str, data["Login"]))
+                conn.commit()
+                response.data = c.lastrowid
+                c.close()
+        except Exception as e:
+            end_time = time.time()
+            print(f"Tempo gasto em newUser(): {end_time - start_time} segundos ---- ERR: {e}")
+            response.ok = False
+            return response
+        end_time = time.time()
+        print(f"Tempo gasto em newUser(): {end_time - start_time} segundos")
+        return response
+
+    def get_login(login):
+        start_time = time.time()
+        response = Response()
+        try:    
+            conn = sqlite3.connect(DATABASE)
+            c = conn.cursor()
+            c.execute("SELECT * FROM user WHERE login = ?", (login,))
+
+            data = c.fetchone()
+            c.close()
+            response.data = data
+        except Exception as e :
+            end_time = time.time()
+            print(f"Tempo gasto em get_login(): {end_time - start_time} segundos ---- Err: {e}")
+            response.ok = False
+            return response
+        end_time = time.time()
+        print(f"Tempo gasto em get_login(): {end_time - start_time} segundos ")
+        return response   
 
     def get_ip(ip):
         start_time = time.time()
@@ -114,29 +173,29 @@ class Db:
         print(f"Tempo gasto em update_user(): {end_time - start_time} segundos")
         return response
     
-    def update_data(ip, paran, value):
-        start_time = time.time()
-        #instancia uma classe de resposta
-        response = Response()
-        try: 
-            conn = sqlite3.connect(DATABASE)
-            c= conn.cursor()     
-            if isinstance(value, list):
-                value = json.dumps(value)
-            elif isinstance(value, dict):
-                value = json.dumps(value)
+    # def update_data(ip, paran, value):
+    #     start_time = time.time()
+    #     #instancia uma classe de resposta
+    #     response = Response()
+    #     try: 
+    #         conn = sqlite3.connect(DATABASE)
+    #         c= conn.cursor()     
+    #         if isinstance(value, list):
+    #             value = json.dumps(value)
+    #         elif isinstance(value, dict):
+    #             value = json.dumps(value)
                 
-            c.execute("UPDATE user SET {} = ? WHERE ip = ? ".format(paran), (value, ip))
-            conn.commit()
-            c.close()           
-        except Exception as e:
-            end_time = time.time()
-            print(f"Tempo gasto em update_user(): {end_time - start_time} segundos ---- ERR: {e}")
-            response.ok = False
-            return response
-        end_time = time.time()
-        print(f"Tempo gasto em update_user(): {end_time - start_time} segundos")
-        return response
+    #         c.execute("UPDATE user SET {} = ? WHERE ip = ? ".format(paran), (value, ip))
+    #         conn.commit()
+    #         c.close()           
+    #     except Exception as e:
+    #         end_time = time.time()
+    #         print(f"Tempo gasto em update_user(): {end_time - start_time} segundos ---- ERR: {e}")
+    #         response.ok = False
+    #         return response
+    #     end_time = time.time()
+    #     print(f"Tempo gasto em update_user(): {end_time - start_time} segundos")
+    #     return response
     
     def createTable(name):
         # Conecte-se ao banco de dados
@@ -165,3 +224,75 @@ class Db:
         conn.commit()
         # Feche a conexão
         conn.close()
+
+    # def update_data(table, identifier, value, identifier_value, field):
+        # start_time = time.time()
+        # #instancia uma classe de resposta
+        # response = Response()
+        # try: 
+        #     conn = sqlite3.connect(DATABASE)
+        #     c= conn.cursor()     
+        #     if isinstance(value, list) or isinstance(value, dict):
+        #         value = json.dumps(value)
+                    
+        #     c.execute(f"UPDATE {table} SET {field} = ? WHERE {identifier} = ?", (value, identifier_value))
+        #     conn.commit()
+        #     c.close()           
+        # except Exception as e:
+        #     end_time = time.time()
+        #     print(f"Tempo gasto em update_user(): {end_time - start_time} segundos ---- ERR: {e}")
+        #     response.ok = False
+        #     return response
+        # end_time = time.time()
+        # print(f"Tempo gasto em update_user(): {end_time - start_time} segundos")
+        # return response
+# CHAMANDO ---- update_data('user', 'ip', 'new_value', '127.0.0.1', 'paran')
+
+
+    # def update_data(identifier_field, update_field, new_value):
+    #     start_time = time.time()
+    #     #instancia uma classe de resposta
+    #     response = Response()
+    #     try: 
+    #         conn = sqlite3.connect(DATABASE)
+    #         c = conn.cursor()     
+    #         if isinstance(new_value, list) or isinstance(new_value, dict):
+    #             new_value = json.dumps(new_value)
+    #         else:
+    #             new_value = str(new_value)
+                    
+    #         c.execute(f"UPDATE user SET {update_field} = ? WHERE {identifier_field} = ?", (new_value,))
+    #         conn.commit()
+    #         c.close()           
+    #     except Exception as e:
+    #         end_time = time.time()
+    #         print(f"Tempo gasto em update_user(): {end_time - start_time} segundos ---- ERR: {e}")
+    #         response.ok = False
+    #         return response
+    #     end_time = time.time()
+    #     print(f"Tempo gasto em update_user(): {end_time - start_time} segundos")
+    #     return response
+
+    def update_data(column_name, column_value, update_field, new_value):
+        start_time = time.time()
+        response = Response()
+        try: 
+            conn = sqlite3.connect(DATABASE)
+            c = conn.cursor()
+            if isinstance(new_value, (list, dict)):
+                new_value = json.dumps(new_value)
+            else:
+                new_value = str(new_value)
+            
+            query = f"UPDATE user SET {update_field} = ? WHERE {column_name} = ?"
+            c.execute(query, (new_value, column_value))
+            conn.commit()
+            c.close()           
+        except Exception as e:
+            end_time = time.time()
+            print(f"Tempo gasto em update_user(): {end_time - start_time} segundos ---- ERR: {e}")
+            response.ok = False
+            return response
+        end_time = time.time()
+        print(f"Tempo gasto em update_user(): {end_time - start_time} segundos")
+        return response

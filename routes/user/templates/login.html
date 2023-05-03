@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <style>
+        /* @import url(https://fonts.googleapis.com/css?family=Open+Sans);*/
+        body {
+            background-color: #263238;
+            padding-top: 50px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        h3 {
+            color: #ecf0f1;
+        }
+
+        p {
+            padding-top: 10px;
+            color: #ecf0f1;
+            font-size: 1.0em;
+        }
+
+        a {
+            color: #f1c40f;
+        }
+
+        a:hover {
+            color: #efa039;
+            text-decoration: none;
+        }
+
+        label {
+            color: #ecf0f1;
+            padding-top: 10px;
+            font-size: 1.6rem;
+        }
+
+        .label-register {
+            color: rgba(0, 109, 128, 0.52);
+        }
+
+        button {
+            margin-top: 20px;
+        }
+
+        .border-login {
+            border-right: 1px solid #fff;
+            min-height: 450px;
+            float: right;
+        }
+
+        .space-top {
+            padding-top: 50px;
+        }
+
+        .modal-header {
+            min-height: 16.42857143px;
+            padding: 9px;
+            border-bottom: 1px solid #e5e5e5;
+            background: #263238;
+            color: #fff;
+            border-top: 1px solid #e65100;
+            border-radius: 0;
+        }
+
+        .modal-footer {
+            padding: 9px;
+            text-align: right;
+            border-top: 1px solid #607D8B;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #CFD8DC;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            border-left: 1px solid #e65100;
+            border-right: 1px solid #e65100;
+            border-bottom: 1px solid #e65100;
+            border-radius: 0;
+            outline: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            /* border: 1px solid transparent; */
+            border-radius: 0;
+        }
+    </style>
+</head>
+
+<body>
+    {{data[3].erro}}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-6 col-md-5 hidden-xs hidden-sm">
+                <img src="https://raw.githubusercontent.com/rexxars/react-hexagon/master/logo/react-hexagon.png" alt=""
+                    class="center-block img-responsive" />
+            </div>
+
+            <div class="col-md-1 hidden-xs hidden-sm">
+                <div class="border-login"></div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12 col-md-4">
+                <div class="space-top">
+
+                    <h3 class="text-center">Tracker BWA</h3>
+                    <form class="form-signin" action="/login" class="form-horizontal" method="post">
+
+                        <label class=""> Login </label>
+                        <input type="text" name="login" class="form-control" placeholder="" required autofocus>
+                        <input type="hidden" name="url" value="{{ data[3].url }}">
+
+                        <label class=""> Senha </label>
+                        <input type="password" name="password" class="form-control" placeholder="" required>
+                        {% if data[3].erro %}
+                        <h5 class="text-center" style="z-index: 999; color: red;">{{data[3].erro}}</h5>
+                        {% endif%}
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">
+                            Entrar
+                        </button>
+                    </form>
+                </div>
+
+                <!-- <p class="text-center"> Ainda não tenho conta! <a href="#" data-toggle="modal" data-target="#myModal">
+                        Criar agora mesmo!</a></p> -->
+
+                <button class="btn btn-lg btn-primary btn-block" onclick="window.location.href='/'"> Voltar</button>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Pandora - Criar conta de acesso!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+
+                                    <div class="form-group">
+                                        <label class="label-register">Nome</label>
+                                        
+                                        <input type="text" class="form-control" id="email"
+                                            placeholder="Insira seu nome completo">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="label-register">Usuário</label>
+
+                                        <input type="text" class="form-control" id="email"
+                                            placeholder="Insira nome de usuário">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="label-register">E-mail</label>
+                                        <input type="email" class="form-control" id="email"
+                                            placeholder="Insira seu e-mail!">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-register">Informe a senha</label>
+                                        <input type="password" class="form-control" id="senha1" placeholder="*****">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="label-register">Repita a senha</label>
+                                        <input type="password" class="form-control" id="senha2" placeholder="******">
+                                    </div>
+
+
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="pull-left">
+                                    <button type="button" class="btn btn-primary">Salvar</button>
+
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Sair</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script>
+
+</script>
+
+</html>
