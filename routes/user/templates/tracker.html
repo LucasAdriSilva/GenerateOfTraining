@@ -26,6 +26,7 @@
 </div>
 
 <section id="TrainingRegular">
+    {%if data[3].chosenTraining == 'Fullbody'%}
     {% for exer in data[3].training%}
     {% set contador = loop.index %}
     {% if exer.newExer%}
@@ -73,7 +74,7 @@
                     <span class="d-none" id="name{{contador}}">{{exer}}</span>
                 </div>
 
-                {% for e in range(exer.rept)%}
+                {% for a in range(exer.rept)%}
                 {% set contadorSerie = loop.index %}
 
                 <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
@@ -98,6 +99,7 @@
                     <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
                         class="w-75 input-value text-center rounded-3" type="text">
                 </div>
+
                 {% endfor %}
             </div>
 
@@ -105,8 +107,95 @@
 
     </div>
     {% endif %}
-
     {% endfor %}
+    {%else%}
+    {% for exer in data[3].training[data[3].chosenDay]%}
+    {% set contador = loop.index %}
+
+    {% if exer.newExer%}
+    <div id="div{{contador}}" class="row position-relative py-4">
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer{{contador}}" width="68" height="68" src="{{exer.url}}" alt="">
+        </div>
+
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">{{contador}}º{{exer.name}}</span>
+                    <span class="d-none" id="name{{contador}}">{{exer}}</span>
+                </div>
+                <div class="col-12  d-flex justify-content-center align-items-center">
+                    <img src="assets/img/atencao.jpg" class="jump-image" alt="" style="width: 110%; height: auto;">
+                </div>
+
+                <div class="d-flex justify-content-center align-items-center gap-3">
+                    <button class="btn btn-success" onclick="openModalToggleExer('{{exer.name}}')">Trocar</button>
+                    <button class="btn btn-success" data-bs-target="#toggleExer"
+                        onclick="notToggleExer(JSON.stringify({{exer}}))">Continuar</button>
+                </div>
+            </div>
+
+        </div>
+
+        <audio id="myAudio">
+            <source src="assets/audio/not.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+    {% else%}
+    <div id="div{{contador}}" class="row position-relative py-4">
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer{{contador}}" width="68" height="68" src="{{exer.url}}" alt="">
+        </div>
+
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div id="reptDiv{{contador}}" class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">{{contador}}º{{exer.name}}</span>
+                    <span class="d-none" id="name{{contador}}">{{exer}}</span>
+                </div>
+
+                {% for a in range(exer.rept)%}
+                {% set contadorSerie = loop.index %}
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
+                </div>
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    {% if exer.segs %}
+                    <p class="reset text-uppercase text-gray1">SEGS</p>
+                    {% else %}
+                    <p class="reset text-uppercase text-gray1">REPS</p>
+                    {% endif %}
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidExer{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+
+
+
 </section>
 
 <section id="TrainingPs"></section>
@@ -156,10 +245,10 @@
 
     function creatVar() {
         const valueData = document.getElementById(`dataDB`)
-        let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"");
+        let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
         return Data = JSON.parse(dataOfDataBase).training;
     }
-    
+
     function validationInpt(id, serie) {
         const input = document.getElementById(`ValidExer${id}Serie${serie}`)
         const training = document.getElementById('trainingValue')
@@ -170,7 +259,7 @@
                 btnPS.classList.add('d-none')
                 //Pega o dados do exercicio que o backend enviou
                 const exerBack = document.getElementById(`name${id}`);
-                let exer = exerBack.innerHTML.replace(/'/g, "\"");
+                let exer = exerBack.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
                 let Exer = JSON.parse(exer);
 
                 if (Exer.segs) {
@@ -262,7 +351,7 @@
             })
         }
         else {
-            
+
             // Verifica se o treino tem 4 ou 12 exercicios
             if (data.length == 4) {
                 numberInput = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
@@ -363,7 +452,7 @@
 
     function addTraining(id, serie) {
         const name = document.getElementById(`name${id}`);
-        let Name = name.innerHTML.replace(/'/g, "\"");
+        let Name = name.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
         let newData = JSON.parse(Name);
 
         const input = document.getElementById(`ValidExer${id}Serie${serie}`)
@@ -381,7 +470,11 @@
 
     async function finishedTraining() {
         loading(true)
-        let data = creatVar()
+        debugger
+        const valueData = document.getElementById(`dataDB`);
+        let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
+        let data = JSON.parse(dataOfDataBase);
+
         newTraining.forEach(training => {
             delete training.newExer;
             if (training.rept1 === training.rept2 && training.rept2 === training.rept3 && training.rept1 >= 15 && training.segs == null) {
@@ -391,17 +484,24 @@
                 training.newExer = true;
             }
         });
-        if (newTraining.length == data.length ) {
-            const valueData = document.getElementById(`dataDB`)
-            let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"");
-            data = JSON.parse(dataOfDataBase);
-            
+
+        let numberexer
+
+        if (data.chosenDay == 'd0') {
+            numberexer = data.training.length
+        }
+        else {
+            numberexer = data.training[data.chosenDay].length
+        }
+
+        if (newTraining.length == numberexer) {
             let training = data.fullTraining
-            if (data.chosenDay == '1') {
-                newTraining = { 'd1': newTraining, 'd2': training.d2 }
+
+            if (data.chosenDay == 'd1') {
+                newTraining = { 'd1': newTraining, 'd2': training.d2, 'chosenDay': '1' }
             }
-            if (data.chosenDay == '2') {
-                newTraining = { 'd1': training.d1, 'd2': newTraining }
+            if (data.chosenDay == 'd2') {
+                newTraining = { 'd1': training.d1, 'd2': newTraining, 'chosenDay': '2' }
             }
 
             try {
@@ -727,49 +827,49 @@
     function transformToParedPairedSets(data) {
         // Cria um aray com o numero de repetição do exercicio
         data.forEach(function (e) {
-          var repeated_e = Array(e['rept']).fill(e).map(function (d, i) {
-            var d_copy = Object.assign({}, d);  // cria uma cópia do objeto
-            d_copy['rept_num'] = i + 1;  // adiciona um novo campo 'rept_num' com o número de repetição
-            d_copy['rest'] = '1:30';  // altera o campo 'reset' para '1:30'
-            return d_copy;
-          });
-          new_order.push.apply(new_order, repeated_e);
+            var repeated_e = Array(e['rept']).fill(e).map(function (d, i) {
+                var d_copy = Object.assign({}, d);  // cria uma cópia do objeto
+                d_copy['rept_num'] = i + 1;  // adiciona um novo campo 'rept_num' com o número de repetição
+                d_copy['rest'] = '1:30';  // altera o campo 'reset' para '1:30'
+                return d_copy;
+            });
+            new_order.push.apply(new_order, repeated_e);
         });
         // Agrupa esse array por categoria
         var categories = {};
         new_order.forEach(function (a) {
-          var category = a['category'];
-          if (!(category in categories)) {
-            categories[category] = [];
-          }
-          categories[category].push(a);
+            var category = a['category'];
+            if (!(category in categories)) {
+                categories[category] = [];
+            }
+            categories[category].push(a);
         });
         // Pega o nome da rotina e separa achando a letra maiuscula retornando um array 
         // cat = name.replace(/([A-Z])/g, ' $1').trim().split(' ')
         names = Object.keys(categories)
         // Intercala esse array
-      
-      
+
+
         var array1 = [];
         if (names.length <= 2) {
-          for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
-            array1.push(categories[names[0]][i]);
-            array1.push(categories[names[1]][i]);
-          }
+            for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
+                array1.push(categories[names[0]][i]);
+                array1.push(categories[names[1]][i]);
+            }
         }
         else {
-          for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
-            array1.push(categories[names[0]][i]);
-            array1.push(categories[names[1]][i]);
-      
-          }
-          for (var i = 0; i < Math.min(categories[names[2]].length, categories[names[3]].length); i++) {
-            array1.push(categories[names[2]][i]);
-            array1.push(categories[names[3]][i]);
-          }
+            for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
+                array1.push(categories[names[0]][i]);
+                array1.push(categories[names[1]][i]);
+
+            }
+            for (var i = 0; i < Math.min(categories[names[2]].length, categories[names[3]].length); i++) {
+                array1.push(categories[names[2]][i]);
+                array1.push(categories[names[3]][i]);
+            }
         }
-      
+
         return array1
-      }
+    }
 </script>
 {% endblock %}

@@ -16,13 +16,13 @@
         <span class="text-center">E adicione as informações abaixo</span>
     </div>
 
-    <div class="col-12 d-flex justify-content-center align-items-center gap-1">
+    <!-- <div class="col-12 d-flex justify-content-center align-items-center gap-1">
         <div class="form-check form-switch">
             <input class="form-check-input border-switch" type="checkbox" role="switch" id="pairedSetsValue">
             <label class="form-check-label" for="pairedSetsValue">Paired Sets</label>
         </div>
         <img src="assets/img/interrog.jpg" onclick="openModal('pairedSets')" width="20" height="20" alt="">
-    </div>
+    </div> -->
 
     <!-- <div id="exer1" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
 
@@ -219,6 +219,7 @@
         </div>
     </div>
 
+
 </div>
 
 <script type="module">
@@ -361,6 +362,10 @@
             divPai2.appendChild(novaDiv)
         })
 
+        divPai2.innerHTML += `
+            <button class="btn btn-success my-3" onclick="enviarTreino()">Criar Treino</button>
+        `
+
         // Criando as verificações "Blur"
         for (let i = 1; i < exercisesMusc.length + 1; i++) {
             creatStruct(i)
@@ -383,7 +388,6 @@
                 input.classList.add('input-exer-fail')
                 repts.classList.add('text-danger')
             } else {
-                debugger
                 repts.classList.remove('text-danger')
                 input.classList.remove('input-exer-fail')
                 input.classList.add('input-exer')
@@ -867,7 +871,6 @@
 
         // Retira todos os exercicios com o nome do que está subistituindo
         filterType = filterType.filter(e => e.name !== exerFound[0].name);
-        debugger
         if (filterType.length < 1) {
             const zeroExer = document.getElementById('zeroExer')
             zeroExer.classList.add('d-none')
@@ -1059,7 +1062,6 @@
     }
 
     function subs(id, name, category, type, img, nivel) {
-        debugger
         const Name = document.getElementById('ValidTitle' + id)
         const Img = document.getElementById('img' + id)
         const div = document.getElementById('toggleExer' + id)
@@ -1124,6 +1126,28 @@
 
     }
 
+    async function enviarTreino() {
+        if (treino.length == 8) {
+            loading(true)
+
+            try {
+                const response = await fetch('/sendTraining', {
+                    method: 'POST',
+                    body: JSON.stringify(treino),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                window.location.replace(data.url);
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                // Esconde a animação de carregamento
+                loading(false)
+            }
+        }
+    }
     window.filter = filter;
+    window.enviarTreino = enviarTreino;
 </script>
 {% endblock %}

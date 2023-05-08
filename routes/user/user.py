@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, session, request, flash, jsonify, render_template, redirect, url_for
 from model.db import Db
-import json
+import json, datetime
 from model.exercicio import Exercises
 from model.db import Db
 from werkzeug.security import check_password_hash
@@ -10,44 +10,72 @@ user = Blueprint('user', __name__, template_folder='templates')
 @user.route("/user")
 def userRoute():
   if 'login' in session:
-    print('1')
     ip_found = Db.get_login(session['login']).data
 
+    name = json.loads(ip_found[3])[0]
+    name = name["contact"]["name"]
 
-    days = ip_found[5]
-    training = json.loads(ip_found[7])
-    chosen = ip_found[8]
+    numbertraining = ip_found[-1]
+    if numbertraining is not None:
+      numbertraining = json.loads(numbertraining)
 
-    if chosen.upper() == 'FULBODY':
-      chosenTraining = training['fullbody']
+    if ip_found[6] is not None:
+      reqireds = json.loads(ip_found[6])
+      print('1')
 
-    if chosen.upper() == 'PUSHPULL':
-      chosenTraining = training['pushPull']
+      equip = []
+      for req in reqireds:
+        if req['value'] == 'true':
+            index = reqireds.index(req)
+            equip.append(reqireds[index]['name'])  
 
-    if chosen.upper() == 'UPPERLOWER':
-      chosenTraining = training['upperLower']
+      days = ip_found[5]
+      training = json.loads(ip_found[7])
+      chosen = ip_found[8]
 
+      if chosen.upper() == 'FULLBODY':
+        chosenTraining = training['fullbody']
 
-    data = {
-      'nav': 'user',
-      'training': chosenTraining,
-      'days': days,
-      'chosenTraining': chosenTraining
-    }
-    return getUrl("user.html", value = data)
+      if chosen.upper() == 'PUSHPULL':
+        chosenTraining = training['pushPull']
+
+      if chosen.upper() == 'UPPERLOWER':
+        chosenTraining = training['upperLower']
+
+      if numbertraining is None:
+        data = {
+          'nav': 'user',
+          'training': chosenTraining,
+          'days': days,
+          'chosenTraining': chosen,
+          'equip': equip,
+          'name': name
+        }
+      else:
+        data = {
+          'nav': 'user',
+          'training': chosenTraining,
+          'days': days,
+          'chosenTraining': chosen,
+          'equip': equip,
+          'name': name,
+          'numbertraining': numbertraining
+        }  
+      return getUrl("user.html", value = data)
+    else:
+      print('2')
+      data = {
+        'nav': 'home'
+      }
+      return getUrl("firstAcess.html", value= data)
   else:
-    print('2')
-    data = {
-      'nav': 'user'
-    }
-    return getUrl("user.html", value= data)
-
+    data = {'nav': 'home'}
+    return getUrl("firstAcess.html", value= data)
 
 @user.route("/pageUser")
 def pageUser():
   data = {'nav': None}
   return getUrl("pageUser.html", value = data)
-
 
 @user.route('/tracker',  methods=["POST"])
 def tracker():
@@ -55,42 +83,49 @@ def tracker():
  
   data = eval(data)
   fullTraining = data
-  ip_found = Db.get_login(session['login']).data
+  user_found = Db.get_login(session['login']).data
 
-  chosen = ip_found[-2] #ChosenTrainig -- string
+  chosen = user_found[-2] #ChosenTrainig -- string
+
+  if user_found[-1] is not None:
+    historyTraining = json.loads(user_found[-1])
+    now = datetime.datetime.now()
+    date = now.strftime("%d/%m/%Y")
+
+    if date in historyTraining:
+      data= {
+            'nav': 'home', 
+            'dayTraining': user_found[5],
+            'nameRotina': user_found[-2],
+            'erro': 'Não é permitido treinar 2 vezes no mesmo dia',
+            'training': data,
+          }   
+      return getUrl("home.html", value = data) 
 
   
+
   if request.form['chosenDay']:
     chosenDay = request.form['chosenDay']
     if int(chosenDay) >=1:
-      data = data[f"d{chosenDay}"]
-
-  # for rotina in data:
-  #   if rotina.upper() == chosen.upper():
-  #     # Acessar o valor correspondente ao índice de string em um dicionário
-  #     rotina_dict = data['regularTraining'][rotina]
-  #     training2 = rotina_dict
-  #     # for a in rotina_dict:
-  #     #     print(a)
-
-
-# #  print(toggleExer)
-#   if len(training1) > 1:   
-#     for d in training1['d1']:
-#       if 'newExer' in d and d['newExer']:
-#         if d['newExer'] == True:
-#           name = d['name']
-#           listExer = Exercicio.getSuggestionExerLight(name)
-#           d['newExer'] =  listExer
-
-#     for d in training1['d2']:
-#       if 'newExer' in d and d['newExer']:
-#         if d['newExer'] == True:
-#           name = d['name']
-#           listExer = Exercicio.getSuggestionExerLight(name)
-#           d['newExer'] =  listExer
-      
-#   else:
+      if len(data) == 1:
+        for date in data:
+          for rotina in data[date]:
+              if rotina.upper() == user_found[8].upper():
+                tr = data[date][rotina]
+                for day in tr:
+                  x = tr['chosenDay']
+                  if day == f"d{x}":
+                    data = tr[day]
+      else:
+        for rotina in data:
+            if rotina.upper() == chosen.upper():
+              # data = data[rotina][f"d{chosenDay}"]
+              tr = data[rotina]
+              for day in tr:
+                  x = tr['chosenDay']
+                  if day == f"d{x}":
+                    data = tr[day]
+        
   for d in data:
     if 'newExer' in d and d['newExer']:
       if d['newExer'] == True:
@@ -98,12 +133,10 @@ def tracker():
         listExer = Exercises.getSuggestionExerLight(name)
         d['newExer'] =  listExer
     
-    inf = {'training': data, 'chosenDay': chosenDay, 'chosenTraining':chosen, 'fullTraining': fullTraining}
+    inf = {'training': data, 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
     return getUrl('tracker.html', value=inf)
 
-
   return getUrl('tracker.html', value=inf)
-
 
 @user.route('/login', methods=["GET", "POST"])
 def login():
@@ -139,3 +172,9 @@ def login():
       return getUrl('login.html', prop='erro', value=err, bool=False)
   else:  
     return getUrl("basicScreens.creatTraining", bool=True)
+  
+@user.route('/logout')
+def logout():
+  session.pop('login',1)
+  data = [None,None,None, {'nav': 'home'}]
+  return render_template("firstAcess.html", data = data)

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, session, request, jsonify, redirect, url_for
 from model.db import Db
 from basicFunction import getUrl
+from model.exercicio import Exercises
 import datetime, json
 
 training_bp = Blueprint('training', __name__, template_folder='templates')
@@ -24,74 +25,35 @@ def training():
 def saveTraining():
   data = request.get_data().decode()
 
-  if 'ip' in session:
-    ip_found = Db.get_ip(session['ip']).data
+  user_found = Db.get_login(session['login']).data
 
-    if ip_found:
-      chosen = data
+  if user_found:
+    Db.update_data('Login',session['login'], 'chosenTraining', data)
 
-      treino = json.loads(ip_found[4])
- 
-      if chosen == 'Fullbody':
-        chosenTraining = treino['fullbody']
-
-      if chosen == 'PushPull':
-        chosenTraining = treino['pushPull']
-
-      if chosen == 'UpperLower':
-        chosenTraining = treino['upperLower']
-
-      Db.update_data(session['ip'],'Training', chosenTraining)
-      Db.update_data(session['ip'], 'chosenTraining', data)
-
-    else:
-      # Db.update_user(session['ip'], {'chosenTraining': data})
-      Db.update_data(session['ip'], 'chosenTraining', data)
-
-    if 'login' in session:
-      response_data = {"message": "Training saved successfully."}
-      return jsonify(response_data), 200
-    else:
-      return redirect(url_for('user.login'))
   else:
-    ip_found = Db.get_login(session['login']).data
+    # Db.update_user(session['login'], {'chosenTraining': data})
+    Db.update_data('Login',session['login'], 'chosenTraining', data)
 
-    if ip_found:
-      chosen = data
-
-      treino = json.loads(ip_found[4])
- 
-      if chosen == 'Fullbody':
-        chosenTraining = treino['fullbody']
-
-      if chosen == 'PushPull':
-        chosenTraining = treino['pushPull']
-
-      if chosen == 'UpperLower':
-        chosenTraining = treino['upperLower']
-
-      Db.update_data('Login',session['login'],'Training', chosenTraining)
-      Db.update_data('Login',session['login'], 'chosenTraining', data)
-
-    else:
-      # Db.update_user(session['login'], {'chosenTraining': data})
-      Db.update_data('Login',session['login'], 'chosenTraining', data)
-
-    if 'login' in session:
-      # response_data = {"message": "Training saved successfully."}
-      # return jsonify(response_data), 200
-      return getUrl('basicScreens.creatTraining', bool=True)
-    else:
-      return redirect(url_for('user.login'))
+  if 'login' in session:
+    return getUrl('basicScreens.creatTraining', bool=True)
+  else:
+    return redirect(url_for('user.login'))
 
 @training_bp.route('/bodybuilding')
 def bodybuilding():
-  data = {'nav': None}
+  data = [None, None,None, {'nav': None}]
   return render_template('bodybuilding.html', data=data)
 
 @training_bp.route('/hybrid')
 def hybrid():
-  data ={
-    'nav': None
-  }
+  data = [None, None,None, {'nav': None}]
   return render_template('hybrid.html', data=data)
+
+@training_bp.route('/exercice')
+def exercice():
+  all = Exercises.getExercisesBodyWeight()
+  data = {
+    'nav': 'creat',
+    'allTreino': all
+  }
+  return getUrl("exercices.html", value = data)

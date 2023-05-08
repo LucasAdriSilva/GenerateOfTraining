@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, session, request, flash, jsonify, render_template, Response
+from flask import Flask, Blueprint, session, request, flash, jsonify, render_template, Response, redirect, url_for
 from model.db import Db
 from werkzeug.security import generate_password_hash, check_password_hash
 from model.exercicio import Exercises
@@ -50,13 +50,11 @@ def getExercisesMusc():
   response = json.dumps(res)
   return response, 200
 
-
 @api.route("/getExercisesBodyWeight")
 def getExercisesBodyWeight():
   allExer = Exercises.getExercisesBodyWeight()
   response = json.dumps(allExer)
   return response, 200
-
 
 @api.route('/saveDU', methods=["POST"])
 def saveDU():
@@ -70,84 +68,101 @@ def saveDU():
       del data[i]
       break
 
-  ip = {
-    'ip': session['ip']
-    # 'Requireds': json.dumps(data),
-    # 'TrainingDays': TrainingDays
-  }
-  ip_found = Db.get_ip(session['ip']).data
 
-  if ip_found is None:
-    Db.save(ip)
+  # Db.update_data('Login', session['login'], 'Requireds', json.dumps(data))
+  # Db.update_data('Login', session['login'], 'TrainingDays', TrainingDays)
 
-  Db.update_data(session['ip'], 'Requireds', json.dumps(data))
-  Db.update_data(session['ip'], 'TrainingDays', TrainingDays)
+  session['Requireds'] = json.dumps(data)
+  session['TrainingDays'] = TrainingDays
 
-  response_data = {"message": "Requireds saved successfully."}
+  response_data = {"message": "Requireds saved in session successfully."}
   return jsonify(response_data), 200
-
 
 @api.route('/saveTrainingTracker', methods=["POST"])
 def saveTrainingTracker():
   data = request.get_data().decode()
   data = json.loads(data.replace("'", "\""))
-
+  user_found = Db.get_login(session['login']).data
   now = datetime.datetime.now()
   date_str = now.strftime("%d/%m/%Y")
 
-  ip_found = Db.get_login(session['login']).data
+  if len(data) == 3:
+    data['lastDate'] = date_str
+    
 
-  historyTrainig = ip_found[-1]
+  historyTrainig = user_found[-1]
+  tr = {}
 
-  # Verifica se tem algum treino se tiver acrecenta se não add pela primeira vez
+  # Verifica o ultimo treino se tiver acrescentra se nao cria
   if historyTrainig is not None:
     historyTrainig = json.loads(historyTrainig)
-    historyTrainig.append({date_str: data})
+
+    newTraining = json.loads(user_found[7])
+    
+    for rotina in newTraining:
+      if rotina.upper() == user_found[-2].upper():
+        newTraining[rotina] = data
+
+    if date_str in historyTrainig:
+      print('Já treino hoje')
+      response_data = {"message": "Não é autorizado 2 treinos no mesmo dia"}
+      return jsonify(response_data), 200
+    else:  
+      historyTrainig[date_str] = newTraining
   else:
-    historyTrainig = [{date_str: data}]
+    newTraining = json.loads(user_found[7])
+    
+    for rotina in newTraining:
+      if rotina.upper() == user_found[-2].upper():
+        newTraining[rotina] = data
 
-  # Add treino no array
-
-  chosen = ip_found[-2]
-  oldTraining = json.loads(ip_found[-3])
+    tr = {date_str: newTraining }
+ 
+  if tr == {}:
+    tr = historyTrainig
+  chosen = user_found[-2]
+  oldTraining = json.loads(user_found[-3])
 
   for name in oldTraining:
     if name.upper() == chosen.upper():
       oldTraining[name] = data
 
-  Db.update_data('Login', session['login'], 'historyTraining', historyTrainig)
+  Db.update_data('Login', session['login'], 'historyTraining', tr)
   Db.update_data('Login', session['login'], 'Training', oldTraining)
 
   response_data = {"message": "Training saved successfully."}
   return jsonify(response_data), 200
 
-
 #Webhook para salvar os usuarios enviado da Guru
 @api.route('/webhook/registerUser', methods=["POST"])
 def webhookRegisterUser():
+
   data = request.get_data().decode()
   data = json.loads(data)
 
-  print(data["status"])
-  print(request)
   status = data["status"]
   if status == "approved":
     email = data['contact']['email']
 
     newPassword = random_generator()
     password_hash = generate_password_hash(newPassword)
+    user = Db.get_login(email).data
 
-    content = f"Senha para acessar o Tracker BWA {newPassword}"
-    subject = "Tracker BWA"
-    send_email('lucasadrisilva@gmail.com', content, subject)
-
+    if user is None:
+      print('Novo User -- Email enviado')
+      content = f"Senha para acessar o Tracker BWA {newPassword}"
+      subject = "Tracker BWA"
+      send_email('api@gmail.com', content, subject)
+      
     newUser = {'Login': email, 'Password': password_hash, 'UserData': [data]}
     Db.newUser(newUser)
 
-  # info = {'Login': 'Lucas', 'Password': password_hash]}
+  # info = {'Login': 'Lucas', 'Password': password_hash, 'UserData': [{'teste': 1},{'teste': 2}]}
   #Salvar dados enviado pelo webhook
   # Db.newUser(info)
+
   # string = json.dumps(newUser)
+
   # now = datetime.datetime.now()
   # content = f"{now} -- Usuario salvo -- dados ||| data = {string} |||"
   # log = Logs('logs', True, content, 'SaveUser')
@@ -166,4 +181,40 @@ def creat():
   response = Response()
   response.status_code = 200
   response.data = "Sucesso!"
+  return response
+
+@api.route('/getLastTraining')
+def getLastTraining():
+  response = Response()
+  if 'login' in session:
+    user_found = Db.get_login(session['login']).data
+    if user_found[-1] is not None:
+      data = json.loads(user_found[-1])
+    else:
+      print('Não estou achando, o ultimo treino')
+      response.data = json.dumps({'message': 'No data found'})
+      response.status_code = 200
+      return response
+
+
+    history =[]
+    for date in data:
+        for rotina in data[date]:
+            if rotina.upper() == user_found[8].upper():
+              tr = data[date][rotina]
+              if len(tr) == 3:
+                for day in tr:
+                  x = tr['chosenDay']
+                  if day == f"d{x}":
+                    info = tr[day]
+                    history.append({'date': date, 'training': tr[day]})
+              else:
+                history.append({'date': date, 'training': tr})
+
+  if data:
+    response.data = json.dumps(history)
+    response.status_code = 200
+  else:
+    response.data = {'message': 'No data found'}
+    response.status_code = 400
   return response

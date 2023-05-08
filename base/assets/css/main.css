@@ -451,3 +451,21 @@ input[type="radio"]:checked {
     transform: rotate(360deg);
   }
 }
+
+.equip{
+  background-color: #00000054;
+  border-radius: 5px;
+  padding: 3px 10px;
+  width: 250px;
+  height: 40px;
+  box-sizing: border-box;
+}
+
+#err {
+  width: 100%; /* Defina a largura da div */
+  margin: auto; /* Centralize horizontalmente */
+  position: absolute; /* Mantenha a posição absoluta */
+  top: 80px;
+  left: 0;
+  right: 0;
+}

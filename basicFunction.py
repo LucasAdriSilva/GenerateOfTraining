@@ -20,7 +20,7 @@ import random, string
 #  Para usar no html vai precisar {{data[3].........}}
 
 
-def getUrl(url, prop='', value='', bool=False):
+def getUrl(url, value='', bool=False):
   if "login" in session:
     name = session['login']
     user_found =  Db.get_login(name).data
