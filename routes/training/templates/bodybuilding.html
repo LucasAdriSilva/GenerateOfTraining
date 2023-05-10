@@ -2,7 +2,7 @@
 
 
 {% block content %}
-<div id="div2" class="row mt-5 rounded-3 d-flex justify-content-center align-content-center ">
+<div id="div2" class="row mt- 5 rounded-3 d-flex justify-content-center align-content-center ">
 
     <div class="col-12">
         <h1 class="reset text-center">Crie seu treino</h1>
@@ -219,8 +219,54 @@
         </div>
     </div>
 
+    <!-- Modal de Exercicios com segundos-->
+    <div class="modal fade" id="toggleExerSegs" tabindex="-1" aria-labelledby="toggleExerSegsLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-center align-items-center">
+                    <span class="text-center text-uppercase font-title-modal fw-bold" id="toggleExerSegsLabel">Seu
+                        exercicio
+                        está pesado!</span>
+                </div>
+                <div class="modal-body">
+                    <div class="row reset-Padding">
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <span class="text-center font-title-modal">Sugerimos excluir o exercicio </span>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center align-items-cente">
+                            <span id="exerDeleter" class="text-center fw-bolder text-uppercase"></span>
+                        </div>
+                        <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-cente">
+                            <span class="mt-2 text-center font-capt">
+                                Você terá que fazer muitas séries de
+                                <span id="nameExer" class="fw-bolder text-uppercase"></span> e por isso ele pode valer
+                                por 2
+                                exercícios ao mesmo tempo.
+                            </span>
+                            <span class="mt-2 text-center font-capt text-danger">
+                                Se não quiser excluir, terá que excolher um mais fácil para diminuir o numero de
+                                séries.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer d-flex justify-content-center">
+                    <button id="removeExer" data-bs-dismiss="modal" class="btn btn-success">Excluir</button>
+                    <button id="notRemove" data-bs-dismiss="modal" class="btn btn-success">Não Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
+<div class="row">
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <button class="btn btn-success my-3" onclick="enviarTreino()">Criar Treino</button>
+    </div>
+</div>
+
 
 <script type="module">
     import { apiGet } from './assets/js/api.js'
@@ -231,13 +277,19 @@
     var numberInput = [1, 2, 3, 4, 5, 6, 7, 8]
     var exercisesMusc;
     var getExercisesBodyWeight;
+    let allexercicies
+    let listExer = []
 
+    function showBtn(btn) {
+        btn.classList.add('d-block')
+        btn.classList.remove('d-none')
+    }
 
     async function creatPage() {
         exercisesMusc = await apiGet('getExercisesMusc', false);
-        console.log(exercisesMusc)
         exercisesMusc = exercisesMusc.filter(e => e.default == true)
         getExercisesBodyWeight = await apiGet('getExercisesBodyWeight', false);
+        allexercicies = [...exercisesMusc, ...getExercisesBodyWeight]
         return
     }
 
@@ -270,12 +322,12 @@
     }
 
     function creatExercisesBase() {
-        console.log(exercisesMusc)
         // Div onde sera add os exercicios
         const divPai2 = document.getElementById('div2')
         var x = 1
-
-        exercisesMusc.forEach(exer => {
+        listExer = exercisesMusc
+        console.log(listExer)
+        listExer.forEach(exer => {
 
             if (exer == undefined) {
                 return
@@ -362,12 +414,8 @@
             divPai2.appendChild(novaDiv)
         })
 
-        divPai2.innerHTML += `
-            <button class="btn btn-success my-3" onclick="enviarTreino()">Criar Treino</button>
-        `
-
         // Criando as verificações "Blur"
-        for (let i = 1; i < exercisesMusc.length + 1; i++) {
+        for (let i = 1; i < listExer.length + 1; i++) {
             creatStruct(i)
         }
 
@@ -404,12 +452,10 @@
         const repts = document.getElementById('repts' + id)
         const success = document.getElementById('success' + id)
         const noInput = document.getElementById('noInput' + id)
-
-        var exer = exercisesMusc.filter(e => e.name == Title.innerHTML)
+        var exer = allexercicies.filter(e => e.name == Title.innerHTML)
         // Se for segs
         if (exer[0].segs) {
             // Se o exercicio nao for de segundos ira executar essa validação
-
             let segundos = input.value / 2 //Resposta em segundos
             let repeticao = 60 / Math.round(segundos) // Repostas em repetição
             repeticao = Math.round(repeticao)
@@ -500,12 +546,12 @@
                 btn.classList.remove('d-none')
 
                 //Mostra a obs de exer leve
-                light.classList.add('d-block')
-                light.classList.remove('d-none')
+                light.classList.add('d-none')
+                light.classList.remove('d-block')
 
                 //Oculta a obs de exer pesado
-                heavy.classList.add('d-none')
-                heavy.classList.remove('d-block')
+                heavy.classList.add('d-block')
+                heavy.classList.remove('d-none')
 
                 //Add visuald e erro
                 input.classList.add('text-danger')
@@ -539,96 +585,45 @@
                 repts.classList.add('text-danger')
                 repts.classList.remove('text-gray1')
             }
-
-
         }
         // Se for repts
         else {
-            if (exer.kg) {
+            // Se for musculação
+            if (exer[0].kg == 0) {
                 //Se for MUSCULAÇÂO
-                if (input.value < 11) {
-                    noInput.classList.add('d-none')
 
-                    // Texto de sucesso some
-                    success.classList.add('d-none')
-
-                    // Mostra o botão de trocar o exercicio
-                    btn.classList.add('d-block')
-                    btn.classList.remove('d-none')
-
-                    //Mostra a obs de exer pesado
-                    heavy.classList.add('d-block')
-                    heavy.classList.remove('d-none')
-
-                    //Oculta a obs de exer leve
-                    light.classList.add('d-none')
-                    light.classList.remove('d-block')
-
-                    //Add visuald e erro
-                    input.classList.add('text-danger')
-                    input.classList.add('input-danger')
-
-                    repts.classList.add('text-danger')
-                    repts.classList.remove('text-gray1')
-
+                let card = parseInt(id)
+                // desabilitCard(card)
+                noInput.classList.add('d-none')
+                if (bool) {
+                    success.classList.remove('d-none')
+                    let divExer = document.getElementById('exer' + id)
+                    // Tempo da message de sucesso
+                    setTimeout(function () {
+                        success.classList.add("d-none");
+                    }, 180000);
                 }
-                if (input.value == 11) {
-
-                    let card = parseInt(id)
-                    // desabilitCard(card)
-                    noInput.classList.add('d-none')
-                    if (bool) {
-                        success.classList.remove('d-none')
-                        let divExer = document.getElementById('exer' + id)
-                        // Tempo da message de sucesso
-                        setTimeout(function () {
-                            success.classList.add("d-none");
-                        }, 180000);
-                    }
 
 
-                    input.classList.remove('text-danger')
-                    input.classList.remove('input-danger')
+                input.classList.remove('text-danger')
+                input.classList.remove('input-danger')
 
-                    repts.classList.remove('text-danger')
-                    repts.classList.add('text-gray1')
+                repts.classList.remove('text-danger')
+                repts.classList.add('text-gray1')
 
-                    btn.classList.add('d-none')
-                    btn.classList.remove('d-block')
-                    gerarTreino(Title, Input, id)
+                btn.classList.add('d-none')
+                btn.classList.remove('d-block')
+                gerarTreino(Title, Input, id)
 
-                    const divPai = document.getElementById('divToggle')
-                    divPai.innerHTML = ''
-                    if (treino.length === 8) {
-                        // fechar model
-                        // const button = document.getElementById('saveTraining')
-                        // button.setAttribute('data-bs-dismiss', 'modal')
-                    }
+                const divPai = document.getElementById('divToggle')
+                divPai.innerHTML = ''
+                if (treino.length === 8) {
+                    // fechar model
+                    // const button = document.getElementById('saveTraining')
+                    // button.setAttribute('data-bs-dismiss', 'modal')
                 }
-                if (input.value > 11) {
-                    // Texto de sucesso some
-                    noInput.classList.add('d-none')
-                    success.classList.add('d-none')
 
-                    // Mostra o botão de trocar o exercicio
-                    btn.classList.add('d-block')
-                    btn.classList.remove('d-none')
 
-                    //Mostra a obs de exer leve
-                    light.classList.add('d-block')
-                    light.classList.remove('d-none')
-
-                    //Oculta a obs de exer pesado
-                    heavy.classList.add('d-none')
-                    heavy.classList.remove('d-block')
-
-                    //Add visuald e erro
-                    input.classList.add('text-danger')
-                    input.classList.add('input-danger')
-
-                    repts.classList.add('text-danger')
-                    repts.classList.remove('text-gray1')
-                }
             }
             else {
                 //Se for peso do corpo
@@ -716,7 +711,6 @@
                     repts.classList.remove('text-gray1')
                 }
             }
-
         }
     }
 
@@ -726,7 +720,7 @@
         let novoExercicio = {}
         var valueInput = parseInt(input.value)
 
-        let exerFound = exercisesMusc.filter(e => e.name == title.innerHTML)[0]
+        let exerFound = allexercicies.filter(e => e.name == title.innerHTML)[0]
 
         let segundos = Math.round(valueInput / 2)//Resposta em segundos
         let repeticao = Math.round(60 / segundos) // Repostas em repetição
@@ -786,9 +780,9 @@
 
     function filter(id, name, category, type, nivel) {
         // Mescla os dados entre os arrays
-        let arrayCorrecty = correctingArray(treino, exercisesMusc)
+        let arrayCorrecty = correctingArray(treino, allexercicies)
         // Procura no array de exercicios qual é o que vai ser alterado
-        let exerFound = exercisesMusc.filter(e => e.name == name)
+        let exerFound = allexercicies.filter(e => e.name == name)
 
         let filterType
 
@@ -821,7 +815,6 @@
 
         }
         else {
-
             if (input != null) {
                 input == 0 || input <= 2 ? nivel -= 2 : null;
 
@@ -841,7 +834,7 @@
         }
 
         if (category) {
-            filterType = exercisesMusc.filter(exercise => exercise.category === category);
+            filterType = allexercicies.filter(exercise => exercise.category === category);
         }
         // Filtra os exercícios com base no nível, se o nível for especificado
         if (nivel !== undefined && nivel >= 0) {
@@ -868,10 +861,12 @@
         });
         filterType = altered;
 
-
         // Retira todos os exercicios com o nome do que está subistituindo
         filterType = filterType.filter(e => e.name !== exerFound[0].name);
         if (filterType.length < 1) {
+            const divPai = document.getElementById('divToggle')
+            divPai.innerHTML = ''
+
             const zeroExer = document.getElementById('zeroExer')
             zeroExer.classList.add('d-none')
             const exerLeve = document.getElementById('exerLeve')
@@ -899,9 +894,9 @@
             }
             else {
                 // Identificamos qual é o outro exercicio da mesma categoria
-                let otherExerSameCategory = exercisesMusc.filter(e => e.category == exerFound[0].category && e.name != exerFound[0].name)[0]
+                let otherExerSameCategory = listExer.filter(e => e.category == exerFound[0].category && e.name != exerFound[0].name)[0]
                 // descobrimos o index dele
-                let index = exercisesMusc.findIndex(e => e.name == otherExerSameCategory.name)
+                let index = allexercicies.findIndex(e => e.name == otherExerSameCategory.name)
                 // Atraves do index puxamos o valor do input
                 const inputExer = document.getElementById('ValidExer' + (index + 1))
                 // Verificamos se o botão está aparecendo
@@ -962,7 +957,8 @@
             }
         }
         else {
-
+            const zeroExer = document.getElementById('zeroExer')
+            zeroExer.classList.add('d-none')
             const divPai = document.getElementById('divToggle')
             divPai.innerHTML = ''
             var x = 1
@@ -1068,12 +1064,11 @@
         const input = document.getElementById('ValidExer' + id)
         const repts = document.getElementById('repts' + id)
 
-        var nameExer = exercisesMusc.filter(e => e.name == name)
+        var nameExer = allexercicies.filter(e => e.name == name)
+
         // Subistituir no array
-        let indexExer = exercisesMusc.findIndex(e => e.name == Name.innerHTML)
-        if (indexExer != -1) {
-            exercisesMusc[indexExer] = nameExer[0]
-        }
+        var i = listExer.findIndex(e => e.category == category && e.type == type)
+        listExer[i] = nameExer[0]
 
         if (nameExer[0].segs) {
             repts.innerHTML = 'SEGS'
@@ -1126,8 +1121,57 @@
 
     }
 
+    function removeExer(exer, id, Title, Input, exerRestante) {
+
+        // Remove o exercicio do array
+        var treino2 = []
+        listExer.forEach(e => {
+            if (e == undefined) {
+                return
+            }
+            treino2.push(e)
+        })
+
+        let index = treino2.findIndex(e => e.name === exer[0].name);
+        if (index !== -1) {
+            treino2.splice(index, 1); //remova o elemento com o índice encontrado
+        }
+
+        let treinoDel = treino.findIndex(e => e.name === exer[0].name)
+        if (treinoDel !== -1) {
+            listExer.splice(treinoDel, 1); //remova o elemento com o índice encontrado
+        }
+
+        // ---------------------------------------------------------------------
+        // remove visualmente o exer
+        var x = 1
+        listExer.forEach(e => {
+            if (e == undefined) {
+                return
+            }
+            if (e.name == exer[0].name) {
+                const divRemove = document.getElementById('exer' + x)
+                divRemove.remove()
+            }
+            x++
+        })
+        listExer = treino2
+        if (Title) {
+            gerarTreino(Title, Input, id)
+        }
+
+        if (exerRestante) {
+            let index = newExercisesBase.findIndex(e => e.name == exerRestante[0].name)
+
+            let input = document.getElementById('ValidExer' + (index + 1))
+            input.classList.remove('input-danger')
+            input.classList.remove('text-danger')
+        }
+        return newExercisesBase; //retorne o array atualizado
+    }
+
     async function enviarTreino() {
-        if (treino.length == 8) {
+        if (treino.length == listExer.length) {
             loading(true)
 
             try {
@@ -1147,7 +1191,9 @@
             }
         }
     }
+
     window.filter = filter;
     window.enviarTreino = enviarTreino;
+    window.removeExer = removeExer
 </script>
 {% endblock %}

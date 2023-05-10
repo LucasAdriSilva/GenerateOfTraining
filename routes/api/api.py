@@ -50,11 +50,13 @@ def getExercisesMusc():
   response = json.dumps(res)
   return response, 200
 
+
 @api.route("/getExercisesBodyWeight")
 def getExercisesBodyWeight():
   allExer = Exercises.getExercisesBodyWeight()
   response = json.dumps(allExer)
   return response, 200
+
 
 @api.route('/saveDU', methods=["POST"])
 def saveDU():
@@ -68,7 +70,6 @@ def saveDU():
       del data[i]
       break
 
-
   # Db.update_data('Login', session['login'], 'Requireds', json.dumps(data))
   # Db.update_data('Login', session['login'], 'TrainingDays', TrainingDays)
 
@@ -77,6 +78,7 @@ def saveDU():
 
   response_data = {"message": "Requireds saved in session successfully."}
   return jsonify(response_data), 200
+
 
 @api.route('/saveTrainingTracker', methods=["POST"])
 def saveTrainingTracker():
@@ -88,7 +90,6 @@ def saveTrainingTracker():
 
   if len(data) == 3:
     data['lastDate'] = date_str
-    
 
   historyTrainig = user_found[-1]
   tr = {}
@@ -98,7 +99,7 @@ def saveTrainingTracker():
     historyTrainig = json.loads(historyTrainig)
 
     newTraining = json.loads(user_found[7])
-    
+
     for rotina in newTraining:
       if rotina.upper() == user_found[-2].upper():
         newTraining[rotina] = data
@@ -107,17 +108,17 @@ def saveTrainingTracker():
       print('Já treino hoje')
       response_data = {"message": "Não é autorizado 2 treinos no mesmo dia"}
       return jsonify(response_data), 200
-    else:  
+    else:
       historyTrainig[date_str] = newTraining
   else:
     newTraining = json.loads(user_found[7])
-    
+
     for rotina in newTraining:
       if rotina.upper() == user_found[-2].upper():
         newTraining[rotina] = data
 
-    tr = {date_str: newTraining }
- 
+    tr = {date_str: newTraining}
+
   if tr == {}:
     tr = historyTrainig
   chosen = user_found[-2]
@@ -132,6 +133,7 @@ def saveTrainingTracker():
 
   response_data = {"message": "Training saved successfully."}
   return jsonify(response_data), 200
+
 
 #Webhook para salvar os usuarios enviado da Guru
 @api.route('/webhook/registerUser', methods=["POST"])
@@ -153,7 +155,7 @@ def webhookRegisterUser():
       content = f"Senha para acessar o Tracker BWA {newPassword}"
       subject = "Tracker BWA"
       send_email('api@gmail.com', content, subject)
-      
+
     newUser = {'Login': email, 'Password': password_hash, 'UserData': [data]}
     Db.newUser(newUser)
 
@@ -173,15 +175,33 @@ def webhookRegisterUser():
   response.data = "Sucesso!"
   return response
 
-@api.route('/creat')
-def creat():
-  data = {'Login': 'Lucas', 'Password': generate_password_hash('3517')}
+
+@api.route('/create/<name>/<password>', methods=['GET'])
+def create_user(name, password):
+  info = [{
+    "contact": {
+      "id": "9747b5ff-5126-44e8-8807-7beb947fc31e",
+      "name": name,
+      "company_name": "",
+      "email": f"{name}@gmail.com",
+      "doc": "1111111111",
+      "phone_number": "9999999999",
+      "phone_local_code": "55",
+      "address_country": "BR"
+    }
+  }]
+  data = {
+    'Login': name,
+    'Password': generate_password_hash(password),
+    'UserData': info
+  }
   Db.newUser(data)
 
   response = Response()
   response.status_code = 200
   response.data = "Sucesso!"
   return response
+
 
 @api.route('/getLastTraining')
 def getLastTraining():
@@ -196,20 +216,18 @@ def getLastTraining():
       response.status_code = 200
       return response
 
-
-    history =[]
+    history = []
     for date in data:
-        for rotina in data[date]:
-            if rotina.upper() == user_found[8].upper():
-              tr = data[date][rotina]
-              if len(tr) == 3:
-                for day in tr:
-                  x = tr['chosenDay']
-                  if day == f"d{x}":
-                    info = tr[day]
-                    history.append({'date': date, 'training': tr[day]})
-              else:
-                history.append({'date': date, 'training': tr})
+      for rotina in data[date]:
+        if rotina.upper() == user_found[8].upper():
+          tr = data[date][rotina]
+          if len(tr) == 3:
+            for day in tr:
+              x = tr['chosenDay']
+              if day == f"d{x}":
+                history.append({'date': date, 'training': tr[day]})
+          else:
+            history.append({'date': date, 'training': tr})
 
   if data:
     response.data = json.dumps(history)

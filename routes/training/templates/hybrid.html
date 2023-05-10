@@ -135,6 +135,47 @@
     </div>
 </div>
 
+<!-- Modal de Exercicios com segundos-->
+<div class="modal fade" id="toggleExerSegs" tabindex="-1" aria-labelledby="toggleExerSegsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center align-items-center">
+                <span class="text-center text-uppercase font-title-modal fw-bold" id="toggleExerSegsLabel">Seu
+                    exercicio
+                    está pesado!</span>
+            </div>
+            <div class="modal-body">
+                <div class="row reset-Padding">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <span class="text-center font-title-modal">Sugerimos excluir o exercicio </span>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center align-items-cente">
+                        <span id="exerDeleter" class="text-center fw-bolder text-uppercase"></span>
+                    </div>
+                    <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-cente">
+                        <span class="mt-2 text-center font-capt">
+                            Você terá que fazer muitas séries de
+                            <span id="nameExer" class="fw-bolder text-uppercase"></span> e por isso ele pode valer
+                            por 2
+                            exercícios ao mesmo tempo.
+                        </span>
+                        <span class="mt-2 text-center font-capt text-danger">
+                            Se não quiser excluir, terá que excolher um mais fácil para diminuir o numero de
+                            séries.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer d-flex justify-content-center">
+                <button id="removeExer" data-bs-dismiss="modal" class="btn btn-success">Excluir</button>
+                <button id="notRemove" data-bs-dismiss="modal" class="btn btn-success">Não Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12 d-flex justify-content-center align-items-center">
         <button class="btn btn-success my-3" onclick="enviarTreino()">Criar Treino</button>
@@ -145,6 +186,7 @@
     import { apiGet } from './assets/js/api.js'
     var Musc;
     var BodyWeight;
+    let listExer;
     let filterExer
     var Training = [
         { 'category': 'Push', 'type': 'Horizontal' },
@@ -194,7 +236,177 @@
     window.addEventListener('load', async function () {
         Musc = await apiGet('getExercisesMusc', false)
         BodyWeight = await apiGet('getExercisesBodyWeight', false)
+        listExer = [...Musc, ...BodyWeight]
+        console.log(Musc)
+        console.log(BodyWeight)
+        console.log(listExer)
     })
+
+    function showBtn(btn) {
+        btn.classList.add('d-block')
+        btn.classList.remove('d-none')
+    }
+
+    function removeExer(exer, id, Title, Input, exerRestante) {
+        
+
+        // Remove o exercicio do array
+        var treino2 = []
+        Training.forEach(e => {
+            if (e == undefined) {
+                return
+            }
+            treino2.push(e)
+        })
+
+        let index = treino2.findIndex(e => e.name === exer[0].name);
+        if (index !== -1) {
+            treino2.splice(index, 1); //remova o elemento com o índice encontrado
+        }
+
+        let treinoDel = Training.findIndex(e => e.name === exer[0].name)
+        if (treinoDel !== -1) {
+            Training.splice(treinoDel, 1); //remova o elemento com o índice encontrado
+        }
+        // ---------------------------------------------------------------------
+        // remove visualmente o exer
+        var x = 1
+        Training.forEach(e => {
+            if (e == undefined) {
+                return
+            }
+            if (e.name == exer[0].name) {
+                const divRemove = document.getElementById('exer' + x)
+                divRemove.remove()
+            }
+            x++
+        })
+        Training = treino2
+        if (Title) {
+            gerarTreino(Title, Input, id)
+        }
+
+        if (exerRestante) {
+            let index = Training.findIndex(e => e.name == exerRestante[0].name)
+
+            let input = document.getElementById('ValidExer' + (index + 1))
+            input.classList.remove('input-danger')
+            input.classList.remove('text-danger')
+        }
+
+        let ID = 1
+        let content
+        const exercices = document.getElementById('exercices')
+        exercices.innerHTML = content
+        Training.forEach(exer => {
+            if (exer.name) {
+                console.log(exer)
+                content += ` 
+            <div id="exer${ID}" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
+   
+               <div class="row position-relative">
+                   
+                   <div class="col-3 d-flex justify-content-center align-items-center">
+                       <img class="rounded-4" id="img${ID}" width="68" height="68"
+                           src="${exer.url}"
+                           alt="">
+                   </div>
+       
+                   <div class="col-9 d-flex align-items-center ps-3 pe-5">
+                    <div class="row">
+                      <div class="col-12 reset-Padding">
+                        <input type="hidden" id=${'nivel' + ID} name="nivel" value="${exer.nivel}">
+                        <span id=${'ValidTitle' + ID} class="reset text-uppercase" style="font-size: 18px;">${exer.name}</span>
+                      </div>
+          
+                      <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                        <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                        <input class="w-75 text-center rounded-3" type="text" placeholder="1" disabled>
+                      </div>
+                      
+                      ${exer.kg == 0 ?
+                        `<div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
+                            <p class="reset text-uppercase text-gray1">REPT</p>
+                            <input required="true" disabled placeholder="11"
+                            class="w-75 input-value text-center rounded-3" type="text">
+                        </div>`
+                        :
+                        ``
+                    }
+                      
+          
+                      <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
+                        <p id="${'repts' + id}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
+                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + id}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
+" >
+          
+                      </div>
+          
+                      <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                        <p class="reset text-uppercase text-gray1">PAUSA</p>
+                        <input required="true" disabled placeholder="${exer.kg == 0 ? '3m' : '3min'}"
+                          class="w-75 input-value text-center rounded-3" type="text">
+                      </div>
+    
+                      
+                    </div>
+          
+                     <!--<i class="bi bi-three-dots-vertical position-absolute top-0 end-0 "></i>-->
+                  </div>
+                   
+                   <div id="toggleExer${ID}" class="col-12 d-none d-flex flex-column justify-content-center">
+                       <button id="btn${ID}" onclick="filter(${ID}, '${exer.name}', '${exer.category}', '${exer.type}')" class="btn btn-primary w-100" type="button">Trocar Exercicío</button>
+       
+                       <span id="heavy${ID}" class="reset text-center d-none" style="font-size: 10px;">
+                           *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
+                       </span>
+       
+                       <span id="light${ID}" class="reset text-center d-none" style="font-size: 10px;">
+                        *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está alta! Vamos trocar para um mais pesado?
+                       </span> 
+       
+                       <span id="success${ID}" class="reset text-center text-success d-none" style="font-size: 10px;">
+                        Perfeito, agora é só descansar ${exer.rest}m e fazer o próximo exercício
+                       </span> 
+                   </div>
+               </div>
+           </div> 
+           `
+            }
+            else {
+                content += `     
+            <div id="exer${ID}"
+            class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white"
+            style="border: 1px solid rgb(163, 163, 163);">
+    
+            <div class="row position-relative">
+                <div class="col-12 d-flex align-items-center ps-3">
+                    <div class="row my-1">
+                        <div class="col-12 d-flex flex-column justify-content-center align-items-center reset-Padding mb-4">
+                            <span class="reset  text-center" style="font-size: 14px;"> Escolha sua modalidade para</span>
+                            <span class="reset text-uppercase text-center" style="font-size: 18px;"> "${exer.category}" -
+                                "${exer.type}"</span>
+                        </div>
+    
+                        <div class="col-12 d-flex justify-content-center align-items-center reset-Padding gap-3">
+                            <button class="btn btn-success text-uppercase" onclick="creatBasicExer(true, ${id}, '${exer.category}', '${exer.type}')">Peso do corpo</button>
+                            <button class="btn btn-success text-uppercase" onclick="creatBasicExer(false,${id}, '${exer.category}', '${exer.type}')">Musculação</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                `
+            }
+            ID++
+        })
+        exercices.innerHTML = content
+
+        for (let i = 1; i < Training.length + 1; i++) {
+            creatStruct2(i)
+        }
+        return Training; //retorne o array atualizado
+    }
 
     function creatBasicExer(bool, id, category, type) {
         var modal = new bootstrap.Modal(document.querySelector("#exerciseSuggestion"));
@@ -233,6 +445,7 @@
     }
 
     function choseExer(i) {
+        
         let exer = filterExer[i]
 
         let index = Training.findIndex(e => e.category == exer.category && e.type == exer.type)
@@ -245,6 +458,8 @@
         let id = 1
         Training.forEach(exer => {
             if (exer.name) {
+                
+
                 div += ` 
             <div id="exer${id}" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
    
@@ -281,7 +496,8 @@
           
                       <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
                         <p id="${'repts' + id}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
-                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + id}" class="w-75 input-value text-center rounded-3" type="number">
+                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + id}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
+">
           
                       </div>
           
@@ -354,11 +570,10 @@
 
     //Funções ja usadas
     function filter(id, name, category, type, nivel) {
-
         // Mescla os dados entre os arrays
-        let arrayCorrecty = correctingArray(Training, BodyWeight)
+        let arrayCorrecty = correctingArray(Training, listExer)
         // Procura no array de exercicios qual é o que vai ser alterado
-        let exerFound = BodyWeight.filter(e => e.name == name)
+        let exerFound = listExer.filter(e => e.name == name)
 
         let filterType
 
@@ -411,7 +626,7 @@
 
 
         if (category) {
-            filterType = BodyWeight.filter(exercise => exercise.category === category);
+            filterType = listExer.filter(exercise => exercise.category === category);
         }
         // Filtra os exercícios com base no nível, se o nível for especificado
         if (nivel !== undefined && nivel >= 0) {
@@ -443,10 +658,10 @@
         filterType = filterType.filter(e => e.name !== exerFound[0].name);
 
         let forced;
-        if (filterType.length == 0){
+        if (filterType.length == 0) {
             forced = true
             filterType = Musc.filter(e => e.category == category && e.type == type)
-        } 
+        }
 
 
         var modal = new bootstrap.Modal(document.querySelector("#exerciseSuggestion"));
@@ -455,13 +670,13 @@
         const modalExer = document.getElementById('showExer')
         modalExer.innerHTML = ''
         filterType.forEach((exer, i) => {
-            let index = Training.findIndex(e=> e.category == exer.category && e.type == exer.type)
-            index != -1? index++: console.log('err') 
+            let index = Training.findIndex(e => e.category == exer.category && e.type == exer.type)
+            index != -1 ? index++ : console.log('err')
 
             console.log(exer)
             modalExer.innerHTML += `
             <div class="row my-5">
-                ${forced? `<div class="col-12 d-flex justify-content-center align-items-center">
+                ${forced ? `<div class="col-12 d-flex justify-content-center align-items-center">
                     <span class="text-danger text-center mb-3">Não temos mais exercicio com peso do corpo, tente fazer com a musculação</span>
                 </div>`: ``}
 
@@ -484,59 +699,145 @@
         `
         })
 
-        
+
     }
 
     function subs(id, name, category, type, img, nivel) {
+        
+
         const Name = document.getElementById('ValidTitle' + id)
         const Img = document.getElementById('img' + id)
         const div = document.getElementById('toggleExer' + id)
         const input = document.getElementById('ValidExer' + id)
         const repts = document.getElementById('repts' + id)
 
-        // var newArray = []
-        // newExercisesBase.forEach(e => {
-        //   if (e == undefined) {
-        //     return
-        //   }
-        //   newArray.push(e)
-        // })
-
-        var nameExer = BodyWeight.filter(e => e.name == name)
-
-        nameExer.length==0 ? nameExer = Musc.filter(e => e.name == name) : console.log('err - 502')
+        var nameExer = listExer.filter(e => e.name == name)
 
         // Subistituir no array
         let indexExer = Training.findIndex(e => e.name == Name.innerHTML)
         if (indexExer != -1) {
             Training[indexExer] = nameExer[0]
-        }   
+        }
 
         if (nameExer[0].segs) {
             repts.innerHTML = 'SEGS'
         }
         else {
-            repts.innerHTML = 'REPS'
+            nameExer[0].kg == 0 ? repts.innerHTML = 'KG' : repts.innerHTML = 'REPS'
+
         }
 
-        // zerar a div do botão
-        div.innerHTML = ''
-
-        div.innerHTML = `<button id="${'btn' + id}" onclick="filter(${id}, '${name}', '${category}', '${type}', ${nivel})" class="btn btn-primary mb-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Trocar Exercicío</button>
-        <span id="${'heavy' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
-        *Ops, sua quantidade de ${nameExer[0].segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
-        </span>
-      
-        <span id="${'light' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
-          *Ops, sua quantidade de ${nameExer[0].segs ? 'segundos' : 'repetição'} está alta! Vamos trocar para um mais pesado?
-        </span> 
-      
+        //Reescreve na tela o array do treino
+        let ID = 1
+        let content
+        const exercices = document.getElementById('exercices')
+        exercices.innerHTML = content
+        Training.forEach(exer => {
+            if (exer.name) {
+                content += ` 
+            <div id="exer${ID}" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
+   
+               <div class="row position-relative">
+                   
+                   <div class="col-3 d-flex justify-content-center align-items-center">
+                       <img class="rounded-4" id="img${ID}" width="68" height="68"
+                           src="${exer.url}"
+                           alt="">
+                   </div>
+       
+                   <div class="col-9 d-flex align-items-center ps-3 pe-5">
+                    <div class="row">
+                      <div class="col-12 reset-Padding">
+                        <input type="hidden" id=${'nivel' + ID} name="nivel" value="${exer.nivel}">
+                        <span id=${'ValidTitle' + ID} class="reset text-uppercase" style="font-size: 18px;">${exer.name}</span>
+                      </div>
+          
+                      <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                        <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                        <input class="w-75 text-center rounded-3" type="text" placeholder="1" disabled>
+                      </div>
+                      
+                      ${exer.kg == 0 ?
+                        `<div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
+                            <p class="reset text-uppercase text-gray1">REPT</p>
+                            <input required="true" disabled placeholder="11"
+                            class="w-75 input-value text-center rounded-3" type="text">
+                        </div>`
+                        :
+                        ``
+                    }
+                      
+          
+                      <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
+                        <p id="${'repts' + id}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
+                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + id}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
+">
+          
+                      </div>
+          
+                      <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                        <p class="reset text-uppercase text-gray1">PAUSA</p>
+                        <input required="true" disabled placeholder="${exer.kg == 0 ? '3m' : '3min'}"
+                          class="w-75 input-value text-center rounded-3" type="text">
+                      </div>
+    
+                      
+                    </div>
+          
+                     <!--<i class="bi bi-three-dots-vertical position-absolute top-0 end-0 "></i>-->
+                  </div>
+                   
+                   <div id="toggleExer${ID}" class="col-12 d-none d-flex flex-column justify-content-center">
+                       <button id="btn${ID}" onclick="filter(${ID}, '${exer.name}', '${exer.category}', '${exer.type}')" class="btn btn-primary w-100" type="button">Trocar Exercicío</button>
+       
+                       <span id="heavy${ID}" class="reset text-center d-none" style="font-size: 10px;">
+                           *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
+                       </span>
+       
+                       <span id="light${ID}" class="reset text-center d-none" style="font-size: 10px;">
+                        *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está alta! Vamos trocar para um mais pesado?
+                       </span> 
+       
+                       <span id="success${ID}" class="reset text-center text-success d-none" style="font-size: 10px;">
+                        Perfeito, agora é só descansar ${exer.rest}m e fazer o próximo exercício
+                       </span> 
+                   </div>
+               </div>
+           </div> 
+           `
+            }
+            else {
+                content += `     
+            <div id="exer${ID}"
+            class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white"
+            style="border: 1px solid rgb(163, 163, 163);">
+    
+            <div class="row position-relative">
+                <div class="col-12 d-flex align-items-center ps-3">
+                    <div class="row my-1">
+                        <div class="col-12 d-flex flex-column justify-content-center align-items-center reset-Padding mb-4">
+                            <span class="reset  text-center" style="font-size: 14px;"> Escolha sua modalidade para</span>
+                            <span class="reset text-uppercase text-center" style="font-size: 18px;"> "${exer.category}" -
+                                "${exer.type}"</span>
+                        </div>
+    
+                        <div class="col-12 d-flex justify-content-center align-items-center reset-Padding gap-3">
+                            <button class="btn btn-success text-uppercase" onclick="creatBasicExer(true, ${id}, '${exer.category}', '${exer.type}')">Peso do corpo</button>
+                            <button class="btn btn-success text-uppercase" onclick="creatBasicExer(false,${id}, '${exer.category}', '${exer.type}')">Musculação</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <span id="${'success' + id}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
-        Perfeito, agora é só descansar ${nameExer[0].rest}m e fazer o próximo exercício
-        </span> 
-        `
+                `
+            }
+            ID++
+        })
+        exercices.innerHTML = content
 
+        for (let i = 1; i < Training.length + 1; i++) {
+            creatStruct2(i)
+        }
         // Trocando o exercicio
         Name.innerHTML = name
         Img.src = img
@@ -564,7 +865,6 @@
     }
 
     function openToggleExer(id, Title, Input, bool) {
-
         const input = document.getElementById('ValidExer' + id);
         const btn = document.getElementById('toggleExer' + id)
         const light = document.getElementById('light' + id)
@@ -572,10 +872,12 @@
         const repts = document.getElementById('repts' + id)
         const success = document.getElementById('success' + id)
 
+
         var exer = Training.filter(e => e.name == Title.innerHTML)
         // Se for segs
         if (exer[0].segs) {
             // Se o exercicio nao for de segundos ira executar essa validação
+            
 
             let segundos = input.value / 2 //Resposta em segundos
             let repeticao = 60 / Math.round(segundos) // Repostas em repetição
@@ -610,7 +912,7 @@
                 var modal = new bootstrap.Modal(document.querySelector('#toggleExerSegs'));
 
                 // Pegar nome do exer que ira ser deletado
-                let exerRemove = BodyWeight.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+                let exerRemove = listExer.filter(e => e.category == exer[0].category && e.name != exer[0].name)
 
                 // Imprimir na tela
                 const exerDeletr = document.getElementById('exerDeleter')
@@ -623,7 +925,7 @@
 
 
                 var fixArray = []
-                BodyWeight.forEach(e => {
+                Training.forEach(e => {
                     if (e == undefined) {
                         return
                     }
@@ -639,7 +941,7 @@
                 }
                 else {
                     // filtra por categori e pega o outro exercicio da mesma catagoria
-                    let exerRemove = BodyWeight.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+                    let exerRemove = listExer.filter(e => e.category == exer[0].category && e.name != exer[0].name)
 
                     btn.classList.add('d-none')
 
@@ -707,8 +1009,7 @@
         }
         // Se for repts
         else {
-
-            if (exer[0].kg == 0) {
+            if (exer[0].kg >= 0 && input.value > 0) {
                 if (input.value != 0) {
                     let card = parseInt(id)
                     // desabilitCard(card)
@@ -740,7 +1041,7 @@
                         // button.setAttribute('data-bs-dismiss', 'modal')
                     }
                 }
-               
+
             }
             else {
                 if (input.value < 6) {
@@ -838,35 +1139,44 @@
         let segundos = Math.round(valueInput / 2)//Resposta em segundos
         let repeticao = Math.round(60 / segundos) // Repostas em repetição
 
-
+        //Se for segs
         if (exerFound.segs) {
             // add no treino, com as regras de segundos
             novoExercicio = { name: title.innerHTML, count: segundos, rept: repeticao, rest: 3, url: exer, num: id, segs: "true" };
         }
         else {
-            if (title.innerHTML == "Dips na paralela" || title.innerHTML == "Pull Ups") {
+            //Se for KG
+            if (exerFound.kg != null || exerFound.kg != null) {
+                novoExercicio = { name: title.innerHTML, kg: (valueInput - 1), rept: 3, rest: 3, url: exer, num: id };
+            }
+            //Se for repetição
+            else {
+                if (title.innerHTML == "Dips na paralela" || title.innerHTML == "Pull Ups") {
 
-                if (valueInput == 3 || valueInput == 4 || valueInput == 5) {
-                    if (valueInput == 3) {
-                        novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 5, rest: 3, url: exer, num: id };
+                    if (valueInput == 3 || valueInput == 4 || valueInput == 5) {
+                        if (valueInput == 3) {
+                            novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 5, rest: 3, url: exer, num: id };
+                        }
+                        if (valueInput == 4) {
+                            novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 5, rest: 3, url: exer, num: id };
+                        }
+                        if (valueInput == 5) {
+                            novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 4, rest: 3, url: exer, num: id };
+                        }
                     }
-                    if (valueInput == 4) {
-                        novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 5, rest: 3, url: exer, num: id };
-                    }
-                    if (valueInput == 5) {
-                        novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 4, rest: 3, url: exer, num: id };
+                    else {
+                        novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 3, rest: 3, url: exer, num: id };
                     }
                 }
                 else {
                     novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 3, rest: 3, url: exer, num: id };
                 }
             }
-            else {
-                novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 3, rest: 3, url: exer, num: id };
-            }
+
         }
 
         const found = Training.findIndex(e => e.name == novoExercicio.name)
+
         if (found !== -1) {
             if (exerFound.segs) {
                 // add no treino, com as regras de segundos
@@ -874,38 +1184,39 @@
                 Training[found].count = segundos
             }
             else {
-                if (Training[found].name == "Dips na paralela" || Training[found].name == "Pull Ups") {
-                    if (valueInput == 3 || valueInput == 4 || valueInput == 5) {
-                        if (valueInput == 3 || valueInput == 4) {
-                            Training[found].rept = 5
-                            Training[found].count = (valueInput - 1)
-                            console.log(Training)
-
+                if (exerFound.kg != null || exerFound.kg != undefined) {
+                    Training[found].kg = (valueInput - 1)
+                    Training[found].rept = 3
+                }
+                else {
+                    if (Training[found].name == "Dips na paralela" || Training[found].name == "Pull Ups") {
+                        if (valueInput == 3 || valueInput == 4 || valueInput == 5) {
+                            if (valueInput == 3 || valueInput == 4) {
+                                Training[found].rept = 5
+                                Training[found].count = (valueInput - 1)
+                            }
+                            if (valueInput == 5) {
+                                Training[found].rept = 4
+                                Training[found].count = (valueInput - 1)
+                            }
                         }
-                        if (valueInput == 5) {
-                            Training[found].rept = 4
+                        else {
+                            Training[found].rept = 3
                             Training[found].count = (valueInput - 1)
-                            console.log(Training)
-
                         }
                     }
                     else {
                         Training[found].rept = 3
                         Training[found].count = (valueInput - 1)
-                        console.log(Training)
-
                     }
                 }
-                else {
-                    Training[found].rept = 3
-                    Training[found].count = (valueInput - 1)
-                    console.log(Training)
-                }
+
             }
-        } else {
-            Training.push(novoExercicio);
-            console.log(Training)
         }
+        else {
+            Training.push(novoExercicio);
+        }
+        console.log(Training)
     }
 
     function creatStruct2(id) {
@@ -946,25 +1257,36 @@
         return data_all
     }
 
-    async function enviarTreino(){
-        if (Training.length == 8) {
-            loading(true)
-
-            try {
-                const response = await fetch('/sendTraining', {
-                    method: 'POST',
-                    body: JSON.stringify(Training),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const data = await response.json();
-                window.location.replace(data.url);
-            } catch (error) {
-                console.error('Erro na requisição:', error);
-                // Esconde a animação de carregamento
-                loading(false)
+    async function enviarTreino() {
+        for (let i = 0; i < Training.length; i++) {
+            const tr = Training[i];
+            if ('kg' in tr) {
+                if (tr.kg == 0 || tr.kg == null) {
+                    return false
+                }
             }
+            else {
+                if (tr.count == 0 || tr.count == null) {
+                    return false;
+                }
+            }
+        }
+
+        loading(true);
+        try {
+            const response = await fetch('/sendTraining', {
+                method: 'POST',
+                body: JSON.stringify(Training),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            window.location.replace(data.url);
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            // Esconde a animação de carregamento
+            loading(false);
         }
     }
 
