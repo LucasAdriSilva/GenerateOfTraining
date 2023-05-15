@@ -261,12 +261,16 @@
     </div>
 
 </div>
+
 <div class="row">
     <div class="col-12 d-flex justify-content-center align-items-center">
         <button class="btn btn-success my-3" onclick="enviarTreino()">Criar Treino</button>
     </div>
 </div>
 
+<audio id="myAudio">
+    <source src="assets/audio/not.mp3" type="audio/mp3">
+</audio>
 
 <script type="module">
     import { apiGet } from './assets/js/api.js'
@@ -274,7 +278,6 @@
     var treino = []
     var newExercises = []
     var newExercisesBase = []
-    var numberInput = [1, 2, 3, 4, 5, 6, 7, 8]
     var exercisesMusc;
     var getExercisesBodyWeight;
     let allexercicies
@@ -377,8 +380,8 @@
       
                   <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
                     <p class="reset text-uppercase text-gray1">PAUSA</p>
-                    <input required="true" disabled placeholder="3m"
-                      class="w-75 input-value text-center rounded-3" type="text">
+                    <input id="${'cronometro' + x}" required="true" disabled placeholder="3m"
+                      class="w-75  input-value text-center rounded-3" type="text">
                   </div>
 
                   
@@ -403,7 +406,7 @@
       
                       </div>
                       <span id="${'success' + x}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
-                      Perfeito, agora é só descansar <span id="cronometro"></span> e fazer o próximo exercício
+                      Perfeito, agora é só descansar <span></span> e fazer o próximo exercício
                       </span> 
       
                       <span id="${'noInput' + x}" class="reset px-3 text-start text-danger d-none" style="font-size: 10px;">
@@ -445,6 +448,7 @@
     }
 
     function openToggleExer(id, Title, Input, bool) {
+
         const input = document.getElementById('ValidExer' + id);
         const btn = document.getElementById('toggleExer' + id)
         const light = document.getElementById('light' + id)
@@ -481,17 +485,17 @@
                 btn.classList.remove('d-block')
 
                 let card = parseInt(id)
-                // desabilitCard(card)
+                desabilitCard(card)
                 gerarTreino(Title, Input, id)
             }
             // Se o numero de repetição for 5 ou 6 mostra o modal
             if (repeticao == 5 || repeticao == 6) {
+
                 noInput.classList.add('d-none')
                 //  dar opção de eliminar exercicio
                 var modal = new bootstrap.Modal(document.querySelector('#toggleExerSegs'));
-
                 // Pegar nome do exer que ira ser deletado
-                let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+                let exerRemove = listExer.filter(e => e.category == exer[0].category && e.name != exer[0].name)
 
                 // Imprimir na tela
                 const exerDeletr = document.getElementById('exerDeleter')
@@ -504,7 +508,7 @@
 
 
                 var fixArray = []
-                newExercisesBase.forEach(e => {
+                listExer.forEach(e => {
                     if (e == undefined) {
                         return
                     }
@@ -520,7 +524,7 @@
                 }
                 else {
                     // filtra por categori e pega o outro exercicio da mesma catagoria
-                    let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+                    let exerRemove = listExer.filter(e => e.category == exer[0].category && e.name != exer[0].name)
 
                     btn.classList.add('d-none')
 
@@ -593,7 +597,7 @@
                 //Se for MUSCULAÇÂO
 
                 let card = parseInt(id)
-                // desabilitCard(card)
+                desabilitCard(card)
                 noInput.classList.add('d-none')
                 if (bool) {
                     success.classList.remove('d-none')
@@ -656,7 +660,7 @@
                 if (input.value > 5 && input.value < 16) {
 
                     let card = parseInt(id)
-                    // desabilitCard(card)
+                    desabilitCard(card)
                     noInput.classList.add('d-none')
                     if (bool) {
                         success.classList.remove('d-none')
@@ -730,8 +734,9 @@
             // add no treino, com as regras de segundos
             novoExercicio = { name: title.innerHTML, count: segundos, rept: repeticao, rest: 3, url: exer, num: id, segs: "true" };
         }
-        else {
-            novoExercicio = { name: title.innerHTML, count: (valueInput - 1), rept: 3, rest: 3, url: exer, num: id };
+
+        if ('kg' in exerFound) {
+            novoExercicio = { name: title.innerHTML, kg: valueInput, rept: 3, rest: 3, url: exer, num: id };
 
         }
 
@@ -745,19 +750,28 @@
                 treino[found].count = segundos
             }
             else {
-                if (treino[found].name == "Dips na paralela" || treino[found].name == "Pull Ups") {
+                if ('kg' in exerFound) {
+                    treino[found].kg = valueInput
+                    treino[found].rept = 3
 
-                    if (valueInput == 3 || valueInput == 4 || valueInput == 5) {
-                        if (valueInput == 3) {
-                            treino[found].rept = 5
-                            treino[found].count = (valueInput - 1)
+                } else {
+                    if (treino[found].name == "Dips na paralela" || treino[found].name == "Pull Ups") {
+                        if (valueInput == 3 || valueInput == 4 || valueInput == 5) {
+                            if (valueInput == 3) {
+                                treino[found].rept = 5
+                                treino[found].count = (valueInput - 1)
+                            }
+                            if (valueInput == 4) {
+                                treino[found].rept = 5
+                                treino[found].count = (valueInput - 1)
+                            }
+                            if (valueInput == 5) {
+                                treino[found].rept = 4
+                                treino[found].count = (valueInput - 1)
+                            }
                         }
-                        if (valueInput == 4) {
-                            treino[found].rept = 5
-                            treino[found].count = (valueInput - 1)
-                        }
-                        if (valueInput == 5) {
-                            treino[found].rept = 4
+                        else {
+                            treino[found].rept = 3
                             treino[found].count = (valueInput - 1)
                         }
                     }
@@ -765,10 +779,6 @@
                         treino[found].rept = 3
                         treino[found].count = (valueInput - 1)
                     }
-                }
-                else {
-                    treino[found].rept = 3
-                    treino[found].count = (valueInput - 1)
                 }
             }
         }
@@ -1168,6 +1178,73 @@
             input.classList.remove('text-danger')
         }
         return newExercisesBase; //retorne o array atualizado
+    }
+
+    function desabilitCard(id) {
+        var numberInput = [1, 2, 3, 4, 5, 6, 7, 8]
+        const audio = document.getElementById("myAudio");
+        // Monta o array de id sem o id que está sendo tratado
+        let cardAtual = numberInput.findIndex(e => e == id)
+        if (cardAtual != -1) {
+            numberInput.splice(cardAtual, 1);
+        }
+
+        // Desabilita todos os inpust e add uma class aos cards
+        numberInput.forEach(e => {
+            const inputDesabilit = document.getElementById('ValidExer' + e)
+            if (inputDesabilit != null) {
+                inputDesabilit.disabled = true;
+            }
+            const divExer = document.getElementById('exer' + e)
+            if (divExer != null) {
+                divExer.classList.add('desabilited')
+            }
+
+        })
+
+        let meuInput = document.getElementById('ValidExer' + id);
+        let cronometro = document.getElementById('cronometro' + id);
+        let segundosRestantes = 180; // 3 minutos em segundos
+        let interval; // Declarando a variável fora da função para poder usar em outro escopo
+
+
+        clearInterval(interval); // Parar o cronômetro se ele já estiver rodando
+        segundosRestantes = 180; // Reiniciar o tempo
+        cronometro.placeholder = "3:00";
+
+        interval = setInterval(function () {
+            segundosRestantes--;
+            let minutos = Math.floor(segundosRestantes / 60);
+            let segundos = segundosRestantes % 60;
+            cronometro.placeholder = "3:00";
+            cronometro.placeholder = minutos + ":" + segundos + "";
+
+            if (segundosRestantes <= 0) {
+                const menssagemSuccess = document.getElementById('success' + id)
+                menssagemSuccess.classList.add('d-none')
+
+                const exerFinish = document.getElementById('exer' + id)
+                exerFinish.classList.remove('bg-white')
+                exerFinish.classList.add('exerFinish')
+
+                audio.play();
+                clearInterval(interval); // Parar o cronômetro
+                meuInput.disabled = false; // Habilitar input
+                cronometro.placeholder = "Fim";
+
+                numberInput.forEach(e => {          
+                    const inputDesabilit = document.getElementById('ValidExer' + e)
+                    if (inputDesabilit != null) {
+                        inputDesabilit.disabled = false;
+                    }
+                    const divExer = document.getElementById('exer' + e)
+                    if (divExer != null) {
+                        divExer.classList.remove('desabilited')
+                    }
+                })
+            }
+        }, 1); // Atualizar o cronômetro a cada segundo
+
     }
 
     async function enviarTreino() {

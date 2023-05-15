@@ -55,10 +55,10 @@
 
         {% if data[3].equip|length == 0 %}
         <div class="col-12 d-flex justify-content-center align-items-center">
-            
+
             <h5 class="d-flex justify-content-center align-items-center reset equip text-center"> Sem equipamentos
             </h5>
-           
+
         </div>
         {% endif%}
         <div class="col-12 d-flex justify-content-center align-items-center">
@@ -117,7 +117,7 @@
     let training;
 
     import { apiGet } from './assets/js/api.js'
-    
+
     window.addEventListener('load', async (e) => {
         training = await getApi()
     })
@@ -139,15 +139,14 @@
                     historyTraining.innerHTML += `
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
-                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="true" aria-controls="collapse${index}">
-                                  Treino do dia ${e.date}
-                              </button>
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="true" aria-controls="collapse${index}">
+                                    Treino do dia ${e.date}
+                                </button>
                             </h2>
                             <div id="collapse${index}" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#historyTraining">
-                              
                             </div>
-                          </div>
-                        `
+                        </div>
+                    `
                     if (e.training.chosenDay != undefined && e.training.chosenDay == '1') {
                         dayOfTraining = e.training.d1
                     }
@@ -160,23 +159,37 @@
                         dayOfTraining = e.training
                     }
 
-                    dayOfTraining.forEach(data => {
+                    dayOfTraining.forEach((data, i) => {
                         const div = document.getElementById(`collapse${index}`)
                         div.innerHTML += `
-                        <div class="accordion-body">
-                            <div class="row d-flex justify-content-center align-items-center reset-Padding-x py-3 border-bottom">
-                                <div class="col-6 d-flex justify-content-center align-items-center reset-Padding-x">
-                                    <h4 class="text-center">${data.name}</h4>
+                            <div class="accordion-body">
+                                <div class="row d-flex justify-content-center align-items-center reset-Padding-x py-3 border-bottom">
+                                    <div class="col-5 d-flex justify-content-center align-items-center reset-Padding-x">
+                                        <h4 class="text-center">${data.name}</h4>
+                                    </div>
+                                    <div id='reptOfTraining${i + 1}_${index}'  class="col-6 d-flex flex-column justify-content-center align-items-center reset-Padding-x">
+                                    </div>
                                 </div>
-                                <div class="col-5 d-flex flex-column justify-content-center align-items-center reset-Padding-x">
-                                    <span>1ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept1}</span>
-                                    <span>2ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept2}</span>
-                                    <span>3ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept3}</span>
-                                </div>
-                            </div>                            
-                        </div>
-                            
-                            `
+                            </div>
+                        `
+                        const reptOfTraining = document.getElementById(`reptOfTraining${i + 1}_${index}`)
+                        if (data.count) {
+                            for (let y = 1; y <= data.rept; y++) {
+                                if (data[`rept${y}`] != undefined) {
+                                    reptOfTraining.innerHTML +=
+                                        ` <span>${y}ª X ${data[`rept${y}`]} -- ${data.segs ? 'Segundos' : 'Repetição'}</span>`
+                                }
+
+                            }
+                        }
+                        if (data.kg) {
+                            for (let y = 1; y <= data.rept; y++) {
+                                if (data[`rept${y}`] != undefined) {
+                                    reptOfTraining.innerHTML +=
+                                        ` <span>${y}ª X ${data[`kg${y}`]} Kg </span>`
+                                }
+                            }
+                        }
                     })
                 })
             }
@@ -203,16 +216,27 @@
                                 <div class="col-6 d-flex justify-content-center align-items-center reset-Padding-x">
                                     <h4 class="text-center">${data.name}</h4>
                                 </div>
-                                <div class="col-5 d-flex flex-column justify-content-center align-items-center reset-Padding-x">
-                                    <span>1ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept1}</span>
-                                    <span>2ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept2}</span>
-                                    <span>3ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept3}</span>
+                                <div id='reptOfTraining' class="col-5 d-flex flex-column justify-content-center align-items-center reset-Padding-x">
+                                    
                                 </div>
                             </div>                            
-                        </div>
-                            
+                        </div>   
                             `
+                        /*<span>1ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept1}</span>
+                                <span>2ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept2}</span>
+                                <span>3ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept3}</span>*/
+                        for (let y = 1; y < data.rept - 1; y++) {
+                            console.log(data.rept + y)
+                            const reptOfTraining = document.getElementById('reptOfTraining')
+                            if (data.segs) {
+                                reptOfTraining.innerHTML +=
+                                    `<span>1ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept + y}</span>`
+                            }
+                            //`<span>1ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept + y}</span>`
+                        }
                     })
+
+
                 })
             }
         }

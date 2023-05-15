@@ -18,13 +18,13 @@
 
     </div>
 
-    <div class="col-12 d-flex justify-content-center align-items-center gap-1">
+    <!-- <div class="col-12 d-flex justify-content-center align-items-center gap-1">
         <div class="form-check form-switch">
             <input class="form-check-input border-switch" type="checkbox" role="switch" id="pairedSetsValue">
             <label class="form-check-label" for="pairedSetsValue">Paired Sets</label>
         </div>
         <img src="assets/img/interrog.jpg" onclick="openModal('pairedSets')" width="20" height="20" alt="">
-    </div>
+    </div> -->
 </div>
 
 <div id="exercices" class="d-flex justify-content-center align-items-center row">
@@ -182,6 +182,10 @@
     </div>
 </div>
 
+<audio id="myAudio">
+    <source src="assets/audio/not.mp3" type="audio/mp3">
+</audio>
+
 <script type="module">
     import { apiGet } from './assets/js/api.js'
     var Musc;
@@ -237,9 +241,6 @@
         Musc = await apiGet('getExercisesMusc', false)
         BodyWeight = await apiGet('getExercisesBodyWeight', false)
         listExer = [...Musc, ...BodyWeight]
-        console.log(Musc)
-        console.log(BodyWeight)
-        console.log(listExer)
     })
 
     function showBtn(btn) {
@@ -248,8 +249,6 @@
     }
 
     function removeExer(exer, id, Title, Input, exerRestante) {
-        
-
         // Remove o exercicio do array
         var treino2 = []
         Training.forEach(e => {
@@ -336,15 +335,15 @@
                       
           
                       <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
-                        <p id="${'repts' + id}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
-                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + id}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
+                        <p id="${'repts' + ID}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
+                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + ID}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
 " >
           
                       </div>
           
                       <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
                         <p class="reset text-uppercase text-gray1">PAUSA</p>
-                        <input required="true" disabled placeholder="${exer.kg == 0 ? '3m' : '3min'}"
+                        <input required="true" id="cronometro${ID}" disabled placeholder="${exer.kg == 0 ? '3m' : '3min'}"
                           class="w-75 input-value text-center rounded-3" type="text">
                       </div>
     
@@ -401,8 +400,7 @@
             ID++
         })
         exercices.innerHTML = content
-
-        for (let i = 1; i < Training.length + 1; i++) {
+        for (let i = 1; i <= Training.length + 1; i++) {     
             creatStruct2(i)
         }
         return Training; //retorne o array atualizado
@@ -503,7 +501,7 @@
           
                       <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
                         <p class="reset text-uppercase text-gray1">PAUSA</p>
-                        <input required="true" disabled placeholder="${exer.kg == 0 ? '3m' : '3min'}"
+                        <input required="true" id="cronometro${id}" disabled placeholder="${exer.kg == 0 ? '3m' : '3min'}"
                           class="w-75 input-value text-center rounded-3" type="text">
                       </div>
     
@@ -561,13 +559,12 @@
         })
 
         exercices.innerHTML = div
-        for (let i = 1; i < Training.length + 1; i++) {
+        for (let i = 1; i <= Training.length + 1; i++) {           
             creatStruct2(i)
         }
 
     }
-
-
+    
     //Funções ja usadas
     function filter(id, name, category, type, nivel) {
         // Mescla os dados entre os arrays
@@ -703,8 +700,6 @@
     }
 
     function subs(id, name, category, type, img, nivel) {
-        
-
         const Name = document.getElementById('ValidTitle' + id)
         const Img = document.getElementById('img' + id)
         const div = document.getElementById('toggleExer' + id)
@@ -769,15 +764,15 @@
                       
           
                       <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
-                        <p id="${'repts' + id}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
-                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + id}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
+                        <p id="${'repts' + ID}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
+                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + ID}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
 ">
           
                       </div>
           
                       <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
                         <p class="reset text-uppercase text-gray1">PAUSA</p>
-                        <input required="true" disabled placeholder="${exer.kg == 0 ? '3m' : '3min'}"
+                        <input required="true" id="cronometro${ID}" disabled placeholder="${exer.kg == 0 ? '3m' : '3min'}"
                           class="w-75 input-value text-center rounded-3" type="text">
                       </div>
     
@@ -822,8 +817,8 @@
                         </div>
     
                         <div class="col-12 d-flex justify-content-center align-items-center reset-Padding gap-3">
-                            <button class="btn btn-success text-uppercase" onclick="creatBasicExer(true, ${id}, '${exer.category}', '${exer.type}')">Peso do corpo</button>
-                            <button class="btn btn-success text-uppercase" onclick="creatBasicExer(false,${id}, '${exer.category}', '${exer.type}')">Musculação</button>
+                            <button class="btn btn-success text-uppercase" onclick="creatBasicExer(true, ${ID}, '${exer.category}', '${exer.type}')">Peso do corpo</button>
+                            <button class="btn btn-success text-uppercase" onclick="creatBasicExer(false,${ID}, '${exer.category}', '${exer.type}')">Musculação</button>
                         </div>
                     </div>
                 </div>
@@ -835,7 +830,7 @@
         })
         exercices.innerHTML = content
 
-        for (let i = 1; i < Training.length + 1; i++) {
+        for (let i = 1; i <= Training.length + 1; i++) {
             creatStruct2(i)
         }
         // Trocando o exercicio
@@ -903,7 +898,7 @@
                 btn.classList.remove('d-block')
 
                 let card = parseInt(id)
-                // desabilitCard(card)
+                desabilitCard(card)
                 gerarTreino(Title, Input, id)
             }
             // Se o numero de repetição for 5 ou 6 mostra o modal
@@ -1012,7 +1007,7 @@
             if (exer[0].kg >= 0 && input.value > 0) {
                 if (input.value != 0) {
                     let card = parseInt(id)
-                    // desabilitCard(card)
+                    desabilitCard(card)
                     if (bool) {
                         success.classList.remove('d-none')
                         let divExer = document.getElementById('exer' + id)
@@ -1072,7 +1067,7 @@
                 if (input.value > 5 && input.value < 16) {
 
                     let card = parseInt(id)
-                    // desabilitCard(card)
+                    desabilitCard(card)
                     if (bool) {
                         success.classList.remove('d-none')
                         let divExer = document.getElementById('exer' + id)
@@ -1185,7 +1180,7 @@
             }
             else {
                 if (exerFound.kg != null || exerFound.kg != undefined) {
-                    Training[found].kg = (valueInput - 1)
+                    Training[found].kg = valueInput 
                     Training[found].rept = 3
                 }
                 else {
@@ -1255,6 +1250,70 @@
             });
         });
         return data_all
+    }
+
+    function desabilitCard(id) {
+        const audio = document.getElementById("myAudio");
+        
+        var numberInput = [1, 2, 3, 4, 5, 6, 7, 8]
+        // Monta o array de id sem o id que está sendo tratado
+        let cardAtual = numberInput.findIndex(e => e == id)
+        if (cardAtual != -1) {
+            numberInput.splice(cardAtual, 1);
+        }
+  
+        numberInput.forEach(e => {
+            //Verifica se existe o HTML e se tiver desabilita
+            const inputDesabilit = document.getElementById('ValidExer' + e)
+            if(inputDesabilit != null){
+                inputDesabilit.disabled = true;
+            } 
+            const divExer = document.getElementById('exer' + e)
+            if(divExer != null){
+                divExer.classList.add('desabilited')
+            }  
+        })
+
+        let meuInput = document.getElementById('ValidExer' + id);
+        let cronometro = document.getElementById("cronometro" + id);
+        let segundosRestantes = 180; // 3 minutos em segundos
+        let interval; // Declarando a variável fora da função para poder usar em outro escopo
+
+        clearInterval(interval); // Parar o cronômetro se ele já estiver rodando
+        segundosRestantes = 180; // Reiniciar o tempo
+        cronometro.placeholder = "3:00";
+        interval = setInterval(function () {
+            segundosRestantes--;
+            let minutos = Math.floor(segundosRestantes / 60);
+            let segundos = segundosRestantes % 60;
+            cronometro.placeholder = minutos + ":" + segundos + "";
+
+            if (segundosRestantes <= 0) {
+                const menssagemSuccess = document.getElementById('success' + id)
+                menssagemSuccess.classList.add('d-none')
+                
+                const exerFinish = document.getElementById('exer' + id)
+                exerFinish.classList.remove('bg-white')
+                exerFinish.classList.add('exerFinish')
+
+                audio.play();
+                clearInterval(interval); // Parar o cronômetro
+                meuInput.disabled = false; // Habilitar input
+                cronometro.placeholder = "Fim";
+
+                numberInput.forEach(e => {
+                    const inputDesabilit = document.getElementById('ValidExer' + e)
+                    if (inputDesabilit != null){
+                        inputDesabilit.disabled = false;
+                    }
+                    const divExer = document.getElementById('exer' + e)
+                    if (divExer != null){
+                        divExer.classList.remove('desabilited')
+                    }  
+                })
+            }
+        }, 1000); // Atualizar o cronômetro a cada segundo
+
     }
 
     async function enviarTreino() {

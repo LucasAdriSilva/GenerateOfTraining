@@ -302,13 +302,13 @@
         <span class="text-center">E adicione as informações abaixo</span>
     </div>
 
-    <div class="col-12 d-flex justify-content-center align-items-center gap-1">
+    <!-- <div class="col-12 d-flex justify-content-center align-items-center gap-1">
         <div class="form-check form-switch">
             <input class="form-check-input border-switch" type="checkbox" role="switch" id="pairedSetsValue">
             <label class="form-check-label" for="pairedSetsValue">Paired Sets</label>
         </div>
         <img src="assets/img/interrog.jpg" onclick="openModal('pairedSets')" width="20" height="20" alt="">
-    </div>
+    </div> -->
 
     <!-- <div id="exer1" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
 
@@ -596,9 +596,11 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<audio id="myAudio">
+    <source src="assets/audio/not.mp3" type="audio/mp3">
+</audio>
 
-
-<script> 
+<script>
     const exercises = giveExer()
     const exercisesBase = exercises.filter(e => e.default == true)
     const div2 = document.getElementById('div2');
@@ -664,8 +666,7 @@
       
                   <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
                     <p class="reset text-uppercase text-gray1">PAUSA</p>
-                    <input required="true" disabled placeholder="3min"
-                      class="w-75 input-value text-center rounded-3" type="text">
+                    <input id="cronometro${x}" required="true" disabled placeholder="3min" class="w-75 input-value text-center rounded-3" type="text">
                   </div>
                 </div>
       
@@ -688,7 +689,7 @@
       
                       </div>
                       <span id="${'success' + x}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
-                      Perfeito, agora é só descansar <span id="cronometro"></span> e fazer o próximo exercício
+                      Perfeito, agora é só descansar e fazer o próximo exercício
                       </span> 
       
                       <span id="${'noInput' + x}" class="reset px-3 text-start text-danger d-none" style="font-size: 10px;">
@@ -1103,7 +1104,7 @@
                 btn.classList.remove('d-block')
 
                 let card = parseInt(id)
-                // desabilitCard(card)
+                desabilitCard(card)
                 gerarTreino(Title, Input, id)
             }
             // Se o numero de repetição for 5 ou 6 mostra o modal
@@ -1241,7 +1242,7 @@
                 if (input.value > 3 && input.value < 16) {
 
                     let card = parseInt(id)
-                    // desabilitCard(card)
+                    desabilitCard(card)
 
                     noInput.classList.add('d-none')
                     if (bool) {
@@ -1324,7 +1325,7 @@
                 if (input.value > 5 && input.value < 16) {
 
                     let card = parseInt(id)
-                    // desabilitCard(card)
+                    desabilitCard(card)
                     noInput.classList.add('d-none')
                     if (bool) {
                         success.classList.remove('d-none')
@@ -1664,6 +1665,7 @@
     }
 
     function desabilitCard(id) {
+        const audio = document.getElementById("myAudio");
 
         // Monta o array de id sem o id que está sendo tratado
         let cardAtual = numberInput.findIndex(e => e == id)
@@ -1673,39 +1675,56 @@
         // Desabilita todos os inpust e add uma class aos cards
         numberInput.forEach(e => {
             const inputDesabilit = document.getElementById('ValidExer' + e)
-            inputDesabilit.disabled = true;
+            if (inputDesabilit != null) {
+                inputDesabilit.disabled = true;
+            }
             const divExer = document.getElementById('exer' + e)
-            divExer.classList.add('desabilited')
-        })
+            if (divExer != null) {
+                divExer.classList.add('desabilited')
+            }
 
+        })
         let meuInput = document.getElementById('ValidExer' + id);
-        let cronometro = document.getElementById("cronometro");
+        let cronometro = document.getElementById('cronometro' + id);
         let segundosRestantes = 180; // 3 minutos em segundos
         let interval; // Declarando a variável fora da função para poder usar em outro escopo
 
 
         clearInterval(interval); // Parar o cronômetro se ele já estiver rodando
         segundosRestantes = 180; // Reiniciar o tempo
+        cronometro.placeholder = "3:00"
 
         interval = setInterval(function () {
             segundosRestantes--;
             let minutos = Math.floor(segundosRestantes / 60);
             let segundos = segundosRestantes % 60;
-            cronometro.innerHTML = minutos + "m " + segundos + "s";
+            cronometro.placeholder = minutos + "m " + segundos + "s";
 
             if (segundosRestantes <= 0) {
+                audio.play()
                 clearInterval(interval); // Parar o cronômetro
                 meuInput.disabled = false; // Habilitar input
-                cronometro.innerHTML = "fim";
+                cronometro.placeholder = "fim";
+
+                const menssagemSuccess = document.getElementById('success' + id)
+                menssagemSuccess.classList.add('d-none')
+                
+                const exerFinish = document.getElementById('exer' + id)
+                exerFinish.classList.remove('bg-white')
+                exerFinish.classList.add('exerFinish')
 
                 numberInput.forEach(e => {
                     const inputDesabilit = document.getElementById('ValidExer' + e)
-                    inputDesabilit.disabled = false;
+                    if (inputDesabilit != null){
+                        inputDesabilit.disabled = false;
+                    }
                     const divExer = document.getElementById('exer' + e)
-                    divExer.classList.remove('desabilited')
+                    if (divExer != null){
+                        divExer.classList.remove('desabilited')
+                    }  
                 })
             }
-        }, 1000); // Atualizar o cronômetro a cada segundo
+        }, 1); // Atualizar o cronômetro a cada segundo
 
     }
 
@@ -1756,15 +1775,15 @@
         else {
             const index = requireds.findIndex((e) => e.name == 'Days')
             console.log(requireds)
-            if (index == -1){
+            if (index == -1) {
                 var newData = { name: 'Days', value: days.value }
                 requireds.push(newData)
             }
-            else{
+            else {
                 requireds[index].value = days.value
             }
 
-            
+
         }
     })
 
@@ -1966,10 +1985,10 @@
         }
     }
 
-    async function saveRequireds(bool){ 
+    async function saveRequireds(bool) {
         await apiPost('saveDU', requireds)
-        bool ? window.location.href='/bodybuilding' : window.location.href='/hybrid'
-                
+        bool ? window.location.href = '/bodybuilding' : window.location.href = '/hybrid'
+
     }
 
     // Desativa a rotação automática do carrossel

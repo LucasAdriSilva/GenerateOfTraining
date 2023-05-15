@@ -20,7 +20,6 @@ def training():
       data = {'nav': 'home'}
       return render_template('firstAcess.html', data=data)
 
-
 @training_bp.route('/saveTraining', methods=["POST"])
 def saveTraining():
   data = request.get_data().decode()

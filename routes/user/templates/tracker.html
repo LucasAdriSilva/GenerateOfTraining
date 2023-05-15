@@ -11,7 +11,6 @@
     </div>
 </div>
 
-
 <span class="d-none" id="dataDB">{{data[3]}}</span>
 
 <div id="btnPS" class="row">
@@ -77,6 +76,39 @@
                 {% for a in range(exer.rept)%}
                 {% set contadorSerie = loop.index %}
 
+                {% if exer.kg %}
+                <div class="col-3 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    {% if exer.segs %}
+                    <p class="reset text-uppercase text-gray1">SEGS</p>
+                    {% else %}
+                    <p class="reset text-uppercase text-gray1">REPS</p>
+                    {% endif %}
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidExer{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    <p class="reset text-uppercase text-gray1">KG</p>
+
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidKg{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                {%else%}
                 <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
                     <p class="reset text-uppercase text-gray1">SÉRIE</p>
                     <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
@@ -99,6 +131,8 @@
                     <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
                         class="w-75 input-value text-center rounded-3" type="text">
                 </div>
+                {% endif%}
+
 
                 {% endfor %}
             </div>
@@ -160,6 +194,39 @@
                 {% for a in range(exer.rept)%}
                 {% set contadorSerie = loop.index %}
 
+                {% if exer.kg %}
+                <div class="col-3 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    {% if exer.segs %}
+                    <p class="reset text-uppercase text-gray1">SEGS</p>
+                    {% else %}
+                    <p class="reset text-uppercase text-gray1">REPS</p>
+                    {% endif %}
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidExer{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    <p class="reset text-uppercase text-gray1">KG</p>
+
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidKg{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                {%else%}
                 <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
                     <p class="reset text-uppercase text-gray1">SÉRIE</p>
                     <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
@@ -182,6 +249,7 @@
                     <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
                         class="w-75 input-value text-center rounded-3" type="text">
                 </div>
+                {% endif%}
 
                 {% endfor %}
             </div>
@@ -192,9 +260,6 @@
     {% endif %}
     {% endfor %}
     {% endif %}
-
-
-
 
 </section>
 
@@ -236,12 +301,13 @@
 <script>
     var newTraining = []
     var new_order = []
+    var numberInput = [1, 2, 3, 4, 5, 6, 7, 8]
     let exer = giveExer()
     var Data;
     const training = document.getElementById('trainingValue')
     const backupNormal = document.getElementById('TrainingRegular').innerHTML
     var backupPs = document.getElementById('TrainingPs').innerHTML
-
+    let highestRepetitionNumber = 0;
 
     function creatVar() {
         const valueData = document.getElementById(`dataDB`)
@@ -251,7 +317,9 @@
 
     function validationInpt(id, serie) {
         const input = document.getElementById(`ValidExer${id}Serie${serie}`)
+        const inputKg = document.getElementById(`ValidKg${id}Serie${serie}`)
         const training = document.getElementById('trainingValue')
+
         if (input != null) {
             input.addEventListener('blur', function () {
 
@@ -269,28 +337,61 @@
                     let sugundosTotais = segundos * repeticao
 
                     if (input.value != null && input.value != undefined && input.value != '') {
-                        //desabilitCardTracker(id, serie, training.checked)
+                        desabilitCardTracker(id, serie, training.checked)
                         addTraining(id, serie)
                     }
-
-
                 }
                 else {
                     if (input.value != null && input.value != undefined && input.value != '') {
-                        //desabilitCardTracker(id, serie, training.checked)
+                        desabilitCardTracker(id, serie, training.checked)
                         addTraining(id, serie)
                     }
+                }
+            })
+        }
 
+        if (inputKg != null) {
+            inputKg.addEventListener('blur', function () {
+                
+                const btnPS = document.getElementById('btnPS')
+                btnPS.classList.add('d-none')
+                //Pega o dados do exercicio que o backend enviou
+                const exerBack = document.getElementById(`name${id}`);
+                let exer = exerBack.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
+                let Exer = JSON.parse(exer);
+
+                if (inputKg.value != null && inputKg.value != undefined && inputKg.value != '') {
+                    desabilitCardTracker(id, serie, training.checked)
+                    addTraining(id, serie)
                 }
             })
         }
     }
 
-    window.addEventListener("load", function () {
+    window.addEventListener("load", function () { 
         backupPs.innerHTML = ''
         creatVar()
+        if ('d1' in Data || 'd2' in Data){
+            Data['d1'].forEach(e =>{
+                if (highestRepetitionNumber < e.rept){
+                    highestRepetitionNumber = e.rept
+                }
+            })
+            Data['d2'].forEach(e =>{
+                if (highestRepetitionNumber < e.rept){
+                    highestRepetitionNumber = e.rept
+                }
+            })           
+        }
+        else{
+            Data.forEach(e=>{
+                if (highestRepetitionNumber < e.rept){
+                    highestRepetitionNumber = e.rept
+                }
+            }) 
+        }
         for (let i = 1; i < 9; i++) {
-            for (let e = 1; e < 4; e++) {
+            for (let e = 1; e <= highestRepetitionNumber; e++) {
                 validationInpt(i, e)
             }
         }
@@ -372,13 +473,16 @@
             let x = 1
             numberInput.forEach(e => {
                 e.forEach(i => {
-
                     const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                    inputDesabilit.disabled = true;
+                    if (inputDesabilit != null){
+                        inputDesabilit.disabled = true;
+                    }
                 })
 
                 const divExer = document.getElementById('exer' + x)
-                divExer.classList.add('desabilited')
+                if(divExer != null){
+                    divExer.classList.add('desabilited')
+                }
                 x++
             })
         }
@@ -417,17 +521,19 @@
                         [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
                     ]
 
-
-
                     // Desabilita todos os inpust e add uma class aos cards
                     numberInput.forEach(e => {
                         e.forEach(i => {
 
                             const inputDesabilit = document.getElementById(`ValidExer${i[0]}Serie${i[1]}`)
-                            inputDesabilit.disabled = false;
+                            if(inputDesabilit != null){
+                                inputDesabilit.disabled = false;
+                            }
 
                             const divExer = document.getElementById('exer' + i[0])
-                            divExer.classList.remove('desabilited')
+                            if(divExer != null){
+                                divExer.classList.remove('desabilited')
+                            }
                         })
 
 
@@ -437,11 +543,15 @@
                     numberInput.forEach(e => {
                         e.forEach(i => {
                             const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                            inputDesabilit.disabled = false;
+                            if(inputDesabilit != null){
+                                inputDesabilit.disabled = false;
+                            }
                         })
 
                         const divExer = document.getElementById('exer' + x)
-                        divExer.classList.remove('desabilited')
+                        if (divExer != null){ 
+                            divExer.classList.remove('desabilited')
+                        }
                         x++
                     })
                 }
@@ -451,26 +561,41 @@
     }
 
     function addTraining(id, serie) {
+        
         const name = document.getElementById(`name${id}`);
         let Name = name.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
         let newData = JSON.parse(Name);
 
         const input = document.getElementById(`ValidExer${id}Serie${serie}`)
+        const inputKg = document.getElementById(`ValidKg${id}Serie${serie}`)
 
         let index = newTraining.findIndex(e => e.name === newData.name)
 
         if (index == -1) {
-            newData[`rept${serie}`] = parseInt(input.value);
-            newTraining.push(newData);
+            if (input != null && parseInt(input.value) > 0) {
+                newData[`rept${serie}`] = parseInt(input.value);
+                newTraining.push(newData);
+            }
+            if (inputKg != null && parseInt(inputKg.value) > 0) {
+                newData[`kg${serie}`] = parseInt(inputKg.value);
+                newTraining.push(newData);
+            }
+
         } else {
-            newTraining[index][`rept${serie}`] = parseInt(input.value);
+            
+            if (input != null) {
+                newTraining[index][`rept${serie}`] = parseInt(input.value);
+            }
+            if (inputKg != null) {
+                newTraining[index][`kg${serie}`] = parseInt(inputKg.value);
+            }
         }
-        console.log('Add ao array treino')
+        console.log(newTraining)
     }
 
     async function finishedTraining() {
         loading(true)
-        debugger
+        
         const valueData = document.getElementById(`dataDB`);
         let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
         let data = JSON.parse(dataOfDataBase);
@@ -559,6 +684,7 @@
     }
 
     function attTraining(name, oldName) {
+        
         let info = creatVar()
         let indexDiv
         let dataExer
@@ -634,7 +760,7 @@
             `
         }
         for (let i = 1; i < 9; i++) {
-            for (let e = 1; e < 4; e++) {
+            for (let e = 1; e <= highestRepetitionNumber; e++) {
                 validationInpt(i, e)
             }
         }
@@ -672,32 +798,65 @@
         const divReptExer = document.getElementById(`reptDiv${indexDiv}`)
         let num = dataExer.rept
 
-        for (let i = 1; i - 1 < num; i++) {
-            divReptExer.innerHTML += `
-            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
-                <p class="reset text-uppercase text-gray1">SÉRIE</p>
-                <input class="w-75 text-center rounded-3" type="text" placeholder="${i}" disabled>
-            </div>
+        if (dataExer.kg) {
+            for (let i = 1; i - 1 < num; i++) {
+                divReptExer.innerHTML += `
+                <div class="col-3 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="${i}" disabled>
+                </div>
+    
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    ${dataExer.segs ? '<p class="reset text-uppercase text-gray1">SEGS</p>' : '<p class="reset text-uppercase text-gray1">REPS</p>'}
+                    <input required="true" id="ValidExer${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+    
+                </div>
 
-            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
-                ${dataExer.segs ? '<p class="reset text-uppercase text-gray1">SEGS</p>' : '<p class="reset text-uppercase text-gray1">REPS</p>'}
-                <input required="true" id="ValidExer${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
-                    type="number">
-
-            </div>
-
-            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
-                <p class="reset text-uppercase text-gray1">PAUSA</p>
-                <input id="reset${indexDiv}Serie${i}" required="true" disabled placeholder="3min"
-                    class="w-75 input-value text-center rounded-3" type="text">
-            </div>
-            `
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                   <p class="reset text-uppercase text-gray1">KG</p>
+                    <input required="true" id="ValidKg${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+    
+                </div>
+    
+                <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset${indexDiv}Serie${i}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                `
+            }
         }
+        else {
+            for (let i = 1; i - 1 < num; i++) {
+                divReptExer.innerHTML += `
+                <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="${i}" disabled>
+                </div>
+    
+                <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    ${dataExer.segs ? '<p class="reset text-uppercase text-gray1">SEGS</p>' : '<p class="reset text-uppercase text-gray1">REPS</p>'}
+                    <input required="true" id="ValidExer${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+    
+                </div>
+    
+                <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset${indexDiv}Serie${i}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                `
+            }
+        }
+
 
         delete info[index].newExer;
 
         for (let i = 1; i < 9; i++) {
-            for (let e = 1; e < 4; e++) {
+            for (let e = 1; e <= highestRepetitionNumber; e++) {
                 validationInpt(i, e)
             }
         }
@@ -749,6 +908,7 @@
                         console.log("newExer")
                     }
                     else {
+                        
                         itemString = JSON.stringify(item)
 
                         item['divID'] = sun
@@ -788,8 +948,37 @@
                         rpt = i[1]
                         let info = exer.filter(a => a.divID == i[0])[0]
 
+                        if (info.hasOwnProperty('kg')) {
+                            rep.innerHTML += `
+                                <div class="col-3 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                                    <input class="w-75 text-center rounded-3" type="text" placeholder="${i[0]}" disabled>
+                                </div>
+            
+                                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">                          
+                                     ${info.hasOwnProperty('segs') ? `<p class="reset text-uppercase text-gray1">SEGS</p>` : `<p class="reset text-uppercase text-gray1">REPS</p>`}
+        
+                                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                                        id="ValidExer${id}Serie${rpt}" class="w-75 input-value text-center rounded-3"
+                                        type="number">
+                                </div>  
+                                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">                          
+                                    <p class="reset text-uppercase text-gray1">KG</p> 
 
-                        rep.innerHTML += `
+                                   <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                                       id="ValidKg${id}Serie${rpt}" class="w-75 input-value text-center rounded-3"
+                                       type="number">
+                               </div>  
+                                
+                                
+                                <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                                    <input id="reset${id}Serie${rpt}" required="true" disabled placeholder="1:30m"
+                                        class="w-75 input-value text-center rounded-3" type="text">
+                                </div>`
+                        }
+                        else {
+                            rep.innerHTML += `
                                 <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
                                     <p class="reset text-uppercase text-gray1">SÉRIE</p>
                                     <input class="w-75 text-center rounded-3" type="text" placeholder="${i[0]}" disabled>
@@ -807,6 +996,8 @@
                                     <input id="reset${id}Serie${rpt}" required="true" disabled placeholder="1:30m"
                                         class="w-75 input-value text-center rounded-3" type="text">
                                 </div>`
+                        }
+
                         validationInpt(id, rpt)
 
                     })

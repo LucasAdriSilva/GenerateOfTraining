@@ -21,6 +21,15 @@ def index():
     # Verifica o retorno do banco nao é null
     if ip_found is not None:
 
+      if ip_found[-2] is None and ip_found[-3] is not None and ip_found[5] is not None:
+        data = {
+            'nav': 'creat',
+            'allTreinos': json.loads(ip_found[-3]),
+            'days': ip_found[-5]
+          }
+        # return render_template("creatTraining.html", data=data)
+        return getUrl("creatTraining.html", value = data)
+  
       # Verifica se é o priemiro treino
       if  ip_found[-1] is not None:
         # Pega o ultimo treino para montar o exercicio
@@ -97,8 +106,12 @@ def creatTraining():
 
     if user_found[-3] is not None:
       treino = json.loads(user_found[-3])
-    else:  
-      treino = session['training']
+    else:
+      if 'training' in session:  
+        treino = session['training']
+      else:
+        data = [None,None,None, {'nav': 'home'}]
+        return render_template("firstAcess.html", data = data)
 
     if user_found[-2] is not None:
       for rotina in treino:
