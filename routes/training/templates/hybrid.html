@@ -336,7 +336,7 @@
           
                       <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
                         <p id="${'repts' + ID}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
-                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + ID}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
+                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + ID}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0 ? exer.kg : ''}"
 " >
           
                       </div>
@@ -400,7 +400,7 @@
             ID++
         })
         exercices.innerHTML = content
-        for (let i = 1; i <= Training.length + 1; i++) {     
+        for (let i = 1; i <= Training.length + 1; i++) {
             creatStruct2(i)
         }
         return Training; //retorne o array atualizado
@@ -443,7 +443,7 @@
     }
 
     function choseExer(i) {
-        
+
         let exer = filterExer[i]
 
         let index = Training.findIndex(e => e.category == exer.category && e.type == exer.type)
@@ -456,7 +456,7 @@
         let id = 1
         Training.forEach(exer => {
             if (exer.name) {
-                
+
 
                 div += ` 
             <div id="exer${id}" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
@@ -494,7 +494,7 @@
           
                       <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
                         <p id="${'repts' + id}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
-                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + id}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
+                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + id}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0 ? exer.kg : ''}"
 ">
           
                       </div>
@@ -559,12 +559,12 @@
         })
 
         exercices.innerHTML = div
-        for (let i = 1; i <= Training.length + 1; i++) {           
+        for (let i = 1; i <= Training.length + 1; i++) {
             creatStruct2(i)
         }
 
     }
-    
+
     //Funções ja usadas
     function filter(id, name, category, type, nivel) {
         // Mescla os dados entre os arrays
@@ -765,7 +765,7 @@
           
                       <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
                         <p id="${'repts' + ID}" class="reset text-uppercase text-gray1">${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}</p>
-                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + ID}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0  ? exer.kg : ''}"
+                        <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + ID}" class="w-75 input-value text-center rounded-3" type="number" placeholder="${exer.count >= 0 ? exer.count : ''}${exer.kg > 0 ? exer.kg : ''}"
 ">
           
                       </div>
@@ -872,7 +872,7 @@
         // Se for segs
         if (exer[0].segs) {
             // Se o exercicio nao for de segundos ira executar essa validação
-            
+
 
             let segundos = input.value / 2 //Resposta em segundos
             let repeticao = 60 / Math.round(segundos) // Repostas em repetição
@@ -1180,7 +1180,7 @@
             }
             else {
                 if (exerFound.kg != null || exerFound.kg != undefined) {
-                    Training[found].kg = valueInput 
+                    Training[found].kg = valueInput
                     Training[found].rept = 3
                 }
                 else {
@@ -1254,24 +1254,35 @@
 
     function desabilitCard(id) {
         const audio = document.getElementById("myAudio");
-        
+
         var numberInput = [1, 2, 3, 4, 5, 6, 7, 8]
         // Monta o array de id sem o id que está sendo tratado
         let cardAtual = numberInput.findIndex(e => e == id)
         if (cardAtual != -1) {
             numberInput.splice(cardAtual, 1);
         }
-  
+
+        // Desabilita todos os inpust e add uma class aos cards
+        let x = 1
         numberInput.forEach(e => {
-            //Verifica se existe o HTML e se tiver desabilita
-            const inputDesabilit = document.getElementById('ValidExer' + e)
-            if(inputDesabilit != null){
-                inputDesabilit.disabled = true;
-            } 
-            const divExer = document.getElementById('exer' + e)
-            if(divExer != null){
+            e.forEach(i => {
+                const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+
+                if (inputDesabilitKg != null) {
+                    inputDesabilitKg.disabled = true;
+                }
+
+                if (inputDesabilit != null) {
+                    inputDesabilit.disabled = true;
+                }
+            })
+
+            const divExer = document.getElementById('exer' + x)
+            if (divExer != null) {
                 divExer.classList.add('desabilited')
-            }  
+            }
+            x++
         })
 
         let meuInput = document.getElementById('ValidExer' + id);
@@ -1291,7 +1302,7 @@
             if (segundosRestantes <= 0) {
                 const menssagemSuccess = document.getElementById('success' + id)
                 menssagemSuccess.classList.add('d-none')
-                
+
                 const exerFinish = document.getElementById('exer' + id)
                 exerFinish.classList.remove('bg-white')
                 exerFinish.classList.add('exerFinish')
@@ -1301,22 +1312,35 @@
                 meuInput.disabled = false; // Habilitar input
                 cronometro.placeholder = "Fim";
 
+                // Desabilita todos os inpust e add uma class aos cards
+                let x = 1
                 numberInput.forEach(e => {
-                    const inputDesabilit = document.getElementById('ValidExer' + e)
-                    if (inputDesabilit != null){
-                        inputDesabilit.disabled = false;
-                    }
-                    const divExer = document.getElementById('exer' + e)
-                    if (divExer != null){
+                    e.forEach(i => {
+                        const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                        const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+
+                        if (inputDesabilitKg != null) {
+                            inputDesabilitKg.disabled = false;
+                        }
+
+                        if (inputDesabilit != null) {
+                            inputDesabilit.disabled = false;
+                        }
+                    })
+
+                    const divExer = document.getElementById('exer' + x)
+                    if (divExer != null) {
                         divExer.classList.remove('desabilited')
-                    }  
+                    }
+                    x++
                 })
             }
-        }, 1000); // Atualizar o cronômetro a cada segundo
+        }, 1); // Atualizar o cronômetro a cada segundo
 
     }
 
     async function enviarTreino() {
+        debugger
         for (let i = 0; i < Training.length; i++) {
             const tr = Training[i];
             if ('kg' in tr) {

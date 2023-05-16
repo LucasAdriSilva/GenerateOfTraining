@@ -14,7 +14,7 @@ import random, string
 #       Primeira letra do nome do usuário,
 #       rota que sera redirecionado se estiver logado,
 #       True ou False se vai ter logout,
-#       Objeto com os valores trado pelo backend
+#       Objeto com os valores tratado pelo backend
 #     ]
 
 #  Para usar no html vai precisar {{data[3].........}}

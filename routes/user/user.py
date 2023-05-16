@@ -165,13 +165,19 @@ def login():
         else:
           return getUrl('basicScreens.creatTraining', bool=True)
       else:
-        err = 'Senha incorreta'
-        return getUrl('login.html', prop='erro', value=err, bool=False)
+        # err = 'Senha incorreta'
+        # return render_template('login.html', prop='erro', value=err, bool=False)
+
+        data = [None,None,None, {'nav': 'home', 'erro': 'Senha incorreta'}]
+        return render_template("login.html", data = data)
     else:
-      err = 'Usuário nao encontado'
-      return getUrl('login.html', prop='erro', value=err, bool=False)
-  else:  
+      # err = 'Usuário nao encontado'
+      # return render_template('login.html', prop='erro', value=err, bool=False)
+      data = [None,None,None, {'nav': 'home', 'erro': 'Usuário nao encontado'}]
+      return render_template("login.html", data = data)
+  else: 
     return getUrl("basicScreens.creatTraining", bool=True)
+
   
 @user.route('/logout')
 def logout():

@@ -72,7 +72,8 @@ def index():
           return getUrl("home.html", value = data)    
          
         else:
-          data = [None,None,None, {'nav': 'home'}]
+          name = ip_found[1]
+          data = [name[0],None,None, {'nav': 'home'}]
           return render_template("firstAcess.html", data = data)
     else:
        data = [None,None,None, {'nav': 'home'}]
@@ -110,7 +111,7 @@ def creatTraining():
       if 'training' in session:  
         treino = session['training']
       else:
-        data = [None,None,None, {'nav': 'home'}]
+        data = [user_found[1][0],None,None, {'nav': 'home'}]
         return render_template("firstAcess.html", data = data)
 
     if user_found[-2] is not None:
@@ -134,12 +135,16 @@ def creatTraining():
       if len(treino) > 4:
         for a in all:
           for t in treino:
-                if a["name"] == t["name"]:
-                  new_data = a.copy()
-                  new_data.update(t)
-                  data_all.append(new_data)
+                if isinstance(t, list) == False:
+                  if a["name"] == t["name"]:
+                    new_data = a.copy()
+                    new_data.update(t)
+                    data_all.append(new_data)
+                
+               
         for a in musc:
           for t in treino:
+              if isinstance(t, list) == False:  
                 if a["name"] == t["name"]:
                   new_data = a.copy()
                   new_data.update(t)

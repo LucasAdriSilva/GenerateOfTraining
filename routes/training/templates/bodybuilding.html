@@ -1190,16 +1190,26 @@
         }
 
         // Desabilita todos os inpust e add uma class aos cards
+        let x = 1
         numberInput.forEach(e => {
-            const inputDesabilit = document.getElementById('ValidExer' + e)
-            if (inputDesabilit != null) {
-                inputDesabilit.disabled = true;
-            }
-            const divExer = document.getElementById('exer' + e)
-            if (divExer != null) {
+            e.forEach(i => {
+                const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+
+                if (inputDesabilitKg != null){
+                    inputDesabilitKg.disabled = true;
+                }
+
+                if (inputDesabilit != null){
+                    inputDesabilit.disabled = true;
+                }
+            })
+
+            const divExer = document.getElementById('exer' + x)
+            if(divExer != null){
                 divExer.classList.add('desabilited')
             }
-
+            x++
         })
 
         let meuInput = document.getElementById('ValidExer' + id);
@@ -1232,16 +1242,28 @@
                 meuInput.disabled = false; // Habilitar input
                 cronometro.placeholder = "Fim";
 
-                numberInput.forEach(e => {          
-                    const inputDesabilit = document.getElementById('ValidExer' + e)
-                    if (inputDesabilit != null) {
-                        inputDesabilit.disabled = false;
-                    }
-                    const divExer = document.getElementById('exer' + e)
-                    if (divExer != null) {
-                        divExer.classList.remove('desabilited')
-                    }
-                })
+                // Desabilita todos os inpust e add uma class aos cards
+        let x = 1
+        numberInput.forEach(e => {
+            e.forEach(i => {
+                const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+
+                if (inputDesabilitKg != null){
+                    inputDesabilitKg.disabled = false;
+                }
+
+                if (inputDesabilit != null){
+                    inputDesabilit.disabled = false;
+                }
+            })
+
+            const divExer = document.getElementById('exer' + x)
+            if(divExer != null){
+                divExer.classList.remove('desabilited')
+            }
+            x++
+        })
             }
         }, 1); // Atualizar o cronômetro a cada segundo
 

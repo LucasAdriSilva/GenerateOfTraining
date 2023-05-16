@@ -5,7 +5,7 @@
 <div class="row mt-3">
     <div class="col-12 d-flex flex-column justify-content-center align-items-center">
 
-        <h1>{{data[3].chosenTraining}}</h1>
+        <h1 id="chosenTraining">{{data[3].chosenTraining}}</h1>
 
         <small>Lembre de fazer os alogamentos par evitar <span class="reset text-danger text-uppercase">lesões</small>
     </div>
@@ -299,15 +299,20 @@
 </div>
 
 <script>
-    var newTraining = []
-    var new_order = []
-    var numberInput = [1, 2, 3, 4, 5, 6, 7, 8]
-    let exer = giveExer()
+    var newTraining = [];
+    var new_order = [];
+    var numberInput = [1, 2, 3, 4, 5, 6, 7, 8];
+    let exer = giveExer();
     var Data;
-    const training = document.getElementById('trainingValue')
-    const backupNormal = document.getElementById('TrainingRegular').innerHTML
-    var backupPs = document.getElementById('TrainingPs').innerHTML
+    const training = document.getElementById('trainingValue');
+    const backupNormal = document.getElementById('TrainingRegular').innerHTML;
+    var backupPs = document.getElementById('TrainingPs').innerHTML;
     let highestRepetitionNumber = 0;
+    let toWait = false;
+
+    function toggleToWait() {
+        toWait = !toWait
+    }
 
     function creatVar() {
         const valueData = document.getElementById(`dataDB`)
@@ -337,13 +342,19 @@
                     let sugundosTotais = segundos * repeticao
 
                     if (input.value != null && input.value != undefined && input.value != '') {
-                        desabilitCardTracker(id, serie, training.checked)
+                        debugger
+                        if (toWait === false) {
+                            desabilitCardTracker(id, serie, training.checked)
+                        }
                         addTraining(id, serie)
                     }
                 }
                 else {
                     if (input.value != null && input.value != undefined && input.value != '') {
-                        desabilitCardTracker(id, serie, training.checked)
+                        debugger
+                        if (toWait === false) {
+                            desabilitCardTracker(id, serie, training.checked)
+                        }
                         addTraining(id, serie)
                     }
                 }
@@ -352,7 +363,7 @@
 
         if (inputKg != null) {
             inputKg.addEventListener('blur', function () {
-                
+
                 const btnPS = document.getElementById('btnPS')
                 btnPS.classList.add('d-none')
                 //Pega o dados do exercicio que o backend enviou
@@ -361,34 +372,37 @@
                 let Exer = JSON.parse(exer);
 
                 if (inputKg.value != null && inputKg.value != undefined && inputKg.value != '') {
-                    desabilitCardTracker(id, serie, training.checked)
+                    debugger
+                    if (toWait === false) {
+                        desabilitCardTracker(id, serie, training.checked)
+                    }
                     addTraining(id, serie)
                 }
             })
         }
     }
 
-    window.addEventListener("load", function () { 
+    window.addEventListener("load", function () {
         backupPs.innerHTML = ''
         creatVar()
-        if ('d1' in Data || 'd2' in Data){
-            Data['d1'].forEach(e =>{
-                if (highestRepetitionNumber < e.rept){
+        if ('d1' in Data || 'd2' in Data) {
+            Data['d1'].forEach(e => {
+                if (highestRepetitionNumber < e.rept) {
                     highestRepetitionNumber = e.rept
                 }
             })
-            Data['d2'].forEach(e =>{
-                if (highestRepetitionNumber < e.rept){
+            Data['d2'].forEach(e => {
+                if (highestRepetitionNumber < e.rept) {
                     highestRepetitionNumber = e.rept
                 }
-            })           
+            })
         }
-        else{
-            Data.forEach(e=>{
-                if (highestRepetitionNumber < e.rept){
+        else {
+            Data.forEach(e => {
+                if (highestRepetitionNumber < e.rept) {
                     highestRepetitionNumber = e.rept
                 }
-            }) 
+            })
         }
         for (let i = 1; i < 9; i++) {
             for (let e = 1; e <= highestRepetitionNumber; e++) {
@@ -398,6 +412,7 @@
     });
 
     function desabilitCardTracker(id, serie, ps) {
+        toggleToWait()
         const audio = document.getElementById("myAudio");
         let data = creatVar()
         let numberInput = []
@@ -474,13 +489,19 @@
             numberInput.forEach(e => {
                 e.forEach(i => {
                     const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                    if (inputDesabilit != null){
+                    const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+
+                    if (inputDesabilitKg != null) {
+                        inputDesabilitKg.disabled = true;
+                    }
+
+                    if (inputDesabilit != null) {
                         inputDesabilit.disabled = true;
                     }
                 })
 
                 const divExer = document.getElementById('exer' + x)
-                if(divExer != null){
+                if (divExer != null) {
                     divExer.classList.add('desabilited')
                 }
                 x++
@@ -505,6 +526,7 @@
 
             if (segundosRestantes <= 0) {
                 audio.play();
+                toggleToWait()
                 clearInterval(interval); // Parar o cronômetro
                 // Habilitar input
                 cronometro.placeholder = "FIM";
@@ -526,12 +548,18 @@
                         e.forEach(i => {
 
                             const inputDesabilit = document.getElementById(`ValidExer${i[0]}Serie${i[1]}`)
-                            if(inputDesabilit != null){
+                            const inputDesabilitkg = document.getElementById(`ValidKg${i[0]}Serie${i[1]}`)
+
+                            if (inputDesabilitkg != null) {
+                                inputDesabilitkg.disabled = false;
+                            }
+
+                            if (inputDesabilit != null) {
                                 inputDesabilit.disabled = false;
                             }
 
                             const divExer = document.getElementById('exer' + i[0])
-                            if(divExer != null){
+                            if (divExer != null) {
                                 divExer.classList.remove('desabilited')
                             }
                         })
@@ -543,13 +571,19 @@
                     numberInput.forEach(e => {
                         e.forEach(i => {
                             const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                            if(inputDesabilit != null){
+                            const inputDesabilitkg = document.getElementById(`ValidKg${x}Serie${i}`)
+
+                            if (inputDesabilitkg != null) {
+                                inputDesabilitkg.disabled = false;
+                            }
+
+                            if (inputDesabilit != null) {
                                 inputDesabilit.disabled = false;
                             }
                         })
 
                         const divExer = document.getElementById('exer' + x)
-                        if (divExer != null){ 
+                        if (divExer != null) {
                             divExer.classList.remove('desabilited')
                         }
                         x++
@@ -557,11 +591,11 @@
                 }
             }
         }, 1000); // Atualizar o cronômetro a cada segundo
-
+        
     }
 
     function addTraining(id, serie) {
-        
+
         const name = document.getElementById(`name${id}`);
         let Name = name.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
         let newData = JSON.parse(Name);
@@ -582,7 +616,7 @@
             }
 
         } else {
-            
+
             if (input != null) {
                 newTraining[index][`rept${serie}`] = parseInt(input.value);
             }
@@ -595,7 +629,7 @@
 
     async function finishedTraining() {
         loading(true)
-        
+        debugger
         const valueData = document.getElementById(`dataDB`);
         let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
         let data = JSON.parse(dataOfDataBase);
@@ -684,7 +718,7 @@
     }
 
     function attTraining(name, oldName) {
-        
+
         let info = creatVar()
         let indexDiv
         let dataExer
@@ -864,7 +898,18 @@
     }
 
     training.addEventListener('change', function () {
-        let data = creatVar()
+        const valueData = document.getElementById(`dataDB`)
+        let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
+
+        let auxiliar = JSON.parse(dataOfDataBase).fullTraining
+        let auxiliar2 = JSON.parse(dataOfDataBase).chosenDay
+        let data;
+        if (auxiliar2 == 'd0') {
+            data = auxiliar
+        }
+        else {
+            data = auxiliar[auxiliar2]
+        }
         const ps = document.getElementById('TrainingPs')
         const regularTraining = document.getElementById('TrainingRegular')
 
@@ -908,7 +953,7 @@
                         console.log("newExer")
                     }
                     else {
-                        
+
                         itemString = JSON.stringify(item)
 
                         item['divID'] = sun
@@ -1016,6 +1061,7 @@
     })
 
     function transformToParedPairedSets(data) {
+
         // Cria um aray com o numero de repetição do exercicio
         data.forEach(function (e) {
             var repeated_e = Array(e['rept']).fill(e).map(function (d, i) {
