@@ -423,7 +423,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Sugestão de troca</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="clearModal()"></button>
                 </div>
 
                 <!-- Caso nao tiver nenhum exercicio -->
@@ -472,6 +472,26 @@
                     <div class="col-12 mt-4 d-flex justify-content-center align-items-center">
                         <button id="exerLeveRemove" data-bs-dismiss="modal" class="btn btn-success w-50">OK</button>
                     </div>
+                </div>
+
+                <!-- Caso nao tiver exercicio pq zerou os niveis -->
+                <div id="exerWeight" class="d-none d-flex flex-column modal-body px-3">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <span class="mt-2 text-center font-capt">
+                            Esse era o exercicio mais pesado. Não tem problema, vamos alterar o sei treino!
+                        </span>
+                        
+                    </div>
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <span class="mt-2 text-center font-capt">
+                            Escolha entre os treinos:
+                        </span>
+                    </div>
+                    <div class="col-12 d-flex justify-content-between align-items-center">
+                        <button class="btn btn-success" onclick="window.location.href='/bodybuilding'"> Musculação</button>
+                        <button class="btn btn-success" onclick="window.location.href='/hybrid'"> Hibrido</button>
+                    </div>
+
                 </div>
 
                 <div class="modal-body" id="divToggle">
@@ -610,6 +630,14 @@
     var requireds = []
     var numberInput = [1, 2, 3, 4, 5, 6, 7, 8]
 
+    function clearModal(){
+        const zeroExer = docuemnt.getElementById('zeroExer')
+        const exerLeve = docuemnt.getElementById('exerLeve')
+        const exerWeight = docuemnt.getElementById('exerWeight')
+        zeroExer.classList.add('d-none')
+        exerLeve.classList.add('d-none')
+        exerWeight.classList.add('d-none')   
+    }
 
     function creatExercisesBase() {
         //Esconde
@@ -713,7 +741,7 @@
     }
 
     function filter(id, name, category, type, nivel) {
-
+        
         // Mescla os dados entre os arrays
         let arrayCorrecty = correctingArray(treino, exercises)
         // Procura no array de exercicios qual é o que vai ser alterado
@@ -762,231 +790,258 @@
 
                 input > 25 && input <= 40 ? nivel += 2 : null;
 
-                nivel > 6 ? nivel = 6 : nivel = nivel
+                input > 40 ? nivel += 2 : null;
+                
+                input < 0 ? nivel = 0: null 
 
-                nivel < 0 ? nivel = 0 : nivel = nivel
+                /*nivel > 6 ? nivel = 6 : nivel = nivel
+
+                nivel < 0 ? nivel = 0 : nivel = nivel*/
             }
 
         }
+        debugger
+        if (nivel > 6) {
+            const titleModal = document.getElementById('exampleModalLabel')
+            titleModal.innerHTML = 'Atenção'
+            titleModal.classList.add('fw-bolder')
 
+            const exerWeight = document.getElementById('exerWeight')
+            exerWeight.classList.remove('d-none')
 
-        if (category) {
-            filterType = newExercises.filter(exercise => exercise.category === category);
-        }
-        // Filtra os exercícios com base no nível, se o nível for especificado
-        if (nivel !== undefined && nivel >= 0) {
-            filterType = filterType.filter(exercise => exercise.nivel === nivel);
-        }
-        // Filtra os exercícios com base no tipo, se o tipo for especificado
-        if (type) {
-            filterType = filterType.filter(exercise => exercise.type === type);
-        }
-
-
-        // Retira exercicios repetidos
-        let filtered = filterType.filter((item, index, arr) => {
-            return arr.findIndex(t => t.name === item.name) === index;
-        });
-        filterType = filtered;
-
-        // Retira os exercicios que estão no newExercisesBase
-        let altered = [];
-        filterType.forEach(e => {
-            if (!newExercisesBase.find(i => i.name === e.name)) {
-                altered.push(e);
-            }
-        });
-        filterType = altered;
-
-
-        // Retira todos os exercicios com o nome do que está subistituindo
-        filterType = filterType.filter(e => e.name !== exerFound[0].name);
-
-        if (filterType.length < 1) {
-            const zeroExer = document.getElementById('zeroExer')
-            zeroExer.classList.add('d-none')
-            const exerLeve = document.getElementById('exerLeve')
-            exerLeve.classList.add('d-none')
-
-            let exerSameCategory = arrayCorrecty.filter(e => e.category == exerFound[0].category && e.name != exerFound[0].name)
-
-
-            // Se não tiver outro exercicio no treino 
-            if (exerSameCategory.length > 0) {
-                //Mostrar messagem que só tera esse exercicio até ele evoluir o suficiente para fazer outro exercicio
-                const exerLeve = document.getElementById('exerLeve')
-                exerLeve.classList.remove('d-none')
-
-                const ESC = document.getElementById('exerSameCategory')
-                ESC.innerHTML = exerSameCategory[0].name
-
-                const titleModal = document.getElementById('exampleModalLabel')
-                titleModal.innerHTML = 'Atenção'
-                titleModal.classList.add('fw-bolder')
-
-                const exerLeveRemove = document.getElementById('exerLeveRemove')
-                exerLeveRemove.onclick = function () { removeExer(exerFound) };
-
-            }
-            else {
-                // Identificamos qual é o outro exercicio da mesma categoria
-                let otherExerSameCategory = newExercisesBase.filter(e => e.category == exerFound[0].category && e.name != exerFound[0].name)[0]
-                // descobrimos o index dele
-                let index = newExercisesBase.findIndex(e => e.name == otherExerSameCategory.name)
-                // Atraves do index puxamos o valor do input
-                const inputExer = document.getElementById('ValidExer' + (index + 1))
-                // Verificamos se o botão está aparecendo
-                const toggleExer = document.getElementById('toggleExer' + (index + 1))
-
-
-
-                const btnSugest = document.getElementById('btnSugest')
-                const titleSugest = document.getElementById('titleSugest')
-                const categoryNull = document.getElementById('categoryNull')
-                const sugest = document.getElementById('sugest')
-
-                // Verifica se o exercicio de mesma categoria está vazio
-                if (inputExer.value == "") {
-                    btnSugest.classList.add('d-none')
-                    sugest.classList.add('d-none')
-                    categoryNull.classList.add('d-none')
-
-                    titleSugest.innerHTML = `Sugerimos tentar fazer o <strong>${otherExerSameCategory.name}</strong> antes de fazer a troca desse exercicio`
-
-                }
-                // Se estiver preenchido e não for valido
-                else {
-                    if (inputExer.value != "" && toggleExer.classList.contains('d-none')) {
-                        btnSugest.classList.add('d-none')
-                        categoryNull.classList.add('d-none')
-                        sugest.classList.remove('d-none')
-
-                        titleSugest.innerHTML = `Verificamos que você conseguiu fazer o ${otherExerSameCategory.name}. E este exercicio que você está tentando trocar é o de nivel 0 (Não tem exercicio mais fraco)`
-
-                        sugest.innerHTML = `Sugerimos que mantenha apenas com 1 exercicio da categoria ${otherExerSameCategory.category}`
-                    }
-                    // Se estiver preenchido e for valido
-                    else {
-
-                        btnSugest.classList.remove('d-none')
-                        sugest.classList.remove('d-none')
-
-
-                        titleSugest.innerHTML = `Verificamos que não conseguiu fazer os exercicios de NIVEL 0 da categoria <strong>${exerFound[0].category}</strong> (${otherExerSameCategory.name} e ${exerFound[0].name})</span>`
-
-
-                        sugest.innerHTML = 'Sugerimos mudar para <strong>Treino Hibrido</strong> ou <strong>Treino de Musculação</strong>'
-
-                    }
-                }
-
-
-
-
-                const zeroExer = document.getElementById('zeroExer')
-                zeroExer.classList.remove('d-none')
-
-                const zeroEcategoryNullxer = document.getElementById('categoryNull')
-                zeroEcategoryNullxer.innerHTML = exerFound[0].category
-
-
-            }
+            const divToggle = document.getElementById('divToggle')
+            divToggle.classList.add('d-none')
+            
         }
         else {
+            const titleModal = document.getElementById('exampleModalLabel')
+            titleModal.innerHTML = 'Sugestão de troca'
+            titleModal.classList.add('fw-bolder')
 
-            const divPai = document.getElementById('divToggle')
-            divPai.innerHTML = ''
-            var x = 1
+            const exerWeight = document.getElementById('exerWeight')
+            exerWeight.classList.add('d-none')
+
+            const divToggle = document.getElementById('divToggle')
+            divToggle.classList.remove('d-none')
+
+            if (category) {
+                filterType = exercises.filter(exercise => exercise.category === category);
+            }
+            // Filtra os exercícios com base no nível, se o nível for especificado
+            if (nivel !== undefined && nivel >= 0) {
+                filterType = filterType.filter(exercise => exercise.nivel === nivel);
+            }
+            // Filtra os exercícios com base no tipo, se o tipo for especificado
+            if (type) {
+                filterType = filterType.filter(exercise => exercise.type === type);
+            }
+
+            // Retira exercicios repetidos
+            let filtered = filterType.filter((item, index, arr) => {
+                return arr.findIndex(t => t.name === item.name) === index;
+            });
+            filterType = filtered;
+
+            // Retira os exercicios que estão no newExercisesBase
+            let altered = [];
             filterType.forEach(e => {
-                // cria o primeiro elemento
-                const div1 = document.createElement('div');
-                div1.classList.add('row', 'reset-Padding', 'my-3');
+                if (!newExercisesBase.find(i => i.name === e.name)) {
+                    altered.push(e);
+                }
+            });
+            filterType = altered;
 
-                // cria o segundo elemento
-                const div2s = document.createElement('div');
-                div2s.classList.add('col-5', 'reset-Padding', 'd-flex', 'justify-content-center', 'align-items-center');
 
-                // cria o terceiro elemento
-                const img = document.createElement('img');
-                img.setAttribute('width', '115');
-                img.setAttribute('height', 'auto');
-                img.setAttribute('src', e.url);
+            // Retira todos os exercicios com o nome do que está subistituindo
+            filterType = filterType.filter(e => e.name !== exerFound[0].name);
 
-                // adiciona o terceiro elemento ao segundo elemento
-                div2s.appendChild(img);
+            if (filterType.length < 1) {
+                const zeroExer = document.getElementById('zeroExer')
+                zeroExer.classList.add('d-none')
+                const exerLeve = document.getElementById('exerLeve')
+                exerLeve.classList.add('d-none')
 
-                // cria o quarto elemento
-                const div3 = document.createElement('div');
-                div3.classList.add('col-7', 'd-flex', 'align-items-center', 'reset-Padding');
+                let exerSameCategory = arrayCorrecty.filter(e => e.category == exerFound[0].category && e.name != exerFound[0].name)
 
-                // cria o quinto elemento
-                const div4 = document.createElement('div');
-                div4.classList.add('row', 'reset-Padding');
-                div4.id = 'row' + x
-                // cria o sexto elemento
-                const div5 = document.createElement('div');
-                div5.classList.add('col-12', 'd-flex', 'justify-content-start', 'align-items-center', 'reset-Padding');
 
-                // cria o sétimo elemento
-                const span1 = document.createElement('span');
-                span1.classList.add('reset');
-                span1.textContent = e.name;
+                // Se não tiver outro exercicio no treino 
+                if (exerSameCategory.length > 0) {
+                    //Mostrar messagem que só tera esse exercicio até ele evoluir o suficiente para fazer outro exercicio
+                    const exerLeve = document.getElementById('exerLeve')
+                    exerLeve.classList.remove('d-none')
 
-                // adiciona o sétimo elemento ao sexto elemento
-                div5.appendChild(span1);
+                    const ESC = document.getElementById('exerSameCategory')
+                    ESC.innerHTML = exerSameCategory[0].name
 
-                // adiciona o sexto elemento ao quinto elemento
-                div4.appendChild(div5);
+                    const titleModal = document.getElementById('exampleModalLabel')
+                    titleModal.innerHTML = 'Atenção'
+                    titleModal.classList.add('fw-bolder')
 
-                // cria o oitavo elemento
-                const div6 = document.createElement('div');
-                div6.classList.add('col-12', 'd-flex', 'justify-content-start', 'align-items-center', 'reset-Padding');
+                    const exerLeveRemove = document.getElementById('exerLeveRemove')
+                    exerLeveRemove.onclick = function () { removeExer(exerFound) };
 
-                // cria o nono elemento
-                const span2 = document.createElement('span');
-                span2.classList.add('reset');
-                span2.textContent = `(${e.category} ${e.type})`;
+                }
+                else {
+                    // Identificamos qual é o outro exercicio da mesma categoria
+                    let otherExerSameCategory = newExercisesBase.filter(e => e.category == exerFound[0].category && e.name != exerFound[0].name)[0]
+                    // descobrimos o index dele
+                    let index = newExercisesBase.findIndex(e => e.name == otherExerSameCategory.name)
+                    // Atraves do index puxamos o valor do input
+                    const inputExer = document.getElementById('ValidExer' + (index + 1))
+                    // Verificamos se o botão está aparecendo
+                    const toggleExer = document.getElementById('toggleExer' + (index + 1))
 
-                // adiciona o nono elemento ao oitavo elemento
-                div6.appendChild(span2);
 
-                // adiciona o oitavo elemento ao quinto elemento
-                div4.appendChild(div6);
 
-                // cria o décimo elemento
-                const div7 = document.createElement('div');
-                div7.classList.add('col-12', 'd-flex', 'justify-content-center', 'align-items-center', 'reset-Padding', 'W-100');
+                    const btnSugest = document.getElementById('btnSugest')
+                    const titleSugest = document.getElementById('titleSugest')
+                    const categoryNull = document.getElementById('categoryNull')
+                    const sugest = document.getElementById('sugest')
 
-                // cria o décimo primeiro elemento
-                const button = document.createElement('button');
-                button.onclick = function () { subs(id, e.name, e.category, e.type, e.url, e.nivel) };
-                button.id = 'toggle' + x
-                button.className = 'btn btn-primary mt-2';
-                button.innerText = 'Trocar';
-                button.classList.add('btn', 'btn-primary', 'mt-2');
-                button.setAttribute('data-bs-dismiss', 'modal');
-                button.setAttribute('style', 'width: 100%');
-                button.textContent = 'Trocar';
+                    // Verifica se o exercicio de mesma categoria está vazio
+                    if (inputExer.value == "") {
+                        btnSugest.classList.add('d-none')
+                        sugest.classList.add('d-none')
+                        categoryNull.classList.add('d-none')
 
-                // adiciona o décimo primeiro elemento ao décimo elemento
-                div7.appendChild(button);
+                        titleSugest.innerHTML = `Sugerimos tentar fazer o <strong>${otherExerSameCategory.name}</strong> antes de fazer a troca desse exercicio`
 
-                // adiciona o quinto e o décimo elemento ao quarto elemento
-                div4.appendChild(div5);
-                div4.appendChild(div6);
-                div4.appendChild(div7);
+                    }
+                    // Se estiver preenchido e não for valido
+                    else {
+                        if (inputExer.value != "" && toggleExer.classList.contains('d-none')) {
+                            btnSugest.classList.add('d-none')
+                            categoryNull.classList.add('d-none')
+                            sugest.classList.remove('d-none')
 
-                // adiciona o segundo e o quarto elemento ao terceiro elemento
-                div3.appendChild(div4);
+                            titleSugest.innerHTML = `Verificamos que você conseguiu fazer o ${otherExerSameCategory.name}. E este exercicio que você está tentando trocar é o de nivel 0 (Não tem exercicio mais fraco)`
 
-                // adiciona o segundo e o terceiro elemento ao primeiro elemento
-                div1.appendChild(div2s);
-                div1.appendChild(div3);
+                            sugest.innerHTML = `Sugerimos que mantenha apenas com 1 exercicio da categoria ${otherExerSameCategory.category}`
+                        }
+                        // Se estiver preenchido e for valido
+                        else {
 
-                // adiciona o primeiro elemento ao elemento pai
-                divPai.appendChild(div1);
-                x++
-            })
+                            btnSugest.classList.remove('d-none')
+                            sugest.classList.remove('d-none')
+
+
+                            titleSugest.innerHTML = `Verificamos que não conseguiu fazer os exercicios de NIVEL 0 da categoria <strong>${exerFound[0].category}</strong> (${otherExerSameCategory.name} e ${exerFound[0].name})</span>`
+
+
+                            sugest.innerHTML = 'Sugerimos mudar para <strong>Treino Hibrido</strong> ou <strong>Treino de Musculação</strong>'
+
+                        }
+                    }
+
+
+
+
+                    const zeroExer = document.getElementById('zeroExer')
+                    zeroExer.classList.remove('d-none')
+
+                    const zeroEcategoryNullxer = document.getElementById('categoryNull')
+                    zeroEcategoryNullxer.innerHTML = exerFound[0].category
+
+
+                }
+            }
+            else {
+
+                const divPai = document.getElementById('divToggle')
+                divPai.innerHTML = ''
+                var x = 1
+                filterType.forEach(e => {
+                    // cria o primeiro elemento
+                    const div1 = document.createElement('div');
+                    div1.classList.add('row', 'reset-Padding', 'my-3');
+
+                    // cria o segundo elemento
+                    const div2s = document.createElement('div');
+                    div2s.classList.add('col-5', 'reset-Padding', 'd-flex', 'justify-content-center', 'align-items-center');
+
+                    // cria o terceiro elemento
+                    const img = document.createElement('img');
+                    img.setAttribute('width', '115');
+                    img.setAttribute('height', 'auto');
+                    img.setAttribute('src', e.url);
+
+                    // adiciona o terceiro elemento ao segundo elemento
+                    div2s.appendChild(img);
+
+                    // cria o quarto elemento
+                    const div3 = document.createElement('div');
+                    div3.classList.add('col-7', 'd-flex', 'align-items-center', 'reset-Padding');
+
+                    // cria o quinto elemento
+                    const div4 = document.createElement('div');
+                    div4.classList.add('row', 'reset-Padding');
+                    div4.id = 'row' + x
+                    // cria o sexto elemento
+                    const div5 = document.createElement('div');
+                    div5.classList.add('col-12', 'd-flex', 'justify-content-start', 'align-items-center', 'reset-Padding');
+
+                    // cria o sétimo elemento
+                    const span1 = document.createElement('span');
+                    span1.classList.add('reset');
+                    span1.textContent = e.name;
+
+                    // adiciona o sétimo elemento ao sexto elemento
+                    div5.appendChild(span1);
+
+                    // adiciona o sexto elemento ao quinto elemento
+                    div4.appendChild(div5);
+
+                    // cria o oitavo elemento
+                    const div6 = document.createElement('div');
+                    div6.classList.add('col-12', 'd-flex', 'justify-content-start', 'align-items-center', 'reset-Padding');
+
+                    // cria o nono elemento
+                    const span2 = document.createElement('span');
+                    span2.classList.add('reset');
+                    span2.textContent = `(${e.category} ${e.type})`;
+
+                    // adiciona o nono elemento ao oitavo elemento
+                    div6.appendChild(span2);
+
+                    // adiciona o oitavo elemento ao quinto elemento
+                    div4.appendChild(div6);
+
+                    // cria o décimo elemento
+                    const div7 = document.createElement('div');
+                    div7.classList.add('col-12', 'd-flex', 'justify-content-center', 'align-items-center', 'reset-Padding', 'W-100');
+
+                    // cria o décimo primeiro elemento
+                    const button = document.createElement('button');
+                    button.onclick = function () { subs(id, e.name, e.category, e.type, e.url, e.nivel) };
+                    button.id = 'toggle' + x
+                    button.className = 'btn btn-primary mt-2';
+                    button.innerText = 'Trocar';
+                    button.classList.add('btn', 'btn-primary', 'mt-2');
+                    button.setAttribute('data-bs-dismiss', 'modal');
+                    button.setAttribute('style', 'width: 100%');
+                    button.textContent = 'Trocar';
+
+                    // adiciona o décimo primeiro elemento ao décimo elemento
+                    div7.appendChild(button);
+
+                    // adiciona o quinto e o décimo elemento ao quarto elemento
+                    div4.appendChild(div5);
+                    div4.appendChild(div6);
+                    div4.appendChild(div7);
+
+                    // adiciona o segundo e o quarto elemento ao terceiro elemento
+                    div3.appendChild(div4);
+
+                    // adiciona o segundo e o terceiro elemento ao primeiro elemento
+                    div1.appendChild(div2s);
+                    div1.appendChild(div3);
+
+                    // adiciona o primeiro elemento ao elemento pai
+                    divPai.appendChild(div1);
+                    x++
+                })
+
+            }
 
         }
 
@@ -1708,20 +1763,20 @@
 
                 const menssagemSuccess = document.getElementById('success' + id)
                 menssagemSuccess.classList.add('d-none')
-                
+
                 const exerFinish = document.getElementById('exer' + id)
                 exerFinish.classList.remove('bg-white')
                 exerFinish.classList.add('exerFinish')
 
                 numberInput.forEach(e => {
                     const inputDesabilit = document.getElementById('ValidExer' + e)
-                    if (inputDesabilit != null){
+                    if (inputDesabilit != null) {
                         inputDesabilit.disabled = false;
                     }
                     const divExer = document.getElementById('exer' + e)
-                    if (divExer != null){
+                    if (divExer != null) {
                         divExer.classList.remove('desabilited')
-                    }  
+                    }
                 })
             }
         }, 1); // Atualizar o cronômetro a cada segundo
@@ -1787,7 +1842,7 @@
         }
     })
 
-    hours.addEventListener('change', function () {
+    hours.addEventListener('change', async function () {
         var H = parseInt(hours.value)
         var M = parseInt(min.value)
 
@@ -1811,16 +1866,17 @@
         var find = requireds.filter(e => e.min != 'Min.')
         // Se não tiver minutos no arrai nao cria os exercicios
         if (find.length >= 9) {
-            verificationRequireds()
+            await verificationRequireds()
+            //openChooseDayTraining()
         }
 
     })
 
-    min.addEventListener('change', function () {
+    min.addEventListener('change', async function () {
         var M = parseInt(min.value)
         var H = parseInt(hours.value)
         const index2 = requireds.findIndex((e) => e.min == min.value)
-
+        
         if (M <= 39 && H <= 0) {
             //Lógica do erro
             min.classList.add('selecte-err')
@@ -1838,19 +1894,26 @@
             if (index2 !== -1) {
                 requireds[index2].value = min.value
             } else {
-                requireds.push({ name: 'min', value: min.value })
+                requireds.push({ name: 'Min', value: min.value })
             }
 
             //Da um filter no array em busca das horas
             var find = requireds.filter(e => e.hours != 'horas')
             // Se não tiver horas no arrai nao cria os exercicios
             if (find.length >= 9) {
-                verificationRequireds()
+                await verificationRequireds()
+                openChooseDayTraining()
             }
         }
     })
 
-    function verificationRequireds() {
+    function openChooseDayTraining(){
+        console.log(requireds)
+        let find = requireds.filter(e => e.name == 'Days')[0]      
+        console.log(find.value)
+    }
+
+    async function verificationRequireds() {
         var superband = requireds.filter(e => e.name == 'Superband')[0].value
         var paralelas = requireds.filter(e => e.name == 'Paralelas')[0].value
         var barraFixa = requireds.filter(e => e.name == 'Barra Fixa')[0].value
@@ -1980,7 +2043,8 @@
 
             // Oitavo Exercicio
             newExercisesBase.push(exercises.filter(e => e.name == '60s de Prancha Abdominal')[0])
-
+            debugger
+            await apiPost('saveDU', requireds)
             creatExercisesBase()
         }
     }

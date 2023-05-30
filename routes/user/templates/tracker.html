@@ -342,18 +342,18 @@
                     let sugundosTotais = segundos * repeticao
 
                     if (input.value != null && input.value != undefined && input.value != '') {
-                        debugger
+                        
                         if (toWait === false) {
-                            desabilitCardTracker(id, serie, training.checked)
+                            //desabilitCardTracker(id, serie, training.checked)
                         }
                         addTraining(id, serie)
                     }
                 }
                 else {
                     if (input.value != null && input.value != undefined && input.value != '') {
-                        debugger
+                        
                         if (toWait === false) {
-                            desabilitCardTracker(id, serie, training.checked)
+                            //desabilitCardTracker(id, serie, training.checked)
                         }
                         addTraining(id, serie)
                     }
@@ -372,9 +372,9 @@
                 let Exer = JSON.parse(exer);
 
                 if (inputKg.value != null && inputKg.value != undefined && inputKg.value != '') {
-                    debugger
+                    
                     if (toWait === false) {
-                        desabilitCardTracker(id, serie, training.checked)
+                        //desabilitCardTracker(id, serie, training.checked)
                     }
                     addTraining(id, serie)
                 }
@@ -590,7 +590,7 @@
                     })
                 }
             }
-        }, 1000); // Atualizar o cronômetro a cada segundo
+        }, 1); // Atualizar o cronômetro a cada segundo
         
     }
 
@@ -629,7 +629,7 @@
 
     async function finishedTraining() {
         loading(true)
-        debugger
+        
         const valueData = document.getElementById(`dataDB`);
         let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
         let data = JSON.parse(dataOfDataBase);
@@ -685,6 +685,7 @@
     }
 
     function openModalToggleExer(exer) {
+        debugger
         let info = creatVar()
         //Filtrando o valor do data atraves da string ('Nome do exercicio')
         let listNewExer = info.filter(e => e.name == exer)[0]
@@ -1108,5 +1109,7 @@
 
         return array1
     }
+
+    window.finishedTraining = finishedTraining
 </script>
 {% endblock %}

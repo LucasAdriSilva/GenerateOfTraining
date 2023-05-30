@@ -91,7 +91,7 @@ def sendTraining():
     if request.method == "POST":
         treino = request.get_json()
         session['training'] = treino
-        return jsonify({'url': url_for('user.login')})
+        return redirect(url_for('user.login'))
 
 @basicScreens.route("/creatTraining" , methods=["GET"])
 def creatTraining():

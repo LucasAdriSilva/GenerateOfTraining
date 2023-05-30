@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <title>Chat</title>
+
+    <style>
+        H1,
+        H2,
+        H3,
+        H4,
+        H5 {
+            margin-bottom: 0 !important;
+        }
+
+        .reset {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        .pill-chat {
+            background-color: #5d5394;
+            padding: 10px 20px 10px 20px;
+            border-radius: 10px;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .ticket {
+            height: fit-content;
+            padding: 10px 5px 10px 5px;
+            border-radius: 15px;
+            max-width: 100vw;
+        }
+
+        .btn-chat {
+            border: none;
+            background-color: #ffffff;
+            color: black;
+            border-radius: 10px;
+            padding: 10px 20px 10px 20px;
+        }
+
+        .scrollable-content {
+            max-width: 100vw;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .margin-top {
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row fixed-top reset">
+        <div class="col-12 d-flex justify-content-center bg-black text-white pt-4 pb-4 w-100"
+            style="border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;">
+            <h1>Seus Tickets</h1>
+        </div>
+    </div>
+
+    <div class="row content-margin margin-top reset">
+        {% if data[3] == '' %}
+
+        <div class="col-12 d-flex justify-content-center align-content-center">
+            <h3 class="text-black-50 mt-5">Você não tem tickets</h3>
+        </div>
+
+        {% else %}
+        <div class="col-12 scrollable-content"> <!-- Envolve o conteúdo em uma div com scroll -->
+
+            {% for room in data[3] %}
+            <div class="col-12 d-flex justify-content-around align-items-center ticket mt-3"
+                onclick="window.location.href='/room/{{ room.name }}'">
+                <div class="d-flex flex-column">
+                    <span>Nome do ticket</span>
+                    <strong>
+                        <h5>{{ room.name }}</h5>
+                    </strong>
+
+                    <small>Código de intentificação: {{room.id}}</small>
+                </div>
+
+                <i class="bi bi-arrow-right-square" style="font-size: 60px!important;"></i>
+
+
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    </div>
+
+    <div class="row bg-black pe-5 ps-5 pt-1 fixed-bottom"
+        style="border-top-left-radius: 25px; border-top-right-radius: 25px;">
+        <div class="col-12 d-flex justify-content-center">
+            <h2 class="text-white">Abrir um ticket</h2>
+        </div>
+        <form action="/create_room" method="POST">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <input class="w-100 text-center rounded-1" type="text" placeholder="Nome do ticket"
+                        name="ticket_name">
+                </div>
+                <div class="col-12 d-flex justify-content-center mt-1 mb-4">
+                    <button class="btn-chat text-uppercase fw-bolder" type="submit">Criar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            // Chama a função randomColor() quando a página é carregada
+            randomColor();
+        });
+
+        function randomColor() {
+            var circle = document.querySelectorAll('.ticket');
+
+            var colors = ['#55bd2c', '#FFFF00', '#ffc400', '#00d9ff', '#00ffea'];
+            var numColors = colors.length;
+
+            circle.forEach(e => {
+                var randomIndex = Math.floor(Math.random() * numColors);
+                var color = colors[randomIndex];
+                e.style.backgroundColor = color;
+            });
+        }
+
+    </script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
+
+</html>

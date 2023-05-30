@@ -224,3 +224,144 @@ class Db:
         end_time = time.time()
         print(f"Tempo gasto em update_user(): {end_time - start_time} segundos")
         return response
+    
+    def getTickets():
+        start_time = time.time()
+        response = Response()
+        try:
+            conn = sqlite3.connect(DATABASE)
+            c = conn.cursor()
+            c.execute("SELECT UserData FROM user")
+            # c.execute("SELECT UserData FROM user, json_each(UserData->'rooms') WHERE value->'activate' = 'true'")
+            data = c.fetchall()
+            
+            rooms = []
+            for row in data:
+                user_data = json.loads(row[0])
+                for room in user_data[0]:
+                    if  room == 'rooms' :
+                        for r in user_data[0][room]:
+                            if r['activate']:
+                                rooms.append(r)
+ 
+            response.data = rooms
+            c.close()
+        except Exception as e:
+            end_time = time.time()
+            print(f"Tempo gasto em getTickets(): {end_time - start_time} segundos ---- ERR: {e}")
+            response.ok = False
+            return response
+        end_time = time.time()
+        print(f"Tempo gasto em getTickets(): {end_time - start_time} segundos")
+        return response
+
+    def addTicket(column_name, column_value, room_data):
+        start_time = time.time()
+        response = Response()
+        try:
+            conn = sqlite3.connect(DATABASE)
+            c = conn.cursor()
+
+            query = f"SELECT UserData FROM user WHERE {column_name} = ?"
+            c.execute(query, (column_value,))
+            data = c.fetchone()
+
+            if data is not None:
+                user_data = json.loads(data[0])
+                if 'rooms' in user_data[0]:
+                    rooms = user_data[0]['rooms']
+                else:
+                    rooms = []
+                rooms.append(room_data)
+                user_data[0]['rooms'] = rooms
+                new_user_data = json.dumps(user_data)
+
+                query = f"UPDATE user SET UserData = ? WHERE {column_name} = ?"
+                c.execute(query, (new_user_data, column_value))
+                conn.commit()
+            else:
+                response.ok = False
+                response.message = f"User with {column_name} '{column_value}' not found."
+
+            c.close()
+        except Exception as e:
+            end_time = time.time()
+            print(f"Tempo gasto em addTicket(): {end_time - start_time} segundos ---- ERR: {e}")
+            response.ok = False
+            return response
+
+        end_time = time.time()
+        print(f"Tempo gasto em addTicket(): {end_time - start_time} segundos")
+        return response
+
+    def attMsg(room, name, msg):
+            start_time = time.time()
+            response = Response()
+            try:  
+                names = room
+                conn = sqlite3.connect(DATABASE)
+                c = conn.cursor()
+
+                c.execute(f"SELECT UserData FROM user")
+                data = c.fetchall()
+
+                # Atualizar dados na lista de mensagens
+                for row in data:
+                    user_data = json.loads(row[0])
+                    if 'rooms' in user_data[0]:
+                        rooms = user_data[0]['rooms']
+                        for r in rooms:
+                            if r['name'] == names:
+                                r['messagens'][name] = msg
+                                # Atualizar os dados no banco de dados
+                                c.execute("UPDATE user SET UserData = ? WHERE UserData = ?", (json.dumps(user_data), row[0]))
+                                conn.commit()
+
+                c.close()
+                end_time = time.time()
+                print(f"Tempo gasto em attMsg(): {end_time - start_time} segundos")
+            except Exception as e:
+                end_time = time.time()
+                print(f"Tempo gasto em attMsg(): {end_time - start_time} segundos ---- ERR: {e}")
+                response.ok = False
+                return response
+
+    def getNameTicket(ticket_name):
+        start_time = time.time()
+        response = Response()
+        try:
+            conn = sqlite3.connect(DATABASE)
+            c = conn.cursor()
+            c.execute("SELECT UserData FROM user")
+            data = c.fetchall()
+
+            rooms = []
+            for row in data:
+                user_data = json.loads(row[0])
+                for room in user_data:
+                    if 'rooms' in room:
+                        for r in room['rooms']:
+                            if r['name'] == ticket_name:
+                                rooms.append(r)
+
+            response.data = rooms
+            c.close()
+        except Exception as e:
+            end_time = time.time()
+            print(f"Tempo gasto em getTickets(): {end_time - start_time} segundos ---- ERR: {e}")
+            response.ok = False
+            return response
+        end_time = time.time()
+        print(f"Tempo gasto em getTickets(): {end_time - start_time} segundos")
+        return response
+
+
+
+
+
+
+
+
+
+
+        

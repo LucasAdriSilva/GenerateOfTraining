@@ -87,6 +87,8 @@ def saveTrainingTracker():
   user_found = Db.get_login(session['login']).data
   now = datetime.datetime.now()
   date_str = now.strftime("%d/%m/%Y")
+  # date_str = '30/05/2023'
+
 
   if len(data) == 3:
     data['lastDate'] = date_str
@@ -116,7 +118,6 @@ def saveTrainingTracker():
     for rotina in newTraining:
       if rotina.upper() == user_found[-2].upper():
         newTraining[rotina] = data
-
     tr = {date_str: newTraining}
 
   if tr == {}:

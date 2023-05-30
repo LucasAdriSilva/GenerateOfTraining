@@ -90,7 +90,8 @@ def tracker():
   if user_found[-1] is not None:
     historyTraining = json.loads(user_found[-1])
     now = datetime.datetime.now()
-    date = now.strftime("%d/%m/%Y")
+    date = now.strftime("%d/%m/%Y") 
+    # date = '30/05/2023'
 
     if date in historyTraining:
       data= {
