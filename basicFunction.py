@@ -3,10 +3,9 @@ from model.db import Db
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
-import shutil, os
-import smtplib
-import email.message
-import random, string
+from model.exercicio import Exercises 
+import smtplib, email.message, random, string, json, shutil, os
+
 
 
 # model de textDefault
@@ -18,8 +17,6 @@ import random, string
 #     ]
 
 #  Para usar no html vai precisar {{data[3].........}}
-
-
 def getUrl(url, value='', bool=False):
   if "login" in session:
     name = session['login']
@@ -45,8 +42,7 @@ def getUrl(url, value='', bool=False):
       value
     ]
     return render_template('login.html', data = textDefault)
-
-    
+  
 def send_email(emails, content, subject):
     try:  
         corpo_email = content
@@ -70,3 +66,10 @@ def send_email(emails, content, subject):
     
 def random_generator(size=6, chars=string.ascii_uppercase + string.digits):
  return ''.join(random.choice(chars) for _ in range(size))
+
+def remove_repeated_items_in_list(input_list):
+    unique_list = []
+    for item in input_list:
+        if item not in unique_list:
+            unique_list.append(item)
+    return unique_list

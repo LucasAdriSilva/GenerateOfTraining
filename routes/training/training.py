@@ -41,12 +41,12 @@ def saveTraining():
 @training_bp.route('/bodybuilding')
 def bodybuilding():
   data = [None, None,None, {'nav': None}]
-  return render_template('bodybuilding.html', data=data)
+  return getUrl('bodybuilding.html', value=data)
 
 @training_bp.route('/hybrid')
 def hybrid():
-  data = [None, None,None, {'nav': None}]
-  return render_template('hybrid.html', data=data)
+  data = [None,None,None, {'nav': None}]
+  return getUrl('hybrid.html', value=data)
 
 @training_bp.route('/exercice')
 def exercice():

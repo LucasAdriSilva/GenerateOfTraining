@@ -729,16 +729,28 @@
         let segundos = Math.round(valueInput / 2)//Resposta em segundos
         let repeticao = Math.round(60 / segundos) // Repostas em repetição
 
+        //if (exerFound.segs) {
+        //    // add no treino, com as regras de segundos
+        //    novoExercicio = { name: title.innerHTML, count: segundos, rept: repeticao, rest: 3, url: exer, num: id, segs: "true" };
+        //}
+//
+        //if ('kg' in exerFound) {
+        //    novoExercicio = { name: title.innerHTML, kg: valueInput, rept: 3, rest: 3, url: exer, num: id };
+//
+        //}
+        //
+        //if ('count' in exerFound) {
+        //    novoExercicio = { name: title.innerHTML, count: valueInput, rept: 3, rest: 3, url: exer, num: id };
+        //}
 
-        if (exerFound.segs) {
-            // add no treino, com as regras de segundos
-            novoExercicio = { name: title.innerHTML, count: segundos, rept: repeticao, rest: 3, url: exer, num: id, segs: "true" };
+        if(exerFound.segs || 'kg' in exerFound){
+            exerFound.segs? 
+            novoExercicio = { name: title.innerHTML, count: segundos, rept: repeticao, rest: 3, url: exer, num: id, segs: "true" }:
+            novoExercicio = { name: title.innerHTML, kg: valueInput, rept: 3, rest: 3, url: exer, num: id }
         }
-
-        if ('kg' in exerFound) {
-            novoExercicio = { name: title.innerHTML, kg: valueInput, rept: 3, rest: 3, url: exer, num: id };
-
-        }
+        else{
+            novoExercicio = { name: title.innerHTML, count: valueInput, rept: 3, rest: 3, url: exer, num: id };
+        } 
 
         const found = treino.findIndex(e => e.name == novoExercicio.name)
 
@@ -1192,21 +1204,14 @@
         // Desabilita todos os inpust e add uma class aos cards
         let x = 1
         numberInput.forEach(e => {
-            e.forEach(i => {
-                const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+            const inputDesabilit = document.getElementById(`ValidExer${e}`)
 
-                if (inputDesabilitKg != null){
-                    inputDesabilitKg.disabled = true;
-                }
+            if (inputDesabilit != null) {
+                inputDesabilit.disabled = true;
+            }
 
-                if (inputDesabilit != null){
-                    inputDesabilit.disabled = true;
-                }
-            })
-
-            const divExer = document.getElementById('exer' + x)
-            if(divExer != null){
+            const divExer = document.getElementById('exer' + e)
+            if (divExer != null) {
                 divExer.classList.add('desabilited')
             }
             x++
@@ -1243,27 +1248,22 @@
                 cronometro.placeholder = "Fim";
 
                 // Desabilita todos os inpust e add uma class aos cards
-        let x = 1
-        numberInput.forEach(e => {
-            e.forEach(i => {
-                const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+                let x = 1
+                numberInput.forEach(e => {
 
-                if (inputDesabilitKg != null){
-                    inputDesabilitKg.disabled = false;
-                }
+                    const inputDesabilit = document.getElementById(`ValidExer${e}`)
 
-                if (inputDesabilit != null){
-                    inputDesabilit.disabled = false;
-                }
-            })
+                    if (inputDesabilit != null) {
+                        inputDesabilit.disabled = false;
+                    }
 
-            const divExer = document.getElementById('exer' + x)
-            if(divExer != null){
-                divExer.classList.remove('desabilited')
-            }
-            x++
-        })
+
+                    const divExer = document.getElementById('exer' + e)
+                    if (divExer != null) {
+                        divExer.classList.remove('desabilited')
+                    }
+                    x++
+                })
             }
         }, 1); // Atualizar o cronômetro a cada segundo
 
@@ -1273,6 +1273,22 @@
         if (treino.length == listExer.length) {
             loading(true)
 
+           //try {
+           //    const response = await fetch('/sendTraining', {
+           //        method: 'POST',
+           //        body: JSON.stringify(treino),
+           //        headers: {
+           //            'Content-Type': 'application/json'
+           //        }
+           //    });
+           //    const data = await response.json();
+           //    window.location.replace(data.url);
+           //} catch (error) {
+           //    console.error('Erro na requisição:', error);
+           //    // Esconde a animação de carregamento
+           //    loading(false)
+           //}
+
             try {
                 const response = await fetch('/sendTraining', {
                     method: 'POST',
@@ -1281,12 +1297,15 @@
                         'Content-Type': 'application/json'
                     }
                 });
-                const data = await response.json();
-                window.location.replace(data.url);
+                if (response.redirected) {
+                    window.location.replace(response.url);
+                } else {
+                    //loadExer(false)
+                }
             } catch (error) {
                 console.error('Erro na requisição:', error);
                 // Esconde a animação de carregamento
-                loading(false)
+                loadExer(false)
             }
         }
     }

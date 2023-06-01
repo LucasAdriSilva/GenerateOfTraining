@@ -884,14 +884,6 @@
     {% endif %}
 
 
-    <div id="bntPdf" class="row {% if data[3].days == 4 %}d-none {% endif %}">
-        <div class="col-12 d-flex justify-content-center align-items-center my-3">
-            <form method="POST" action="{{ url_for('basicScreens.download_pdf') }}" target="_blank">
-                <input type="hidden" name="data" value="{{ data[3].allTreinos }}">
-                <button class="btn btn-success" type="submit">Baixar PDF</button>
-            </form>
-        </div>
-    </div>
 </div>
 
 <script>

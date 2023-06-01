@@ -602,7 +602,6 @@
 
         }
         else {
-
             if (input != null) {
                 input == 0 || input <= 2 ? nivel -= 2 : null;
 
@@ -614,13 +613,17 @@
 
                 input > 25 && input <= 40 ? nivel += 2 : null;
 
-                nivel > 6 ? nivel = 6 : nivel = nivel
+                input > 40 ? nivel += 2 : null;
 
-                nivel < 0 ? nivel = 0 : nivel = nivel
+                input < 0 ? nivel = 0 : null
+
+                nivel < 0 ? nivel = 0: null
+
+                /*nivel > 6 ? nivel = 6 : nivel = nivel
+
+                nivel < 0 ? nivel = 0 : nivel = nivel*/
             }
-
         }
-
 
         if (category) {
             filterType = listExer.filter(exercise => exercise.category === category);
@@ -634,44 +637,66 @@
             filterType = filterType.filter(exercise => exercise.type === type);
         }
 
+        //Verifica se o nivel é maior que 6 ou menor que 0 se for carrega um erro
+        if (nivel > 6) {
+            const titleModal = document.getElementById('exampleModalLabel')
+            titleModal.innerHTML = 'Atenção'
+            titleModal.classList.add('fw-bolder')
 
-        // Retira exercicios repetidos
-        let filtered = filterType.filter((item, index, arr) => {
-            return arr.findIndex(t => t.name === item.name) === index;
-        });
-        filterType = filtered;
+            const exerWeight = document.getElementById('exerWeight')
+            exerWeight.classList.remove('d-none')
 
-        // Retira os exercicios que estão no newExercisesBase
-        let altered = [];
-        filterType.forEach(e => {
-            if (!Training.find(i => i.name === e.name)) {
-                altered.push(e);
-            }
-        });
-        filterType = altered;
+            const divToggle = document.getElementById('divToggle')
+            divToggle.classList.add('d-none')
 
-
-        // Retira todos os exercicios com o nome do que está subistituindo
-        filterType = filterType.filter(e => e.name !== exerFound[0].name);
-
-        let forced;
-        if (filterType.length == 0) {
-            forced = true
-            filterType = Musc.filter(e => e.category == category && e.type == type)
         }
 
+        else if (nivel < 0) {
+            const exerWeight = document.getElementById('zeroExer')
+            exerWeight.classList.remove('d-none')
 
-        var modal = new bootstrap.Modal(document.querySelector("#exerciseSuggestion"));
-        modal.show()
+            const divToggle = document.getElementById('divToggle')
+            divToggle.classList.add('d-none')
+        }
 
-        const modalExer = document.getElementById('showExer')
-        modalExer.innerHTML = ''
-        filterType.forEach((exer, i) => {
-            let index = Training.findIndex(e => e.category == exer.category && e.type == exer.type)
-            index != -1 ? index++ : console.log('err')
+        else {         
+            // Retira exercicios repetidos
+            let filtered = filterType.filter((item, index, arr) => {
+                return arr.findIndex(t => t.name === item.name) === index;
+            });
+            filterType = filtered;
 
-            console.log(exer)
-            modalExer.innerHTML += `
+            // Retira os exercicios que estão no Training
+            let altered = [];
+            filterType.forEach(e => {
+                if (!Training.find(i => i.name === e.name)) {
+                    altered.push(e);
+                }
+            });
+            filterType = altered;
+
+
+            // Retira todos os exercicios com o nome do que está subistituindo
+            filterType = filterType.filter(e => e.name !== exerFound[0].name);
+
+            let forced;
+            if (filterType.length == 0) {
+                forced = true
+                filterType = Musc.filter(e => e.category == category && e.type == type)
+            }
+
+
+            var modal = new bootstrap.Modal(document.querySelector("#exerciseSuggestion"));
+            modal.show()
+
+            const modalExer = document.getElementById('showExer')
+            modalExer.innerHTML = ''
+            filterType.forEach((exer, i) => {
+                let index = Training.findIndex(e => e.category == exer.category && e.type == exer.type)
+                index != -1 ? index++ : console.log('err')
+
+                console.log(exer)
+                modalExer.innerHTML += `
             <div class="row my-5">
                 ${forced ? `<div class="col-12 d-flex justify-content-center align-items-center">
                     <span class="text-danger text-center mb-3">Não temos mais exercicio com peso do corpo, tente fazer com a musculação</span>
@@ -694,11 +719,12 @@
                 </div>
             </div>
         `
-        })
+            })
 
+
+        }
 
     }
-
     function subs(id, name, category, type, img, nivel) {
         const Name = document.getElementById('ValidTitle' + id)
         const Img = document.getElementById('img' + id)
@@ -724,10 +750,11 @@
 
         //Reescreve na tela o array do treino
         let ID = 1
-        let content
+        let content = ''
         const exercices = document.getElementById('exercices')
         exercices.innerHTML = content
         Training.forEach(exer => {
+            console.log(exer)
             if (exer.name) {
                 content += ` 
             <div id="exer${ID}" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
@@ -1265,20 +1292,13 @@
         // Desabilita todos os inpust e add uma class aos cards
         let x = 1
         numberInput.forEach(e => {
-            e.forEach(i => {
-                const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+            const inputDesabilit = document.getElementById(`ValidExer${e}`)
 
-                if (inputDesabilitKg != null) {
-                    inputDesabilitKg.disabled = true;
-                }
+            if (inputDesabilit != null) {
+                inputDesabilit.disabled = true;
+            }
 
-                if (inputDesabilit != null) {
-                    inputDesabilit.disabled = true;
-                }
-            })
-
-            const divExer = document.getElementById('exer' + x)
+            const divExer = document.getElementById('exer' + e)
             if (divExer != null) {
                 divExer.classList.add('desabilited')
             }
@@ -1315,20 +1335,13 @@
                 // Desabilita todos os inpust e add uma class aos cards
                 let x = 1
                 numberInput.forEach(e => {
-                    e.forEach(i => {
-                        const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
-                        const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+                    const inputDesabilit = document.getElementById(`ValidExer${e}`)
 
-                        if (inputDesabilitKg != null) {
-                            inputDesabilitKg.disabled = false;
-                        }
+                    if (inputDesabilit != null) {
+                        inputDesabilit.disabled = false;
+                    }
 
-                        if (inputDesabilit != null) {
-                            inputDesabilit.disabled = false;
-                        }
-                    })
-
-                    const divExer = document.getElementById('exer' + x)
+                    const divExer = document.getElementById('exer' + e)
                     if (divExer != null) {
                         divExer.classList.remove('desabilited')
                     }
@@ -1340,7 +1353,6 @@
     }
 
     async function enviarTreino() {
-        debugger
         for (let i = 0; i < Training.length; i++) {
             const tr = Training[i];
             if ('kg' in tr) {
@@ -1354,22 +1366,25 @@
                 }
             }
         }
-
+        debugger
         loading(true);
         try {
             const response = await fetch('/sendTraining', {
                 method: 'POST',
                 body: JSON.stringify(Training),
                 headers: {
-                    'Content-Type': 'application/json',
-                },
+                    'Content-Type': 'application/json'
+                }
             });
-            const data = await response.json();
-            window.location.replace(data.url);
+            if (response.redirected) {
+                window.location.replace(response.url);
+            } else {
+                //loadExer(false)
+            }
         } catch (error) {
             console.error('Erro na requisição:', error);
             // Esconde a animação de carregamento
-            loading(false);
+            loadExer(false)
         }
     }
 
