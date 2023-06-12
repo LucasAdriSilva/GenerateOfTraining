@@ -128,14 +128,32 @@ def tracker():
                     data = tr[day]
         
   for d in data:
-    if 'newExer' in d and d['newExer']:
-      if d['newExer'] == True:
-        name = d['name']
-        listExer = Exercises.getSuggestionExerLight(name)
-        d['newExer'] =  listExer
+    if d == 'chosenDay' and data[d] == '1':
+      index = '2'
+      for exer in data[f'd{index}']:
+        if 'newExer' in exer:
+          if exer['newExer'] == True:
+            name = exer['name']
+            listExer = Exercises.getSuggestionExerLight(name)
+            exer['newExer'] =  listExer
+    if d == 'chosenDay' and data[d] == '2':
+      index = '1'
+      for exer in data[f'd{index}']:
+        if 'newExer' in exer:
+          if exer['newExer'] == True:
+            name = exer['name']
+            listExer = Exercises.getSuggestionExerLight(name)
+            exer['newExer'] =  listExer
     
-    inf = {'training': data, 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
-    return getUrl('tracker.html', value=inf)
+
+    # if 'newExer' in d and d['newExer']:
+    #   if d['newExer'] == True:
+    #     name = d['name']
+    #     listExer = Exercises.getSuggestionExerLight(name)
+    #     d['newExer'] =  listExer
+    
+  inf = {'training': data, 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
+  return getUrl('tracker.html', value=inf)
 
   return getUrl('tracker.html', value=inf)
 
@@ -183,5 +201,5 @@ def login():
 @user.route('/logout')
 def logout():
   session.pop('login',1)
-  data = [None,None,None, {'nav': 'home'}]
-  return render_template("firstAcess.html", data = data)
+  data = {'nav': 'home'}
+  return getUrl("firstAcess.html", value = data)

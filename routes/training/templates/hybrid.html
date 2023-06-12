@@ -199,8 +199,8 @@
         { 'category': 'Pull', 'type': 'Vertical' },
         { 'category': 'Legs', 'type': 'Parte da frente' },
         { 'category': 'Legs', 'type': 'Parte de trás' },
-        { 'category': 'Core', 'type': 'Abdômen' },
-        { 'category': 'Core', 'type': 'Lombar' },
+        { 'category': 'Core', 'type': '' },
+        { 'category': 'Core', 'type': '' },
     ]
 
     function creatStruct() {
@@ -218,8 +218,10 @@
                     <div class="row my-1">
                         <div class="col-12 d-flex flex-column justify-content-center align-items-center reset-Padding mb-4">
                             <span class="reset  text-center" style="font-size: 14px;"> Escolha sua modalidade para</span>
-                            <span class="reset text-uppercase text-center" style="font-size: 18px;"> "${e.category}" -
-                                "${e.type}"</span>
+                            ${ e.type == '' ? `<span class="reset text-uppercase text-center" style="font-size: 18px;"> "${e.category}"</span>`:
+                                `<span class="reset text-uppercase text-center" style="font-size: 18px;"> "${e.category}" - "${e.type}"</span>`
+                            }
+                            
                         </div>
     
                         <div class="col-12 d-flex justify-content-center align-items-center reset-Padding gap-3">

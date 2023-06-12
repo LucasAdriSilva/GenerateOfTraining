@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, request, jsonify, redirect, url_for
+from flask import Blueprint, render_template, session, request, jsonify, redirect, url_for, jsonify
 from model.db import Db
 from basicFunction import getUrl
 from model.exercicio import Exercises
@@ -22,21 +22,18 @@ def training():
 
 @training_bp.route('/saveTraining', methods=["POST"])
 def saveTraining():
-  data = request.get_data().decode()
+    data = request.get_json()
+    data = data.replace('"', '')
 
-  user_found = Db.get_login(session['login']).data
+    user_found = Db.get_login(session['login']).data
 
-  if user_found:
-    Db.update_data('Login',session['login'], 'chosenTraining', data)
+    if user_found:
+        Db.update_data('Login', session['login'], 'chosenTraining', data)
+    else:
+        Db.update_data('Login', session['login'], 'chosenTraining', data)
 
-  else:
-    # Db.update_user(session['login'], {'chosenTraining': data})
-    Db.update_data('Login',session['login'], 'chosenTraining', data)
+    return redirect(url_for('basicScreens.creatTraining'))
 
-  if 'login' in session:
-    return getUrl('basicScreens.creatTraining', bool=True)
-  else:
-    return redirect(url_for('user.login'))
 
 @training_bp.route('/bodybuilding')
 def bodybuilding():

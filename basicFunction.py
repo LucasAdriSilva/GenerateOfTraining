@@ -22,12 +22,23 @@ def getUrl(url, value='', bool=False):
     name = session['login']
     user_found =  Db.get_login(name).data
     name = user_found[1]
+    chosentraining = user_found[-2]
 
+    if value =='' and user_found[-3] is not None:
+      value = user_found[-3]
+
+    if user_found[-3] is None:
+      menuShow = False
+    else:
+      menuShow = True
+       
     textDefault = [
-      name[0],
+      name,
       "/login",
       True,
-      value
+      value,
+      chosentraining,
+      menuShow
     ]
     if bool:
       return redirect(url_for(url, data = textDefault))

@@ -66,6 +66,9 @@ class Exercises:
         { 'name': 'Kipping Pull-ups com Palma', 'url': 'https://i.ytimg.com/vi_webp/AyPTCEXTjOo/maxresdefault.webp', 'category': 'Pull', 'nivel': 4, 'type': 'Vertical', 'division': 'Pull Ups Explosivos - Vertical', 'required': 'Barra Fixa' },
         { 'name': 'Pull-ups com Palma sem Kipping', 'url': 'https://doutorjairo.uol.com.br/media/uploads/istock-923748448.jpg', 'category': 'Pull', 'nivel': 5, 'type': 'Vertical', 'division': 'Pull Ups Explosivos - Vertical', 'required': 'Barra Fixa' },
         { 'name': 'L-sit Pull-ups com Palma', 'url': 'https://i.pinimg.com/564x/f3/b2/eb/f3b2eb20fc9472333072dab45e4140a6.jpg', 'category': 'Pull', 'nivel': 6, 'type': 'Vertical', 'division': 'Pull Ups Explosivos - Vertical', 'required': 'Barra Fixa' },
+        { 'name' : 'One arm Pull Up negativo', 'url': 'https://static.strengthlevel.com/images/illustrations/one-arm-pull-ups-1000x1000.jpg', 'category': 'Pull', 'nivel': 7, 'type': 'Vertical', 'division': 'Pull Ups Explosivos - Vertical', 'required': 'Barra Fixa' },
+        { 'name': 'One arm Pull Up', 'url': 'https://www.t-nation.com/wp-content/uploads/2019/03/4-Weeks-to-a-One-Arm-Pull-Up.jpg', 'category': 'Pull', 'nivel': 8, 'type': 'Vertical', 'division': 'Pull Ups Explosivos - Vertical', 'required': 'Barra Fixa' },
+
         { 'name': 'Squat 45º', 'url': 'https://static.tuasaude.com/media/article/3k/ru/6-exercicios-de-agachamento-para-gluteos_9131_l.jpg', 'category': 'Legs', 'nivel': 1, 'type': 'Parte da frente', 'division': 'Squat (Push) - Parte da frente', 'required': '' },
         { 'name': 'Full Squat (descer tudo)', 'url': 'https://static.vecteezy.com/ti/vetor-gratis/p2/8635575-mulher-fazendo-peso-corporal-agachamento-exercicio-plano-ilustracao-isolado-em-fundo-branco-vetor.jpg', 'category': 'Legs', 'nivel': 2, 'type': 'Parte da frente', 'division': 'Squat (Push) - Parte da frente', 'default': 'true', 'required': '' },
         { 'name': 'Side to Side Squat', 'url': 'https://www.spotebi.com/wp-content/uploads/2015/02/side-to-side-squats-exercise-illustration.jpg', 'category': 'Legs', 'nivel': 3, 'type': 'Parte da frente', 'division': 'Squat (Push) - Parte da frente', 'required': '' },
@@ -124,7 +127,7 @@ class Exercises:
             {'name':'Remada Triangulo', 'url': 'https://grandeatleta.com.br/wp-content/uploads/2021/06/remada-baixa-supinada-pronada-neutra.jpg', 'category': 'Pull', 'nivel': 3, 'type': 'Horizontal','kg': 0, 'default': True },     
             {'name':'Agachamento Smith', 'url': 'https://treinomestre.com.br/wp-content/uploads/2018/01/agachamento-no-smith.jpg.webp', 'category': 'Legs', 'nivel': 3, 'type': 'Parte da frente','kg': 0, 'default': True },      
             {'name':'Leg Press', 'url': 'https://www.tifranco.com.br/uploads/images/2017/11/leg-press-como-torna-lo-mais-poderoso-1510582403.jpeg', 'category': 'Legs', 'nivel': 3, 'type': 'Parte de trás','kg': 0, 'default': True },
-            {'name':'Tuck L-sit', 'url': 'https://cdn.w600.comps.canstockphoto.com.br/exerc%C3%ADcio-calisthenics-experi%C3%AAncia-vetor-clip-arte_csp75037367.jpg', 'category': 'Core', 'nivel': 3, 'type': 'Abdômen',"segs": 'true','default': True },
+            {'name':'Tuck L-sit', 'url': 'https://cdn.w600.comps.canstockphoto.com.br/exerc%C3%ADcio-calisthenics-experi%C3%AAncia-vetor-clip-arte_csp75037367.jpg', 'category': 'Core', 'nivel': 1, 'type': 'Abdômen',"segs": 'true','default': True },
             {'name':'Pé na barra', 'url': 'https://thumbs.dreamstime.com/b/abs-apto-do-treinamento-da-menina-levantando-os-p%C3%A9s-em-uma-barra-horisontal-exerc%C3%ADcio-da-mulher-da-aptid%C3%A3o-que-faz-exerc%C3%ADcios-81924531.jpg', 'category': 'Core', 'nivel': 3, 'type': 'Lombar','default': True }
             
             ]            

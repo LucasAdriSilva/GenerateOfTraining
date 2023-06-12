@@ -685,8 +685,9 @@
     }
 
     function openModalToggleExer(exer) {
-        debugger
         let info = creatVar()
+
+        info.chosenDay ==1 ? info = info['d2'] : info = info['d1']
         //Filtrando o valor do data atraves da string ('Nome do exercicio')
         let listNewExer = info.filter(e => e.name == exer)[0]
 
@@ -802,8 +803,10 @@
     }
 
     function notToggleExer(exer) {
+        debugger
         let dataExer = JSON.parse(exer);
         let info = creatVar()
+        info.chosenDay ==1 ? info = info['d2'] : info = info['d1']
         let indexDiv
 
         let index = info.findIndex(e => e.name == dataExer.name)

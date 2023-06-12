@@ -72,11 +72,10 @@ def index():
           return getUrl("home.html", value = data)    
          
         else:
-          name = ip_found[1]
-          data = [name[0],None,None, {'nav': 'home'}]
-          return render_template("firstAcess.html", data = data)
+          data = {'nav': 'home'}
+          return getUrl("firstAcess.html", value = data)
     else:
-       data = [None,None,None, {'nav': 'home'}]
+       data = {'nav': 'home'}
     return getUrl("firstAcess.html", value=data)
     # return render_template("home.html", data = data)
     
@@ -295,8 +294,8 @@ def creatTraining():
         if rotina.upper() == user_found[-2].upper():
           treino = trainingOfDb[rotina]
     else:
-      data = [user_found[1][0],None,None, {'nav': 'home'}]
-      return render_template("firstAcess.html", data = data)
+      data = {'nav': 'home'}
+      return getUrl("firstAcess.html", value=data)
 
   # pega o valor dos requireds
   if user_found[6] is not None:
@@ -425,7 +424,10 @@ def creatTraining():
       days = int(required['value'])
 
   if days == None:
-    days = session['TrainingDays']
+    if 'TrainingDays' in session:
+      days = session['TrainingDays']
+    else:
+      days = user_found[5]
 
   if 'login' in session:
     Db.update_data('Login', session['login'], 'TrainingDays', days)
