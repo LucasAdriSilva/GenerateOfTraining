@@ -59,8 +59,10 @@
                 class="row reset-Padding mt-2 d-flex flex-column align-items-center justify-content-between row-content-menu">
                 <div class="col-10 reset-Padding">
 
-                    <div class="d-flex justify-content-start align-items-center div-item-menu menu-item-active"
+                    <div class="d-flex justify-content-start align-items-center div-item-menu {%if data[3]['nav'] == 'home' %} menu-item-active {%endif%}"
                         onclick="window.location.href='/'">
+
+
                         <svg xmlns="http://www.w3.org/2000/svg" class="menu-item-icon" viewBox="0 0 24 24" fill="none"
                             stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-home">
@@ -71,7 +73,7 @@
                     </div>
 
                     {% if data[5] == True %}
-                    <div class="d-flex justify-content-start align-items-center div-item-menu">
+                    <div class="d-flex justify-content-start align-items-center div-item-menu {%if data[3]['nav'] == 'creat' %} menu-item-active {%endif%}"  onclick="window.location.href='/exercice'">
                         <svg xmlns="http://www.w3.org/2000/svg" class="menu-item-icon" viewBox="0 0 24 24" fill="none"
                             stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-home ">
@@ -81,8 +83,8 @@
                         <h5 class="reset pt-1 menu-item-text">Lista de exercícios</h5>
                     </div>
 
-                    <div class="d-flex justify-content-start align-items-center div-item-menu"
-                        style="margin-inline: auto;">
+                    <div class="d-flex justify-content-start align-items-center div-item-menu {%if data[3]['nav'] == 'user' %} menu-item-active {%endif%}"
+                        style="margin-inline: auto;"  onclick="window.location.href='/user'">
                         <svg xmlns="http://www.w3.org/2000/svg" class="menu-item-icon" viewBox="0 0 24 24" fill="none"
                             stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-user">
@@ -179,7 +181,7 @@
 
             <div class="row reset-Padding" style="margin-top: 100px;">
                 
-                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2 menu-item-active" onclick="window.location.href='/'">
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'home' %} menu-item-active {%endif%}" onclick="window.location.href='/'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                         stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-home">
@@ -190,7 +192,7 @@
                 </div>
 
                 {% if data[5] == True %}
-                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2">
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'creat' %} menu-item-active {%endif%}" onclick="window.location.href='/exercice'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                         stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-home">
@@ -200,7 +202,7 @@
                     <h5 class="reset pt-1 menu-item-text">Lista de exercícios</h5>
                 </div>
 
-                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2">
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2 {%if data[3]['nav'] == 'user' %} menu-item-active {%endif%}" onclick="window.location.href='/user'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                         stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-user">
