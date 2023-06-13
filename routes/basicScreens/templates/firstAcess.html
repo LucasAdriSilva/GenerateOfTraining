@@ -24,7 +24,6 @@
 <body>
 
     <div class="content">
-
         <!-- Btn Menu d-none d-sm-none-->
         <div id="menu" class=" d-none d-sm-none fixed-top justify-content-start align-items-center"
             style="width: 100vw !important; height: 70px; background-color: #E5E5E5;">
@@ -42,7 +41,6 @@
                 <!-- Messagem de bm vindo -->
                 <div class="carousel-item active ">
                     <div class="row reset-Padding">
-
                         <div
                             class="col-12 d-flex flex-column flex-md-row justify-content-md-center align-items-md-center justify-content-center align-items-center gap-title">
                             <span class="reset text-uppercase title">Bem vindo ao</span>
@@ -57,8 +55,7 @@
                         </div>
 
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            <button onclick="nextSlide(6)"
-                                class="btn btn-primary btn-default fw-bolder btn-pag1 text-uppercase">
+                            <button onclick="nextSlide(6)" class="btn-primary fw-bolder text-uppercase">
                                 Começar
                             </button>
                         </div>
@@ -69,7 +66,7 @@
                 <div class="carousel-item ">
                     <div id="chosenTrainingId" class="row gap-4 gap-xxl-5">
                         <div
-                            class="col-10 col-lg-8 title-BR30 m-auto d-flex align-items-center justify-content-center reset-Padding">
+                            class="col-10 col-lg-8 title-BR30 m-auto d-flex align-items-start justify-content-start reset-Padding">
                             <h3 class="text-center reset title-BR30 bg-quiz title-pag2">
                                 Qual vai ser seu tipo de treino?
                             </h3>
@@ -98,7 +95,7 @@
 
                         <div class="col-12 d-flex justify-content-center algin-items-center"
                             style="margin-bottom: 49px; margin-top: 9px;">
-                            <button onclick="nextSlide(7)" class="text-uppercase btn-pag2">
+                            <button id="btn2" onclick="nextSlide(7)" class="text-uppercase btn-pag2">
                                 Continuar
                             </button>
                         </div>
@@ -173,7 +170,7 @@
 
                         <div class="col-12 d-flex justify-content-center algin-items-center"
                             style="margin-bottom: 49px; margin-top: 9px;">
-                            <button onclick="nextSlide(8)" class="text-uppercase btn-pag2">
+                            <button id="btn3" onclick="nextSlide(8)" class="text-uppercase btn-pag2">
                                 Continuar
                             </button>
                         </div>
@@ -257,7 +254,7 @@
 
 
                         <div class="col-12 d-flex justify-content-center algin-items-center" style=" margin-top: 36px;">
-                            <button onclick="nextSlide(9)" class="text-uppercase btn-pag2">
+                            <button id="btn4" onclick="nextSlide(9)" class="text-uppercase btn-pag2">
                                 Continuar
                             </button>
                         </div>
@@ -914,6 +911,7 @@
                 }
 
             }
+            checkingRequired()
         })
 
         hours.addEventListener('change', async function () {
@@ -936,10 +934,19 @@
                 requireds.push({ name: 'Hours', value: hours.value })
             }
 
-
+            checkingRequired()
         })
 
         function attrequireds(equip) {
+            const paralelas = document.getElementById('Paralelas')
+            const barraFixa = document.getElementById('Barra Fixa')
+            const trx = document.getElementById('Trx')
+            const rodinhaAbdominal = document.getElementById('Rodinha Abdominal')
+            const argolas = document.getElementById('Argolas')
+            const superband = document.getElementById('Superband')
+            const nulo = document.getElementById('null')
+
+            let aux = [paralelas, barraFixa, trx, rodinhaAbdominal, argolas, superband, nulo]
             if (equip != 'null') {
                 const nullReq = document.getElementById('null')
                 nullReq.classList.contains('selectEquip') ?
@@ -958,14 +965,6 @@
                 console.log(requireds)
             }
             else {
-                const paralelas = document.getElementById('Paralelas')
-                const barraFixa = document.getElementById('Barra Fixa')
-                const trx = document.getElementById('Trx')
-                const rodinhaAbdominal = document.getElementById('Rodinha Abdominal')
-                const argolas = document.getElementById('Argolas')
-                const superband = document.getElementById('Superband')
-
-                let aux = [paralelas, barraFixa, trx, rodinhaAbdominal, argolas, superband]
                 aux.forEach(req => {
                     req.classList.remove('selectEquip')
                 })
@@ -984,7 +983,19 @@
                 console.log(requireds)
             }
 
+            let verificationTheEquip = false;
+            aux.forEach(e => {
+                if (e.classList.contains('selectEquip')) {
+                    verificationTheEquip = true;
+                    return; // Se encontrar algum elemento com a classe 'selectEquip', podemos interromper o loop
+                }
+            });
 
+            const btn3 = document.getElementById('btn3')
+
+            verificationTheEquip ?
+                btn3.classList.add('btn-primary') :
+                btn3.classList.remove('btn-primary')
         }
 
         function clearModal() {
@@ -1134,7 +1145,7 @@
             })
 
             // Criando as verificações "Blur"
-            for (let i = 1; i < newExercisesBase.length + 1 ; i++) {
+            for (let i = 1; i < newExercisesBase.length + 1; i++) {
                 creatStruct(i)
             }
 
@@ -2243,6 +2254,8 @@
         }
 
         async function verificationRequireds() {
+            const content = document.querySelectorAll('.content');
+            content[0].style.marginTop = '0px';
             //Tira a TimeLine
             let timeLine = document.querySelectorAll('.timeLine')
             timeLine.forEach(day => {
@@ -2392,6 +2405,9 @@
 
 
         function chosentraining(training) {
+            const btn2 = document.getElementById('btn2')
+            btn2.classList.add('btn-primary')
+
             let butons = ['bodyWeight', 'Musc', 'Hibrido']
             choseTraining = training
             butons.forEach(e => {
@@ -2403,6 +2419,7 @@
         }
 
         function nextSlideExer(id) {
+            debugger
             const modal = $('#exampleModal');
             if (modal.length) {
                 modal.modal('hide');
@@ -2411,14 +2428,17 @@
                 $('.carousel2').carousel('next')
             }
             else {
-                
                 enviarTreino2();
             }
         }
 
-
         function nextSlide(x) {
             if (x == 6) {
+                
+                const content = document.querySelectorAll('.content');
+                content[0].style.justifyContent = 'start';
+                content[0].style.marginTop = '80px';
+
                 const menu = document.getElementById('menu')
                 menu.classList.remove('d-none')
                 $('.carousel').carousel('next');
@@ -2535,7 +2555,7 @@
                 divId.classList.remove('selectEquip')
             })
             console.log(requireds)
-
+            checkingRequired()
         }
 
         function choseDayofTraining(id) {
@@ -2659,9 +2679,22 @@
 
         }
 
+        function checkingRequired() {
+            let day = requireds.findIndex(e => e.name == 'Days')
+            let h2 = requireds.findIndex(e => e.name == 'Hours')
+            let m2 = requireds.findIndex(e => e.name == 'Min')
+
+            if (day != -1 && h2 != -1 && m2 != -1) {
+                const btn4 = document.getElementById('btn4')
+                btn4.classList.add('btn-primary')
+            } else {
+                const btn4 = document.getElementById('btn4')
+                btn4.classList.remove('btn-primary')
+            }
+        }
 
         async function enviarTreino2() {
-            
+
             if (treino.length == newExercisesBase.length) {
                 treino.push(requireds)
                 loading(true)
