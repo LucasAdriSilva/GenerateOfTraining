@@ -13,6 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="manifest" href="assets/manifest.json" />
+    <link rel="stylesheet" href="assets/css/main.css">
     <script>
         if (typeof navigator.serviceWorker !== 'undefined') {
             navigator.serviceWorker.register('/assets/pwabuilder-sw.js');
@@ -67,7 +68,7 @@
                 font-size: 20px;
             }
 
-            .margin-input{
+            .margin-input {
                 margin-top: 32px
             }
         }
@@ -85,14 +86,14 @@
         }
 
         input::placeholder {
-            color: rgba(119, 119, 119, 0.69)!important;
-          }
+            color: rgba(119, 119, 119, 0.69) !important;
+        }
 
         .input-login {
             text-align: center;
             border: 1px solid rgba(119, 119, 119, 0.69) !important;
             height: 62px;
-            color: rgba(119, 119, 119, 0.69)!important;
+            color: rgba(119, 119, 119, 0.69) !important;
             font-size: 20px;
         }
 
@@ -100,14 +101,70 @@
             border-radius: 30px;
         }
 
-        .margin-input{
+        .margin-input {
             margin-top: 14px
+        }
+
+        .loading {
+            width: fit-content;
+            margin: 30% auto 0;
+            overflow: hidden;
+        }
+
+        .loading span {
+            color: #969696;
+            font-weight: 600;
+            display: inline-block;
+            padding: 2px;
+            font-size: 15px;
+
+        }
+
+        .roll-loading {
+            width: 100px;
+            height: 100px;
+            border: 8px solid #e3e3e3;
+            border-radius: 50%;
+            border-right-color: #ffc700;
+            animation: spin 1s ease infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .input-empty {
+            animation: shake 0.8s ease-in-out;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+
+            75% {
+                transform: translateX(-10px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="space-content">
+    <div id="content" class="space-content">
         <div class="row w-100 ">
 
             <div class="col-lg-6 d-none d-sm-none d-lg-block " style="background-color: #FFC400">
@@ -127,22 +184,28 @@
                     <form class="d-flex flex-column justify-content-center align-items-center" action="/login"
                         method="post" style="width: 80%;">
 
-                        <input type="text" name="login" class="w-100 boderRadius30 input-login mt-5"
+                        {% if data[3].user != none%}
+                        <input id="login" value="{{data[3].user}}" type="text" name="login" class="w-100 boderRadius30 input-login mt-5"
                             placeholder="Email de login do curso" required>
+                        {%else%}
+                        <input id="login" type="text" name="login" class="w-100 boderRadius30 input-login mt-5"
+                            placeholder="Email de login do curso" required>
+                        {% endif %}
+                        
 
-                        <input type="password" name="password" class=" w-100 margin-input input-login  boderRadius30"
-                            placeholder="Senha" required >
+                        <input id="password" type="password" name="password"
+                            class=" w-100 margin-input input-login  boderRadius30" placeholder="Senha" required>
 
                         <input type="hidden" name="url" value="{{ data[3].url }}">
 
                         {% if data[3].erro %}
-                        <h5 class="text-center" style="z-index: 999; color: red;">{{data[3].erro}}</h5>
+                        <h5 id="er" class="text-center mt-3" style="z-index: 999; color: red;">{{data[3].erro}}</h5>
                         {% endif%}
 
                         <span class="mt-3" style="color: #757575;">Esqueci a senha</span>
 
-                        <button class="btn btn-lg btn-primary w-75 mt-5 text-uppercase fw-bolder"
-                            type="submit" style="background-color: #FFC400; border: none; color: rgb(121, 121, 121); border-radius: 30px;">
+                        <button onclick="loading()" class="btn-primary w-75 mt-5 text-uppercase fw-bolder"
+                            type="submit">
                             Entrar
                         </button>
                     </form>
@@ -153,6 +216,11 @@
             </div>
         </div>
     </div>
+
+    <div id="loading" class="loading d-none d-flex justify-content-center align-content-center flex-column">
+        <div class="roll-loading align-self-center"></div>
+        <span class="text-center mt-2">CARREGANDO...</span>
+    </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -160,7 +228,56 @@
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
 <script>
-
+    function loading() {
+    
+        const login = document.getElementById('login');
+        const password = document.getElementById('password');
+    
+        login.classList.remove('input-empty');
+        password.classList.remove('input-empty');
+    
+        // Armazena o valor atual do campo de login
+        const loginValue = login.value;
+    
+        // Realizar verificações de validação
+        if (login.value === '') {
+            login.classList.add('input-empty');
+            login.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                login.style.animation = '';
+            }, 500);
+            return false;
+        }
+    
+        if (password.value === '') {
+            password.classList.add('input-empty');
+            password.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                password.style.animation = '';
+            }, 500);
+    
+            // Restaura o valor do campo de login
+            login.value = loginValue;
+    
+            return false;
+        }
+    
+        const loading = document.getElementById('loading');
+        const content = document.getElementById('content');
+    
+        loading.classList.remove('d-none');
+        content.classList.add('d-none');
+    
+        setInterval(() => {
+            const err = document.getElementById('err');
+    
+            if (err) {
+                loading.classList.add('d-none');
+                content.classList.remove('d-none');
+            }
+        }, 100);
+    }
+    
 </script>
 
 </html>

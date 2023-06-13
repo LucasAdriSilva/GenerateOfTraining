@@ -41,7 +41,10 @@ def getUrl(url, value='', bool=False):
       menuShow
     ]
     if bool:
-      return redirect(url_for(url, data = textDefault))
+      if url == 'basicScreens.creatTraining':
+        return redirect(url_for(url))
+      else:
+        return redirect(url_for(url, data = textDefault))
     else:
       return render_template( url , data = textDefault)
     

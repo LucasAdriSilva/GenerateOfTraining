@@ -1,33 +1,34 @@
 {% extends 'base.html' %}
 
+{% block header%}
+<link rel="stylesheet" href="assets/css/user.css">
+{% endblock %}
 
 {% block content %}
-<div style="margin-bottom: 50px;">
-    <div class="row margin-content mt-5">
-        <div class="col-12 d-flex justify-content-around align-items-center reset-Padding">
-            <div class="rounded-circle d-flex justify-content-center align-items-center"
-                style="width: 100px; height: 100px; background-color: rgb(43, 43, 168);">
-                <h1 class="display-1 text-white">{{data[0]}}</h1>
-            </div>
+<div class="no-scrool">
+    <div class="row margin-content mt-lg-5 mt-4">
+        <div class="col-12 reset-Padding header-user">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#FFC400"
+                class="bi bi-person-circle circle-user img-user" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+                <path fill-rule="evenodd"
+                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z">
+                </path>
+            </svg>
 
-            <div class=" d-flex flex-column justify-content-center align-items-between">
-                <h3 class="text-center">{{data[3].name}}</h3>
+            <div class=" d-flex flex-column justify-content-center align-items-between ms-sm-5">
+                <h3 class="title-name">{{data[3].name}}</h3>
 
                 <div class="d-flex justify-content-between align-content-center gap-3">
 
-                    <div class="d-flex flex-column">
-                        <span>Treinos</span>
-                        <span> 135</span>
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <span class="header-info">Treinos</span>
+                        <span class="content-info"> {{data[3].countTraining}}</span>
                     </div>
 
-                    <div class="d-flex flex-column">
-                        <span class="text-center">Seguidores</span>
-                        <span class="text-center"> 89</span>
-                    </div>
-
-                    <div class="d-flex flex-column">
-                        <span class="text-end">Segindo</span>
-                        <span class="text-end"> 10</span>
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <span class="header-info">Rotina Atual</span>
+                        <span class="content-info">{{data[3].chosenTraining}}</span>
                     </div>
 
                 </div>
@@ -35,85 +36,79 @@
         </div>
     </div>
 
-    <div class="row mt-5 d-flex justify-content-center align-items-center">
-        <button type="button" class="btn btn-primary position-relative w-75" style="height: 60px;">
-            <h5 class="reset text-black text-uppercase">Rotina: {{data[3].chosenTraining}}</h5>
-
-            <span
-                class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-dark d-flex justify-content-center align-items-center"
-                style="width: 45px; height: 45px;">
-                <i class="bi bi-arrow-down-up fs-4" style="margin-top: -5px;"></i>
-            </span>
-
-        </button>
-    </div>
-
-    <div class="row mt-5 gap-3 d-flex justify-content-center">
-        <div class="col-12 d-flex justify-content-center align-items-center">
-            <h3>Seus equipamentos</h3>
-        </div>
-
-        {% if data[3].equip|length == 0 %}
-        <div class="col-12 d-flex justify-content-center align-items-center">
-
-            <h5 class="d-flex justify-content-center align-items-center reset equip text-center"> Sem equipamentos
-            </h5>
-
-        </div>
-        {% endif%}
-        <div class="col-12 d-flex justify-content-center align-items-center">
-            {%if data[3].equip[0] %}
-            <h5 class="d-flex justify-content-center align-items-center reset equip text-center">{{data[3].equip[0]}}
-            </h5>
-            {%endif%}
-        </div>
-        <div class="col-12 d-flex justify-content-center align-items-center">
-            {%if data[3].equip[1] %}
-            <h5 class="d-flex justify-content-center align-items-center reset equip text-center">{{data[3].equip[1]}}
-            </h5>
-            {%endif%}
-        </div>
-        <div class="col-12 d-flex justify-content-center align-items-center">
-            {%if data[3].equip[2] %}
-            <h5 class="d-flex justify-content-center align-items-center reset equip text-center">{{data[3].equip[2]}}
-            </h5>
-            {%endif%}
-        </div>
-        <div class="col-12 d-flex justify-content-center align-items-center">
-            {%if data[3].equip[3] %}
-            <h5 class="d-flex justify-content-center align-items-center reset equip text-center">{{data[3].equip[3]}}
-            </h5>
-            {%endif%}
-        </div>
-        <div class="col-12 d-flex justify-content-center align-items-center">
-            {%if data[3].equip[4] %}
-            <h5 class="d-flex justify-content-center align-items-center reset equip text-center">{{data[3].equip[4]}}
-            </h5>
-            {%endif%}
-        </div>
-        <div class="col-12 d-flex justify-content-center align-items-center">
-            {%if data[3].equip[5] %}
-            <h5 class="d-flex justify-content-center align-items-center reset equip text-center">{{data[3].equip[5]}}
-            </h5>
-            {%endif%}
+    <div class="row mt-5 d-flex justify-content-center reset-Padding margin-left">
+        <div class="col-12 d-flex justify-content-start align-items-center reset-Padding mt-sm-4">
+            <h3 class="reset header-session">Meus equipamentos</h3>
         </div>
     </div>
 
-    <div id="divHistoryTraining" class="row my-5 d-none">
-        <div class="col-12 d-flex justify-content-center align-items-center mb-2">
-            <h1> Historico de Treino </h1>
+    <!-- <button class="scroll-left">←</button>
+    <button class="scroll-right">→</button> -->
+
+    <div id="carrosselEquip" class="d-flex overflow-auto gap-3 margin-left" style="width: calc(100vw - 20px);">
+        {% if data[3].equip is not none %}
+        {% for equip in data[3].equip %}
+        {% set equip_name = equip.replace(" ", "-") %}
+        <img src="assets/img/equip/{{ equip_name }}.jpg" class="equip-user">
+        {% endfor %}
+        <div class="equip-user d-flex justify-content-center align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="#707070"
+                stroke="#707070" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-plus">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
         </div>
-        <div class="col-12">
+        
+        {% else %}
+        <div class="equip-user d-flex justify-content-center align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="#707070"
+                stroke="#707070" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-plus">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </div>
+        
+        {% endif %}
+
+    </div>
+
+    <div id="divHistoryTraining" class="row mt-5 reset-Padding">
+        <div class="col-12 reset-Padding d-flex justify-content-start align-items-center margin-left">
+            <h1 class="reset header-session"> Historico de Treino </h1>
+        </div>
+
+        <div class="col-12 reset-Padding margin-left mb-3 mt-2 margin-left">
+            <button id="7days" onclick="creatHistoryExer(7)" class="btn-filter-days">7 dias</button>
+            <button id="14days" onclick="creatHistoryExer(14)" class="btn-filter-days">14 dias</button>
+            <button id="30days" onclick="creatHistoryExer(30)" class="btn-filter-days">30 dias</button>
+            <button id="90days" onclick="creatHistoryExer(90)" class="btn-filter-days">3 meses</button>
+        </div>
+        <div class="col-12 reset-Padding margin-left2">
             <div class="accordion" id="historyTraining">
-
-
             </div>
         </div>
     </div>
 
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="module">
+    $(document).ready(function () {
+        var row = $('#teste');
+        var scrollLeft = 0;
+        var scrollAmount = 73;
+
+        $('.scroll-left').click(function () {
+            scrollLeft -= scrollAmount;
+            row.animate({ scrollLeft: scrollLeft }, 73);
+        });
+
+        $('.scroll-right').click(function () {
+            scrollLeft += scrollAmount;
+            row.animate({ scrollLeft: scrollLeft }, 73);
+        });
+    });
     let training;
 
     import { apiGet } from './assets/js/api.js'
@@ -123,16 +118,26 @@
     })
 
     const PS = document.getElementById('pairedSetsValue');
+
     async function getApi() {
         let dayOfTraining = {}
         training = await apiGet('getLastTraining', false);
         const divHistoryTraining = document.getElementById('divHistoryTraining')
 
         if (training.message == 'No data found') {
-            divHistoryTraining.classList.add('d-none')
+            //divHistoryTraining.classList.add('d-none')
+            const historyTraining = document.getElementById('historyTraining')
+
+            historyTraining.innerHTML = `
+            <div class="row reset-Padding">
+                <div class="col-12 d-flex justify-content-start align-items-center">
+                    <span class="reset">Nesse período de tempo você não treino</span>
+                </div>
+            </div>
+            `
         }
         else {
-            divHistoryTraining.classList.remove('d-none')
+            //divHistoryTraining.classList.remove('d-none')
             if (Array.isArray(training)) {
                 training.forEach((e, index) => {
                     const historyTraining = document.getElementById('historyTraining')
@@ -242,11 +247,190 @@
         }
         return training
     }
+
+    async function filtrarDados(intervalo) {
+        training = await apiGet('getLastTraining', false);
+        const intervaloMs = intervalo * 24 * 60 * 60 * 1000; // Converter o intervalo para milissegundos
+        const dataAtual = new Date(); // Obter a data atual
+        if (training.message != 'No data found') {
+            const dadosFiltrados = training.filter((item) => {
+                var parts = item.date.split("/");
+                var dataTreino = new Date(parts[2], parts[1] - 1, parts[0]); // Converter a data do treino para um objeto Date
+                const diff = dataAtual - dataTreino; // Calcular a diferença entre a data atual e a data do treino
+
+                return diff <= intervaloMs; // Verificar se a diferença está dentro do intervalo fornecido
+            });
+            return dadosFiltrados;
+        }
+        else {
+            return 'No data found'
+        }
+
+
+    }
+
+    async function creatHistoryExer(filter) {
+        let dayOfTraining = {}
+        training = await filtrarDados(filter)
+        const divHistoryTraining = document.getElementById('divHistoryTraining')
+        const historyTraining = document.getElementById('historyTraining')
+        historyTraining.innerHTML = ''
+
+
+        const correctIds = document.querySelectorAll('.btn-filter-days-select')
+        if (correctIds != null) {
+            correctIds.forEach(e => {
+                e.classList.remove('btn-filter-days-select')
+                e.classList.add('btn-filter-days')
+            })
+        }
+
+        const idDays = document.getElementById(`${filter}days`)
+        idDays.classList.add('btn-filter-days-select')
+
+
+        if (training == 'No data found') {
+            historyTraining.innerHTML = `
+            <div class="row reset-Padding">
+                <div class="col-12 d-flex justify-content-start align-items-center">
+                    <span class="reset">Nesse período de tempo você não treino</span>
+                </div>
+            </div>
+            `
+        }
+        else {
+            //divHistoryTraining.classList.remove('d-none')
+            if (Array.isArray(training)) {
+                training.forEach((e, index) => {
+                    const historyTraining = document.getElementById('historyTraining')
+                    historyTraining.innerHTML += `
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="true" aria-controls="collapse${index}">
+                                    Treino do dia ${e.date}
+                                </button>
+                            </h2>
+                            <div id="collapse${index}" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#historyTraining">
+                            </div>
+                        </div>
+                    `
+                    if (e.training.chosenDay != undefined && e.training.chosenDay == '1') {
+                        dayOfTraining = e.training.d1
+                    }
+
+                    if (e.training.chosenDay != undefined && e.training.chosenDay == '2') {
+                        dayOfTraining = e.training.d2
+                    }
+
+                    if (e.training.chosenDay == undefined) {
+                        dayOfTraining = e.training
+                    }
+
+                    dayOfTraining.forEach((data, i) => {
+                        const div = document.getElementById(`collapse${index}`)
+                        div.innerHTML += `
+                            <div class="accordion-body">
+                                <div class="row d-flex justify-content-center align-items-center reset-Padding-x py-3 border-bottom">
+                                    <div class="col-5 d-flex justify-content-center align-items-center reset-Padding-x">
+                                        <h4 class="text-center">${data.name}</h4>
+                                    </div>
+                                    <div id='reptOfTraining${i + 1}_${index}'  class="col-6 d-flex flex-column justify-content-center align-items-center reset-Padding-x">
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                        const reptOfTraining = document.getElementById(`reptOfTraining${i + 1}_${index}`)
+                        if (data.count) {
+                            for (let y = 1; y <= data.rept; y++) {
+                                if (data[`rept${y}`] != undefined) {
+                                    reptOfTraining.innerHTML +=
+                                        ` <span>${y}ª X ${data[`rept${y}`]} -- ${data.segs ? 'Segundos' : 'Repetição'}</span>`
+                                }
+
+                            }
+                        }
+                        if (data.kg) {
+                            for (let y = 1; y <= data.rept; y++) {
+                                if (data[`rept${y}`] != undefined) {
+                                    reptOfTraining.innerHTML +=
+                                        ` <span>${y}ª X ${data[`kg${y}`]} Kg </span>`
+                                }
+                            }
+                        }
+                    })
+                })
+            }
+            else {
+                training.foreach((e, index) => {
+                    const historyTraining = document.getElementById('historyTraining')
+                    historyTraining.innerHTML += `
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="true" aria-controls="collapse${index}">
+                                  Treino do dia ${e.date}
+                              </button>
+                            </h2>
+                            <div id="collapse${index}" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#historyTraining">
+                              
+                            </div>
+                          </div>
+                        `
+                    e.training.forEach(data => {
+                        const div = document.getElementById(`collapse${index}`)
+                        div.innerHTML += `
+                        <div class="accordion-body">
+                            <div class="row d-flex justify-content-center align-items-center reset-Padding-x py-3 border-bottom">
+                                <div class="col-6 d-flex justify-content-center align-items-center reset-Padding-x">
+                                    <h4 class="text-center">${data.name}</h4>
+                                </div>
+                                <div id='reptOfTraining' class="col-5 d-flex flex-column justify-content-center align-items-center reset-Padding-x">
+                                    
+                                </div>
+                            </div>                            
+                        </div>   
+                            `
+                        /*<span>1ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept1}</span>
+                                <span>2ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept2}</span>
+                                <span>3ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept3}</span>*/
+                        for (let y = 1; y < data.rept - 1; y++) {
+                            console.log(data.rept + y)
+                            const reptOfTraining = document.getElementById('reptOfTraining')
+                            if (data.segs) {
+                                reptOfTraining.innerHTML +=
+                                    `<span>1ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept + y}</span>`
+                            }
+                            //`<span>1ª ${data.segs ? 'Segundos' : 'Repetição'}: ${data.rept + y}</span>`
+                        }
+                    })
+
+
+                })
+            }
+        }
+
+
+        if (historyTraining.innerHTML == '') {
+            historyTraining.innerHTML = `
+            <div class="row reset-Padding">
+                <div class="col-12 d-flex justify-content-start align-items-center">
+                    <span class="reset">Nesse período de tempo você não treino</span>
+                </div>
+            </div>
+            `
+        }
+    }
+
+    const dadosFiltrados7Dias = await filtrarDados(7);
+    const dadosFiltrados14Dias = await filtrarDados(14);
+    const dadosFiltrados30Dias = await filtrarDados(30);
+    const dadosFiltrados3Meses = await filtrarDados(90);
+
+    console.log(dadosFiltrados7Dias)
+    console.log(dadosFiltrados14Dias)
+    console.log(dadosFiltrados30Dias)
+    console.log(dadosFiltrados3Meses)
+
     window.getApi = getApi;
-</script>
-
-<script>
-
-
+    window.creatHistoryExer = creatHistoryExer
 </script>
 {% endblock %}

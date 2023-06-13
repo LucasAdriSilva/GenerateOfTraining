@@ -188,14 +188,9 @@ def login():
         else:
           return getUrl('basicScreens.creatTraining', bool=True)
       else:
-        # err = 'Senha incorreta'
-        # return render_template('login.html', prop='erro', value=err, bool=False)
-
-        data = [None,None,None, {'nav': 'home', 'erro': 'Senha incorreta'}]
+        data = [None,None,None, {'nav': 'home', 'erro': 'Senha incorreta', 'user': user_found[1]}]
         return render_template("login.html", data = data)
     else:
-      # err = 'Usuário nao encontado'
-      # return render_template('login.html', prop='erro', value=err, bool=False)
       data = [None,None,None, {'nav': 'home', 'erro': 'Usuário nao encontado'}]
       return render_template("login.html", data = data)
   else: 

@@ -1,3 +1,7 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+@import url(https://fonts.googleapis.com/css2?family=Bungee&display=swap);
+
  .circle-user {
      display: flex;
      justify-content: center;
@@ -32,8 +36,8 @@
  }
 
  .equip-user {
-     width: calc((100vw - 90px)/4);
-     height: calc((100vw - 90px)/4);
+     width: clamp(79px, 18vw, 108px);
+     height: clamp(79px, 18vw, 108px);
      border: 1px solid #707070;
      border-radius: 50%;
  }
@@ -43,51 +47,72 @@
      margin-left: 20px;
  }
 
+ .margin-left2 {
+     width: calc(100vw - 40px);
+     margin-left: 20px;
+ }
+
  .btn-filter-days {
      border-radius: 7px;
      border: solid 1px rgba(112, 112, 112, 0.49);
      background-color: white;
-     height: 23px;
-     width: 69px;
-     font-size: 12px;
+     height: clamp(23px , 5vw, 36px);
+     width: clamp(71px , 10vw, 140px);
+     font-size: clamp(12px , 5vw, 15px);
  }
 
  .btn-filter-days-select {
      border-radius: 7px;
      border: none;
-     height: 23px;
-     width: 69px;
-     font-size: 12px;
-     background-color: hsla(46, 100%, 50%, 0.49);
+     color: white;
+     height: clamp(23px , 5vw, 36px);
+     width: clamp(69px , 10vw, 140px);
+     font-size: clamp(12px , 5vw, 15px);
+     background-color: rgba(25, 149, 168, 0.49);
  }
 
  .title-name {
-     font-size: 30px;
+     font-size: clamp(30px, 8vw, 45px) !important;
      color: #707070;
      text-align: start;
  }
 
  .header-info {
-    text-align: center;
-     font-size: 16px;
+     text-align: center;
+     font-size: clamp(16px, calc(1px + 4vw), 25px);
      color: #707070;
  }
 
  .content-info {
-    text-align: center;
-    font-size: 16px;
-    color: rgba(112, 112, 112, 0.70);
-}
+     text-align: center;
+     font-size: clamp(16px, calc(1px + 4vw), 25px);
+     color: rgba(112, 112, 112, 0.70);
+ }
 
-.header-session{
-    text-transform: uppercase;
-   font-size: 20px; 
-   color: #707070;
-   font-weight: 800;
-}
+ .header-session {
+     text-transform: uppercase;
+     font-size: clamp(20px, calc(1px + 5vw), 30px) !important;
+     color: #707070;
+     font-weight: 800;
+ }
+
+ .img-user {
+     width: clamp(69px, 25vw, 170px);
+     height: clamp(69px, 25vw, 170px);
+ }
+
+ .no-scrool {
+     overflow-x: hidden;
+ }
+
  @media screen and (min-width: 576px) {}
 
- @media screen and (min-width: 992px) {}
+ @media screen and (min-width: 992px) {
+    .margin-left2 {
+        width: calc(70vw - 60px);
+        margin-left: 20px;
+    }
+ }
 
  @media screen and (min-width: 1367px) {}
 
