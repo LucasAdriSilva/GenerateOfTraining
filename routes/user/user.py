@@ -43,15 +43,7 @@ def userRoute():
         chosenTraining = training['upperLower']
 
       if numbertraining is None:
-        data = {
-          'nav': 'user',
-          'training': chosenTraining,
-          'days': days,
-          'chosenTraining': chosen,
-          'equip': equip,
-          'name': name
-        }
-      else:
+        countTraining = 0
         data = {
           'nav': 'user',
           'training': chosenTraining,
@@ -59,7 +51,19 @@ def userRoute():
           'chosenTraining': chosen,
           'equip': equip,
           'name': name,
-          'numbertraining': numbertraining
+          'countTraining': countTraining
+        }
+      else:
+        countTraining = len(numbertraining)
+        data = {
+          'nav': 'user',
+          'training': chosenTraining,
+          'days': days,
+          'chosenTraining': chosen,
+          'equip': equip,
+          'name': name,
+          'numbertraining': numbertraining,
+          'countTraining': countTraining
         }  
       return getUrl("user.html", value = data)
     else:
@@ -196,8 +200,7 @@ def login():
       return render_template("login.html", data = data)
   else: 
     return getUrl("basicScreens.creatTraining", bool=True)
-
-  
+ 
 @user.route('/logout')
 def logout():
   session.pop('login',1)
