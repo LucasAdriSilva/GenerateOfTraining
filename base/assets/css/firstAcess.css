@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import url(https://fonts.googleapis.com/css2?family=Bungee&display=swap);
+
 :root {
     --FH: 15%;
     --HD: 6%;
@@ -362,49 +363,49 @@
 
 .btn-reset,
 [id^="container"] {
-  width: 260px;
-  height: 43px;
-  background-color: #FFC400;
-  font-weight: 500;
-  font-size: 23px;
-  color: #545454;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+    width: 260px;
+    height: 43px;
+    background-color: #FFC400;
+    font-weight: 500;
+    font-size: 23px;
+    color: #545454;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 [id^="container"] {
-  position: relative;
+    position: relative;
 }
 
 [id^="progress-bar"] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  background-color: #FFC400;
-  transition: width 1s linear;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #FFC400;
+    transition: width 1s linear;
 }
 
 [id^="countdown"] {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 30px;
-  padding: 5px;
-  font-size: 18px;
-  color: #545454;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    padding: 5px;
+    font-size: 18px;
+    color: #545454;
 }
 
 [id^="countdown"] svg {
-  width: 18px;
-  height: 18px;
-  margin-right: 5px;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
 }
 
 
@@ -824,6 +825,24 @@
 
     .reset-creat-exer {
         font-size: calc(25 * var(--FH));
+    }
+}
+
+@media screen and (max-height: 650px) {
+
+    .btn-requireds {
+        color: #545454;
+        height: 35px;
+        font-size: 14px;
+        border: 1px solid #E5E5E5;
+        background-color: white;
+        width: 100%;
+        font-weight: 500;
+    }
+
+    .title-pag2 {
+        height: 60px;
+        font-size: 15px;
     }
 }
 
