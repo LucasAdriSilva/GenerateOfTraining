@@ -3,18 +3,21 @@
 
 {% block content %}
 
-<div class="row d-flex justify-content-center align-items-center">
-    <div class="col-12">
-        <h1 class="reset text-center">Crie seu treino</h1>
-        <h3 class="reset text-center">De forma Hibrida</h3>
+<div class="row d-flex justify-content-center align-items-center mt-3">
+    <div class="col-10">
+        <!-- <h1 class="reset text-center">Crie seu treino</h1>
+        <h3 class="reset text-center">De forma Hibrida</h3> -->
+        <h3 class="text-center reset bg-quiz title-pag2 mt-xl-5">
+            Crie seu treino<br> De forma Hibrida
+        </h3>
     </div>
 
-    <div class="col-12 p-3 d-flex flex-column">
-        <span class="text-center">NEsse estilo você podera optar se vai querer Musculação ou peso do corpo</span>
-        <span class="text-center">Cada card representa um exercicio, assim que você escolher aparecera as opções de
+    <div class="col-10 p-3 d-flex flex-column reset-Padding">
+        <span class="text-line">Nesse estilo você podera optar se vai querer Musculação ou peso do corpo</span>
+        <span class="text-line">Cada card representa um exercicio, assim que você escolher aparecera as opções de
             exercicio</span>
-        <span class="text-center">Após selecionar faça o teste e coloque os dados do seu treino. </span>
-        <span class="text-center">O nosso sistema irá verificar se está correto ou não </span>
+        <span class="text-line">Após selecionar faça o teste e coloque os dados do seu treino. </span>
+        <span class="text-line">O nosso sistema irá verificar se está correto ou não </span>
 
     </div>
 
@@ -199,8 +202,8 @@
         { 'category': 'Pull', 'type': 'Vertical' },
         { 'category': 'Legs', 'type': 'Parte da frente' },
         { 'category': 'Legs', 'type': 'Parte de trás' },
-        { 'category': 'Core', 'type': '' },
-        { 'category': 'Core', 'type': '' },
+        { 'category': 'Core', 'type': 'Abdômen' },
+        { 'category': 'Core', 'type': 'Lombar' },
     ]
 
     function creatStruct() {
@@ -218,7 +221,7 @@
                     <div class="row my-1">
                         <div class="col-12 d-flex flex-column justify-content-center align-items-center reset-Padding mb-4">
                             <span class="reset  text-center" style="font-size: 14px;"> Escolha sua modalidade para</span>
-                            ${ e.type == '' ? `<span class="reset text-uppercase text-center" style="font-size: 18px;"> "${e.category}"</span>`:
+                            ${ e.type == 'Abdômen' || e.type == 'Lombar' ? `<span class="reset text-uppercase text-center" style="font-size: 18px;"> "${e.category}"</span>`:
                                 `<span class="reset text-uppercase text-center" style="font-size: 18px;"> "${e.category}" - "${e.type}"</span>`
                             }
                             
