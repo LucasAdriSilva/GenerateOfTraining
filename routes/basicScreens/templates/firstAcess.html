@@ -72,7 +72,8 @@
                             </h3>
                         </div>
 
-                        <div class="col-10 col-lg-8 borderRadius d-flex align-items-center  reset-Padding margin-first-required">
+                        <div
+                            class="col-10 col-lg-8 borderRadius d-flex align-items-center  reset-Padding margin-first-required">
                             <button id="bodyWeight" onclick="chosentraining('bodyWeight')"
                                 class="borderRadius btn-requireds ps-lg-5 text-center text-lg-start ">
                                 Treino com o peso do corpo
@@ -814,6 +815,48 @@
         </div>
     </div>
 
+
+    <!-- Modal confirmation he time -->
+    <div class="modal fade" id="confirmationTime" tabindex="-1" aria-labelledby="confirmationTimeLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- <div class="modal-header d-flex justify-content-center align-items-center">
+                    <span class="text-center text-uppercase font-title-modal fw-bold" id="confirmationTimeLabel">Seu
+                        exercicio
+                        está pesado!</span>
+                </div> -->
+                <div class="modal-body">
+                    <div class="row reset-Padding">
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <span class="text-center font-title-modal">Após a confirmação</span>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center align-items-cente">
+                            <span id="exerDeleter" class="text-center fw-bolder text-uppercase"></span>
+                        </div>
+                        <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-cente">
+                            <span class="mt-2 text-center font-capt">
+                                Você terá que fazer muitas séries de
+                                <span id="nameExer" class="fw-bolder text-uppercase"></span> e por isso ele pode valer
+                                por 2
+                                exercícios ao mesmo tempo.
+                            </span>
+                            <span class="mt-2 text-center font-capt text-danger">
+                                Se não quiser excluir, terá que excolher um mais fácil para diminuir o numero de
+                                séries.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer d-flex justify-content-center">
+                    <button id="removeExer" data-bs-dismiss="modal" class="btn btn-success">Excluir</button>
+                    <button id="notRemove" data-bs-dismiss="modal" class="btn btn-success">Não Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Loading -->
     <div id="loading" class="loading d-none d-flex justify-content-center align-content-center flex-column">
         <div class="roll-loading align-self-center"></div>
@@ -1039,7 +1082,7 @@
                 novaDiv.innerHTML = `<div class="row mt-4">
                     <div class="col-10 m-auto d-flex justify-content-center align-items-center"
                         style="background-color: #545454;">
-                        <span class="reset pt-1 pb-1 text-count ">${x}/8 </span>
+                        <span class="reset pt-1 pb-1 text-count ">${x}/${newExercisesBase.length} </span>
                     </div>
 
                     <div class="col-10 reset-Padding mt-2 m-auto d-flex justify-content-center align-items-center rounded-4"
@@ -1052,7 +1095,7 @@
                             </div>
 
                             <div class="col-12 mt-2">
-                                <div class="row">
+                                <div class="row d-flex justify-content-center align-items-center">
                                     
                                     <div
                                         class="col-12 d-flex justify-content-center align-items-center reset-Padding">
@@ -1083,15 +1126,17 @@
                                             <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + x}" class=" input-value " type="number">
                                         </div>
 
+                                        <div class="col-10 d-flex justify-content-center align-items-center mt-4 reset-Padding">
+                                        <span id="msgTopBtn" class="reset" style="color:#707070; font-size:23px;">Descanso: 3 minutos</span>
+                                        </div>
 
-
-                                        <div id="${'container' + x}" class="col-10 w-100 d-flex justify-content-center align-items-center mt-4">
+                                        <div id="${'container' + x}" class="col-10 w-100 d-flex justify-content-center align-items-center">
                                             <div id="${'clock' + x}" onclick="btnClockStart(${x})" class="btn btn-reset">
                                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-auto">
                                                 <circle cx="12" cy="12" r="10"></circle>
                                                 <polyline points="12 6 12 12 16 14"></polyline>
                                               </svg>
-                                              Iniciar descanso
+                                              Testar próximo
                                             </div>
 
                                             <div id="${'progress-bar' + x}" class="d-none"></div>
@@ -1127,12 +1172,11 @@
                                               <span id="${'noInput' + x}" class="reset px-3 text-start text-danger d-none" style="font-size: 10px;">
                                               Por favor, insira o numero máximo de ${exer.segs ? 'segundos' : 'repetição'}, para montarmos seu treino.
                                               </span> 
-                                    </div>
-                                        
-                                        <div id="${'finishExer' + x}" onclick="nextSlideExer(${x})" class="btn btn-reset d-none mt-4">
-                                            Próximo exercício
-                                        </div>
 
+                                              <div id="${'finishExer' + x}" onclick="nextSlideExer(${x})" class="btn btn-reset d-none">
+                                                Próximo exercício
+                                            </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -1513,14 +1557,7 @@
             const div = document.getElementById('toggleExer' + id)
             const input = document.getElementById('ValidExer' + id)
             const repts = document.getElementById('repts' + id)
-
-            // var newArray = []
-            // newExercisesBase.forEach(e => {
-            //   if (e == undefined) {
-            //     return
-            //   }
-            //   newArray.push(e)
-            // })
+            const divInfos = document.getElementById('infos' + id)
 
             var nameExer = exercises.filter(e => e.name == name)
             // Subistituir no array
@@ -1552,6 +1589,10 @@
         <span id="${'success' + id}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
         Perfeito, agora é só descansar ${nameExer[0].rest}m e fazer o próximo exercício
         </span> 
+
+        <div id="${'finishExer' + id}" onclick="nextSlideExer(${id})" class="btn btn-reset d-none">
+            Próximo exercício
+        </div>
         `
 
             // Trocando o exercicio
@@ -1577,6 +1618,8 @@
             repts.classList.remove('text-danger')
             repts.classList.add('text-gray1')
 
+            //Mostrar o btn de iniciar tempo novamente
+            document.getElementById(`${'container' + id}`).classList.remove('d-none')
 
         }
 
@@ -1588,6 +1631,7 @@
             const repts = document.getElementById('repts' + id)
             const success = document.getElementById('success' + id)
             const noInput = document.getElementById('noInput' + id)
+            const finishExer = document.getElementById('finishExer' + id)
 
             var exer = exercises.filter(e => e.name == Title.innerText)
             // Se for segs
@@ -1601,13 +1645,14 @@
 
                 // Dentro dos parametros
                 if (repeticao <= 4 && input.value < 60) {
+                    input.disabled = true;
                     // if (bool) {
                     noInput.classList.add('d-none')
                     success.classList.remove('d-none')
                     // Tempo da message de sucesso
                     setTimeout(function () {
                         success.classList.add("d-none");
-                    }, 180000);
+                    }, 3000);
                     // }
                     input.classList.remove('text-danger')
                     input.classList.remove('input-danger')
@@ -1680,6 +1725,8 @@
                     noInput.classList.add('d-none')
                     // Texto de sucesso some
                     success.classList.add('d-none')
+                    finishExer.classList.add('d-none')
+
 
                     // Mostra o botão de trocar o exercicio
                     btn.classList.add('d-block')
@@ -1702,6 +1749,7 @@
                 }
                 // Leve
                 if (repeticao < 2) {
+                    finishExer.classList.add('d-none')
                     noInput.classList.add('d-none')
                     // Texto de sucesso some
                     success.classList.add('d-none')
@@ -1732,6 +1780,8 @@
             else {
                 if (exer[0].name == 'Dips na paralela' || exer[0].name == 'Pull Ups') {
                     if (input.value <= 3) {
+                        finishExer.classList.add('d-none')
+
                         noInput.classList.add('d-none')
                         // Texto de sucesso some
                         success.classList.add('d-none')
@@ -1759,18 +1809,11 @@
 
                     }
                     if (input.value > 3 && input.value < 16) {
-
+                        input.disabled = true;
                         let card = parseInt(id)
                         //desabilitCard(card)
 
-                        noInput.classList.add('d-none')
-                        if (bool) {
-                            success.classList.remove('d-none')
-                            // Tempo da message de sucesso
-                            setTimeout(function () {
-                                success.classList.add("d-none");
-                            }, 180000);
-                        }
+
                         input.classList.remove('text-danger')
                         input.classList.remove('input-danger')
 
@@ -1780,7 +1823,18 @@
                         btn.classList.add('d-none')
                         btn.classList.remove('d-block')
 
-                        document.getElementById(`container${id}`).classList.remove('d-none')
+                        const btnFinish = document.getElementById('finishExer' + id)
+                        if (btnFinish.classList.contains('d-none')) {
+                            document.getElementById(`container${id}`).classList.remove('d-none')
+                            noInput.classList.add('d-none')
+                            if (bool) {
+                                success.classList.remove('d-none')
+                                // Tempo da message de sucesso
+                                setTimeout(function () {
+                                    success.classList.add("d-none");
+                                }, 3000);
+                            }
+                        }
 
                         gerarTreino(Title, Input, id)
 
@@ -1788,6 +1842,7 @@
                         divPai.innerHTML = ''
                     }
                     if (input.value > 15) {
+                        finishExer.classList.add('d-none')
                         noInput.classList.add('d-none')
                         // Texto de sucesso some
                         success.classList.add('d-none')
@@ -1816,6 +1871,7 @@
                 }
                 else {
                     if (input.value < 6) {
+                        finishExer.classList.add('d-none')
                         noInput.classList.add('d-none')
 
                         // Texto de sucesso some
@@ -1844,18 +1900,10 @@
 
                     }
                     if (input.value > 5 && input.value < 16) {
-
+                        input.disabled = true;
                         let card = parseInt(id)
                         //desabilitCard(card)
-                        noInput.classList.add('d-none')
-                        if (bool) {
-                            success.classList.remove('d-none')
-                            let divExer = document.getElementById('exer' + id)
-                            // Tempo da message de sucesso
-                            setTimeout(function () {
-                                success.classList.add("d-none");
-                            }, 180000);
-                        }
+
 
 
                         input.classList.remove('text-danger')
@@ -1867,7 +1915,19 @@
                         btn.classList.add('d-none')
                         btn.classList.remove('d-block')
 
-                        document.getElementById(`container${id}`).classList.remove('d-none')
+                        const btnFinish = document.getElementById('finishExer' + id)
+                        if (btnFinish.classList.contains('d-none')) {
+                            document.getElementById(`container${id}`).classList.remove('d-none')
+                            noInput.classList.add('d-none')
+                            if (bool) {
+                                success.classList.remove('d-none')
+                                let divExer = document.getElementById('exer' + id)
+                                // Tempo da message de sucesso
+                                setTimeout(function () {
+                                    success.classList.add("d-none");
+                                }, 3000);
+                            }
+                        }
                         gerarTreino(Title, Input, id)
 
                         const divPai = document.getElementById('divToggle')
@@ -1879,6 +1939,8 @@
                         }
                     }
                     if (input.value > 15) {
+                        finishExer.classList.add('d-none')
+
                         // Texto de sucesso some
                         noInput.classList.add('d-none')
                         success.classList.add('d-none')
@@ -1958,8 +2020,11 @@
             const input = document.getElementById('ValidExer' + id)
             const title = document.getElementById('ValidTitle' + id)
             const repts = document.getElementById('repts' + id)
+            const btnFinish = document.getElementById('finishExer' + id)
 
             input.addEventListener('blur', function () {
+
+                //if (btnFinish.classList.contains('d-none')) {
                 if (input.value == NaN ||
                     input.value == null ||
                     input.value == undefined ||
@@ -1974,6 +2039,8 @@
                     input.classList.add('input-exer')
                     openToggleExer(id, title, input, true)
                 }
+                //}
+
             })
         }
 
@@ -2434,7 +2501,7 @@
 
         function nextSlide(x) {
             if (x == 6) {
-                
+
                 const content = document.querySelectorAll('.content');
                 content[0].style.justifyContent = 'start';
                 content[0].style.marginTop = '80px';
@@ -2691,6 +2758,10 @@
                 const btn4 = document.getElementById('btn4')
                 btn4.classList.remove('btn-primary')
             }
+        }
+
+        function openModalConfirmationTheTime(id){
+
         }
 
         async function enviarTreino2() {
