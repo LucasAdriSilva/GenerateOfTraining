@@ -52,6 +52,7 @@ def index():
           'training': last_value,
         }
         # return render_template("home.html", data = data)    
+
         return getUrl("home.html", value = data)    
       else: 
         if ip_found[4] is not None:

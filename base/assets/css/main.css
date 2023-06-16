@@ -376,11 +376,17 @@ input[type="radio"]:checked {
 }
 
 .squad2-active {
-  width: 55px;
-  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 23px;
   border-radius: 5px;
-  background-color: orange;
+  background-color: rgba(25, 149, 168, 0.50);
+  font-size: 12px;
+
 }
+
 
 .jump-image {
   transform-origin: center bottom;
@@ -609,6 +615,18 @@ input[type="radio"]:checked {
   background-color: #000000CC;
 }
 
+
+.title-chosen-rotin{
+  font-size: 18px;
+  font-weight: 800;
+  text-align: start;
+  color: #707070;
+  text-transform: uppercase;
+}
+
+.card{
+  border: 1px solid #707070;
+}
 /* @media screen and (min-width: 576px) {} */
 
 @media screen and (min-width: 992px) {
