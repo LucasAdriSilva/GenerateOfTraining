@@ -720,11 +720,12 @@
     }
 
     function attTraining(name, oldName) {
-
+        debugger
         let info = creatVar()
+        info.chosenDay ==1 ? info = info['d2'] : info = info['d1']
         let indexDiv
         let dataExer
-        Data.forEach(obj => {
+        info.forEach(obj => {
             if (obj.newExer != null) {
                 obj.newExer.forEach(exer => {
                     // aqui você pode fazer a verificação do item desejado dentro de "newExer"
@@ -735,17 +736,17 @@
                         if (ind != -1) {
                             indexDiv = ind + 1
                             //Trocando os exercicios
-                            exer.num = Data[ind].num
-                            exer.required = Data[ind].required
-                            Data[ind].segs ? exer.segs = Data[ind].segs : null
-                            exer.rept = Data[ind].rept
+                            exer.num = info[ind].num
+                            exer.required = info[ind].required
+                            info[ind].segs ? exer.segs = info[ind].segs : null
+                            exer.rept = info[ind].rept
                             exer.count = 0
                             exer.rept1 = 0
                             exer.rept2 = 0
                             exer.rept3 = 0
                             exer.rest = 3
-                            Data[ind] = exer
-                            dataExer = Data[ind]
+                            info[ind] = exer
+                            dataExer = info[ind]
                         }
                     }
                 })
