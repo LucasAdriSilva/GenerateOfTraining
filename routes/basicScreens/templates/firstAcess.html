@@ -40,7 +40,7 @@
             <div class="carousel-inner">
                 <!-- Messagem de bm vindo -->
                 <div class="carousel-item active ">
-                    <div class="row reset-Padding">
+                    <div id="firstSlide" class="row reset-Padding">
                         <div
                             class="col-12 d-flex flex-column flex-md-row justify-content-md-center align-items-md-center justify-content-center align-items-center gap-title">
                             <span class="reset text-uppercase title">Bem vindo ao</span>
@@ -2468,9 +2468,11 @@
 
         function nextSlide(x) {
             if (x == 6) {
-
+                const firstSlide = document.getElementById('firstSlide');
+                firstSlide.classList.add('d-none')
                 const content = document.querySelectorAll('.content');
                 content[0].style.justifyContent = 'start';
+                content[0].style.transition = 'margin-top 2s'; // Defina a duração da animação aqui
                 content[0].style.marginTop = '80px';
 
                 const menu = document.getElementById('menu')
