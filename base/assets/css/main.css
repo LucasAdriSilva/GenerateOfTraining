@@ -100,7 +100,7 @@ body {
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #1995A8;
   --bs-btn-hover-border-color: #1995A8;
-  --bs-btn-focus-shadow-rgb: 49,132,253;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #1995A8;
   --bs-btn-active-border-color: #1995A8;
@@ -110,11 +110,11 @@ body {
   --bs-btn-disabled-border-color: #1995A8;
 }
 
-.bg-gray3{
- background-color: #E5E5E5;
+.bg-gray3 {
+  background-color: #E5E5E5;
 }
 
-.btn-slide{
+.btn-slide {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,6 +128,7 @@ body {
   text-transform: uppercase;
   border: none;
 }
+
 .bg-nav-active {
   background-color: rgb(170, 170, 170) !important;
   border: 1px solid rgb(170, 170, 170) !important;
@@ -568,12 +569,46 @@ input[type="radio"]:checked {
   color: #545454;
 }
 
-
-.text-line{
+.text-line {
   text-align: center;
   font-size: clamp(11px, 1.8vh, 16px);
   margin: 5px 0px 5px 0px
 }
+
+.modal-info-content {
+  position: relative;
+  flex: 1 1 auto;
+  padding: clamp(10px, 5vw, 20px);
+  background-color: #E5E5E5;
+  border-radius: 7px;
+}
+.modal-info-content span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #707070;
+  text-align: center;
+}
+
+.modal-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  background-color: #E5E5E5;
+  border-radius: 7px;
+}
+.modal-btn span {
+  
+  text-align: center;
+  font-weight: 800;
+  color: #707070;
+}
+
+.modal {
+  background-color: #000000CC;
+}
+
 /* @media screen and (min-width: 576px) {} */
 
 @media screen and (min-width: 992px) {
@@ -658,7 +693,7 @@ input[type="radio"]:checked {
 
 @media screen and (max-height: 650px) {
   .title-pag2 {
-      height: 60px;
-      font-size: 15px;
+    height: 60px;
+    font-size: 15px;
   }
 }

@@ -12,11 +12,16 @@
         </h3>
     </div>
 
-    <div class="col-10 p-3 d-flex flex-column reset-Padding">
-        <span class="text-line">
-            Escolha entre Musculação ou Peso Corporal, e cada card representará um exercício. Após a seleção, faça o
-            teste e insira os dados do seu treino. <br>Nosso sistema irá verificar se estão corretos.
-        </span>
+    <div class="col-10 p-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+        <span class="text-line"> Escolha entre Musculação ou Peso Corporal </span>
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="feather feather-help-circle" onclick="openInfo()">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
     </div>
 
 
@@ -28,7 +33,7 @@
 </div>
 
 <div id="exercices" class="d-flex justify-content-center align-items-center row">
-   
+
 </div>
 
 <div class="d-flex justify-content-center align-items-center row" id="listExer">
@@ -45,9 +50,40 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="showExer">
-                
+
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal Informações do hibrido-->
+<div class="modal fade" id="infos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="infosLabel" aria-hidden="true">
+    
+    <div class="modal-dialog modal-dialog-centered" style="margin-inline: 30px;">   
+        <div class="row">
+            <div class="modal-content col-12 reset-Padding">
+                <div class="modal-info-content">
+                    <span>
+                        Cada card representará um exercício.
+                    </span>
+    
+                    <span class="fw-bolder">
+                        Após a seleção, faça o teste e insira os dados do seu treino.
+                    </span>
+    
+                    <span>
+                        Nosso sistema irá verificar se estão corretos.
+                    </span>
+    
+                </div>
+            </div>
+
+            <div class="modal-content modal-btn col-12 reset-Padding" data-bs-dismiss="modal" aria-label="Close">  
+                <span>OK</span>
+            </div>
+        </div>     
+        </div>    
     </div>
 </div>
 
@@ -102,7 +138,7 @@
     var Musc;
     var BodyWeight;
     let listExer;
-    let sendTraining =[];
+    let sendTraining = [];
     let filterExer
     var Training = [
         { 'category': 'Push', 'type': 'Horizontal' },
@@ -114,6 +150,11 @@
         { 'category': 'Core', 'type': 'Abdômen' },
         { 'category': 'Core', 'type': 'Lombar' },
     ]
+
+    function openInfo() {
+        var modal = new bootstrap.Modal(document.querySelector("#infos"));
+        modal.show()
+    }
 
     function creatExercisesBase() {
         let addDiv = document.getElementById('exercices')
@@ -144,9 +185,9 @@
                         <div class="row my-1" style="border: 1px solid black; padding: 5px 50px 5px 50px;  border-radius: 10px;">      
                             <div class="col-12 d-flex flex-column justify-content-center align-items-center reset-Padding my-3">
                                                
-                                ${exer.type == 'Abdômen' || exer.type == 'Lombar' ? 
-                                `<span class="reset text-uppercase text-center" style="font-size: 18px; font-weight: 800; color: #545454;"> ${exer.category.toUpperCase()}</span>` :
-                                `<span class="reset text-uppercase text-center" style="font-size: 18px; font-weight: 800; color: #545454;"> ${exer.category.toUpperCase()} ${exer.type.toUpperCase()}</span>`}
+                                ${exer.type == 'Abdômen' || exer.type == 'Lombar' ?
+                    `<span class="reset text-uppercase text-center" style="font-size: 18px; font-weight: 800; color: #545454;"> ${exer.category.toUpperCase()}</span>` :
+                    `<span class="reset text-uppercase text-center" style="font-size: 18px; font-weight: 800; color: #545454;"> ${exer.category.toUpperCase()} ${exer.type.toUpperCase()}</span>`}
                                 
                             </div>
         
@@ -157,7 +198,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="${'TraingChosen'+ x}" class="col-10 d-none reset-Padding mt-2 m-auto d-flex justify-content-center align-items-center rounded-4"
+                <div id="${'TraingChosen' + x}" class="col-10 d-none reset-Padding mt-2 m-auto d-flex justify-content-center align-items-center rounded-4"
                     style=" height: 100%;">
                 </div>
         </div>
@@ -375,7 +416,7 @@
 
         let exer = filterExer[i]
 
-        const slide = document.getElementById('TraingChosen'+ id)
+        const slide = document.getElementById('TraingChosen' + id)
         const btnChosen = document.getElementById('btnChosen' + id)
 
         let div = ''
@@ -750,10 +791,10 @@
                 const btnFinish = document.getElementById('finishExer' + id)
                 if (btnFinish.classList.contains('d-none')) {
                     document.getElementById(`container${id}`).classList.remove('d-none')
-                    noInput.classList.add('d-none')       
+                    noInput.classList.add('d-none')
                 }
 
-                if (bool) {                    
+                if (bool) {
                     success.classList.remove('d-none')
                     // Tempo da message de sucesso
                     setTimeout(function () {
@@ -826,7 +867,7 @@
                 noInput.classList.add('d-none')
                 //sumindo btn
                 finishExer.classList.add('d-none')
-                
+
                 // Texto de sucesso some
                 success.classList.add('d-none')
 
@@ -888,9 +929,9 @@
                     if (btnFinish.classList.contains('d-none')) {
                         document.getElementById(`container${id}`).classList.remove('d-none')
                         noInput.classList.add('d-none')
-                        
+
                     }
-                    if (bool) {                       
+                    if (bool) {
                         success.classList.remove('d-none')
                         // Tempo da message de sucesso
                         setTimeout(function () {
@@ -906,7 +947,7 @@
 
                     btn.classList.add('d-none')
                     btn.classList.remove('d-block')
-                    gerarTreino(Title, Input, id)  
+                    gerarTreino(Title, Input, id)
                 }
             }
             else {
@@ -945,7 +986,7 @@
                         noInput.classList.add('d-none')
                     }
 
-                    if (bool) {                      
+                    if (bool) {
                         success.classList.remove('d-none')
                         // Tempo da message de sucesso
                         setTimeout(function () {
@@ -976,7 +1017,7 @@
                     //sumindo btn
                     finishExer.classList.add('d-none')
                     document.getElementById(`container${id}`).classList.add('d-none')
-                    
+
                     // Texto de sucesso some
                     success.classList.add('d-none')
 
@@ -1015,7 +1056,7 @@
         let repeticao = Math.round(60 / segundos) // Repostas em repetição
 
         //Se for segs ou kg
-        
+
         if (exerFound.segs || 'kg' in exerFound) {
             exerFound.segs ?
                 novoExercicio = { name: title.innerText, count: segundos, rept: repeticao, rest: 3, url: exer, num: id, segs: "true" } :
@@ -1070,7 +1111,7 @@
         else {
             sendTraining.push(novoExercicio);
             console.log(sendTraining)
-        }        
+        }
     }
 
     function creatStruct(id) {
@@ -1127,7 +1168,7 @@
             input.classList.add('input-exer-fail')
             repts.classList.add('text-danger')
         } else {
-            
+
             repts.classList.remove('text-danger')
             input.classList.remove('txt-header-input')
             input.classList.add('input-value')
@@ -1212,7 +1253,7 @@
                 }
             }
         }
-        
+
         loading(true);
         try {
             const response = await fetch('/sendTraining', {
@@ -1241,5 +1282,6 @@
     window.enviarTreino = enviarTreino;
     window.btnClockStart = btnClockStart;
     window.nextSlideExer = nextSlideExer;
+    window.openInfo = openInfo;
 </script>
 {% endblock %}
