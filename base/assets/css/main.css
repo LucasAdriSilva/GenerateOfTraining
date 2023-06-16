@@ -91,7 +91,6 @@ body {
   background-color: #1995A8;
   color: white;
   /* border: rgb(0, 0, 0); */
-
 }
 
 .btn-primary {
@@ -111,6 +110,20 @@ body {
   --bs-btn-disabled-border-color: #1995A8;
 }
 
+.btn-slide{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 45px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #545454;
+  border-radius: 15px;
+  background-color: #ffc400;
+  text-transform: uppercase;
+  border: none;
+}
 .bg-nav-active {
   background-color: rgb(170, 170, 170) !important;
   border: 1px solid rgb(170, 170, 170) !important;
@@ -515,6 +528,7 @@ input[type="radio"]:checked {
 
 .margin-Body {
   width: 100%;
+  height: calc(100vh - 70px);
   margin-left: 0px;
   margin-top: 70px;
 }
@@ -577,6 +591,7 @@ input[type="radio"]:checked {
   .margin-Body {
     margin-left: 25%;
     width: 75%;
+    height: 100vh;
     margin-top: 0px;
   }
 }

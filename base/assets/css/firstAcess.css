@@ -222,6 +222,7 @@
 
 .content-margin {
     width: 100%;
+    /* height: calc(100% - 70px); */
     height: 100%;
     margin-top: 70px;
 }
@@ -317,6 +318,15 @@
     margin-bottom: 20px;
 }
 
+.header-creat-exer-v2 {
+    font-size: 16px;
+    color: #707070;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 800;
+    padding-inline: 5px;
+}
+
 .sub-title-creat-exer {
     text-align: center;
     font-size: 15px;
@@ -344,6 +354,14 @@
     width: 100%;
     text-align: center;
     font-size: 23px;
+}
+
+.input-creat2 {
+    border: 1px solid #afafaf !important;
+    border-radius: 7px !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 23px !important;
 }
 
 .text-reset2 {
@@ -439,7 +457,7 @@
 }
 
 .input-value {
-    border: 1px solid rgb(133, 133, 133);
+    border: 1px solid rgb(133, 133, 133) !important;
     width: 75%;
     text-align: center;
     border-radius: 6px;
@@ -480,6 +498,21 @@
 
 .font-chosen-day {
     font-size: 14px;
+}
+
+.btn-chosen-exer {
+    border: none;
+    border-radius: 7px;
+    color: #545454;
+    font-size: 16px;
+    background-color: #FFC400;
+    width: 75%;
+}
+
+#showExer{
+    height: fit-content;
+    max-height: 70vh;
+    overflow-y: scroll;
 }
 
 @media screen and (min-width: 992px) {
@@ -828,6 +861,14 @@
     }
 }
 
+@media screen and (max-height: 800px) {
+    .img-size {
+        width: clamp(100px, 20vh, 150px);
+        height: clamp(100px, 20vh, 150px);
+        padding: 10px;
+    }
+}
+
 @media screen and (max-height: 650px) {
 
     .btn-requireds {
@@ -843,6 +884,12 @@
     .title-pag2 {
         height: 60px;
         font-size: 15px;
+    }
+
+    .img-size {
+        width: 120px;
+        height: 120px;
+        padding: 10px;
     }
 }
 

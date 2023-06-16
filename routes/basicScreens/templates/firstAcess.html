@@ -815,48 +815,6 @@
         </div>
     </div>
 
-
-    <!-- Modal confirmation he time -->
-    <div class="modal fade" id="confirmationTime" tabindex="-1" aria-labelledby="confirmationTimeLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- <div class="modal-header d-flex justify-content-center align-items-center">
-                    <span class="text-center text-uppercase font-title-modal fw-bold" id="confirmationTimeLabel">Seu
-                        exercicio
-                        está pesado!</span>
-                </div> -->
-                <div class="modal-body">
-                    <div class="row reset-Padding">
-                        <div class="col-12 d-flex justify-content-center align-items-center">
-                            <span class="text-center font-title-modal">Após a confirmação</span>
-                        </div>
-                        <div class="col-12 d-flex justify-content-center align-items-cente">
-                            <span id="exerDeleter" class="text-center fw-bolder text-uppercase"></span>
-                        </div>
-                        <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-cente">
-                            <span class="mt-2 text-center font-capt">
-                                Você terá que fazer muitas séries de
-                                <span id="nameExer" class="fw-bolder text-uppercase"></span> e por isso ele pode valer
-                                por 2
-                                exercícios ao mesmo tempo.
-                            </span>
-                            <span class="mt-2 text-center font-capt text-danger">
-                                Se não quiser excluir, terá que excolher um mais fácil para diminuir o numero de
-                                séries.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="modal-footer d-flex justify-content-center">
-                    <button id="removeExer" data-bs-dismiss="modal" class="btn btn-success">Excluir</button>
-                    <button id="notRemove" data-bs-dismiss="modal" class="btn btn-success">Não Excluir</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Loading -->
     <div id="loading" class="loading d-none d-flex justify-content-center align-content-center flex-column">
         <div class="roll-loading align-self-center"></div>
@@ -1557,7 +1515,6 @@
             const div = document.getElementById('toggleExer' + id)
             const input = document.getElementById('ValidExer' + id)
             const repts = document.getElementById('repts' + id)
-            const divInfos = document.getElementById('infos' + id)
 
             var nameExer = exercises.filter(e => e.name == name)
             // Subistituir no array
@@ -1646,6 +1603,18 @@
                 // Dentro dos parametros
                 if (repeticao <= 4 && input.value < 60) {
                     input.disabled = true;
+                    const btnFinish = document.getElementById('finishExer' + id)
+                        if (btnFinish.classList.contains('d-none')) {
+                            document.getElementById(`container${id}`).classList.remove('d-none')
+                            noInput.classList.add('d-none')
+                            if (bool) {
+                                success.classList.remove('d-none')
+                                // Tempo da message de sucesso
+                                setTimeout(function () {
+                                    success.classList.add("d-none");
+                                }, 3000);
+                            }
+                        }
                     // if (bool) {
                     noInput.classList.add('d-none')
                     success.classList.remove('d-none')
@@ -1663,8 +1632,6 @@
                     btn.classList.add('d-none')
                     btn.classList.remove('d-block')
 
-                    let card = parseInt(id)
-                    //desabilitCard(card)
                     gerarTreino(Title, Input, id)
                 }
                 // Se o numero de repetição for 5 ou 6 mostra o modal
@@ -1722,6 +1689,7 @@
                 }
                 // Se for maior que 6 mostra messagem de erro PESADO
                 if (repeticao > 6 || input.value >= 60) {
+                    document.getElementById(`container${id}`).classList.add('d-none')
                     noInput.classList.add('d-none')
                     // Texto de sucesso some
                     success.classList.add('d-none')
@@ -1749,6 +1717,7 @@
                 }
                 // Leve
                 if (repeticao < 2) {
+                    document.getElementById(`container${id}`).classList.add('d-none')                    
                     finishExer.classList.add('d-none')
                     noInput.classList.add('d-none')
                     // Texto de sucesso some
@@ -2470,7 +2439,6 @@
         }
 
 
-
         function chosentraining(training) {
             const btn2 = document.getElementById('btn2')
             btn2.classList.add('btn-primary')
@@ -2486,7 +2454,6 @@
         }
 
         function nextSlideExer(id) {
-            debugger
             const modal = $('#exampleModal');
             if (modal.length) {
                 modal.modal('hide');
@@ -2740,10 +2707,6 @@
                     }
                 }, 1000);
             }
-
-
-
-
         }
 
         function checkingRequired() {
@@ -2758,10 +2721,6 @@
                 const btn4 = document.getElementById('btn4')
                 btn4.classList.remove('btn-primary')
             }
-        }
-
-        function openModalConfirmationTheTime(id){
-
         }
 
         async function enviarTreino2() {
