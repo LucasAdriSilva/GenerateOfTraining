@@ -125,7 +125,7 @@
                     fontSerie.style.color = 'white';
                     fontAnt.style.color = 'white';
                     bgFontSt.style.color = 'white';
-                    kg.style.color = 'white'
+                    kg != null ? kg.style.color = 'white': null
                     repts.style.color = 'white'
 
                 }
@@ -134,7 +134,7 @@
                     fontSerie.style.color = '#707070';
                     fontAnt.style.color = '#707070';
                     bgFontSt.style.color = '#707070';
-                    kg.style.color = '#707070'
+                    kg != null ? kg.style.color = '#707070': null
                     repts.style.color = '#707070'
                 }
             })
@@ -249,7 +249,8 @@
         let str = 'exer' + id + 'repts' + serie
 
         input.value == '0' ? dangerInput(str) : clearInput(str)
-        inputKg.value == '0' ? dangerInput(strKG) : clearInput(strKG)
+        inputKg != null ? inputKg.value == '0' ? dangerInput(strKG) : clearInput(strKG): null
+        
     }
 
     function creatExers(data) {
@@ -285,39 +286,83 @@
                         </div>
                     </div>
                 </div>
-                <div class="Main accordion-collapse collapse" id="${'collapse' + index}" data-bs-parent="#bodyAccordion">
-                    <div class="row pe-2 ps-2 py-2">
+                ${e.kg? `
+                        <div class="Main accordion-collapse collapse" id="${'collapse' + index}" data-bs-parent="#bodyAccordion">
+                            <div class="row pe-2 ps-2 py-2">
+                            <div class="col-2 row-header-line-exer">Série</div>
+                            <div class="col-4 row-header-line-exer">Anterior</div>
+                            <div class="col-2 row-header-line-exer">Reps</div>
+                            <div class="col-2 row-header-line-exer">Kg</div>
+                            <div class="col-2 row-header-line-exer">
+                                <i class="bi bi-check-lg"></i>
+                            </div>
+                        </div>`
+                    : 
+                    e.segs? `
+                    <div class="Main accordion-collapse collapse" id="${'collapse' + index}" data-bs-parent="#bodyAccordion">
+                        <div class="row pe-2 ps-2 py-2">
                         <div class="col-2 row-header-line-exer">Série</div>
-                        <div class="col-4 row-header-line-exer">Anterior</div>
-                        <div class="col-2 row-header-line-exer">Reps</div>
-                        <div class="col-2 row-header-line-exer">Kg</div>
+                        <div class="col-5 row-header-line-exer">Anterior</div>
+                        <div class="col-3 row-header-line-exer">Segs</div>
                         <div class="col-2 row-header-line-exer">
                             <i class="bi bi-check-lg"></i>
                         </div>
                     </div>
+                    `: `
+                    <div class="Main accordion-collapse collapse" id="${'collapse' + index}" data-bs-parent="#bodyAccordion">
+                        <div class="row pe-2 ps-2 py-2">
+                        <div class="col-2 row-header-line-exer">Série</div>
+                        <div class="col-5 row-header-line-exer">Anterior</div>
+                        <div class="col-3 row-header-line-exer">Rept</div>
+                        <div class="col-2 row-header-line-exer">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                    `}
+                
             `;
 
             const elements = [];
 
-            for (let x = 0; x < e.rept; x++) {
-                id = x + 1;
-
-                let element = `
-                    <div id="${'exer' + index + 'line' + id}" class="row pe-2 ps-2 py-2 ${x % 2 == 1 ? 'bg-par-exer' : ''}">
-                        <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
-                        <div id="${'exer' + index + 'fontAnt' + id}" class="col-4 centers font-exer-ant">10x10Kg</div>
-                        <div id="${'exer' + index + 'bgFontSt' + id}" class="col-2 centers font-status">
-                            <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" value="0">
+            if (e.kg){
+                for (let id = 1; id <= e.rept; id++) {
+                    var reptId = eval("e.rept" + id);
+                    var reptKg = eval("e.kg" + id);
+                    let element = `
+                        <div id="${'exer' + index + 'line' + id}" class="row pe-2 ps-2 py-2 ${id % 2 == 0 ? 'bg-par-exer' : ''}">
+                            <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
+                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-4 centers font-exer-ant">${reptId != null?reptId:0}x${reptKg != null?reptId:0}</div>
+                            <div id="${'exer' + index + 'bgFontSt' + id}" class="col-2 centers font-status">
+                                <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" value="0">
+                            </div>
+                            <div id="${'exer' + index + 'bgKg' + id}" class="col-2 centers">
+                                <input id="${'exer' + index + 'kg' + id}" type="number" class="input-repts" value="0">
+                            </div>
+                            <div id="${'exer' + index + 'bgCheck' + id}" class="col-2 centers">
+                                <input id="${'exer' + index + 'check' + id}" class="form-check-input check-exer" type="checkbox">
+                            </div>
                         </div>
-                        <div id="${'exer' + index + 'bgKg' + id}" class="col-2 centers">
-                            <input id="${'exer' + index + 'kg' + id}" type="number" class="input-repts" value="0">
+                    `;
+                    elements.push(element);
+                }
+            }
+            else {
+                for (let id = 1; id <= e.rept; id++) { 
+                    var reptId = eval("e.rept" + id);
+                    let element = `
+                        <div id="${'exer' + index + 'line' + id}" class="row pe-2 ps-2 py-2 ${id % 2 == 0 ? 'bg-par-exer' : ''}">
+                            <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
+                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-5 centers font-exer-ant">${reptId != null?reptId:0}x</div>
+                            <div id="${'exer' + index + 'bgFontSt' + id}" class="col-3 centers font-status">
+                                <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" value="0">
+                            </div>
+                            <div id="${'exer' + index + 'bgCheck' + id}" class="col-2 centers">
+                                <input id="${'exer' + index + 'check' + id}" class="form-check-input check-exer" type="checkbox">
+                            </div>
                         </div>
-                        <div id="${'exer' + index + 'bgCheck' + id}" class="col-2 centers">
-                            <input id="${'exer' + index + 'check' + id}" class="form-check-input check-exer" type="checkbox">
-                        </div>
-                    </div>
-                `;
-                elements.push(element);
+                    `;
+                    elements.push(element);
+                }
             }
 
             div += elements.join('');
