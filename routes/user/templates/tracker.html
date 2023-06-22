@@ -186,7 +186,7 @@
         //Pega o dados do exercicio que o backend enviou
         let name = document.getElementById(`name${id}`).innerText;
         name = stringToUpperCase(name)
-        let index = training.findIndex(e => e.name == name)
+        let index = training.findIndex(e => stringToUpperCase(e.name) == stringToUpperCase(name))
         let Exer;
 
         index != -1 ? Exer = training[index] : null
@@ -215,7 +215,7 @@
 
         let Exer = getName(id)
 
-        if (Exer.segs) {
+        if ('segs' in Exer) {
             let segundos = parseInt(input.value) / 2 //Resposta em segundos
             let repeticao = 60 / Math.round(segundos) // Repostas em repetição
             repeticao = Math.round(repeticao)
@@ -331,7 +331,7 @@
                     let element = `
                         <div id="${'exer' + index + 'line' + id}" class="row pe-2 ps-2 py-2 ${id % 2 == 0 ? 'bg-par-exer' : ''}">
                             <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
-                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-4 centers font-exer-ant">${reptId != null?reptId:0}x${reptKg != null?reptId:0}</div>
+                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-4 centers font-exer-ant">${reptId != null?reptId:0}x${reptKg != null?reptKg:0}</div>
                             <div id="${'exer' + index + 'bgFontSt' + id}" class="col-2 centers font-status">
                                 <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" value="0">
                             </div>
