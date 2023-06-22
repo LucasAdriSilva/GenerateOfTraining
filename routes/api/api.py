@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from model.exercicio import Exercises
 import json, datetime
 from model.logs import Logs
+from model.response import Response as res
 from basicFunction import random_generator, send_email
 
 api = Blueprint('api', __name__, template_folder='templates')
@@ -11,42 +12,7 @@ api = Blueprint('api', __name__, template_folder='templates')
 
 @api.route("/getExercisesMusc")
 def getExercisesMusc():
-  # allExer = Exercises.getExercisesBodyWeight()
   res = Exercises.getExercisesMusc()
-  # newTraing = []
-  # newCore = []
-  # #Pega todos o cores de level 3
-  # for index, exer in enumerate(allExer):
-  #     if exer['category'] == 'Core' and exer['nivel'] == 3:
-  #         newTraing.append(allExer[index])
-  # # Pega o exercicio sem required
-  # for index, exer in enumerate(newTraing):
-  #     if exer['required'] == '':
-  #       exer_copy = exer.copy() # criando uma cópia do objeto original
-  #       exer_copy['default'] = True # adicionando o novo campo na cópia
-  #       newCore.append(exer_copy) # adicionando a cópia com o novo campo na nova lista
-
-  # if len(newCore) >=2:
-  #   res.extend([newCore[0]])
-  # else:
-  #   res.extend(newCore)
-
-  # newTraing = []
-  # newCore = []
-
-  # for index, exer in enumerate(allExer):
-  #     if exer['category'] == 'Core' and exer['nivel'] == 2:
-  #         newTraing.append(allExer[index])
-  # # Pega o exercicio sem required
-  # for index, exer in enumerate(newTraing):
-  #     if exer['required'] == '':
-  #         newCore.append(newTraing[index])
-
-  # if len(newCore) >=2:
-  #   res.extend([newCore[0]])
-  # else:
-  #   res.extend(newCore)
-
   response = json.dumps(res)
   return response, 200
 
@@ -237,3 +203,26 @@ def getLastTraining():
     response.data = {'message': 'No data found'}
     response.status_code = 400
   return response
+
+
+@api.route('/getData', methods=['POST'])
+def getData():
+    try:
+      if 'login' in session:
+        data = Db.get_login(session['login']).data
+        chaves = ['Ip', 'Login', 'Password', 'UserData', 'BaseTraining', 'TrainingDays', 'Requireds', 'Training', 'ChosenTraining', 'HistoryTraining']
+        data = dict(zip(chaves, data))
+
+        if data['Training'] is not None:
+          response_data = {'Training': data['Training'], 'ChosenTraining': data['ChosenTraining'], 'TrainingDays': data['TrainingDays'] }
+        else:
+          response_data = {'Training': data['BaseTraining'], 'ChosenTraining': data['ChosenTraining'], 'TrainingDays': data['TrainingDays'] }
+        
+        return jsonify(response_data), 200
+      else:
+        response_data = {'message': "Usuário não logado"}
+        return jsonify(response_data), 400
+
+    except Exception as e:
+      response_data = {'message': f"Erro na requisição -> {e}"}
+      return jsonify(response_data), 400

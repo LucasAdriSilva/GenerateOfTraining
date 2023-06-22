@@ -1024,6 +1024,7 @@
             const contentCarrossel = document.getElementById('contentCarrossel')
             contentCarrossel.innerHTML = ''
 
+            
             newExercisesBase.forEach(exer => {
 
                 if (exer == undefined) {
@@ -2290,6 +2291,7 @@
         }
 
         async function verificationRequireds() {
+            debugger
             const content = document.querySelectorAll('.content');
             content[0].style.marginTop = '0px';
             //Tira a TimeLine
@@ -2425,7 +2427,7 @@
                     newExercisesBase.push(newExercises.filter(e => e.nivel == 2 && e.type == 'Abdômen' && e.category == 'Core')[0])
 
                 // Oitavo Exercicio
-                newExercisesBase.push(exercises.filter(e => e.name == '60s de Prancha Abdominal')[0])
+                newExercisesBase.push(exercises.filter(e => e.name == 'Prancha Abdominal')[0])
 
                 await apiPost('saveDU', requireds)
                 creatExercisesBase()

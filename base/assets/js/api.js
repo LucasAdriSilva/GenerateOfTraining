@@ -10,8 +10,8 @@ function loading(x) {
 }
 
 export async function apiGet(rota, bool) {
-    bool? loading(true): loading(false)
-    
+    bool ? loading(true) : loading(false)
+
     const response = await fetch(`/${rota}`, {
         method: 'GET',
         headers: {
@@ -26,6 +26,24 @@ export async function apiGet(rota, bool) {
     } else {
         throw new Error(`Erro na requisição: ${response.status}`);
     }
-
 }
 
+export async function apiPost(rota, bool) {
+    bool ? loading(true) : loading(false);
+
+    const response = await fetch(`/${rota}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        loading(false);
+    
+        return data;
+    } else {
+        throw new Error(`Erro na requisição: ${response.status}`);
+    }
+}

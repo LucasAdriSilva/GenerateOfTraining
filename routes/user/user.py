@@ -84,7 +84,6 @@ def pageUser():
 @user.route('/tracker',  methods=["POST"])
 def tracker():
   data = request.form['data']
- 
   data = eval(data)
   fullTraining = data
   user_found = Db.get_login(session['login']).data
@@ -106,8 +105,6 @@ def tracker():
             'training': data,
           }   
       return getUrl("home.html", value = data) 
-
-  
 
   if request.form['chosenDay']:
     chosenDay = request.form['chosenDay']
@@ -147,19 +144,11 @@ def tracker():
           if exer['newExer'] == True:
             name = exer['name']
             listExer = Exercises.getSuggestionExerLight(name)
-            exer['newExer'] =  listExer
-    
+            exer['newExer'] =  listExer   
 
-    # if 'newExer' in d and d['newExer']:
-    #   if d['newExer'] == True:
-    #     name = d['name']
-    #     listExer = Exercises.getSuggestionExerLight(name)
-    #     d['newExer'] =  listExer
-    
-  inf = {'training': data, 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
+  inf = {'training': data[f'd{chosenDay}'], 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
   return getUrl('tracker.html', value=inf)
 
-  return getUrl('tracker.html', value=inf)
 
 @user.route('/login', methods=["GET", "POST"])
 def login():
@@ -186,7 +175,7 @@ def login():
         if url:
           return getUrl(url, bool=True)
         else:
-          return getUrl('basicScreens.creatTraining', bool=True)
+          return getUrl('basicScreens.index', bool=True)
       else:
         data = [None,None,None, {'nav': 'home', 'erro': 'Senha incorreta', 'user': user_found[1]}]
         return render_template("login.html", data = data)
@@ -194,7 +183,7 @@ def login():
       data = [None,None,None, {'nav': 'home', 'erro': 'Usuário nao encontado'}]
       return render_template("login.html", data = data)
   else: 
-    return getUrl("basicScreens.creatTraining", bool=True)
+    return getUrl("basicScreens.index", bool=True)
  
 @user.route('/logout')
 def logout():

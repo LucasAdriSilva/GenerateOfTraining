@@ -133,8 +133,15 @@ class Exercises:
             ]            
         return exercises
         
+    def allExer():
+        getExercisesBodyWeight = Exercises.getExercisesBodyWeight()
+        getExercisesMusc = Exercises.getExercisesMusc()
+        allExer = getExercisesBodyWeight.extend(getExercisesMusc)
+        return allExer
+    
     def get_Name(name):
-        filtered_data = list(filter(lambda e: e.get('name') == name , Exercises.getExercisesBodyWeight()))
+        listExer = Exercises.allExer
+        filtered_data = list(filter(lambda e: e.get('name') == name , listExer))
         if filtered_data:
             return filtered_data[0]
         else:

@@ -1,0 +1,1121 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row mt-3">
+    <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+
+        <h1 id="chosenTraining">{{data[3].chosenTraining}}</h1>
+
+        <small>Lembre de fazer os alogamentos par evitar <span class="reset text-danger text-uppercase">lesões</small>
+    </div>
+</div>
+
+<span class="d-none" id="dataDB">{{data[3]}}</span>
+
+<div id="btnPS" class="row">
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <div class="form-check form-switch">
+            <input class="form-check-input border-switch" type="checkbox" role="switch" id="trainingValue">
+            <label class="form-check-label" for="trainingValue">Paired Sets</label>
+        </div>
+        <!-- <img src="assets/img/interrog.jpg" onclick="openModal('pairedSets')" width="20" height="20" alt=""> -->
+
+    </div>
+</div>
+
+<section id="TrainingRegular">
+    {%if data[3].chosenTraining == 'Fullbody'%}
+    {% for exer in data[3].training%}
+    {% set contador = loop.index %}
+    {% if exer.newExer%}
+    <div id="div{{contador}}" class="row position-relative py-4">
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer{{contador}}" width="68" height="68" src="{{exer.url}}" alt="">
+        </div>
+
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">{{contador}}º{{exer.name}}</span>
+                    <span class="d-none" id="name{{contador}}">{{exer}}</span>
+                </div>
+                <div class="col-12  d-flex justify-content-center align-items-center">
+                    <img src="assets/img/atencao.jpg" class="jump-image" alt="" style="width: 110%; height: auto;">
+                </div>
+
+                <div class="d-flex justify-content-center align-items-center gap-3">
+                    <button class="btn btn-success" onclick="openModalToggleExer('{{exer.name}}')">Trocar</button>
+                    <button class="btn btn-success" data-bs-target="#toggleExer"
+                        onclick="notToggleExer(JSON.stringify({{exer}}))">Continuar</button>
+                </div>
+            </div>
+
+        </div>
+
+        <audio id="myAudio">
+            <source src="assets/audio/not.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+    {% else%}
+    <div id="div{{contador}}" class="row position-relative py-4">
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer{{contador}}" width="68" height="68" src="{{exer.url}}" alt="">
+        </div>
+
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div id="reptDiv{{contador}}" class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">{{contador}}º{{exer.name}}</span>
+                    <span class="d-none" id="name{{contador}}">{{exer}}</span>
+                </div>
+
+                {% for a in range(exer.rept)%}
+                {% set contadorSerie = loop.index %}
+
+                {% if exer.kg %}
+                <div class="col-3 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    {% if exer.segs %}
+                    <p class="reset text-uppercase text-gray1">SEGS</p>
+                    {% else %}
+                    <p class="reset text-uppercase text-gray1">REPS</p>
+                    {% endif %}
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidExer{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    <p class="reset text-uppercase text-gray1">KG</p>
+
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidKg{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                {%else%}
+                <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
+                </div>
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    {% if exer.segs %}
+                    <p class="reset text-uppercase text-gray1">SEGS</p>
+                    {% else %}
+                    <p class="reset text-uppercase text-gray1">REPS</p>
+                    {% endif %}
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidExer{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                {% endif%}
+
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
+    {% endfor %}
+    {%else%}
+    {% for exer in data[3].training[data[3].chosenDay]%}
+    {% set contador = loop.index %}
+
+    {% if exer.newExer%}
+    <div id="div{{contador}}" class="row position-relative py-4">
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer{{contador}}" width="68" height="68" src="{{exer.url}}" alt="">
+        </div>
+
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">{{contador}}º{{exer.name}}</span>
+                    <span class="d-none" id="name{{contador}}">{{exer}}</span>
+                </div>
+                <div class="col-12  d-flex justify-content-center align-items-center">
+                    <img src="assets/img/atencao.jpg" class="jump-image" alt="" style="width: 110%; height: auto;">
+                </div>
+
+                <div class="d-flex justify-content-center align-items-center gap-3">
+                    <button class="btn btn-success" onclick="openModalToggleExer('{{exer.name}}')">Trocar</button>
+                    <button class="btn btn-success" data-bs-target="#toggleExer"
+                        onclick="notToggleExer(JSON.stringify({{exer}}))">Continuar</button>
+                </div>
+            </div>
+
+        </div>
+
+        <audio id="myAudio">
+            <source src="assets/audio/not.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+    {% else%}
+    <div id="div{{contador}}" class="row position-relative py-4">
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer{{contador}}" width="68" height="68" src="{{exer.url}}" alt="">
+        </div>
+
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div id="reptDiv{{contador}}" class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">{{contador}}º{{exer.name}}</span>
+                    <span class="d-none" id="name{{contador}}">{{exer}}</span>
+                </div>
+
+                {% for a in range(exer.rept)%}
+                {% set contadorSerie = loop.index %}
+
+                {% if exer.kg %}
+                <div class="col-3 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    {% if exer.segs %}
+                    <p class="reset text-uppercase text-gray1">SEGS</p>
+                    {% else %}
+                    <p class="reset text-uppercase text-gray1">REPS</p>
+                    {% endif %}
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidExer{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    <p class="reset text-uppercase text-gray1">KG</p>
+
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidKg{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                {%else%}
+                <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="{{contadorSerie}}" disabled>
+                </div>
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    {% if exer.segs %}
+                    <p class="reset text-uppercase text-gray1">SEGS</p>
+                    {% else %}
+                    <p class="reset text-uppercase text-gray1">REPS</p>
+                    {% endif %}
+                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                        id="ValidExer{{contador}}Serie{{contadorSerie}}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+
+                </div>
+
+                <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset{{contador}}Serie{{contadorSerie}}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                {% endif%}
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+</section>
+
+<section id="TrainingPs"></section>
+
+
+<audio id="myAudio">
+    <source src="assets/audio/not.mp3" type="audio/mp3">
+</audio>
+
+<!-- Modal -->
+<div class="modal fade" id="toggleExer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="toggleExerLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="toggleExerLabel">Escolha um exercicio</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div id="toggleExerContent" class="modal-body d-flex flex-column justify-content-center align-items-center">
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class=" row mb-5 mt-2">
+    <div class="col-12 d-flex justify-content-center align-itemns-center">
+        <button onclick="finishedTraining()" class="btn btn-success text-uppercase">Finalizar treino</button>
+    </div>
+</div>
+
+<script>
+    var newTraining = [];
+    var new_order = [];
+    var numberInput = [1, 2, 3, 4, 5, 6, 7, 8];
+    let exer = giveExer();
+    var Data;
+    const training = document.getElementById('trainingValue');
+    const backupNormal = document.getElementById('TrainingRegular').innerHTML;
+    var backupPs = document.getElementById('TrainingPs').innerHTML;
+    let highestRepetitionNumber = 0;
+    let toWait = false;
+
+    function toggleToWait() {
+        toWait = !toWait
+    }
+
+    function creatVar() {
+        debugger
+        const valueData = document.getElementById(`dataDB`)
+        let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
+        return Data = JSON.parse(dataOfDataBase).training;
+    }
+
+    function validationInpt(id, serie) {
+        const input = document.getElementById(`ValidExer${id}Serie${serie}`)
+        const inputKg = document.getElementById(`ValidKg${id}Serie${serie}`)
+        const training = document.getElementById('trainingValue')
+
+        if (input != null) {
+            input.addEventListener('blur', function () {
+
+                const btnPS = document.getElementById('btnPS')
+                btnPS.classList.add('d-none')
+                //Pega o dados do exercicio que o backend enviou
+                const exerBack = document.getElementById(`name${id}`);
+                let exer = exerBack.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
+                let Exer = JSON.parse(exer);
+
+                if (Exer.segs) {
+                    let segundos = parseInt(input.value) / 2 //Resposta em segundos
+                    let repeticao = 60 / Math.round(segundos) // Repostas em repetição
+                    repeticao = Math.round(repeticao)
+                    let sugundosTotais = segundos * repeticao
+
+                    if (input.value != null && input.value != undefined && input.value != '') {
+                        
+                        if (toWait === false) {
+                            //desabilitCardTracker(id, serie, training.checked)
+                        }
+                        addTraining(id, serie)
+                    }
+                }
+                else {
+                    if (input.value != null && input.value != undefined && input.value != '') {
+                        
+                        if (toWait === false) {
+                            //desabilitCardTracker(id, serie, training.checked)
+                        }
+                        addTraining(id, serie)
+                    }
+                }
+            })
+        }
+
+        if (inputKg != null) {
+            inputKg.addEventListener('blur', function () {
+
+                const btnPS = document.getElementById('btnPS')
+                btnPS.classList.add('d-none')
+                //Pega o dados do exercicio que o backend enviou
+                const exerBack = document.getElementById(`name${id}`);
+                let exer = exerBack.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
+                let Exer = JSON.parse(exer);
+
+                if (inputKg.value != null && inputKg.value != undefined && inputKg.value != '') {
+                    
+                    if (toWait === false) {
+                        //desabilitCardTracker(id, serie, training.checked)
+                    }
+                    addTraining(id, serie)
+                }
+            })
+        }
+    }
+
+    window.addEventListener("load", function () {
+        backupPs.innerHTML = ''
+        creatVar()
+        if ('d1' in Data || 'd2' in Data) {
+            Data['d1'].forEach(e => {
+                if (highestRepetitionNumber < e.rept) {
+                    highestRepetitionNumber = e.rept
+                }
+            })
+            Data['d2'].forEach(e => {
+                if (highestRepetitionNumber < e.rept) {
+                    highestRepetitionNumber = e.rept
+                }
+            })
+        }
+        else {
+            Data.forEach(e => {
+                if (highestRepetitionNumber < e.rept) {
+                    highestRepetitionNumber = e.rept
+                }
+            })
+        }
+        for (let i = 1; i < 9; i++) {
+            for (let e = 1; e <= highestRepetitionNumber; e++) {
+                validationInpt(i, e)
+            }
+        }
+    });
+
+    function desabilitCardTracker(id, serie, ps) {
+        toggleToWait()
+        const audio = document.getElementById("myAudio");
+        let data = creatVar()
+        let numberInput = []
+        if (ps) {
+            // Verifica se o treino tem 4 ou 12 exercicios
+            if (data.length == 4) {
+                numberInput = [
+                    [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                    [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                    [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                    [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
+                ]
+            } else {
+                numberInput = [
+                    [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                    [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                    [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                    [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
+                    [[13, 1], [15, 2], [17, 3]], // quinto exercicio [divID, numberRept]
+                    [[14, 1], [16, 2], [18, 3]], // sexto exercicio [divID, numberRept]
+                    [[19, 1], [21, 2], [23, 3]], // setimo  exercicio [divID, numberRept]
+                    [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
+                ]
+            }
+            //Procura o indice do exercicio qu está em execução
+            let indexinput = numberInput[id - 1];
+            let input = -1;
+            for (let i = 0; i < indexinput.length; i++) {
+                if (indexinput[i][1] === serie) {
+                    input = i;
+                    break;
+                }
+            }
+
+            //Remove o indice encontrado
+            if (input !== -1) {
+                indexinput.splice(input, 1);
+                numberInput[id - 1] = indexinput;
+            }
+
+            // Desabilita todos os inpust e add uma class aos cards
+            numberInput.forEach(e => {
+                e.forEach(i => {
+                    const inputDesabilit = document.getElementById(`ValidExer${i[0]}Serie${i[1]}`)
+                    inputDesabilit.disabled = true;
+
+                    const divExer = document.getElementById('exer' + i[0])
+                    divExer.classList.add('desabilited')
+                })
+
+
+            })
+        }
+        else {
+
+            // Verifica se o treino tem 4 ou 12 exercicios
+            if (data.length == 4) {
+                numberInput = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
+            }
+            else {
+                numberInput = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
+            }
+            // Monta o array de id sem o id que está sendo tratado
+            let indexinput = numberInput[id - 1]
+            let input = indexinput.findIndex(e => e == serie)
+
+            if (input != -1) {
+                indexinput.splice(input, 1);
+                numberInput[id - 1] = indexinput
+            }
+
+            // Desabilita todos os inpust e add uma class aos cards
+            let x = 1
+            numberInput.forEach(e => {
+                e.forEach(i => {
+                    const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                    const inputDesabilitKg = document.getElementById(`ValidKg${x}Serie${i}`)
+
+                    if (inputDesabilitKg != null) {
+                        inputDesabilitKg.disabled = true;
+                    }
+
+                    if (inputDesabilit != null) {
+                        inputDesabilit.disabled = true;
+                    }
+                })
+
+                const divExer = document.getElementById('exer' + x)
+                if (divExer != null) {
+                    divExer.classList.add('desabilited')
+                }
+                x++
+            })
+        }
+
+        let cronometro = document.getElementById(`reset${id}Serie${serie}`);
+        let segundosRestantes = ps ? 2 : 180; // 3 minutos em segundos
+        let interval; // Declarando a variável fora da função para poder usar em outro escopo
+        cronometro.placeholder = ''
+        cronometro.placeholder = ps ? '1:00' : '3:00'
+
+
+        clearInterval(interval); // Parar o cronômetro se ele já estiver rodando
+        segundosRestantes = ps ? 2 : 180; // Reiniciar o tempo
+
+        interval = setInterval(function () {
+            segundosRestantes--;
+            let minutos = Math.floor(segundosRestantes / 60);
+            let segundos = segundosRestantes % 60;
+            cronometro.placeholder = minutos + ":" + segundos + "";
+
+            if (segundosRestantes <= 0) {
+                audio.play();
+                toggleToWait()
+                clearInterval(interval); // Parar o cronômetro
+                // Habilitar input
+                cronometro.placeholder = "FIM";
+                let x = 1
+                if (ps) {
+                    numberInput = [
+                        [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                        [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                        [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                        [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
+                        [[13, 1], [15, 2], [17, 3]], // quinto exercicio [divID, numberRept]
+                        [[14, 1], [16, 2], [18, 3]], // sexto exercicio [divID, numberRept]
+                        [[19, 1], [21, 2], [23, 3]], // setimo  exercicio [divID, numberRept]
+                        [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
+                    ]
+
+                    // Desabilita todos os inpust e add uma class aos cards
+                    numberInput.forEach(e => {
+                        e.forEach(i => {
+
+                            const inputDesabilit = document.getElementById(`ValidExer${i[0]}Serie${i[1]}`)
+                            const inputDesabilitkg = document.getElementById(`ValidKg${i[0]}Serie${i[1]}`)
+
+                            if (inputDesabilitkg != null) {
+                                inputDesabilitkg.disabled = false;
+                            }
+
+                            if (inputDesabilit != null) {
+                                inputDesabilit.disabled = false;
+                            }
+
+                            const divExer = document.getElementById('exer' + i[0])
+                            if (divExer != null) {
+                                divExer.classList.remove('desabilited')
+                            }
+                        })
+
+
+                    })
+                }
+                else {
+                    numberInput.forEach(e => {
+                        e.forEach(i => {
+                            const inputDesabilit = document.getElementById(`ValidExer${x}Serie${i}`)
+                            const inputDesabilitkg = document.getElementById(`ValidKg${x}Serie${i}`)
+
+                            if (inputDesabilitkg != null) {
+                                inputDesabilitkg.disabled = false;
+                            }
+
+                            if (inputDesabilit != null) {
+                                inputDesabilit.disabled = false;
+                            }
+                        })
+
+                        const divExer = document.getElementById('exer' + x)
+                        if (divExer != null) {
+                            divExer.classList.remove('desabilited')
+                        }
+                        x++
+                    })
+                }
+            }
+        }, 1); // Atualizar o cronômetro a cada segundo
+        
+    }
+
+    function addTraining(id, serie) {
+
+        const name = document.getElementById(`name${id}`);
+        let Name = name.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
+        let newData = JSON.parse(Name);
+
+        const input = document.getElementById(`ValidExer${id}Serie${serie}`)
+        const inputKg = document.getElementById(`ValidKg${id}Serie${serie}`)
+
+        let index = newTraining.findIndex(e => e.name === newData.name)
+
+        if (index == -1) {
+            if (input != null && parseInt(input.value) > 0) {
+                newData[`rept${serie}`] = parseInt(input.value);
+                newTraining.push(newData);
+            }
+            if (inputKg != null && parseInt(inputKg.value) > 0) {
+                newData[`kg${serie}`] = parseInt(inputKg.value);
+                newTraining.push(newData);
+            }
+
+        } else {
+
+            if (input != null) {
+                newTraining[index][`rept${serie}`] = parseInt(input.value);
+            }
+            if (inputKg != null) {
+                newTraining[index][`kg${serie}`] = parseInt(inputKg.value);
+            }
+        }
+        console.log(newTraining)
+    }
+
+    async function finishedTraining() {
+        loading(true)
+        
+        const valueData = document.getElementById(`dataDB`);
+        let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
+        let data = JSON.parse(dataOfDataBase);
+
+        newTraining.forEach(training => {
+            delete training.newExer;
+            if (training.rept1 === training.rept2 && training.rept2 === training.rept3 && training.rept1 >= 15 && training.segs == null) {
+                training.newExer = true;
+            }
+            if (training.rept1 === training.rept2 && training.rept2 === training.rept3 && training.rept1 >= 60 && training.segs == 'true') {
+                training.newExer = true;
+            }
+        });
+
+        let numberexer
+
+        if (data.chosenDay == 'd0') {
+            numberexer = data.training.length
+        }
+        else {
+            numberexer = data.training[data.chosenDay].length
+        }
+
+        if (newTraining.length == numberexer) {
+            let training = data.fullTraining
+
+            if (data.chosenDay == 'd1') {
+                newTraining = { 'd1': newTraining, 'd2': training.d2, 'chosenDay': '1' }
+            }
+            if (data.chosenDay == 'd2') {
+                newTraining = { 'd1': training.d1, 'd2': newTraining, 'chosenDay': '2' }
+            }
+
+            try {
+                const response = await fetch('/saveTrainingTracker', {
+                    method: 'POST',
+                    body: JSON.stringify(newTraining),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    window.location.href = '/user';
+                } else {
+                    loading(false)
+                    throw new Error('Erro na requisição:', response.status);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
+    function openModalToggleExer(exer) {
+        let info = creatVar()
+
+        info.chosenDay ==1 ? info = info['d2'] : info = info['d1']
+        //Filtrando o valor do data atraves da string ('Nome do exercicio')
+        let listNewExer = info.filter(e => e.name == exer)[0]
+
+        var modal = new bootstrap.Modal(document.querySelector(`#toggleExer`));
+        modal.show()
+
+        const modal2 = document.getElementById('toggleExerContent')
+        modal2.innerHTML = ''
+        let contentDiv = modal2.innerHTML
+
+        listNewExer.newExer.forEach(e => {
+            contentDiv += `
+            <div class="row reset-Padding-x mt-5">
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                    <h3>${e.name}</h3>
+                    <h5>Categora: ${e.category} / Nivel: ${e.nivel}</h5>
+                </div>
+                <div class="col-12 d-flex justify-content-center align-items-center">
+                    <img src="${e.url}" style="width: 80%; height: auto;">
+                </div>
+                <div class="col-12 d-flex justify-content-center align-items-center mt-3">
+                    <button data-bs-toggle="modal" data-bs-target="#toggleExer" onclick="attTraining('${e.name}', '${exer}')"
+                        class="btn btn-success text-uppercase w-100">Troca por esse</button>
+                </div>
+            </div>
+            `
+            modal2.innerHTML = contentDiv
+        })
+
+    }
+
+    function attTraining(name, oldName) {
+        debugger
+        let info = creatVar()
+        info.chosenDay ==1 ? info = info['d2'] : info = info['d1']
+        let indexDiv
+        let dataExer
+        info.forEach(obj => {
+            if (obj.newExer != null) {
+                obj.newExer.forEach(exer => {
+                    // aqui você pode fazer a verificação do item desejado dentro de "newExer"
+                    if (exer.name === name) {
+                        //Atualizar o traino
+                        let ind = info.findIndex(e => e.name == oldName)
+
+                        if (ind != -1) {
+                            indexDiv = ind + 1
+                            //Trocando os exercicios
+                            exer.num = info[ind].num
+                            exer.required = info[ind].required
+                            info[ind].segs ? exer.segs = info[ind].segs : null
+                            exer.rept = info[ind].rept
+                            exer.count = 0
+                            exer.rept1 = 0
+                            exer.rept2 = 0
+                            exer.rept3 = 0
+                            exer.rest = 3
+                            info[ind] = exer
+                            dataExer = info[ind]
+                        }
+                    }
+                })
+            }
+        })
+
+        const div = document.getElementById(`div${indexDiv}`)
+        div.innerHTML = `
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer${indexDiv}" width="68" height="68" src="${dataExer.url}" alt="">
+        </div>
+    
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div id="reptDiv${indexDiv}" class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">${indexDiv}º${dataExer.name}</span>
+                    <span class="d-none" id="name${indexDiv}">${JSON.stringify(dataExer)}</span>
+
+                </div>               
+              
+            </div>
+    
+        </div>`
+
+        const divReptExer = document.getElementById(`reptDiv${indexDiv}`)
+        let num = dataExer.rept
+
+        for (let i = 1; i - 1 < num; i++) {
+            divReptExer.innerHTML += `
+            <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                <input class="w-75 text-center rounded-3" type="text" placeholder="${i}" disabled>
+            </div>
+
+            <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                ${dataExer.segs ? '<p class="reset text-uppercase text-gray1">SEGS</p>' : '<p class="reset text-uppercase text-gray1">REPS</p>'}
+                <input required="true" id="ValidExer${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
+                    type="number">
+
+            </div>
+
+            <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                <p class="reset text-uppercase text-gray1">PAUSA</p>
+                <input id="reset${indexDiv}Serie${i}" required="true" disabled placeholder="3min"
+                    class="w-75 input-value text-center rounded-3" type="text">
+            </div>
+            `
+        }
+        for (let i = 1; i < 9; i++) {
+            for (let e = 1; e <= highestRepetitionNumber; e++) {
+                validationInpt(i, e)
+            }
+        }
+    }
+
+    function notToggleExer(exer) {
+        debugger
+        let dataExer = JSON.parse(exer);
+        let info = creatVar()
+        info.chosenDay ==1 ? info = info['d2'] : info = info['d1']
+        let indexDiv
+
+        let index = info.findIndex(e => e.name == dataExer.name)
+        if (index != -1) {
+            indexDiv = index + 1
+        }
+
+        const div = document.getElementById(`div${indexDiv}`)
+        div.innerHTML = `
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <img class="rounded-4" id="exer${indexDiv}" width="68" height="68" src="${dataExer.url}" alt="">
+        </div>
+    
+        <div class="col-9 d-flex align-items-center ps-3 pe-5">
+            <div id="reptDiv${indexDiv}" class="row">
+                <div class="col-12 reset-Padding">
+                    <input type="hidden" name="nivel">
+                    <span class="reset text-uppercase" style="font-size: 18px;">${indexDiv}º${dataExer.name}</span>
+                    <span class="d-none" id="name${indexDiv}">${JSON.stringify(dataExer)}</span>
+
+                </div>               
+              
+            </div>
+    
+        </div>`
+
+        const divReptExer = document.getElementById(`reptDiv${indexDiv}`)
+        let num = dataExer.rept
+
+        if (dataExer.kg) {
+            for (let i = 1; i - 1 < num; i++) {
+                divReptExer.innerHTML += `
+                <div class="col-3 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="${i}" disabled>
+                </div>
+    
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    ${dataExer.segs ? '<p class="reset text-uppercase text-gray1">SEGS</p>' : '<p class="reset text-uppercase text-gray1">REPS</p>'}
+                    <input required="true" id="ValidExer${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+    
+                </div>
+
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                   <p class="reset text-uppercase text-gray1">KG</p>
+                    <input required="true" id="ValidKg${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+    
+                </div>
+    
+                <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset${indexDiv}Serie${i}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                `
+            }
+        }
+        else {
+            for (let i = 1; i - 1 < num; i++) {
+                divReptExer.innerHTML += `
+                <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                    <input class="w-75 text-center rounded-3" type="text" placeholder="${i}" disabled>
+                </div>
+    
+                <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">
+                    ${dataExer.segs ? '<p class="reset text-uppercase text-gray1">SEGS</p>' : '<p class="reset text-uppercase text-gray1">REPS</p>'}
+                    <input required="true" id="ValidExer${indexDiv}Serie${i}" class="w-75 input-value text-center rounded-3"
+                        type="number">
+    
+                </div>
+    
+                <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                    <input id="reset${indexDiv}Serie${i}" required="true" disabled placeholder="3min"
+                        class="w-75 input-value text-center rounded-3" type="text">
+                </div>
+                `
+            }
+        }
+
+
+        delete info[index].newExer;
+
+        for (let i = 1; i < 9; i++) {
+            for (let e = 1; e <= highestRepetitionNumber; e++) {
+                validationInpt(i, e)
+            }
+        }
+
+    }
+
+    training.addEventListener('change', function () {
+        const valueData = document.getElementById(`dataDB`)
+        let dataOfDataBase = valueData.innerHTML.replace(/'/g, "\"").replace(/True/g, "true");
+
+        let auxiliar = JSON.parse(dataOfDataBase).fullTraining
+        let auxiliar2 = JSON.parse(dataOfDataBase).chosenDay
+        let data;
+        if (auxiliar2 == 'd0') {
+            data = auxiliar
+        }
+        else {
+            data = auxiliar[auxiliar2]
+        }
+        const ps = document.getElementById('TrainingPs')
+        const regularTraining = document.getElementById('TrainingRegular')
+
+        var intercalated = transformToParedPairedSets(data)
+        let idExer = []
+        if (training.checked) {
+            if (backupPs != '') {
+                ps.innerHTML = backupPs
+                regularTraining.innerHTML = ''
+            }
+            else {
+                regularTraining.innerHTML = ''
+                ps.innerHTML = ''
+                let div = ps.innerHTML
+                if (intercalated.length == 12) {
+                    idExer = [
+                        [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                        [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                        [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                        [[8, 1], [10, 2], [12, 3]] // quarto exercicio [divID, numberRept]
+                    ]
+                }
+                else {
+                    idExer = [
+                        [[1, 1], [3, 2], [5, 3]], // primeiro exercicio [divID, numberRept]
+                        [[2, 1], [4, 2], [6, 3]], // segundo exercicio [divID, numberRept]
+                        [[7, 1], [9, 2], [11, 3]], // terceiro exercicio [divID, numberRept]
+                        [[8, 1], [10, 2], [12, 3]], // quarto exercicio [divID, numberRept]
+                        [[13, 1], [15, 2], [17, 3]], // quinto exercicio [divID, numberRept]
+                        [[14, 1], [16, 2], [18, 3]], // sexto exercicio [divID, numberRept]
+                        [[19, 1], [21, 2], [23, 3]], // setimo  exercicio [divID, numberRept]
+                        [[20, 1], [22, 2], [24, 3]], // quarto exercicio [divID, numberRept]
+                    ]
+                }
+                let exer = []
+                let aux = 1
+                let sun = 1
+
+                intercalated.forEach(item => {
+                    if (item.hasOwnProperty('newExer')) {
+                        console.log("newExer")
+                    }
+                    else {
+
+                        itemString = JSON.stringify(item)
+
+                        item['divID'] = sun
+                        exer.push(item)
+                        div += `<div id="div${sun}" class="row position-relative py-4">
+                            <div class="col-3 d-flex justify-content-center align-items-center">
+                                <img class="rounded-4" id="exer${sun}" width="68" height="68" src="${item.url}" alt="">
+                            </div>
+                
+                            <div class="col-9 d-flex align-items-center ps-3 pe-5">
+                                <div id="reptDiv${sun}" class="row">
+                                    <div class="col-12 reset-Padding">
+                                        <input type="hidden" name="nivel">
+                                        <span class="reset text-uppercase" style="font-size: 18px;">${sun}º${item.name}</span>
+                                        <span class="d-none" id="name${sun}">${itemString}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+                    }
+
+                    sun++
+                })
+                ps.innerHTML = div
+
+                let teste = 1
+                idExer.forEach(e => {
+                    // e[] -> matriz do exercicio
+                    e.forEach(i => {
+                        const rep = document.getElementById(`reptDiv${i[0]}`)
+                        if (rep == null) {
+                            rep = document.createElement()
+                        }
+                        // i(int) -> id dos exercicios
+                        teste++
+                        id = i[0]
+                        rpt = i[1]
+                        let info = exer.filter(a => a.divID == i[0])[0]
+
+                        if (info.hasOwnProperty('kg')) {
+                            rep.innerHTML += `
+                                <div class="col-3 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                                    <input class="w-75 text-center rounded-3" type="text" placeholder="${i[0]}" disabled>
+                                </div>
+            
+                                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">                          
+                                     ${info.hasOwnProperty('segs') ? `<p class="reset text-uppercase text-gray1">SEGS</p>` : `<p class="reset text-uppercase text-gray1">REPS</p>`}
+        
+                                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                                        id="ValidExer${id}Serie${rpt}" class="w-75 input-value text-center rounded-3"
+                                        type="number">
+                                </div>  
+                                <div class="col-3 d-flex flex-column justify-content-center align-items-center reset-Padding">                          
+                                    <p class="reset text-uppercase text-gray1">KG</p> 
+
+                                   <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                                       id="ValidKg${id}Serie${rpt}" class="w-75 input-value text-center rounded-3"
+                                       type="number">
+                               </div>  
+                                
+                                
+                                <div class="col-3 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                                    <input id="reset${id}Serie${rpt}" required="true" disabled placeholder="1:30m"
+                                        class="w-75 input-value text-center rounded-3" type="text">
+                                </div>`
+                        }
+                        else {
+                            rep.innerHTML += `
+                                <div class="col-4 d-flex flex-column justify-content-center align-items-start my-2 reset-Padding">
+                                    <p class="reset text-uppercase text-gray1">SÉRIE</p>
+                                    <input class="w-75 text-center rounded-3" type="text" placeholder="${i[0]}" disabled>
+                                </div>
+            
+                                <div class="col-4 d-flex flex-column justify-content-center align-items-center reset-Padding">                          
+                                     ${info.hasOwnProperty('segs') ? `<p class="reset text-uppercase text-gray1">SEGS</p>` : `<p class="reset text-uppercase text-gray1">REPS</p>`}
+        
+                                    <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true"
+                                        id="ValidExer${id}Serie${rpt}" class="w-75 input-value text-center rounded-3"
+                                        type="number">
+                                </div>       
+                                <div class="col-4 d-flex flex-column justify-content-center align-items-end reset-Padding">
+                                    <p class="reset text-uppercase text-gray1">PAUSA</p>
+                                    <input id="reset${id}Serie${rpt}" required="true" disabled placeholder="1:30m"
+                                        class="w-75 input-value text-center rounded-3" type="text">
+                                </div>`
+                        }
+
+                        validationInpt(id, rpt)
+
+                    })
+                    aux++
+                })
+                var contentPS = document.getElementById('TrainingPs')
+                backupPs = contentPS.innerHTML
+            }
+
+        }
+
+        else {
+            ps.innerHTML = ''
+            regularTraining.innerHTML = backupNormal
+        }
+    })
+
+    function transformToParedPairedSets(data) {
+
+        // Cria um aray com o numero de repetição do exercicio
+        data.forEach(function (e) {
+            var repeated_e = Array(e['rept']).fill(e).map(function (d, i) {
+                var d_copy = Object.assign({}, d);  // cria uma cópia do objeto
+                d_copy['rept_num'] = i + 1;  // adiciona um novo campo 'rept_num' com o número de repetição
+                d_copy['rest'] = '1:30';  // altera o campo 'reset' para '1:30'
+                return d_copy;
+            });
+            new_order.push.apply(new_order, repeated_e);
+        });
+        // Agrupa esse array por categoria
+        var categories = {};
+        new_order.forEach(function (a) {
+            var category = a['category'];
+            if (!(category in categories)) {
+                categories[category] = [];
+            }
+            categories[category].push(a);
+        });
+        // Pega o nome da rotina e separa achando a letra maiuscula retornando um array 
+        // cat = name.replace(/([A-Z])/g, ' $1').trim().split(' ')
+        names = Object.keys(categories)
+        // Intercala esse array
+
+
+        var array1 = [];
+        if (names.length <= 2) {
+            for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
+                array1.push(categories[names[0]][i]);
+                array1.push(categories[names[1]][i]);
+            }
+        }
+        else {
+            for (var i = 0; i < Math.min(categories[names[0]].length, categories[names[1]].length); i++) {
+                array1.push(categories[names[0]][i]);
+                array1.push(categories[names[1]][i]);
+
+            }
+            for (var i = 0; i < Math.min(categories[names[2]].length, categories[names[3]].length); i++) {
+                array1.push(categories[names[2]][i]);
+                array1.push(categories[names[3]][i]);
+            }
+        }
+
+        return array1
+    }
+
+    window.finishedTraining = finishedTraining
+</script>
+{% endblock %}

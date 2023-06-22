@@ -91,197 +91,12 @@ def sendTraining():
     if request.method == "POST":
         treino = request.get_json()
         session['training'] = treino
-        return redirect(url_for('basicScreens.creatTraining'))
-
-# @basicScreens.route("/creatTraining" , methods=["GET"])
-# def creatTraining():
-#   user_found = Db.get_login(session['login']).data
-#   all = Exercises.getExercisesBodyWeight()
-#   musc = Exercises.getExercisesMusc()
-
-#   if user_found[-2] is None:
-
-#     if 'training' in session:
-#       treino = session['training']
-#     else:
-#       data = [user_found[1][0],None,None, {'nav': 'home'}]
-#       return render_template("firstAcess.html", data = data)  
-
-#     if user_found[-2] is not None:
-#       for rotina in treino:
-#         if rotina.upper() == user_found[-2].upper():
-#           treino = treino[rotina]
-    
-#     # pega o valor dos requireds
-#     if user_found[6] is not None:
-#       requireds = json.loads(user_found[6])
-#     else:
-#       if 'Requireds' in session:
-#         requireds = json.loads(session['Requireds'])
-
-#     try:
-#       data_all = []
-#       new_order = []
-
-#       # Unindo o Treino com o All
-
-#       if len(treino) > 4:
-#         for a in all:
-#           for t in treino:
-#                 if isinstance(t, list) == False:
-#                   if a["name"] == t["name"]:
-#                     new_data = a.copy()
-#                     new_data.update(t)
-#                     data_all.append(new_data)
-                
-               
-#         for a in musc:
-#           for t in treino:
-#               if isinstance(t, list) == False:  
-#                 if a["name"] == t["name"]:
-#                   new_data = a.copy()
-#                   new_data.update(t)
-#                   data_all.append(new_data)                        
-#       else:
-#         for a in all:
-#           for t in treino:
-#             for exer in treino[t]:
-#               if t == 'd1' or t == 'd2':
-#                 if a["name"] == exer["name"]:
-#                   new_data = a.copy()
-#                   new_data.update(exer)
-#                   data_all.append(new_data)               
-#         for a in musc:
-#           for t in treino:
-#             for exer in treino[t]:
-#               if t == 'd1' or t == 'd2':
-#                 if a["name"] == exer["name"]:
-#                   new_data = a.copy()
-#                   new_data.update(exer)
-#                   data_all.append(new_data)
-          
-#       # Cria um array qeu repete o num de veses de acordo com o exer, e add infos
-#       for e in data_all:
-#         repeated_e = [e.copy() for _ in range(e['rept'])]  # cria uma cópia do dicionário e "rept" vezes
-#         for i, d in enumerate(repeated_e):
-#             d['rept_num'] = i + 1  # adiciona um novo campo 'rept_num' com o número de repetição
-#             d['rest'] = '1:30'   # altera o campo 'reset' para '1:30'
-#         new_order.extend(repeated_e)
-
-#       #-----------------------------------------------------------------------------------------------------Treino com Paired Sets 
-#       # Agrupa os objetos por categoria
-#       categories = {}
-#       for a in new_order:
-#         category = a["category"]
-#         if category not in categories:
-#             categories[category] = []
-#         categories[category].append(a)
-
-#       #  Cria 2 arrays para fazer a intecalação
-#       array1 = []
-#       array2 = []
-      
-#       # Agrupa os objetos por categoria, sem ter repetições
-#       grupCategories = {}
-#       for a in data_all:
-#         category = a["category"]
-#         if category not in grupCategories:
-#             grupCategories[category] = []
-#         grupCategories[category].append(a)
-
-#       # Criando a rotina FULLBODY 
-#       array1 = [valor for par in zip(grupCategories['Push'], grupCategories['Core']) for valor in par]
-#       array2 = [valor for par in zip(grupCategories['Pull'], grupCategories['Legs']) for valor in par]
-#       array1.extend(array2)
-#       fullbody = array1
-
-#       # Criando a rotina Push/Pull 
-#       array1 = [valor for par in zip(grupCategories['Push'], grupCategories['Legs']) for valor in par]
-#       array2 = [valor for par in zip(grupCategories['Pull'], grupCategories['Core']) for valor in par]
-#       pushPull = {'d1' : array1 , 'd2': array2}
-
-#       # Criando a rotina Upper/Lowe 
-#       array1 = [valor for par in zip(grupCategories['Push'], grupCategories['Pull']) for valor in par]
-#       array2 = [valor for par in zip(grupCategories['Legs'], grupCategories['Core']) for valor in par]
-#       upperLower = {'d1' : array1 , 'd2': array2}
-
-#       Training = {'fullbody': fullbody,'pushPull':pushPull,'upperLower': upperLower}
-#     except Exception as e:
-#       print(f"{e}")
-      
-#     days = None
-#     for required in requireds:
-#       if required['name'] == 'Days':
-#         days = int(required['value'])
-
-#     if days == None:
-#       days = session['TrainingDays']
-
-
-#     if 'login' in session:
-#       Db.update_data('Login', session['login'], 'TrainingDays', days)    
-#       Db.update_data('Login', session['login'], 'BaseTraining', Training)    
-#       Db.update_data('Login', session['login'], 'Requireds', requireds)    
-#       Db.update_data('Login', session['login'], 'Training', Training)    
-#       session.pop('training', 1)
-    
-#     name = session['login']
-#     user_found =  Db.get_login(name).data
-#     name = user_found[1]
-#     if user_found[-2] is None:
-#       info = {
-#           'nav': 'creat',
-#           'allTreinos': Training,
-#           'days': days
-#         }
-#     else:
-#       info ={
-#         'nav': 'creat',
-#         'allTreinos': Training,
-#         'days': days,
-#         'chosenTraining': user_found[-2]
-#       }
-     
-#     data = [
-#       name[0],
-#       "/login",
-#       True,
-#       info
-#     ]
-      
-      
-#     # return render_template("creatTraining.html", data=data)
-#     return render_template("creatTraining.html", data = data)
-#   else:  
-#     if "login" in session:
-#       name = session['login']
-#       user_found =  Db.get_login(name).data
-#       name = user_found[1]
-#       info = {
-#              'nav': 'creat',
-#              'allTreinos': json.loads(user_found[-3]),
-#              'days': user_found[5],
-#              'chosenTraining': user_found[-2]
-#              }
-#       data = [
-#         name[0],
-#         "/login",
-#         True,
-#         info
-#       ]
-#       return render_template( 'creatTraining.html' , data = data)  
-#     else:
-#       info= {}
-#       data = [
-#         "Faça login",
-#         '/login',
-#         False,
-#         info
-#       ]
-#       return render_template('firstAcess.html', data =data) 
+        return redirect(url_for('basicScreens.index'))
  
 @basicScreens.route("/creatTraining", methods=["GET"])
 def creatTraining():
+  if 'login' not in session:
+    return getUrl('login.html')
   user_found = Db.get_login(session['login']).data
   all = Exercises.getExercisesBodyWeight()
   musc = Exercises.getExercisesMusc()
@@ -290,13 +105,17 @@ def creatTraining():
     treino = session['training']
   else:
     if user_found[-2] is not None:
-      trainingOfDb = json.loads(user_found[-3])
-      for rotina in  trainingOfDb:
-        if rotina.upper() == user_found[-2].upper():
-          treino = trainingOfDb[rotina]
+      if user_found[-3] is not None:
+        trainingOfDb = json.loads(user_found[-3])
+        for rotina in  trainingOfDb:
+          if rotina.upper() == user_found[-2].upper():
+            treino = trainingOfDb[rotina]
+      else:
+        data = {'nav': 'home'}
+        return getUrl("firstAcess.html", value=data)
     else:
       data = {'nav': 'home'}
-      return getUrl("firstAcess.html", value=data)
+      return getUrl("creatTraining.html", value=data)
 
   # pega o valor dos requireds
   if user_found[6] is not None:
@@ -454,11 +273,8 @@ def creatTraining():
       'days': days,
       'chosenTraining': user_found[-2]
     }
-
-  return getUrl("creatTraining.html", value=data)
+  return getUrl("home.html", value=data)
  
-
-
 @basicScreens.route("/download-pdf", methods=["POST"])
 def download_pdf():
   # Recupera os dados enviados pelo formulário
