@@ -36,8 +36,8 @@ def saveDU():
       del data[i]
       break
 
-  # Db.update_data('Login', session['login'], 'Requireds', json.dumps(data))
-  # Db.update_data('Login', session['login'], 'TrainingDays', TrainingDays)
+  Db.update_data('Login', session['login'], 'Requireds', json.dumps(data))
+  Db.update_data('Login', session['login'], 'TrainingDays', TrainingDays)
 
   session['Requireds'] = json.dumps(data)
   session['TrainingDays'] = TrainingDays
@@ -109,6 +109,7 @@ def webhookRegisterUser():
   data = request.get_data().decode()
   data = json.loads(data)
 
+  data['FirstAcess'] = True
   status = data["status"]
   if status == "approved":
     email = data['contact']['email']
@@ -122,7 +123,7 @@ def webhookRegisterUser():
       content = f"Senha para acessar o Tracker BWA {newPassword}"
       subject = "Tracker BWA"
       send_email('api@gmail.com', content, subject)
-
+    
     newUser = {'Login': email, 'Password': password_hash, 'UserData': [data]}
     Db.newUser(newUser)
 

@@ -44,12 +44,25 @@ def index():
         # for value in last_training.keys():
         #   trainingValue = last_training[value]
         
+        userData = json.loads(ip_found[3])
+        for data in userData[0]:
+          if data == 'FirstAcess':
+            newInfo = userData[0][data]
+        if newInfo == 'true':
+          newInfo = True
+        else:
+          newInfo = False
+
+        if newInfo is None:
+          newInfo = True
+          
         data= {
           'nav': 'home', 
           'ip': ip_found[0],
           'dayTraining': 3,
           'nameRotina': ip_found[-2],
           'training': last_value,
+          'fistAcess': newInfo
         }
         # return render_template("home.html", data = data)    
 

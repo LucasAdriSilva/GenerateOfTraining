@@ -316,7 +316,7 @@
                         </div>
 
                         <div class="col-12 d-flex justify-content-center algin-items-center" style=" margin-top: 36px;">
-                            <button onclick="verificationRequireds()" class="text-uppercase btn-pag2">
+                            <button id="btn5" onclick="verificationRequireds()" class="text-uppercase btn-pag2">
                                 Continuar
                             </button>
                         </div>
@@ -878,6 +878,11 @@
         ];
         var numberInput = [1, 2, 3, 4, 5, 6, 7, 8];
         var choseTraining = ''
+        var daysBlock = []
+        var week = ["Seg", "Ter", "Quar", "Quin", "Sex", "Sab", "Dom"]
+        var weekSelect = []
+        let numberDaysChosen = 0
+        let chosenDays;
 
         const timeErr = document.getElementById('timeErr')
         const min = document.getElementById('min')
@@ -1024,7 +1029,7 @@
             const contentCarrossel = document.getElementById('contentCarrossel')
             contentCarrossel.innerHTML = ''
 
-            
+
             newExercisesBase.forEach(exer => {
 
                 if (exer == undefined) {
@@ -1605,17 +1610,17 @@
                 if (repeticao <= 4 && input.value < 60) {
                     input.disabled = true;
                     const btnFinish = document.getElementById('finishExer' + id)
-                        if (btnFinish.classList.contains('d-none')) {
-                            document.getElementById(`container${id}`).classList.remove('d-none')
-                            noInput.classList.add('d-none')
-                            if (bool) {
-                                success.classList.remove('d-none')
-                                // Tempo da message de sucesso
-                                setTimeout(function () {
-                                    success.classList.add("d-none");
-                                }, 3000);
-                            }
+                    if (btnFinish.classList.contains('d-none')) {
+                        document.getElementById(`container${id}`).classList.remove('d-none')
+                        noInput.classList.add('d-none')
+                        if (bool) {
+                            success.classList.remove('d-none')
+                            // Tempo da message de sucesso
+                            setTimeout(function () {
+                                success.classList.add("d-none");
+                            }, 3000);
                         }
+                    }
                     // if (bool) {
                     noInput.classList.add('d-none')
                     success.classList.remove('d-none')
@@ -1718,7 +1723,7 @@
                 }
                 // Leve
                 if (repeticao < 2) {
-                    document.getElementById(`container${id}`).classList.add('d-none')                    
+                    document.getElementById(`container${id}`).classList.add('d-none')
                     finishExer.classList.add('d-none')
                     noInput.classList.add('d-none')
                     // Texto de sucesso some
@@ -2291,7 +2296,13 @@
         }
 
         async function verificationRequireds() {
-            debugger
+            if (numberDaysChosen != chosenDays) {
+                creatMessageOfErr('Escolha os dias antes de prosseguir', 3)
+                return
+            }else{
+                requireds.push({ name: 'DaysChosen', value: weekSelect })
+                console.log(requireds)
+            }
             const content = document.querySelectorAll('.content');
             content[0].style.marginTop = '0px';
             //Tira a TimeLine
@@ -2596,15 +2607,150 @@
             checkingRequired()
         }
 
-        function choseDayofTraining(id) {
-            let week = ['Seg', 'Ter', 'Quar', 'Quin', 'Sex', 'Sab', 'Dom']
-            choseTraining = id
+        function attSelectEquip(id) {
             const div = document.getElementById(`${id}`)
 
             if (div.classList.contains('selectEquip')) {
                 div.classList.remove('selectEquip');
             } else {
                 div.classList.add('selectEquip');
+            }
+        }
+
+        function choseDayofTraining(id) {
+
+            let indexChosenDay = requireds.findIndex(e => e.name == "Days")
+            chosenDays = requireds[indexChosenDay].value
+
+            let indexExisting = weekSelect.findIndex(e => e == id)
+            //Verifica se ja escolheu todos os dias
+            if (numberDaysChosen >= chosenDays && indexExisting == -1) {
+                creatMessageOfErr('Você já escolheu os dias, só proseeguir', 3)
+                return
+            }
+
+            //verifica se é dia de descanso
+            let iBlock = daysBlock.findIndex(e => e == id)
+            if (iBlock != -1) {
+                creatMessageOfErr('Escolha outro dia, esse é dia de descanso', 3)
+                return
+            }
+
+
+            index = week.findIndex(e => e == id)
+            if (index == -1) return;
+
+            if (chosenDays == 3) {
+                let indexFound = weekSelect.findIndex(e => e == id)
+                if (indexFound != -1) {
+                    attSelectEquip(id)
+                    weekSelect.splice(indexFound, 1);
+
+                    daysBlock.splice(daysBlock[daysBlock.findIndex(e => e == week[index + 1])], 1)
+                    daysBlock.splice(daysBlock[daysBlock.findIndex(e => e == week[index - 1])], 1)
+                    numberDaysChosen--
+                    return
+                }
+
+                if (daysBlock.findIndex(e => e == week[index + 1]) == -1) {
+                    daysBlock.push(week[index + 1])
+                }
+                if (daysBlock.findIndex(e => e == week[index - 1]) == -1) {
+                    daysBlock.push(week[index - 1])
+                }
+                //Add no array de dias escolhidos
+                weekSelect.push(id)
+
+                //Add style
+                attSelectEquip(id)
+                numberDaysChosen++
+                if (numberDaysChosen >= chosenDays) {
+                    const btn5 = document.getElementById('btn5')
+                    btn5.classList.add('btn-primary')
+                }
+            }
+
+            if (chosenDays == 4) {
+                let indexFound = weekSelect.findIndex(e => e == id)
+                let nextDay = weekSelect[eval(indexFound + 1)]
+                let previousDay = weekSelect[eval(indexFound - 1)]
+
+                //Se for dia de descanso retorna
+                if (daysBlock.findIndex(e => e == week[index + 1]) != -1) { return }
+
+                //Se for um dia com treino ele ira tirar
+                if (indexFound != -1) {
+                    attSelectEquip(id)
+
+                    // Verifica se dia menos 1 do id é descanso se for tirar lista de bloqueio
+                    let dayMinusOneIsRest = daysBlock.findIndex(e => e == week[eval(week.findIndex(e => e == id) - 1)])
+                    if (dayMinusOneIsRest != -1) {
+                        daysBlock.splice(dayMinusOneIsRest, 1)
+                    }
+
+                    // Verifica se dia menos 1 do id é descanso se for tirar lista de bloqueio
+                    let dayMinusOneIsRest2 = daysBlock.findIndex(e => e == week[eval(week.findIndex(e => e == id) + 1)])
+                    if (dayMinusOneIsRest2 != -1) {
+                        daysBlock.splice(dayMinusOneIsRest2, 1)
+                    }
+
+                    weekSelect.splice(indexFound, 1);
+
+
+                    //Verifica se o dia seguinte é um treino se for tira
+                    let indexWeek = weekSelect.findIndex(e => e == nextDay)
+                    if (indexWeek != -1) {
+                        if (document.getElementById(nextDay).classList.contains('selectEquip')) {
+                            attSelectEquip(nextDay)
+
+                            //Verifica se o dia depois do nextDay é descanso se for tira
+                            let dayMinusOneIsRest3 = daysBlock.findIndex(e => e == week[eval(week.findIndex(e => e == nextDay) + 1)])
+                            if (dayMinusOneIsRest3 != -1) {
+                                daysBlock.splice(dayMinusOneIsRest3, 1)
+                            }
+
+                            weekSelect.splice(indexWeek, 1);
+                            numberDaysChosen = numberDaysChosen - 2
+                            return
+                        }
+                    }
+                    //Verifica se o dia anterior é um treino se for tira
+                    let indexWeek2 = weekSelect.findIndex(e => e == previousDay)
+                    if (indexWeek2 != -1) {
+                        if (document.getElementById(previousDay).classList.contains('selectEquip')) {
+                            attSelectEquip(previousDay)
+
+                            //Verifica se o dia antes do previousDay é descanso e se for tira
+                            let dayMinusOneIsRest3 = daysBlock.findIndex(e => e == week[eval(week.findIndex(e => e == previousDay) - 1)])
+                            if (dayMinusOneIsRest3 != -1) {
+                                daysBlock.splice(dayMinusOneIsRest3, 1)
+                            }
+
+                            weekSelect.splice(indexWeek2, 1);
+                            numberDaysChosen = numberDaysChosen - 2
+                            return
+                        }
+                    }
+                }
+
+                //Add style
+                attSelectEquip(id)
+                attSelectEquip(week[index + 1])
+
+                //Add no array
+                weekSelect.push(id)
+                weekSelect.push(week[index + 1])
+
+                //Add ao array de dias bloqueados
+                daysBlock.push(week[index + 2])
+                daysBlock.push(week[index - 1])
+
+                numberDaysChosen = numberDaysChosen + 2
+
+                if (numberDaysChosen >= chosenDays) {
+                    const btn5 = document.getElementById('btn5')
+                    btn5.classList.add('btn-primary')
+                }
             }
         }
 
