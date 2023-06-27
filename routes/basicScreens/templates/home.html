@@ -3,104 +3,517 @@
 
 {% block content %}
 
-<div class="row reset-Padding-x mt-5">
-    <div class="col-11 d-flex justify-content-start align-items-center m-auto">
-        <span class="reset text-start text-uppercase fw-bolder" style="font-size: 20px; color:
-        #707070;">Minha rotina</span>
-    </div>
-    {% if data[3].nameRotina == 'Fullbody' %}
-    <div class="col-11 mt-3 m-auto">
-        <div class="card w-100">
-            <div class="card-body">
+<div id="contentHome" class="row reset-Padding-x mt-5">
 
-                <h5 class="title-chosen-rotin">{{data[3].nameRotina}}</h5>
-
-                <div class="col-12 d-flex gap-1 reset-Padding-x">
-                    <div class="squad2-active">segunda</div>
-                    <div class="squad2-active">quarta</div>
-                    <div class="squad2-active">sexta</div>
-                </div>
-
-                <p class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
-                    {%for e in data[3].training%}
-                    {{e.name}},
-                    {%endfor%}
-                </p>
-
-                <form method="POST" class="d-flex justify-content-center align-items-center"
-                    action="{{ url_for('user.tracker') }}">
-                    <input type="hidden" name="data" value="{{ data[3].training }}">
-                    <input type="hidden" name="chosenDay" value="0">
-                    <button class="btn "
-                    style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
-                    type="submit">Iniciar Rotina</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    {% else %}
-    <div class="col-11 mt-3 m-auto">
-        <div class="card w-100 ">
-            <div class="card-body">
-
-                <h5 class="title-chosen-rotin">{{data[3].nameRotina}}</h5>
-
-                <div class="col-12 d-flex gap-1 reset-Padding-x">
-                    <div class="squad2-active">segunda</div>
-                    <div class="squad2-active">quinta</div>
-                </div>
-
-                <p class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
-                    {%for e in data[3].training.d1%}
-                    {{e.name}},
-                    {%endfor%}
-                </p>
-
-                <form method="POST" class="d-flex justify-content-center align-items-center"
-                    action="{{ url_for('user.tracker') }}">
-                    <input type="hidden" name="data" value="{{ data[3].training }}">
-                    <input type="hidden" name="chosenDay" value=1>
-                    <button class="btn "
-                        style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
-                        type="submit">Iniciar Rotina</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="card w-100 mt-2">
-            <div class="card-body">
-                <h5 class="title-chosen-rotin">{{data[3].nameRotina}}</h5>
-
-                <div class="col-12 d-flex gap-1 reset-Padding-x">
-                    <div class="squad2-active">terça</div>
-                    <div class="squad2-active">sexta</div>
-                </div>
-                
-                <p class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
-                    {%for e in data[3].training.d2%}
-                    {{e.name}},
-                    {%endfor%}
-                </p>
-
-                <form method="POST" class="d-flex justify-content-center align-items-center"
-                    action="{{ url_for('user.tracker') }}">
-                    <input type="hidden" name="data" value="{{ data[3].training }}">
-                    <input type="hidden" name="chosenDay" value=2>
-                    <button class="btn "
-                        style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
-                        type="submit">Iniciar Rotina</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-
-    {% endif %}
 </div>
 
-<script>
+<script type="module">
+    import { apiPost } from './assets/js/api.js'
+    let data;
+    let trainingInExecution;
+
+    window.addEventListener('load', async function () {
+        data = await apiPost('getData', false)
+        trainingInExecution = data.TrainingInExecution
+        let fullTraining = JSON.parse(data.Training)
+        verificationChosenTraining(data)
+
+        if(trainingInExecution == "false")return;
+
+        var lastElement = trainingInExecution[trainingInExecution.length - 1];
+        trainingInExecution.splice(trainingInExecution.length - 1)
+        
+        creatBtn('Verificamos que você tem um treino em andamento')
+        let btn = window.document.getElementById('positivo')
+        btn.addEventListener("click", async function () {
+
+            if (typeof lastElement === "string") {
+                // Supondo que você tenha a função `getTrainingDay()` que retorna 'd1' ou 'd2' com base no treino da pessoa
+                var chosenDay = lastElement; // Retorna 'd1' ou 'd2'
+
+                // Localize o formulário pelo seletor do seu formulário ou por um ID
+                var form = document.createElement('form');
+                form.method = 'POST'
+                form.action = "tracker"
+                // Crie os elementos de entrada ocultos
+                var inputData = document.createElement('input');
+                inputData.type = 'hidden';
+                inputData.name = 'data';
+                inputData.value = JSON.stringify(fullTraining);
+
+                var TrainingInExecution = document.createElement('input');
+                TrainingInExecution.type = 'hidden';
+                TrainingInExecution.name = 'TrainingInExecution';
+                TrainingInExecution.value = JSON.stringify(true);
+
+
+                var inputChosenDay = document.createElement('input');
+                inputChosenDay.type = 'hidden';
+                inputChosenDay.name = 'chosenDay';
+                inputChosenDay.value = chosenDay === 'd1' ? '1' : chosenDay === 'd2'? '2': '0'; // Converta 'd1' para 1 e 'd2' para 2 conforme necessário
+
+                // Adicione os elementos de entrada ocultos ao formulário
+                form.appendChild(inputData);
+                form.appendChild(TrainingInExecution);
+                form.appendChild(inputChosenDay);
+
+                // Adicione o formulário ao documento DOM
+                document.body.appendChild(form);
+
+
+                // Envie o formulário
+                form.submit();
+
+            }
+        });
+
+
+    })
+
+    function verificationChosenTraining(data) {
+
+        if (data.ChosenTraining == null) {
+            if (data.TrainingDays == 4) {
+                document.getElementById('contentHome').innerHTML = `
+                <div id="text1" class="row mt-3">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <h5 class="text-center">Verificamos que você tem disponiblidade para 4 dias de treino, neste caso você tem
+                            algumas opções de rotina</h5>
+                    </div>
+                </div>
+                <div id="text2" class="row my-3">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalQuiz">
+                            Escolher Rotina
+                        </button>
+                    </div>
+                </div>
+    
+                <div class="modal fade" id="modalQuiz" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="modalQuizLabel" aria-hidden="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalQuizLabel">Rotinas</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body reset-Padding-x">
+                                <div id="quizRotina" data-bs-touch="false" class="carousel slide mt-1 mb-3">
+                                    <div class="carousel-inner px-3">
+                                        <div class="carousel-item active">
+                                            <div class="row gap-3">
+                                                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                                    <h2 class="text-center">FullBody</h2>
+                                                </div>
+    
+                                                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                                    <span class="text-center">3x por semana - 8 exercicios por dia</span>
+                                                    <span class="text-center">Duração: 1h30 á 2h por treino</span>
+                                                    <span class="text-center">Duração com Paired Sets: 50m á 1h20 por treino</span>
+                                                </div>
+                                                <div
+                                                    class="col-12 d-flex flex-column justify-content-center align-items-center py-2 rounded-3 bg-success-50">
+                                                    <span class="text-center text-uppercase fw-bold">Vantagens: </span>
+                                                    <ul>
+                                                        <li>
+                                                            <span>
+                                                                Ideial para iniciantes com mais de quase 2h disponiveis para treiar.
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+    
+                                                </div>
+                                                <div
+                                                    class="col-12 d-flex flex-column justify-content-center align-items-center py-2 rounded-3 bg-danger-50">
+                                                    <span class="text-center text-uppercase fw-bold">Desvantagens:</span>
+                                                    <ul>
+                                                        <li>
+                                                            <span>
+                                                                Ruim para pessoas com sobrepeso e homens com mais de 50 anos.
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+    
+                                                </div>
+                                                <div class="col-12 gap-2 d-flex justify-content-center align-items-center">
+                                                    <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                                        data-bs-slide="prev">
+                                                        <span class=" text-black correct-size"
+                                                            style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                            < </span>
+                                                    </button>
+    
+                                                    <button class="btn btn-success text-uppercase" data-bs-dismiss="modal"
+                                                        onclick="chosenRoutine('Fullbody')">Quero esse!</button>
+    
+                                                    <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                                        data-bs-slide="next">
+                                                        <span class=" text-black correct-size"
+                                                            style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                            > </span>
+                                                    </button>
+    
+                                                </div>
+    
+                                            </div>
+                                        </div>
+    
+                                        <div class="carousel-item ">
+                                            <div class="row gap-3">
+                                                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                                    <h2 class="text-center">Push/Pull</h2>
+                                                </div>
+    
+                                                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                                    <span class="text-center">4x na semana - 4 exercicios por dia</span>
+                                                    <span class="text-center">Duração: 1h á 1h30 por treino</span>
+                                                    <span class="text-center">Duração com Paired Sets: 35 min a 1h por treino</span>
+                                                </div>
+                                                <div
+                                                    class="col-12 d-flex flex-column justify-content-center align-items-center py-2 rounded-3 bg-success-50">
+                                                    <span class="text-center text-uppercase fw-bold">Vantagens: </span>
+                                                    <ul>
+                                                        <li>
+                                                            <span>
+                                                                A duração de cada treino é menor.
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                Funciona bem para Iniciantes, Intermediários e Avançados.
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                Ideal para pessoas com sobrepeso e homens acima dos 50 anos.
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div
+                                                    class="col-12 d-flex flex-column justify-content-center align-items-center py-2 rounded-3 bg-danger-50">
+                                                    <span class="text-center text-uppercase fw-bold">Desvantagens:</span>
+                                                    <ul>
+                                                        <li>
+                                                            <span>
+                                                                Tem menos dias de descanso, você treina 4x na semana.
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+    
+                                                <div class="col-12 gap-2 d-flex  justify-content-center align-items-center">
+                                                    <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                                        data-bs-slide="prev">
+                                                        <span class=" text-black correct-size"
+                                                            style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                            < </span>
+                                                    </button>
+    
+                                                    <button class="btn btn-success text-uppercase" data-bs-dismiss="modal"
+                                                        onclick="chosenRoutine('PushPull')">Quero esse!</button>
+    
+                                                    <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                                        data-bs-slide="next">
+                                                        <span class=" text-black correct-size"
+                                                            style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                            > </span>
+                                                    </button>
+    
+                                                </div>
+    
+                                            </div>
+                                        </div>
+    
+                                        <div class="carousel-item ">
+                                            <div class="row gap-3">
+                                                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                                    <h2 class="text-center">Upper/Lower</h2>
+                                                </div>
+    
+                                                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                                    <span class="text-center">4x na semana - 8 exercicios por dia</span>
+                                                    <span class="text-center">Duração: 1h á 1h30 por treino</span>
+                                                    <span class="text-center">Duração com Paired Sets: 35 min a 1h por treino</span>
+                                                </div>
+                                                <div
+                                                    class="col-12 d-flex flex-column justify-content-center align-items-center  rounded-3 bg-success-50">
+                                                    <span class="text-center text-uppercase fw-bold">Vantagens: </span>
+                                                    <ul>
+                                                        <li>
+                                                            <span>
+                                                                Rotina de menor duração.
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                Ideial para iniciantes a avançados.
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                Ideal para praticantes de luta, futebol, volley e outros
+                                                                esportes.
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div
+                                                    class="col-12 d-flex flex-column justify-content-center align-items-center rounded-3 bg-danger-50">
+                                                    <span class="text-center text-uppercase fw-bold">Desvantagens:</span>
+                                                    <ul>
+                                                        <li>
+                                                            <span>
+                                                                Tem menos dias de descanso, você treina 4x na semana.
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+    
+                                                <div class="col-12 gap-2 d-flex  justify-content-center align-items-center">
+                                                    <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                                        data-bs-slide="prev">
+                                                        <span class=" text-black correct-size"
+                                                            style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                            < </span>
+                                                    </button>
+    
+                                                    <button class="btn btn-success text-uppercase" data-bs-dismiss="modal"
+                                                        onclick="chosenRoutine('UpperLower')">Quero esse!</button>
+    
+                                                    <button class="btn btn-gray" type="button" data-bs-target="#quizRotina"
+                                                        data-bs-slide="next">
+                                                        <span class=" text-black correct-size"
+                                                            style="width: 17px !important;  height: 17px !important; font-size: 1rem;">
+                                                            > </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                `
+                return
+            }
+            else {
+                chosenRoutine('Fullbody')
+                location.reload();
+            }
+        }
+
+        var trainingFull = JSON.parse(data.Training);
+        var Requireds = JSON.parse(data.Requireds);
+
+        var ChosenTraining = data.ChosenTraining.charAt(0).toLowerCase() + data.ChosenTraining.slice(1);
+        var training = trainingFull[ChosenTraining];
+
+        let indexDaysOfWeek = Requireds.findIndex(e => e.name == 'DaysChosen')
+        var daysOfWeek = converterNomesDias(Requireds[indexDaysOfWeek].value)
+
+        if (data.ChosenTraining == 'Fullbody') {
+            document.getElementById('contentHome').innerHTML = `
+            <div class="col-11 d-flex justify-content-start align-items-center m-auto">
+                <span class="reset text-start text-uppercase fw-bolder" style="font-size: 20px; color:
+                #707070;">Minha rotina</span>
+            </div>
+            <div class="col-11 mt-3 m-auto">
+                <div class="card w-100">
+                    <div class="card-body">
+        
+                        <h5 class="title-chosen-rotin">${data.ChosenTraining}</h5>
+        
+                        <div id="daysOfWeek" class="col-12 d-flex gap-1 reset-Padding-x">
+                            <div class="squad2-active">${daysOfWeek[0]}</div>
+                            <div class="squad2-active">${daysOfWeek[1]}</div>
+                            <div class="squad2-active">${daysOfWeek[2]}</div>
+                        </div>
+        
+                        <p id='nameExers' class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
+                            
+                        </p>
+        
+                        <form method="POST" class="d-flex justify-content-center align-items-center"
+                            action="{{ url_for('user.tracker') }}">
+                            <input type="hidden" name="data" value='${data.Training}'>
+                            <input type="hidden" name="TrainingInExecution" value='false'>
+                            <input type="hidden" name="chosenDay" value="0">
+                            <button class="btn "
+                                style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
+                                type="submit">Iniciar Rotina</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            `
+
+            const nameExers = document.getElementById('nameExers')
+            training.forEach(e => {
+                nameExers.innerHTML += `${e.name}, `
+            })
+
+            //const daysOfWeek = document.getElementById('daysOfWeek')
+            //Requireds.forEach(e => { 
+            //    daysOfWeek.innerHTML += `<div class="squad2-active">${}</div> `
+            //})
+
+
+
+        }
+
+        else {
+            document.getElementById('contentHome').innerHTML = `
+            <div class="col-11 mt-3 m-auto">
+                <div class="card w-100 ">
+                    <div class="card-body">
+        
+                        <h5 class="title-chosen-rotin">${data.ChosenTraining}</h5>
+        
+                        <div class="col-12 d-flex gap-1 reset-Padding-x">
+                            <div class="squad2-active">${daysOfWeek[0]}</div>
+                            <div class="squad2-active">${daysOfWeek[1]}</div>
+                        </div>
+        
+                        <p id="nameExers1" class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
+                            
+                        </p>
+        
+                        <form method="POST" class="d-flex justify-content-center align-items-center"
+                            action="{{ url_for('user.tracker') }}">
+                            <input type="hidden" name="data" value='${data.Training}'>
+                            <input type="hidden" name="TrainingInExecution" value='false'>
+                            <input type="hidden" name="chosenDay" value=1>
+                            <button class="btn "
+                                style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
+                                type="submit">Iniciar Rotina</button>
+                        </form>
+                    </div>
+                </div>
+        
+                <div class="card w-100 mt-2">
+                    <div class="card-body">
+                        <h5 class="title-chosen-rotin">${data.ChosenTraining}</h5>
+        
+                        <div class="col-12 d-flex gap-1 reset-Padding-x">
+                            <div class="squad2-active">${daysOfWeek[2]}</div>
+                            <div class="squad2-active">${daysOfWeek[3]}</div>
+                        </div>
+        
+                        <p id="nameExers2" class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
+
+                        </p>
+        
+                        <form method="POST" class="d-flex justify-content-center align-items-center"
+                            action="{{ url_for('user.tracker') }}">
+                            <input type="hidden" name="data" value='${data.Training}'>
+                            <input type="hidden" name="TrainingInExecution" value='false'>
+                            <input type="hidden" name="chosenDay" value=2>
+                            <button class="btn "
+                                style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
+                                type="submit">Iniciar Rotina</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            `
+
+            const nameExers1 = document.getElementById('nameExers1');
+            training.d1.forEach((e, index) => {
+                nameExers1.innerHTML += `${e.name}${index === training.d1.length - 1 ? '' : ', '}`;
+            });
+
+            const nameExers2 = document.getElementById('nameExers2');
+            training.d2.forEach((e, index) => {
+                nameExers2.innerHTML += `${e.name}${index === training.d2.length - 1 ? '' : ', '}`;
+            });
+
+        }
+    }
+
+    function converterNomesDias(diasAbreviados) {
+        var nomesCompletos = [];
+
+        for (var i = 0; i < diasAbreviados.length; i++) {
+            var diaAbreviado = diasAbreviados[i];
+            var nomeCompleto;
+
+            switch (diaAbreviado) {
+                case "Seg":
+                    nomeCompleto = "Segunda";
+                    break;
+                case "Ter":
+                    nomeCompleto = "Terça";
+                    break;
+                case "Quar":
+                    nomeCompleto = "Quarta";
+                    break;
+                case "Quin":
+                    nomeCompleto = "Quinta";
+                    break;
+                case "Sex":
+                    nomeCompleto = "Sexta";
+                    break;
+                case "Sab":
+                    nomeCompleto = "Sábado";
+                    break;
+                case "Dom":
+                    nomeCompleto = "Domingo";
+                    break;
+                default:
+                    nomeCompleto = "Dia não encontrado";
+            }
+
+            nomesCompletos.push(nomeCompleto);
+        }
+
+        return nomesCompletos;
+    }
+
+    async function chosenRoutine(rotina) {
+        rotina
+        const response = await fetch('/saveTraining', {
+            method: 'POST',
+            body: JSON.stringify(rotina),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.redirected) {
+            window.location.replace(response.url);
+        } else {
+            //loadExer(false)
+        }
+    }
+
+    function creatBtn(txt) {
+        const newDiv = document.createElement('div')
+        newDiv.id = "float-btn"
+        newDiv.innerHTML = ` 
+            <div class="row pe-3 ps-3 pt-2 pb-2 reset-Padding">
+    
+                <div class="col-12 d-flex justify-content-center align-items-center">
+                    <span class="reset text-center">${txt}</span>
+                </div>
+    
+    
+                <div class="col-12 d-flex justify-content-center align-items-center gap-3">
+                    <button id="positivo" class="positivo" >Continuar</button>
+                    <button class="negativo">Descartar</button>
+                </div>
+            </div>
+        `
+        document.body.appendChild(newDiv);
+    }
+
+    window.creatBtn = creatBtn
+    window.chosenRoutine = chosenRoutine
+    window.converterNomesDias = converterNomesDias
+    window.verificationChosenTraining = verificationChosenTraining
+
 </script>
 
 {% endblock %}

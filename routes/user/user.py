@@ -12,7 +12,7 @@ def userRoute():
   if 'login' in session:
     ip_found = Db.get_login(session['login']).data
 
-    name = json.loads(ip_found[3])[0]
+    name = json.loads(ip_found[3])
     name = name["contact"]["name"]
 
     numbertraining = ip_found[-1]
@@ -88,6 +88,17 @@ def tracker():
   fullTraining = data
   user_found = Db.get_login(session['login']).data
 
+  
+
+  if 'TrainingInExecution' in request.form:
+    if request.form['TrainingInExecution'] == 'true':
+      pass
+    else:
+      userData = json.loads(user_found[3])
+      userData['TrainingInExecution'] = "false" 
+      
+      Db.update_data('Login', session['login'], 'UserData', userData)
+
   chosen = user_found[-2] #ChosenTrainig -- string
 
   if user_found[-1] is not None:
@@ -124,7 +135,7 @@ def tracker():
               # data = data[rotina][f"d{chosenDay}"]
               tr = data[rotina]
               for day in tr:
-                  x = tr['chosenDay']
+                  x = chosenDay
                   if day == f"d{x}":
                     data = tr[day]
         
@@ -146,7 +157,11 @@ def tracker():
             listExer = Exercises.getSuggestionExerLight(name)
             exer['newExer'] =  listExer   
 
-  inf = {'training': data[f'd{chosenDay}'], 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
+
+  if chosenDay == '0':
+    inf = {'training': data['fullbody'], 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
+  else:
+    inf = {'training': data, 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
   return getUrl('tracker.html', value=inf)
 
 

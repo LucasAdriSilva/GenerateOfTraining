@@ -28,7 +28,7 @@ def index():
             'days': ip_found[-5]
           }
         # return render_template("creatTraining.html", data=data)
-        return getUrl("creatTraining.html", value = data)
+        return redirect(url_for('basicScreens.creatTraining'))
   
       # Verifica se é o priemiro treino
       if  ip_found[-1] is not None:
@@ -45,9 +45,9 @@ def index():
         #   trainingValue = last_training[value]
         
         userData = json.loads(ip_found[3])
-        for data in userData[0]:
+        for data in userData:
           if data == 'FirstAcess':
-            newInfo = userData[0][data]
+            newInfo = userData[data]
         if newInfo == 'true':
           newInfo = True
         else:
@@ -104,7 +104,7 @@ def sendTraining():
     if request.method == "POST":
         treino = request.get_json()
         session['training'] = treino
-        return redirect(url_for('basicScreens.index'))
+        return redirect(url_for('basicScreens.creatTraining'))
  
 @basicScreens.route("/creatTraining", methods=["GET"])
 def creatTraining():
@@ -114,7 +114,7 @@ def creatTraining():
   all = Exercises.getExercisesBodyWeight()
   musc = Exercises.getExercisesMusc()
 
-  if 'training' in session:
+  if 'training' in session :
     treino = session['training']
   else:
     if user_found[-2] is not None:
@@ -124,11 +124,11 @@ def creatTraining():
           if rotina.upper() == user_found[-2].upper():
             treino = trainingOfDb[rotina]
       else:
-        data = {'nav': 'home'}
+        data = {'nav': 'home','training': ''}
         return getUrl("firstAcess.html", value=data)
     else:
-      data = {'nav': 'home'}
-      return getUrl("creatTraining.html", value=data)
+        data = {'nav': 'home'}
+        return getUrl("home.html", value=data)
 
   # pega o valor dos requireds
   if user_found[6] is not None:

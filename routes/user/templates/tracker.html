@@ -53,8 +53,11 @@
     </div>
 </div>
 
+<!-- <button id="saveButton" class="btn btn-primary">Salvar treino incompleto</button> -->
+
 <script type="module">
     import { creatCronometro, stopCounter, incrementDuration, decrementDuration } from './assets/js/cronometro.js';
+    import { apiPost } from './assets/js/api.js'
 
     $(document).ready(function () {
         $('.Header').each(function () {
@@ -69,7 +72,7 @@
             });
         });
     });
-
+    let oldNewtraining;
     var newTraining = [];
     var new_order = [];
     var numberInput = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -125,7 +128,7 @@
                     fontSerie.style.color = 'white';
                     fontAnt.style.color = 'white';
                     bgFontSt.style.color = 'white';
-                    kg != null ? kg.style.color = 'white': null
+                    kg != null ? kg.style.color = 'white' : null
                     repts.style.color = 'white'
 
                 }
@@ -134,7 +137,7 @@
                     fontSerie.style.color = '#707070';
                     fontAnt.style.color = '#707070';
                     bgFontSt.style.color = '#707070';
-                    kg != null ? kg.style.color = '#707070': null
+                    kg != null ? kg.style.color = '#707070' : null
                     repts.style.color = '#707070'
                 }
             })
@@ -249,8 +252,8 @@
         let str = 'exer' + id + 'repts' + serie
 
         input.value == '0' ? dangerInput(str) : clearInput(str)
-        inputKg != null ? inputKg.value == '0' ? dangerInput(strKG) : clearInput(strKG): null
-        
+        inputKg != null ? inputKg.value == '0' ? dangerInput(strKG) : clearInput(strKG) : null
+
     }
 
     function creatExers(data) {
@@ -286,7 +289,7 @@
                         </div>
                     </div>
                 </div>
-                ${e.kg? `
+                ${e.kg ? `
                         <div class="Main accordion-collapse collapse" id="${'collapse' + index}" data-bs-parent="#bodyAccordion">
                             <div class="row pe-2 ps-2 py-2">
                             <div class="col-2 row-header-line-exer">Série</div>
@@ -297,8 +300,8 @@
                                 <i class="bi bi-check-lg"></i>
                             </div>
                         </div>`
-                    : 
-                    e.segs? `
+                    :
+                    e.segs ? `
                     <div class="Main accordion-collapse collapse" id="${'collapse' + index}" data-bs-parent="#bodyAccordion">
                         <div class="row pe-2 ps-2 py-2">
                         <div class="col-2 row-header-line-exer">Série</div>
@@ -324,14 +327,14 @@
 
             const elements = [];
 
-            if (e.kg){
+            if (e.kg) {
                 for (let id = 1; id <= e.rept; id++) {
                     var reptId = eval("e.rept" + id);
                     var reptKg = eval("e.kg" + id);
                     let element = `
                         <div id="${'exer' + index + 'line' + id}" class="row pe-2 ps-2 py-2 ${id % 2 == 0 ? 'bg-par-exer' : ''}">
                             <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
-                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-4 centers font-exer-ant">${reptId != null?reptId:0}x${reptKg != null?reptKg:0}</div>
+                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-4 centers font-exer-ant">${reptId != null ? reptId : 0}x${reptKg != null ? reptKg : 0}</div>
                             <div id="${'exer' + index + 'bgFontSt' + id}" class="col-2 centers font-status">
                                 <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" value="0">
                             </div>
@@ -347,12 +350,12 @@
                 }
             }
             else {
-                for (let id = 1; id <= e.rept; id++) { 
+                for (let id = 1; id <= e.rept; id++) {
                     var reptId = eval("e.rept" + id);
                     let element = `
                         <div id="${'exer' + index + 'line' + id}" class="row pe-2 ps-2 py-2 ${id % 2 == 0 ? 'bg-par-exer' : ''}">
                             <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
-                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-5 centers font-exer-ant">${reptId != null?reptId:0}x</div>
+                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-5 centers font-exer-ant">${reptId != null ? reptId : 0}x</div>
                             <div id="${'exer' + index + 'bgFontSt' + id}" class="col-3 centers font-status">
                                 <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" value="0">
                             </div>
@@ -379,6 +382,8 @@
     });
 
     function addTraining(id, serie) {
+        oldNewtraining = true
+
         let strKG = 'exer' + id + 'kg' + serie
         let str = 'exer' + id + 'repts' + serie
         clearInput(str)
@@ -391,7 +396,7 @@
         let index = newTraining.findIndex(e => e.name === newData.name)
 
         if (index == -1) {
-            if ('segs' in newData ) {
+            if ('segs' in newData) {
                 newData[`rept${serie}`] = parseInt(input.value);
                 newTraining.push(newData);
             }
@@ -408,14 +413,14 @@
             }
 
         } else {
-            if ('segs' in newData ) {
+            if ('segs' in newData) {
                 newTraining[index][`rept${serie}`] = parseInt(input.value);
             }
 
             if (!('segs' in newData) && !('kg' in newData)) {
                 newTraining[index][`rept${serie}`] = parseInt(input.value);
             }
-           
+
 
             if ('kg' in newData) {
                 newTraining[index][`rept${serie}`] = parseInt(input.value);
@@ -443,14 +448,14 @@
             }
         });
 
-        let numberexer
+        let numberexer = data.training.length
 
-        if (data.chosenDay == 'd0') {
-            numberexer = data.training.length
-        }
-        else {
-            numberexer = data.training[data.chosenDay].length
-        }
+        //if (data.chosenDay == 'd0') {
+        //    numberexer = data.training.length
+        //}
+        //else {
+        //    numberexer = data.training.length
+        //}
 
         if (newTraining.length == numberexer) {
             let training = data.fullTraining
@@ -482,6 +487,44 @@
             }
         }
     }
+
+
+    async function saveIncomplet() {
+        if (oldNewtraining != true) {
+            console.log('Não Salvou');
+            return;
+        }
+
+        const data = JSON.parse(document.getElementById('dataDB').innerHTML.replace(/'/g, '"').replace(/True/g, 'true'));
+        
+        if (newTraining.findIndex(e => e == data.chosenDay) == -1) {
+            newTraining.push(data.chosenDay);
+        }
+        try {
+            const response = await fetch('/saveIncomplet', {
+                method: 'POST',
+                body: JSON.stringify(newTraining),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                console.log('Treino Salvo', newTraining);
+                oldNewtraining = false
+            } else {
+                loading(false);
+                throw new Error('Erro na requisição:', response.status);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+
+    //document.getElementById("saveButton").addEventListener("click", async function () {
+    //    await saveIncomplet();
+    //});
 
 
 
@@ -916,11 +959,55 @@
         return array1
     }
 
+    setInterval(saveIncomplet, 600000);
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        await new Promise(resolve => setTimeout(resolve, 300)); // Aguarda 500ms
+        let data = await apiPost('getData', false);
+        let TrainingInExecution = data.TrainingInExecution;
+        console.clear();
+        console.log(training);
+        console.log(TrainingInExecution);
+        if (TrainingInExecution == "false") return;
+        TrainingInExecution.pop();
+
+
+        TrainingInExecution.forEach(e => {
+            let indexExer = training.findIndex(i => i.name == e.name)
+            if (indexExer == -1) return;
+            let x = 1;
+
+            while (x <= e.rept) {
+                if (`rept${x}` in e) {
+                    const inputExer = document.getElementById(`exer${indexExer}repts${x}`);
+                    inputExer != null ? inputExer.value = e[`rept${x}`] : null
+
+                    const checkExer = document.getElementById(`exer${indexExer}check${x}`);
+                    checkExer != null ? checkExer.checked = true : null
+
+                    const lineexer = document.getElementById(`exer${indexExer}line${x}`);
+                    lineexer.classList.add('bg-sucess-exer');
+
+                }
+                x++; // Adicione essa linha para incrementar o valor de x a cada iteração
+
+            }
+
+
+        })
+        newTraining = TrainingInExecution
+        console.log(newTraining)
+
+
+    });
+
     window.stopCounter = stopCounter;
     window.incrementDuration = incrementDuration;
     window.decrementDuration = decrementDuration;
     window.creatCronometro = creatCronometro;
     window.finishedTraining = finishedTraining;
+    window.saveIncomplet = saveIncomplet;
+
 
 </script>
 {% endblock %}

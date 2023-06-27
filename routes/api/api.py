@@ -95,8 +95,13 @@ def saveTrainingTracker():
     if name.upper() == chosen.upper():
       oldTraining[name] = data
 
+  userData = json.loads(user_found[3])
+  userData['TrainingInExecution'] = "false"
+
   Db.update_data('Login', session['login'], 'historyTraining', tr)
   Db.update_data('Login', session['login'], 'Training', oldTraining)
+  Db.update_data('Login', session['login'], 'UserData', userData )
+
 
   response_data = {"message": "Training saved successfully."}
   return jsonify(response_data), 200
@@ -146,7 +151,7 @@ def webhookRegisterUser():
 
 @api.route('/create/<name>/<password>', methods=['GET'])
 def create_user(name, password):
-  info = [{
+  info = {
     "contact": {
       "id": "9747b5ff-5126-44e8-8807-7beb947fc31e",
       "name": name,
@@ -156,8 +161,10 @@ def create_user(name, password):
       "phone_number": "9999999999",
       "phone_local_code": "55",
       "address_country": "BR"
-    }
-  }]
+    },
+    "FirstAcess": "true",
+    "TrainingInExecution": "false"
+  }
   data = {
     'Login': name,
     'Password': generate_password_hash(password),
@@ -214,16 +221,46 @@ def getData():
         chaves = ['Ip', 'Login', 'Password', 'UserData', 'BaseTraining', 'TrainingDays', 'Requireds', 'Training', 'ChosenTraining', 'HistoryTraining']
         data = dict(zip(chaves, data))
 
+        userData = json.loads(data['UserData'])
+        trainingInExecution = userData.get('TrainingInExecution', [])  # Se 'TrainingInExecution' não estiver presente, atribui uma lista vazia
+
         if data['Training'] is not None:
-          response_data = {'Training': data['Training'], 'ChosenTraining': data['ChosenTraining'], 'TrainingDays': data['TrainingDays'] }
+            response_data = {'Training': data['Training'], 'ChosenTraining': data['ChosenTraining'], 'TrainingDays': data['TrainingDays'], 'Requireds': data['Requireds'], 'TrainingInExecution': trainingInExecution}
         else:
-          response_data = {'Training': data['BaseTraining'], 'ChosenTraining': data['ChosenTraining'], 'TrainingDays': data['TrainingDays'] }
+            response_data = {'Training': data['BaseTraining'], 'ChosenTraining': data['ChosenTraining'], 'TrainingDays': data['TrainingDays'], 'Requireds': data['Requireds'], 'TrainingInExecution': trainingInExecution}
         
         return jsonify(response_data), 200
       else:
         response_data = {'message': "Usuário não logado"}
         return jsonify(response_data), 400
 
+
     except Exception as e:
       response_data = {'message': f"Erro na requisição -> {e}"}
       return jsonify(response_data), 400
+
+@api.route('/saveIncomplet', methods=['POST'])
+def saveIncomplet():
+  try:
+      if 'login' in session:
+
+        trainingIncomplet = request.get_json()
+        data = Db.get_login(session['login']).data
+        chaves = ['Ip', 'Login', 'Password', 'UserData', 'BaseTraining', 'TrainingDays', 'Requireds', 'Training', 'ChosenTraining', 'HistoryTraining']
+        data = dict(zip(chaves, data))
+
+        userData = json.loads(data['UserData'])
+
+        userData['TrainingInExecution'] = trainingIncomplet
+
+        Db.update_data('Login', session['login'], 'UserData', userData )
+
+        
+        return 'Save data', 200
+      else:
+        response_data = {'message': "Usuário não logado"}
+        return 'Not Save Data', 400
+
+  except Exception as e:
+    response_data = {'message': f"Erro na requisição -> {e}"}
+    return 'Err in request', 400

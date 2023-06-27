@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div id="contentHome" class="row reset-Padding-x mt-5">
+    <div class="col-11 d-flex justify-content-start align-items-center m-auto">
+        <span class="reset text-start text-uppercase fw-bolder" style="font-size: 20px; color:
+        #707070;">Minha rotina</span>
+    </div>
+    {% if data[3].nameRotina == 'Fullbody' %}
+    <div class="col-11 mt-3 m-auto">
+        <div class="card w-100">
+            <div class="card-body">
+
+                <h5 class="title-chosen-rotin">{{data[3].nameRotina}}</h5>
+
+                <div class="col-12 d-flex gap-1 reset-Padding-x">
+                    <div class="squad2-active">segunda</div>
+                    <div class="squad2-active">quarta</div>
+                    <div class="squad2-active">sexta</div>
+                </div>
+
+                <p class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
+                    {%for e in data[3].training%}
+                    {{e.name}},
+                    {%endfor%}
+                </p>
+
+                <form method="POST" class="d-flex justify-content-center align-items-center"
+                    action="{{ url_for('user.tracker') }}">
+                    <input type="hidden" name="data" value="{{ data[3].training }}">
+                    <input type="hidden" name="chosenDay" value="0">
+                    <button class="btn "
+                        style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
+                        type="submit">Iniciar Rotina</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="col-11 mt-3 m-auto">
+        <div class="card w-100 ">
+            <div class="card-body">
+
+                <h5 class="title-chosen-rotin">{{data[3].nameRotina}}</h5>
+
+                <div class="col-12 d-flex gap-1 reset-Padding-x">
+                    <div class="squad2-active">segunda</div>
+                    <div class="squad2-active">quinta</div>
+                </div>
+
+                <p class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
+                    {%for e in data[3].training.d1%}
+                    {{e.name}},
+                    {%endfor%}
+                </p>
+
+                <form method="POST" class="d-flex justify-content-center align-items-center"
+                    action="{{ url_for('user.tracker') }}">
+                    <input type="hidden" name="data" value="{{ data[3].training }}">
+                    <input type="hidden" name="chosenDay" value=1>
+                    <button class="btn "
+                        style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
+                        type="submit">Iniciar Rotina</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card w-100 mt-2">
+            <div class="card-body">
+                <h5 class="title-chosen-rotin">{{data[3].nameRotina}}</h5>
+
+                <div class="col-12 d-flex gap-1 reset-Padding-x">
+                    <div class="squad2-active">terça</div>
+                    <div class="squad2-active">sexta</div>
+                </div>
+
+                <p class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
+                    {%for e in data[3].training.d2%}
+                    {{e.name}},
+                    {%endfor%}
+                </p>
+
+                <form method="POST" class="d-flex justify-content-center align-items-center"
+                    action="{{ url_for('user.tracker') }}">
+                    <input type="hidden" name="data" value="{{ data[3].training }}">
+                    <input type="hidden" name="chosenDay" value=2>
+                    <button class="btn "
+                        style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
+                        type="submit">Iniciar Rotina</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    let data;
+    
+    window.addEventListener('load', async function () {
+        debugger
+        data = await apiPost('getData', false)
+        data = JSON.parse(data)
+
+    })
+</script>
+
+{% endblock %}
