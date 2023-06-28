@@ -115,8 +115,9 @@ def webhookRegisterUser():
   data = json.loads(data)
 
   data['FirstAcess'] = True
-  status = data["status"]
-  if status == "approved":
+  data['TrainingInExecution'] = False
+
+  if data["status"] == "approved":
     email = data['contact']['email']
 
     newPassword = random_generator()
@@ -129,19 +130,8 @@ def webhookRegisterUser():
       subject = "Tracker BWA"
       send_email('api@gmail.com', content, subject)
     
-    newUser = {'Login': email, 'Password': password_hash, 'UserData': [data]}
+    newUser = {'Login': email, 'Password': password_hash, 'UserData': data}
     Db.newUser(newUser)
-
-  # info = {'Login': 'Lucas', 'Password': password_hash, 'UserData': [{'teste': 1},{'teste': 2}]}
-  #Salvar dados enviado pelo webhook
-  # Db.newUser(info)
-
-  # string = json.dumps(newUser)
-
-  # now = datetime.datetime.now()
-  # content = f"{now} -- Usuario salvo -- dados ||| data = {string} |||"
-  # log = Logs('logs', True, content, 'SaveUser')
-  # Logs.saveLogs(log)
 
   response = Response()
   response.status_code = 200
@@ -257,6 +247,32 @@ def saveIncomplet():
 
         
         return 'Save data', 200
+      else:
+        response_data = {'message': "Usuário não logado"}
+        return 'Not Save Data', 400
+
+  except Exception as e:
+    response_data = {'message': f"Erro na requisição -> {e}"}
+    return 'Err in request', 400
+
+
+@api.route('/Delet/TrainingInExecution', methods=['POST'])
+def DelTrainingInExecution():
+  try:
+      if 'login' in session:
+
+        data = Db.get_login(session['login']).data
+        chaves = ['Ip', 'Login', 'Password', 'UserData', 'BaseTraining', 'TrainingDays', 'Requireds', 'Training', 'ChosenTraining', 'HistoryTraining']
+        data = dict(zip(chaves, data))
+
+        userData = json.loads(data['UserData'])
+
+        userData['TrainingInExecution'] = "false"
+
+        Db.update_data('Login', session['login'], 'UserData', userData )
+        
+        
+        return json.dumps('Sucess Delet'), 200
       else:
         response_data = {'message': "Usuário não logado"}
         return 'Not Save Data', 400

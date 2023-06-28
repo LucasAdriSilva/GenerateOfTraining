@@ -84,12 +84,13 @@ def pageUser():
 @user.route('/tracker',  methods=["POST"])
 def tracker():
   data = request.form['data']
-  data = eval(data)
+  data = json.loads(data)
+
   fullTraining = data
+
   user_found = Db.get_login(session['login']).data
-
   
-
+  #Verifica se tem algum treino em execução
   if 'TrainingInExecution' in request.form:
     if request.form['TrainingInExecution'] == 'true':
       pass

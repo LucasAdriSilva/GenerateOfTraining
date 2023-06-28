@@ -355,7 +355,41 @@ class Db:
         print(f"Tempo gasto em getTickets(): {end_time - start_time} segundos")
         return response
 
+    def fixColum():
+        start_time = time.time()
+        response = Response()
+        try:
+            conn = sqlite3.connect(DATABASE)
+            c = conn.cursor()
+            c.execute("SELECT UserData FROM user")
+            data = c.fetchall()
 
+            for row in data:
+                user_data = json.loads(row[0]) 
+                if isinstance(user_data, list):
+                    print(user_data)
+                    print(type(user_data))
+
+                    fix_data = user_data[0]
+                    fix_data['FirstAcess'] = True
+                    fix_data['TrainingInExecution'] = False
+                    # Atualizar o valor no banco de dados
+                    c.execute("UPDATE user SET UserData = ? WHERE UserData = ?", (json.dumps(fix_data), row[0]))
+
+
+            conn.commit()  # Confirmar as alterações no banco de dados
+            c.close()
+
+            response.ok = True
+        except Exception as e:
+            end_time = time.time()
+            print(f"Tempo gasto em getTickets(): {end_time - start_time} segundos ---- ERR: {e}")
+            response.ok = False
+            return response
+        end_time = time.time()
+        print(f"Tempo gasto em getTickets(): {end_time - start_time} segundos")
+        return response
+            
 
 
 

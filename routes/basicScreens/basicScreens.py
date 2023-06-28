@@ -45,16 +45,20 @@ def index():
         #   trainingValue = last_training[value]
         
         userData = json.loads(ip_found[3])
+        newInfo = False  # Valor padrão
+        
         for data in userData:
-          if data == 'FirstAcess':
-            newInfo = userData[data]
+            if data == 'FirstAcess':
+                newInfo = userData[data]
+                break
+        
         if newInfo == 'true':
-          newInfo = True
+            newInfo = True
         else:
-          newInfo = False
-
+            newInfo = False
+        
         if newInfo is None:
-          newInfo = True
+            newInfo = True
           
         data= {
           'nav': 'home', 

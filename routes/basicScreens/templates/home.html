@@ -23,8 +23,10 @@
         var lastElement = trainingInExecution[trainingInExecution.length - 1];
         trainingInExecution.splice(trainingInExecution.length - 1)
         
+        //Cria o Btn com o texto em parametro
         creatBtn('Verificamos que você tem um treino em andamento')
-        let btn = window.document.getElementById('positivo')
+        //Cria a função click do btn de continuar
+        const btn = window.document.getElementById('positivo')
         btn.addEventListener("click", async function () {
 
             if (typeof lastElement === "string") {
@@ -44,7 +46,7 @@
                 var TrainingInExecution = document.createElement('input');
                 TrainingInExecution.type = 'hidden';
                 TrainingInExecution.name = 'TrainingInExecution';
-                TrainingInExecution.value = JSON.stringify(true);
+                TrainingInExecution.value = true;
 
 
                 var inputChosenDay = document.createElement('input');
@@ -67,11 +69,16 @@
             }
         });
 
-
+        //Seta o TrainingInExecution como false no banco e esconde o btn
+        const btnCancel = document.getElementById('negativo')
+        btnCancel.addEventListener("click", async function () {
+            let response = await apiPost('Delet/TrainingInExecution', false)
+            response == 'Sucess Delet'? document.getElementById('float-btn').classList.add('d-none'): null
+        })
     })
 
     function verificationChosenTraining(data) {
-
+        
         if (data.ChosenTraining == null) {
             if (data.TrainingDays == 4) {
                 document.getElementById('contentHome').innerHTML = `
@@ -305,16 +312,15 @@
                 location.reload();
             }
         }
-
+        
         var trainingFull = JSON.parse(data.Training);
         var Requireds = JSON.parse(data.Requireds);
 
         var ChosenTraining = data.ChosenTraining.charAt(0).toLowerCase() + data.ChosenTraining.slice(1);
         var training = trainingFull[ChosenTraining];
-
+        
         let indexDaysOfWeek = Requireds.findIndex(e => e.name == 'DaysChosen')
         var daysOfWeek = converterNomesDias(Requireds[indexDaysOfWeek].value)
-
         if (data.ChosenTraining == 'Fullbody') {
             document.getElementById('contentHome').innerHTML = `
             <div class="col-11 d-flex justify-content-start align-items-center m-auto">
@@ -340,7 +346,7 @@
                         <form method="POST" class="d-flex justify-content-center align-items-center"
                             action="{{ url_for('user.tracker') }}">
                             <input type="hidden" name="data" value='${data.Training}'>
-                            <input type="hidden" name="TrainingInExecution" value='false'>
+                            <input type="hidden" name="TrainingInExecution" value=false>
                             <input type="hidden" name="chosenDay" value="0">
                             <button class="btn "
                                 style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
@@ -350,23 +356,18 @@
                 </div>
             </div>
             `
-
             const nameExers = document.getElementById('nameExers')
             training.forEach(e => {
                 nameExers.innerHTML += `${e.name}, `
             })
-
-            //const daysOfWeek = document.getElementById('daysOfWeek')
-            //Requireds.forEach(e => { 
-            //    daysOfWeek.innerHTML += `<div class="squad2-active">${}</div> `
-            //})
-
-
-
         }
 
         else {
             document.getElementById('contentHome').innerHTML = `
+            <div class="col-11 d-flex justify-content-start align-items-center m-auto">
+                <span class="reset text-start text-uppercase fw-bolder" style="font-size: 20px; color:
+                #707070;">Minha rotina</span>
+            </div>
             <div class="col-11 mt-3 m-auto">
                 <div class="card w-100 ">
                     <div class="card-body">
@@ -385,7 +386,7 @@
                         <form method="POST" class="d-flex justify-content-center align-items-center"
                             action="{{ url_for('user.tracker') }}">
                             <input type="hidden" name="data" value='${data.Training}'>
-                            <input type="hidden" name="TrainingInExecution" value='false'>
+                            <input type="hidden" name="TrainingInExecution" value=false>
                             <input type="hidden" name="chosenDay" value=1>
                             <button class="btn "
                                 style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
@@ -410,7 +411,7 @@
                         <form method="POST" class="d-flex justify-content-center align-items-center"
                             action="{{ url_for('user.tracker') }}">
                             <input type="hidden" name="data" value='${data.Training}'>
-                            <input type="hidden" name="TrainingInExecution" value='false'>
+                            <input type="hidden" name="TrainingInExecution" value=false>
                             <input type="hidden" name="chosenDay" value=2>
                             <button class="btn "
                                 style="border-radius: 9px; border: none; background-color: #FFC400; color: #545454; width: 90%; margin-inline: auto; font-weight: 800; text-transform: uppercase;"
@@ -502,7 +503,7 @@
     
                 <div class="col-12 d-flex justify-content-center align-items-center gap-3">
                     <button id="positivo" class="positivo" >Continuar</button>
-                    <button class="negativo">Descartar</button>
+                    <button id="negativo" class="negativo">Descartar</button>
                 </div>
             </div>
         `

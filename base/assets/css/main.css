@@ -847,7 +847,48 @@ input[type="radio"]:checked {
 }
 
 
-.input-danger
+#float-btn {
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: calc(100vw - 30px);
+  max-height: 100px;
+  height: fit-content;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #A7A7A7;
+}
+
+#float-btn span {
+  color: #545454;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+#float-btn button {
+  width: clamp(fit-content, 25%, 30%);
+
+  font-size: 18px;
+  border-radius: 9px;
+
+}
+
+.positivo {
+  background-color: #ffffff;
+  color: rgba(25, 149, 168, 0.50);
+  border: 1px solid rgba(25, 149, 168, 0.50);
+  font-weight: 800;
+}
+
+.negativo {
+  background-color: #ffffff;
+  color: rgb(219, 85, 85);
+  border: 1px solid rgb(219, 85, 85);
+  font-weight: 800;
+}
 
 @media screen and (min-width: 992px) {
   .row-content-menu {

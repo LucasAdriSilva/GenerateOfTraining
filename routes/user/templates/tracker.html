@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<!-- <button id="saveButton" class="btn btn-primary">Salvar treino incompleto</button> -->
+<!-- <button id="saveButton" onclick="saveIncomplet()" class="btn btn-primary">Salvar treino incompleto</button> -->
 
 <script type="module">
     import { creatCronometro, stopCounter, incrementDuration, decrementDuration } from './assets/js/cronometro.js';
@@ -72,7 +72,9 @@
             });
         });
     });
+
     let oldNewtraining;
+    let valueNewTraining;
     var newTraining = [];
     var new_order = [];
     var numberInput = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -375,10 +377,28 @@
         document.getElementById('bodyAccordion').innerHTML = div;
     }
 
+    function fixNewTraining() {
+        valueNewTraining = [...training]
+        valueNewTraining.forEach(e => {
+            for (let x = 1; x <= e.rept; x++) {
+                const reptname = 'rept' + x;
+                const kgname = 'kg' + x;
+
+                if(e[reptname]) delete e[reptname]; 
+
+                if(e[kgname]) delete e[kgname];
+  
+            }
+        });
+    }
+
+
+
     window.addEventListener("load", function () {
         let data = creatVar()
         creatExers(data)
         creatEvents()
+        fixNewTraining()
     });
 
     function addTraining(id, serie) {
@@ -399,32 +419,39 @@
             if ('segs' in newData) {
                 newData[`rept${serie}`] = parseInt(input.value);
                 newTraining.push(newData);
+                valueNewTraining.push(newData)
             }
 
             if (!('segs' in newData) && !('kg' in newData)) {
                 newData[`rept${serie}`] = parseInt(input.value);
                 newTraining.push(newData);
+                valueNewTraining.push(newData)
             }
 
             if ('kg' in newData) {
                 newData[`rept${serie}`] = parseInt(input.value);
                 newData[`kg${serie}`] = parseInt(inputKg.value);
                 newTraining.push(newData);
+                valueNewTraining.push(newData)
             }
 
         } else {
             if ('segs' in newData) {
                 newTraining[index][`rept${serie}`] = parseInt(input.value);
+                valueNewTraining[index][`rept${serie}`] = parseInt(input.value);
             }
 
             if (!('segs' in newData) && !('kg' in newData)) {
                 newTraining[index][`rept${serie}`] = parseInt(input.value);
+                valueNewTraining[index][`rept${serie}`] = parseInt(input.value);
             }
 
 
             if ('kg' in newData) {
                 newTraining[index][`rept${serie}`] = parseInt(input.value);
                 newTraining[index][`kg${serie}`] = parseInt(inputKg.value);
+                valueNewTraining[index][`rept${serie}`] = parseInt(input.value);
+                valueNewTraining[index][`kg${serie}`] = parseInt(inputKg.value);
             }
 
         }
@@ -488,7 +515,6 @@
         }
     }
 
-
     async function saveIncomplet() {
         if (oldNewtraining != true) {
             console.log('Não Salvou');
@@ -496,20 +522,20 @@
         }
 
         const data = JSON.parse(document.getElementById('dataDB').innerHTML.replace(/'/g, '"').replace(/True/g, 'true'));
-        
-        if (newTraining.findIndex(e => e == data.chosenDay) == -1) {
-            newTraining.push(data.chosenDay);
+
+        if (valueNewTraining.findIndex(e => e == data.chosenDay) == -1) {
+            valueNewTraining.push(data.chosenDay);
         }
         try {
             const response = await fetch('/saveIncomplet', {
                 method: 'POST',
-                body: JSON.stringify(newTraining),
+                body: JSON.stringify(valueNewTraining),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             if (response.ok) {
-                console.log('Treino Salvo', newTraining);
+                console.log('Treino Salvo', valueNewTraining);
                 oldNewtraining = false
             } else {
                 loading(false);
@@ -519,14 +545,6 @@
             console.error(error);
         }
     }
-
-
-
-    //document.getElementById("saveButton").addEventListener("click", async function () {
-    //    await saveIncomplet();
-    //});
-
-
 
     function openModalToggleExer(exer) {
         let info = creatVar()
@@ -564,7 +582,6 @@
     }
 
     function attTraining(name, oldName) {
-        debugger
         let info = creatVar()
         info.chosenDay == 1 ? info = info['d2'] : info = info['d1']
         let indexDiv
@@ -648,7 +665,6 @@
     }
 
     function notToggleExer(exer) {
-        debugger
         let dataExer = JSON.parse(exer);
         let info = creatVar()
         info.chosenDay == 1 ? info = info['d2'] : info = info['d1']
@@ -965,9 +981,7 @@
         await new Promise(resolve => setTimeout(resolve, 300)); // Aguarda 500ms
         let data = await apiPost('getData', false);
         let TrainingInExecution = data.TrainingInExecution;
-        console.clear();
-        console.log(training);
-        console.log(TrainingInExecution);
+
         if (TrainingInExecution == "false") return;
         TrainingInExecution.pop();
 
@@ -979,6 +993,12 @@
 
             while (x <= e.rept) {
                 if (`rept${x}` in e) {
+
+                    if (`kg${x}` in e) {
+                        const inputExerKg = document.getElementById(`exer${indexExer}kg${x}`);
+                        inputExerKg != null ? inputExerKg.value = e[`kg${x}`] : null
+                    }
+
                     const inputExer = document.getElementById(`exer${indexExer}repts${x}`);
                     inputExer != null ? inputExer.value = e[`rept${x}`] : null
 
