@@ -23,24 +23,11 @@ def saveTraining():
 
 @training_bp.route('/bodybuilding')
 def bodybuilding():
-  if 'login' in session:
-    user_found = Db.get_login(session['login']).data
-    requireds = user_found[6]
-    if requireds is None:
-       new_data = [{"name": "Paralelas", "value": "false"}, {"name": "Barra Fixa", "value": "false"}, {"name": "Trx", "value": "false"}, {"name": "Rodinha Abdominal", "value": "false"}, {"name": "Argolas", "value": "false"}, {"name": "Superband", "value": "false"}, {"name": "Hours", "value": "0"}, {"name": "Min", "value": "40"}, {"name": "DaysChosen", "value": ["Seg", "Ter", "Quin", "Sex"]}]
-       Db.update_data('Login', session['login'], 'Requireds', new_data)
   data = [None, None,None, {'nav': None}]
   return getUrl('bodybuilding.html', value=data)
 
 @training_bp.route('/hybrid')
 def hybrid():
-  if 'login' in session:
-    user_found = Db.get_login(session['login']).data
-    requireds = user_found[6]
-    if requireds is None:
-       new_data = [{"name": "Paralelas", "value": "false"}, {"name": "Barra Fixa", "value": "false"}, {"name": "Trx", "value": "false"}, {"name": "Rodinha Abdominal", "value": "false"}, {"name": "Argolas", "value": "false"}, {"name": "Superband", "value": "false"}, {"name": "Hours", "value": "0"}, {"name": "Min", "value": "40"}, {"name": "DaysChosen", "value": ["Seg", "Ter", "Quin", "Sex"]}]
-       Db.update_data('Login', session['login'], 'Requireds', new_data)
-
   data = [None,None,None, {'nav': None}]
   return getUrl('hybrid.html', value=data)
 

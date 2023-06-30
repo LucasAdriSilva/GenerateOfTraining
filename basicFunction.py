@@ -83,7 +83,9 @@ def random_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 def remove_repeated_items_in_list(input_list):
     unique_list = []
+    names_seen = set()
     for item in input_list:
-        if item not in unique_list:
+        if item['name'] not in names_seen:
+            names_seen.add(item['name'])
             unique_list.append(item)
     return unique_list

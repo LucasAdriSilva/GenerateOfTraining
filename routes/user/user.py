@@ -3,6 +3,7 @@ from model.db import Db
 import json, datetime
 from model.exercicio import Exercises
 from model.db import Db
+from model.week import week
 from werkzeug.security import check_password_hash
 from basicFunction import getUrl
 user = Blueprint('user', __name__, template_folder='templates')
@@ -89,6 +90,10 @@ def tracker():
   fullTraining = data
 
   user_found = Db.get_login(session['login']).data
+
+  requireds =json.loads(user_found[6])
+  print(type(requireds[name]))
+  daysChosen = week.convertDays(requireds[8].value)
   
   #Verifica se tem algum treino em execução
   if 'TrainingInExecution' in request.form:

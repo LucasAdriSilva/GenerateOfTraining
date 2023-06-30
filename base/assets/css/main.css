@@ -383,7 +383,8 @@ input[type="radio"]:checked {
   border-radius: 5px;
   background-color: rgba(25, 149, 168, 0.50);
   font-size: 12px;
-
+  line-height: 23px; /* Adicionado para centralizar verticalmente */
+  color: white;
 }
 
 
@@ -888,6 +889,19 @@ input[type="radio"]:checked {
   color: rgb(219, 85, 85);
   border: 1px solid rgb(219, 85, 85);
   font-weight: 800;
+}
+
+.fade-out {
+  animation: fadeOutAnimation 1s ease-in-out;
+}
+
+@keyframes fadeOutAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @media screen and (min-width: 992px) {

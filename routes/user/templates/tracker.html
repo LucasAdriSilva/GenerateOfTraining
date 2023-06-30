@@ -2,18 +2,51 @@
 
 
 {% block content %}
-<div class="row mt-3">
-    <div class="col-12 d-flex justify-content-center align-items-center gap-2">
+<div class="row mt-3" style="margin-inline: 20px;">
+    <div class="col-8 d-flex justify-content-start align-items-center gap-2 reset-Padding ">
         <h1 id="chosenTraining" class="fw-bolder" style="color: #707070;">{{data[3].chosenTraining}}</h1>
-        <div class="squad2-active">segunda</div>
-        <div class="squad2-active">quinta</div>
+        <span class="squad2-active">segunda</span>
+        <span class="squad2-active">quinta</span>
+    </div>
+
+    <div class="col-4 reset-Padding d-flex justify-content-end align-items-center gap-2">
+
+
+        <svg onclick=" verificationOfModal(paredSets)" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24">
+            <g id="Grupo_167" data-name="Grupo 167" transform="translate(-290 -106)">
+                <path id="Icon_material-swap-calls" data-name="Icon material-swap-calls"
+                    d="M14.727,16.994,11.8,14.063h2.2V8.932a1.466,1.466,0,0,0-2.932,0v5.131a2.932,2.932,0,0,1-5.864,0V8.932H3L5.932,6,8.864,8.932h-2.2v5.131a1.466,1.466,0,1,0,2.932,0V8.932a2.932,2.932,0,1,1,5.864,0v5.131h2.2Z"
+                    transform="translate(313.995 107.67) rotate(90)" fill="#343434" />
+                <g id="Elipse_14" data-name="Elipse 14" transform="translate(290 106)" fill="none" stroke="#343434"
+                    stroke-width="1">
+                    <circle cx="12" cy="12" r="12" stroke="none" />
+                    <circle cx="12" cy="12" r="11.5" fill="none" />
+                </g>
+            </g>
+        </svg>
+
+        <svg onclick="restoreContent()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g id="Grupo_166" data-name="Grupo 166" transform="translate(-316 -106)">
+                <path id="Icon_ionic-md-swap" data-name="Icon ionic-md-swap"
+                    d="M7.459,9.905l-3.495,3.5,3.495,3.5V14.28H13.6V12.531H7.459Zm10.557-.642-3.495-3.5V8.391H8.38V10.14h6.141v2.625Z"
+                    transform="translate(316.665 128.99) rotate(-90)" fill="#343434" />
+                <g id="Elipse_13" data-name="Elipse 13" transform="translate(316 106)" fill="none" stroke="#343434"
+                    stroke-width="1">
+                    <circle cx="12" cy="12" r="12" stroke="none" />
+                    <circle cx="12" cy="12" r="11.5" fill="none" />
+                </g>
+            </g>
+        </svg>
+
+
 
     </div>
 </div>
 
 <span class="d-none" id="dataDB">{{data[3]}}</span>
 
-<section id="TrainingRegular" class="mt-3" style="height: 100% ; overflow-y: auto;">
+<section id="TrainingRegular" class="mt-3" style="height: 80% ; overflow-y: auto;">
     <div class="accordion" id="bodyAccordion">
     </div>
 </section>
@@ -47,13 +80,50 @@
     </div>
 </div>
 
+
+<!-- Modal Informações do hibrido-->
+<div class="modal fade" id="paredSets" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="paredSetsLabel" aria-hidden="true" data-bs-config={backdrop:true}>
+
+    <div class="modal-dialog modal-dialog-centered" style="margin-inline: 30px;">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="modal-content col-12 reset-Padding">
+                <div class="modal-info-content">
+                    <span class="text-uppercase fw-bolder" style="font-size: 25px;">
+                        Pared Sets
+                    </span>
+
+                    <span class="fw-bolder">
+                        Você está saindo do modo normal de treino para o modo Pared Sets.
+                    </span>
+
+                    <span>
+                        Tem certeza que quer Continuar?
+                    </span>
+
+                </div>
+            </div>
+
+            <div onclick="paresSets()" class="modal-content modal-btn col-12 reset-Padding" data-bs-dismiss="modal"
+                aria-label="Close">
+                <span>Continuar</span>
+            </div>
+            <div class="modal-content modal-btn col-12 reset-Padding" data-bs-dismiss="modal" aria-label="Close">
+                <span>Voltar</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div id="finishe" class="d-none row mb-5 mt-2">
     <div class="col-12 d-flex justify-content-center align-itemns-center">
         <button onclick="finishedTraining()" class="btn btn-primary text-uppercase">Finalizar treino</button>
     </div>
 </div>
 
-<!-- <button id="saveButton" onclick="saveIncomplet()" class="btn btn-primary">Salvar treino incompleto</button> -->
+ <!-- <button id="saveButton" onclick="saveIncomplet()" class="btn btn-primary">Salvar treino incompleto</button>  -->
 
 <script type="module">
     import { creatCronometro, stopCounter, incrementDuration, decrementDuration } from './assets/js/cronometro.js';
@@ -83,6 +153,7 @@
     let highestRepetitionNumber = 0;
     let toWait = false;
     let training;
+    let backupContent;
 
     function creatChebox(i, e) {
         const check = document.getElementById('exer' + i + 'check' + e)
@@ -384,10 +455,10 @@
                 const reptname = 'rept' + x;
                 const kgname = 'kg' + x;
 
-                if(e[reptname]) delete e[reptname]; 
+                if (e[reptname]) delete e[reptname];
 
-                if(e[kgname]) delete e[kgname];
-  
+                if (e[kgname]) delete e[kgname];
+
             }
         });
     }
@@ -950,7 +1021,7 @@
 
         // Pega o nome da rotina e separa achando a letra maiuscula retornando um array 
         // cat = name.replace(/([A-Z])/g, ' $1').trim().split(' ')
-        names = Object.keys(categories)
+        let names = Object.keys(categories)
 
         // Intercala esse array
         var array1 = [];
@@ -1021,6 +1092,151 @@
 
     });
 
+
+
+    function verificationOfModal(id) {
+        backupContent == null ? openModal(id) : null
+    }
+
+    function openModal(id) {
+        var modal = new bootstrap.Modal(id);
+        modal.show()
+    }
+
+
+    function paresSets() {
+        if (backupContent != null) return
+        backupContent = document.getElementById('bodyAccordion').innerHTML
+        let altered = transformToParedPairedSets(training)
+        creatExersParedSets(altered)
+    }
+
+    function restoreContent() {
+        if (backupContent) {
+            document.getElementById('bodyAccordion').innerHTML = backupContent;
+            backupContent = null
+        }
+
+
+    }
+
+
+    function creatExersParedSets(data) {
+        let id;
+        let div = ''
+        data.forEach((e, index) => {
+            console.log(e)
+            div += `
+            <div class="accordion-item mt-2">
+                <div id="${'header' + index}" class="Header row" type="button" data-bs-toggle="collapse" data-bs-target="#${'collapse' + index}"
+                    aria-expanded="false" aria-controls="${'collapse' + index}">
+                    <div class="col-1 count">${index + 1}</div>
+                    <div class="col-4 p-2 reset-Padding d-flex justify-content-center align-items-center">
+                        <img src="${e.url}" style="border-radius: 50%; width:80px; height:80px">
+                    </div>
+                    <div class="col-7 reset-Padding">
+                        <div class="row">
+                            <div class="col-12 title reset-Padding">
+                                <span id="${'name' + index}" class="title-exer">${e.name}</span>
+                            </div>
+                            <div class="col-1 reset-Padding d-flex justify-content-start align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                                    fill="none" stroke="#707070" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-clock">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+
+
+                            <div class="col-12 reset-Padding d-flex justify-content-start align-items-center">
+                                <div class="row">
+
+                                    ${e.kg ? `
+                                        <div class="col-12 reset-Padding">
+                                            <div class="row pe-2 ps-2 py-2">
+                                            <div class="col-2 row-header-line-exer">Série</div>
+                                            <div class="col-4 row-header-line-exer">Anterior</div>
+                                            <div class="col-2 row-header-line-exer">Reps</div>
+                                            <div class="col-2 row-header-line-exer">Kg</div>
+                                            <div class="col-2 row-header-line-exer">
+                                                <i class="bi bi-check-lg"></i>
+                                            </div>
+                                        </div>
+
+
+                                        <div id="${'exer' + index + 'line' + e.rept_num}" class="row pe-2 ps-2 py-2 ${e.rept_num % 2 == 0 ? 'bg-par-exer' : ''}">
+                                            <div id="${'exer' + index + 'fontSerie' + e.rept_num}" class="col-2 centers font-serie">${e.rept_num}</div>
+                                            <div id="${'exer' + index + 'fontAnt' + e.rept_num}" class="col-4 centers font-exer-ant">${reptId != null ? reptId : 0}x${reptKg != null ? reptKg : 0}</div>
+                                            <div id="${'exer' + index + 'bgFontSt' + e.rept_num}" class="col-2 centers font-status">
+                                                <input id="${'exer' + index + 'repts' + e.rept_num}" class="input-repts" type="number" value="0">
+                                            </div>
+                                            <div id="${'exer' + index + 'bgKg' + e.rept_num}" class="col-2 centers">
+                                                <input id="${'exer' + index + 'kg' + e.rept_num}" type="number" class="input-repts" value="0">
+                                            </div>
+                                            <div id="${'exer' + index + 'bgCheck' + e.rept_num}" class="col-2 centers">
+                                                <input id="${'exer' + index + 'check' + e.rept_num}" class="form-check-input check-exer" type="checkbox">
+                                            </div>
+                                        </div>`: ``}
+
+                                    ${e.segs ? `
+                                        <div class="col-12 reset-Padding">
+                                            <div class="row pe-2 ps-2 py-2">
+                                            <div class="col-2 row-header-line-exer">Série</div>
+                                            <div class="col-5 row-header-line-exer">Anterior</div>
+                                            <div class="col-3 row-header-line-exer">Segs</div>
+                                            <div class="col-2 row-header-line-exer">
+                                                <i class="bi bi-check-lg"></i>
+                                            </div>
+                                        </div>
+
+
+                                        <div id="${'exer' + index + 'line' + e.rept_num}" class="row pe-2 ps-2 py-2 ${e.rept_num % 2 == 0 ? 'bg-par-exer' : ''}">
+                                            <div id="${'exer' + index + 'fontSerie' + e.rept_num}" class="col-2 centers font-serie">${e.rept_num}</div>
+                                            <div id="${'exer' + index + 'fontAnt' + e.rept_num}" class="col-5 centers font-exer-ant">${reptId != null ? reptId : 0}x</div>
+                                            <div id="${'exer' + index + 'bgFontSt' + e.rept_num}" class="col-3 centers font-status">
+                                                <input id="${'exer' + index + 'repts' + e.rept_num}" class="input-repts" type="number" value="0">
+                                            </div>
+                                            <div id="${'exer' + index + 'bgCheck' + e.rept_num}" class="col-2 centers">
+                                                <input id="${'exer' + index + 'check' + e.rept_num}" class="form-check-input check-exer" type="checkbox">
+                                            </div>
+                                        </div>
+                                        `: ``}
+
+                                    ${e.count ? `
+                                        <div class="col-12 reset-Padding">
+                                            <div class="row pe-2 ps-2 py-2">
+                                            <div class="col-2 row-header-line-exer">Série</div>
+                                            <div class="col-5 row-header-line-exer">Anterior</div>
+                                            <div class="col-3 row-header-line-exer">Rept</div>
+                                            <div class="col-2 row-header-line-exer">
+                                                <i class="bi bi-check-lg"></i>
+                                            </div>
+                                        </div>
+
+
+                                        `:``}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            `
+
+            div += elements.join('');
+            div += `</div></div></div>`;
+        });
+
+        document.getElementById('bodyAccordion').innerHTML = div;
+    }
+
+
+    window.creatExersParedSets = creatExersParedSets;
+    window.verificationOfModal = verificationOfModal;
+    window.restoreContent = restoreContent;
+    window.paresSets = paresSets;
+    window.openModal = openModal;
     window.stopCounter = stopCounter;
     window.incrementDuration = incrementDuration;
     window.decrementDuration = decrementDuration;

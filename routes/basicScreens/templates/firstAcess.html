@@ -23,7 +23,7 @@
 
 <body>
 
-    <div class="content">
+    <div id="content" class="content">
         <!-- Btn Menu d-none d-sm-none-->
         <div id="menu" class=" d-none d-sm-none fixed-top justify-content-start align-items-center"
             style="width: 100vw !important; height: 70px; background-color: #E5E5E5;">
@@ -265,12 +265,12 @@
                             </button>
                         </div> -->
 
-                        <div id="timeErr" class="col-12 d-none d-flex justify-content-center align-i">
+                        <!-- <div id="timeErr" class="col-12 d-none d-flex justify-content-center align-i">
 
                             <span class="text-danger text-center">
                                 O limite minimo de tempo é de 40 minutos, por favor altere o tempo do seu treino
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -322,6 +322,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -675,7 +676,7 @@
     </div>
 
     <!-- TimeLine -->
-    <div class="row reset-Padding position-absolute " style=" top: 96vh; left: auto;">
+    <div id="timeLine" class="row reset-Padding position-absolute " style=" top: 96vh; left: auto;">
         <div class="col-12 d-flex justify-content-center align-items-center" style="gap: 14px;">
             <div id="div5" class="timeLine div-activate"></div>
             <div id="div6" class="timeLine div-normal"></div>
@@ -884,10 +885,11 @@
         let numberDaysChosen = 0
         let chosenDays;
 
-        const timeErr = document.getElementById('timeErr')
+        //const timeErr = document.getElementById('timeErr')
         const min = document.getElementById('min')
         const hours = document.getElementById('hours')
         const quizCarousel = document.querySelector('#quiz');
+
         // Desativa a rotação automática do carrossel
         quizCarousel.setAttribute('data-bs-interval', 'false');
 
@@ -900,7 +902,6 @@
                 //Lógica do erro
                 min.classList.add('selecte-err')
                 hours.classList.add('selecte-err')
-                timeErr.classList.remove('d-none')
                 if (index2 !== -1) {
                     requireds[index2].value = min.value
                 } else {
@@ -908,7 +909,6 @@
                 }
             }
             else {
-                timeErr.classList.add('d-none')
                 // Verifica se já existe, se tiver att se nao adiciona
                 if (index2 !== -1) {
                     requireds[index2].value = min.value
@@ -1029,7 +1029,7 @@
             const contentCarrossel = document.getElementById('contentCarrossel')
             contentCarrossel.innerHTML = ''
 
-
+            newExercisesBase = removeUndefined(newExercisesBase)
             newExercisesBase.forEach(exer => {
 
                 if (exer == undefined) {
@@ -1786,7 +1786,6 @@
                     if (input.value > 3 && input.value < 16) {
                         input.disabled = true;
                         let card = parseInt(id)
-                        //desabilitCard(card)
 
 
                         input.classList.remove('text-danger')
@@ -1877,9 +1876,6 @@
                     if (input.value > 5 && input.value < 16) {
                         input.disabled = true;
                         let card = parseInt(id)
-                        //desabilitCard(card)
-
-
 
                         input.classList.remove('text-danger')
                         input.classList.remove('input-danger')
@@ -2231,78 +2227,39 @@
             return data_all
         }
 
-        function desabilitCard(id) {
-            const audio = document.getElementById("myAudio");
-
-            // Monta o array de id sem o id que está sendo tratado
-            let cardAtual = numberInput.findIndex(e => e == id)
-            if (cardAtual != -1) {
-                numberInput.splice(cardAtual, 1);
-            }
-            // Desabilita todos os inpust e add uma class aos cards
-            numberInput.forEach(e => {
-                const inputDesabilit = document.getElementById('ValidExer' + e)
-                if (inputDesabilit != null) {
-                    inputDesabilit.disabled = true;
-                }
-                const divExer = document.getElementById('exer' + e)
-                if (divExer != null) {
-                    divExer.classList.add('desabilited')
-                }
-
-            })
-            let meuInput = document.getElementById('ValidExer' + id);
-            let cronometro = document.getElementById('cronometro' + id);
-            let segundosRestantes = 180; // 3 minutos em segundos
-            let interval; // Declarando a variável fora da função para poder usar em outro escopo
-
-
-            clearInterval(interval); // Parar o cronômetro se ele já estiver rodando
-            segundosRestantes = 180; // Reiniciar o tempo
-            cronometro.placeholder = "3:00"
-
-            interval = setInterval(function () {
-                segundosRestantes--;
-                let minutos = Math.floor(segundosRestantes / 60);
-                let segundos = segundosRestantes % 60;
-                cronometro.placeholder = minutos + "m " + segundos + "s";
-
-                if (segundosRestantes <= 0) {
-                    audio.play()
-                    clearInterval(interval); // Parar o cronômetro
-                    meuInput.disabled = false; // Habilitar input
-                    cronometro.placeholder = "fim";
-
-                    const menssagemSuccess = document.getElementById('success' + id)
-                    menssagemSuccess.classList.add('d-none')
-
-                    const exerFinish = document.getElementById('exer' + id)
-                    exerFinish.classList.remove('bg-white')
-                    exerFinish.classList.add('exerFinish')
-
-                    numberInput.forEach(e => {
-                        const inputDesabilit = document.getElementById('ValidExer' + e)
-                        if (inputDesabilit != null) {
-                            inputDesabilit.disabled = false;
-                        }
-                        const divExer = document.getElementById('exer' + e)
-                        if (divExer != null) {
-                            divExer.classList.remove('desabilited')
-                        }
-                    })
-                }
-            }, 1); // Atualizar o cronômetro a cada segundo
-
-        }
-
         async function verificationRequireds() {
+            loading(true)
             if (numberDaysChosen != chosenDays) {
                 creatMessageOfErr('Escolha os dias antes de prosseguir', 3)
                 return
-            }else{
+            } else {
                 requireds.push({ name: 'DaysChosen', value: weekSelect })
-                console.log(requireds)
             }
+            await apiPost('saveDU', requireds)
+
+            if (choseTraining == 'Hibrido') {
+                const element = document.body; // substitua 'seuElemento' pelo ID do elemento que você deseja animar
+
+                // Adiciona a classe para animação
+                element.classList.add('fade-out');
+
+                // Redireciona a página após 800 milissegundos (0,8 segundos)
+                setTimeout(() => {
+                    window.location.href = '/hybrid';
+                }, 100);
+            }
+            if (choseTraining == 'Musc') {
+                const element = document.getElementById('seuElemento'); // substitua 'seuElemento' pelo ID do elemento que você deseja animar
+
+                // Adiciona a classe para animação
+                element.classList.add('fade-out');
+
+                // Redireciona a página após 800 milissegundos (0,8 segundos)
+                setTimeout(() => {
+                    window.location.href = '/bodybuilding';
+                }, 800);
+            }
+
             const content = document.querySelectorAll('.content');
             content[0].style.marginTop = '0px';
             //Tira a TimeLine
@@ -2439,8 +2396,7 @@
 
                 // Oitavo Exercicio
                 newExercisesBase.push(exercises.filter(e => e.name == 'Prancha Abdominal')[0])
-
-                await apiPost('saveDU', requireds)
+                loading(false)
                 creatExercisesBase()
             }
         }
@@ -2450,7 +2406,6 @@
             bool ? window.location.href = '/bodybuilding' : window.location.href = '/hybrid'
 
         }
-
 
         function chosentraining(training) {
             const btn2 = document.getElementById('btn2')
@@ -2466,12 +2421,12 @@
             })
         }
 
-        function nextSlideExer(id) {          
+        function nextSlideExer(id) {
             const modal = $('#exampleModal');
             if (modal.length) {
                 modal.modal('hide');
             }
-            if (id != 8) {
+            if (id != newExercisesBase.length) {
                 $('.carousel2').carousel('next')
             }
             else {
@@ -2504,14 +2459,11 @@
                 const selectEquipElement = idVerify.querySelector('.selectEquip')
 
                 if (selectEquipElement) {
-                    if (choseTraining == 'bodyWeight') {
-                        $('.carousel').carousel('next');
-                    }
                     if (choseTraining == 'Musc') {
-                        window.location.href = '/bodybuilding'
+                        $('.carousel').carousel(3);
                     }
-                    if (choseTraining == 'Hibrido') {
-                        window.location.href = '/hybrid'
+                    else {
+                        $('.carousel').carousel('next');
                     }
 
                     const oldDiv = document.getElementById(`div${x - 1}`)
@@ -2551,15 +2503,24 @@
 
                 if (indexDays == -1) {
                     creatMessageOfErr('Selecione quantos dias você deseja treinar', 4)
+                    return
                 }
                 if (indexHours == -1) {
                     creatMessageOfErr('Selecione quantos de horas você deseja treinar', 4)
+                    return
                 }
                 if (indexMin == -1) {
                     creatMessageOfErr('Selecione quantos de minutos você deseja treinar', 4)
+                    return
                 }
 
                 if (indexDays != -1 && indexHours != -1 && indexMin != -1) {
+
+                    if (hours.value == 0 && min.value < 40) {
+                        creatMessageOfErr('O seu tempo de treino não pode ser menor que 40m', 5)
+                        return
+                    }
+
                     $('.carousel').carousel('next');
                     const oldDiv = document.getElementById(`div${x - 1}`)
                     const newDiv = document.getElementById(`div${x}`)
@@ -2609,6 +2570,8 @@
 
         function attSelectEquip(id) {
             const div = document.getElementById(`${id}`)
+            if (div == null) return;
+
 
             if (div.classList.contains('selectEquip')) {
                 div.classList.remove('selectEquip');
@@ -2646,18 +2609,39 @@
                     attSelectEquip(id)
                     weekSelect.splice(indexFound, 1);
 
-                    daysBlock.splice(daysBlock[daysBlock.findIndex(e => e == week[index + 1])], 1)
-                    daysBlock.splice(daysBlock[daysBlock.findIndex(e => e == week[index - 1])], 1)
+                    week[index + 1] == undefined ?
+                        daysBlock.splice(daysBlock[daysBlock.findIndex(e => e == addDayBlock(week[6]))], 1) :
+                        daysBlock.splice(daysBlock[daysBlock.findIndex(e => e == week[index + 1])], 1)
+
+                    week[index - 1] == undefined ?
+                        daysBlock.splice(daysBlock[daysBlock.findIndex(e => e == addDayBlock(week[0]))], 1) :
+                        daysBlock.splice(daysBlock[daysBlock.findIndex(e => e == week[index - 1])], 1)
+
                     numberDaysChosen--
                     return
                 }
 
-                if (daysBlock.findIndex(e => e == week[index + 1]) == -1) {
-                    daysBlock.push(week[index + 1])
+                //Verifica se o index mais um existe se nao exitir que dizer que tem que bloquear segunda feira
+                if (week[index + 1] == undefined) {
+                    addDayBlock(week[0])
                 }
-                if (daysBlock.findIndex(e => e == week[index - 1]) == -1) {
-                    daysBlock.push(week[index - 1])
+                else {
+
+                    if (daysBlock.findIndex(e => e == week[index + 1]) == -1) {
+                        addDayBlock(week[index + 1])
+                    }
                 }
+
+                //Verifica se o index meno um existe se nao exitir que dizer que tem que bloquear domingo feira
+                if (week[index - 1] == undefined) {
+                    addDayBlock(week[6])
+                }
+                else {
+                    if (daysBlock.findIndex(e => e == week[index - 1]) == -1) {
+                        addDayBlock(week[index - 1])
+                    }
+                }
+
                 //Add no array de dias escolhidos
                 weekSelect.push(id)
 
@@ -2673,7 +2657,7 @@
             if (chosenDays == 4) {
                 let indexFound = weekSelect.findIndex(e => e == id)
                 let nextDay = weekSelect[eval(indexFound + 1)]
-                let previousDay = weekSelect[eval(indexFound - 1)]
+                let previousDay = week[index - 1]
 
                 //Se for dia de descanso retorna
                 if (daysBlock.findIndex(e => e == week[index + 1]) != -1) { return }
@@ -2711,7 +2695,7 @@
 
                             weekSelect.splice(indexWeek, 1);
                             numberDaysChosen = numberDaysChosen - 2
-                            return
+
                         }
                     }
                     //Verifica se o dia anterior é um treino se for tira
@@ -2728,9 +2712,15 @@
 
                             weekSelect.splice(indexWeek2, 1);
                             numberDaysChosen = numberDaysChosen - 2
-                            return
+
                         }
                     }
+
+                    week[index] == 'Sab' ? daysBlock.splice(daysBlock.findIndex(e => e == 'Seg'), 1) : null
+                    week[index] == 'Seg' ? daysBlock.splice(daysBlock.findIndex(e => e == 'Dom'), 1) : null
+
+                    remainingDaysCheckMoreTwo()
+                    return
                 }
 
                 //Add style
@@ -2739,11 +2729,21 @@
 
                 //Add no array
                 weekSelect.push(id)
-                weekSelect.push(week[index + 1])
+
+                //Verifica se escolheu domingo se sim segunda entra como treino
+                if (week[index + 1] == undefined) {
+                    weekSelect.push(week[0])
+                    attSelectEquip(week[0])
+                } else {
+                    weekSelect.push(week[index + 1])
+                }
+
+                //Verifica se escolheu domingo se sim terça entra como descanso
+                week[index + 1] == undefined ? addDayBlock(week[1]) : week[index + 2] == undefined ? addDayBlock(week[0]) : addDayBlock(week[index + 2])
+
 
                 //Add ao array de dias bloqueados
-                daysBlock.push(week[index + 2])
-                daysBlock.push(week[index - 1])
+                week[index - 1] == undefined ? addDayBlock(week[6]) : addDayBlock(week[index - 1])
 
                 numberDaysChosen = numberDaysChosen + 2
 
@@ -2752,6 +2752,90 @@
                     btn5.classList.add('btn-primary')
                 }
             }
+        }
+
+        function addDayBlock(day) {
+            if (daysBlock.findIndex(e => e == day) == -1)
+                daysBlock.push(day);
+        }
+
+        function remainingDaysCheckMoreTwo() {
+            if (weekSelect[0] != null && weekSelect[1] != null) {
+                let fistDupla = `${weekSelect[0]} ${weekSelect[1]}`
+                switch (fistDupla) {
+                    case 'Seg Ter':
+                        addDayBlock("Dom")
+                        addDayBlock("Quar")
+                        break;
+                    case 'Ter Quar':
+                        addDayBlock("Seg")
+                        addDayBlock("Quin")
+                        break;
+                    case 'Quar Quin':
+                        addDayBlock("Ter")
+                        addDayBlock("Sex")
+                        break;
+                    case 'Quin Sex':
+                        addDayBlock("Quar")
+                        addDayBlock("Sab")
+                        break;
+                    case 'Sex Sab':
+                        addDayBlock("Quin")
+                        addDayBlock("Dom")
+                        break;
+                    case 'Sab Dom':
+                        addDayBlock("Sex")
+                        addDayBlock("Seg")
+                        break;
+                    case 'Dom Seg':
+                        addDayBlock("Sab")
+                        addDayBlock("Ter")
+                        break;
+
+                    default:
+                        console.log(`Sorry, we are out of ${fistDupla}.`);
+                }
+            }
+
+            if (weekSelect[2] != null && weekSelect[3] != null) {
+                let secondDupla = `${weekSelect[2]} ${weekSelect[3]}`
+                switch (secondDupla) {
+                    case 'Seg Ter':
+                        addDayBlock("Dom")
+                        addDayBlock("Quar")
+                        break;
+                    case 'Ter Quar':
+                        addDayBlock("Seg")
+                        addDayBlock("Quin")
+                        break;
+                    case 'Quar Quin':
+                        addDayBlock("Ter")
+                        addDayBlock("Sex")
+                        break;
+                    case 'Quin Sex':
+                        addDayBlock("Quar")
+                        addDayBlock("Sab")
+                        break;
+                    case 'Sex Sab':
+                        addDayBlock("Quin")
+                        addDayBlock("Dom")
+                        break;
+                    case 'Sab Dom':
+                        addDayBlock("Sex")
+                        addDayBlock("Seg")
+                        break;
+                    case 'Dom Seg':
+                        addDayBlock("Sab")
+                        addDayBlock("Ter")
+                        break;
+
+                    default:
+                        console.log(`Sorry, we are out of ${secondDupla}.`);
+                }
+            }
+
+
+
         }
 
         function creatMessageOfErr(txt, sec) {
@@ -2873,10 +2957,70 @@
             }
         }
 
+        function removeUndefined(array) {
+            return array.filter(item => item !== undefined);
+        }
+
+        function verificationCountOfRept(training) {
+            let arrayAux = [];
+            training.forEach(exer => {
+                let detailOfExer = exercises.filter(e => e.name == exer.name)[0]
+                arrayAux.push(detailOfExer)
+            })
+
+            let Push = arrayAux.filter(e => e.category == 'Push')
+            let Pull = arrayAux.filter(e => e.category == 'Pull')
+            let Core = arrayAux.filter(e => e.category == 'Core')
+            let Legs = arrayAux.filter(e => e.category == 'Legs')
+
+            if (Push.length < 2) {
+                training.forEach(exer => {
+                    if (exer.name == Push[0].name) {
+                        exer.rept = 4
+                    }
+                })
+            }
+
+            if (Pull.length < 2) {
+                training.forEach(exer => {
+                    if (exer.name == Pull[0].name) {
+                        exer.rept = 4
+                    }
+                })
+            }
+
+            if (Core.length < 2) {
+                training.forEach(exer => {
+                    if (exer.name == Core[0].name) {
+                        exer.rept = 4
+                    }
+                })
+            }
+
+            if (Legs.length < 2) {
+                training.forEach(exer => {
+                    if (exer.name == Legs[0].name) {
+                        exer.rept = 4
+                    }
+                })
+            }
+        }
+
+        function loading(x) {
+            if (x == true) {
+                document.getElementById('content').classList.add('d-none');
+                document.getElementById('timeLine').classList.add('d-none');
+                document.getElementById('loading').classList.remove('d-none');
+            }
+            else {
+                document.getElementById('content').classList.remove('d-none');
+                document.getElementById('loading').classList.add('d-none');
+            }
+        }
+
         async function enviarTreino2() {
-            debugger
+            verificationCountOfRept(treino)
             if (treino.length == newExercisesBase.length) {
-                treino.push(requireds)
                 loading(true)
                 try {
                     const response = await fetch('/sendTraining', {

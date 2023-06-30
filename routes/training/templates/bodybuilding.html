@@ -190,6 +190,10 @@
         return
     }
 
+    function removeUndefined(array) {
+        return array.filter(item => item !== undefined);
+    }
+
     window.addEventListener("load", async function () {
         await creatPage()
         creatExercisesBase()
@@ -224,7 +228,7 @@
         var x = 1
         listExer = exercisesMusc
 
-
+        listExer = removeUndefined(listExer)
         listExer.forEach(exer => {
 
             if (exer == undefined) {
@@ -435,8 +439,6 @@
                 btn.classList.add('d-none')
                 btn.classList.remove('d-block')
 
-                let card = parseInt(id)
-                desabilitCard(card)
                 gerarTreino(Title, Input, id)
             }
             // Se o numero de repetição for 5 ou 6 mostra o modal
@@ -1136,83 +1138,6 @@
         return newExercisesBase; //retorne o array atualizado
     }
 
-    function desabilitCard(id) {
-        var numberInput = [1, 2, 3, 4, 5, 6, 7, 8]
-        const audio = document.getElementById("myAudio");
-        // Monta o array de id sem o id que está sendo tratado
-        let cardAtual = numberInput.findIndex(e => e == id)
-        if (cardAtual != -1) {
-            numberInput.splice(cardAtual, 1);
-        }
-
-        // Desabilita todos os inpust e add uma class aos cards
-        let x = 1
-        numberInput.forEach(e => {
-            const inputDesabilit = document.getElementById(`ValidExer${e}`)
-
-            if (inputDesabilit != null) {
-                inputDesabilit.disabled = true;
-            }
-
-            const divExer = document.getElementById('exer' + e)
-            if (divExer != null) {
-                divExer.classList.add('desabilited')
-            }
-            x++
-        })
-
-        let meuInput = document.getElementById('ValidExer' + id);
-        let cronometro = document.getElementById('cronometro' + id);
-        let segundosRestantes = 180; // 3 minutos em segundos
-        let interval; // Declarando a variável fora da função para poder usar em outro escopo
-
-
-        clearInterval(interval); // Parar o cronômetro se ele já estiver rodando
-        segundosRestantes = 180; // Reiniciar o tempo
-        cronometro.placeholder = "3:00";
-
-        interval = setInterval(function () {
-            segundosRestantes--;
-            let minutos = Math.floor(segundosRestantes / 60);
-            let segundos = segundosRestantes % 60;
-            cronometro.placeholder = "3:00";
-            cronometro.placeholder = minutos + ":" + segundos + "";
-
-            if (segundosRestantes <= 0) {
-                const menssagemSuccess = document.getElementById('success' + id)
-                menssagemSuccess.classList.add('d-none')
-
-                const exerFinish = document.getElementById('exer' + id)
-                exerFinish.classList.remove('bg-white')
-                exerFinish.classList.add('exerFinish')
-
-                audio.play();
-                clearInterval(interval); // Parar o cronômetro
-                meuInput.disabled = false; // Habilitar input
-                cronometro.placeholder = "Fim";
-
-                // Desabilita todos os inpust e add uma class aos cards
-                let x = 1
-                numberInput.forEach(e => {
-
-                    const inputDesabilit = document.getElementById(`ValidExer${e}`)
-
-                    if (inputDesabilit != null) {
-                        inputDesabilit.disabled = false;
-                    }
-
-
-                    const divExer = document.getElementById('exer' + e)
-                    if (divExer != null) {
-                        divExer.classList.remove('desabilited')
-                    }
-                    x++
-                })
-            }
-        }, 1); // Atualizar o cronômetro a cada segundo
-
-    }
-
     function btnClockStart(id) {
         const input = document.getElementById('ValidExer' + id);
         const btn = document.getElementById('toggleExer' + id)
@@ -1290,7 +1215,7 @@
         if (modal.length) {
             modal.modal('hide');
         }
-        if (id != 8) {
+        if (id != listExer.length) {
             $('.carousel2').carousel('next')
         }
         else {
@@ -1298,26 +1223,55 @@
         }
     }
 
+    function verificationCountOfRept(training) {
+        let arrayAux = [];
+        training.forEach(exer => {
+            let detailOfExer = allexercicies.filter(e => e.name == exer.name)[0]
+            arrayAux.push(detailOfExer)
+        })
+
+        let Push = arrayAux.filter(e => e.category == 'Push')
+        let Pull = arrayAux.filter(e => e.category == 'Pull')
+        let Core = arrayAux.filter(e => e.category == 'Core')
+        let Legs = arrayAux.filter(e => e.category == 'Legs')
+
+        if (Push.length < 2) {
+            training.forEach(exer => {
+                if (exer.name == Push[0].name) {
+                    exer.rept = 4
+                }
+            })
+        }
+
+        if (Pull.length < 2) {
+            training.forEach(exer => {
+                if (exer.name == Pull[0].name) {
+                    exer.rept = 4
+                }
+            })
+        }
+
+        if (Core.length < 2) {
+            training.forEach(exer => {
+                if (exer.name == Core[0].name) {
+                    exer.rept = 4
+                }
+            })
+        }
+
+        if (Legs.length < 2) {
+            training.forEach(exer => {
+                if (exer.name == Legs[0].name) {
+                    exer.rept = 4
+                }
+            })
+        }
+    }
+
     async function enviarTreino() {
         if (treino.length == listExer.length) {
             loading(true)
-
-            //try {
-            //    const response = await fetch('/sendTraining', {
-            //        method: 'POST',
-            //        body: JSON.stringify(treino),
-            //        headers: {
-            //            'Content-Type': 'application/json'
-            //        }
-            //    });
-            //    const data = await response.json();
-            //    window.location.replace(data.url);
-            //} catch (error) {
-            //    console.error('Erro na requisição:', error);
-            //    // Esconde a animação de carregamento
-            //    loading(false)
-            //}
-
+            verificationCountOfRept(treino)
             try {
                 const response = await fetch('/sendTraining', {
                     method: 'POST',

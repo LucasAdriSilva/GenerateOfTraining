@@ -162,6 +162,7 @@
         let x = 1
         addDiv.innerHTML = ''
 
+        Training = removeUndefined(Training)
         Training.forEach(exer => {
 
             if (exer == undefined) {
@@ -1238,6 +1239,54 @@
         }
     }
 
+    function removeUndefined(array) {
+        return array.filter(item => item !== undefined);
+    }
+
+    function verificationCountOfRept(training) {
+        let arrayAux = [];
+        training.forEach(exer => {
+            let detailOfExer = listExer.filter(e => e.name == exer.name)[0]
+            arrayAux.push(detailOfExer)
+        })
+
+        let Push = arrayAux.filter(e => e.category == 'Push')
+        let Pull = arrayAux.filter(e => e.category == 'Pull')
+        let Core = arrayAux.filter(e => e.category == 'Core')
+        let Legs = arrayAux.filter(e => e.category == 'Legs')
+
+        if (Push.length < 2) {
+            training.forEach(exer => {
+                if (exer.name == Push[0].name) {
+                    exer.rept = 4
+                }
+            })
+        }
+
+        if (Pull.length < 2) {
+            training.forEach(exer => {
+                if (exer.name == Pull[0].name) {
+                    exer.rept = 4
+                }
+            })
+        }
+
+        if (Core.length < 2) {
+            training.forEach(exer => {
+                if (exer.name == Core[0].name) {
+                    exer.rept = 4
+                }
+            })
+        }
+
+        if (Legs.length < 2) {
+            training.forEach(exer => {
+                if (exer.name == Legs[0].name) {
+                    exer.rept = 4
+                }
+            })
+        }
+    }
 
     async function enviarTreino() {
         for (let i = 0; i < sendTraining.length; i++) {
@@ -1255,6 +1304,7 @@
         }
 
         loading(true);
+        verificationCountOfRept(sendTraining)
         try {
             const response = await fetch('/sendTraining', {
                 method: 'POST',

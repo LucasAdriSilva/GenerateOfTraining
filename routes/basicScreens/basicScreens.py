@@ -4,6 +4,7 @@ from model.exercicio import Exercises
 from model.db import Db 
 from fpdf import FPDF
 from basicFunction import getUrl, remove_repeated_items_in_list
+import itertools
 
 
 basicScreens = Blueprint('basicScreens', __name__, template_folder='templates')
@@ -214,37 +215,33 @@ def creatTraining():
       grupCategories[category].append(a)
 
     # Criando a rotina FULLBODY
-    array1 = [
-      valor for par in zip(grupCategories['Push'], grupCategories['Core'])
-      for valor in par
-    ]
-    array2 = [
-      valor for par in zip(grupCategories['Pull'], grupCategories['Legs'])
-      for valor in par
-    ]
+    array1 = [valor for par in itertools.zip_longest(grupCategories['Push'], grupCategories['Core'])
+          for valor in par if valor is not None]
+  
+    array2 = [valor for par in itertools.zip_longest(grupCategories['Pull'], grupCategories['Legs'])
+          for valor in par if valor is not None]
+
+    
     array1.extend(array2)
     fullbody = array1
 
     # Criando a rotina Push/Pull
-    array1 = [
-      valor for par in zip(grupCategories['Push'], grupCategories['Legs'])
-      for valor in par
-    ]
-    array2 = [
-      valor for par in zip(grupCategories['Pull'], grupCategories['Core'])
-      for valor in par
-    ]
+    array1 = [valor for par in itertools.zip_longest(grupCategories['Push'], grupCategories['Legs'])
+          for valor in par if valor is not None]
+
+
+    array2 = [valor for par in itertools.zip_longest(grupCategories['Pull'], grupCategories['Core'])
+          for valor in par if valor is not None]
+    
     pushPull = {'d1': array1, 'd2': array2}
 
     # Criando a rotina Upper/Lowe
-    array1 = [
-      valor for par in zip(grupCategories['Push'], grupCategories['Pull'])
-      for valor in par
-    ]
-    array2 = [
-      valor for par in zip(grupCategories['Legs'], grupCategories['Core'])
-      for valor in par
-    ]
+    array1 = [valor for par in itertools.zip_longest(grupCategories['Push'], grupCategories['Pull'])
+          for valor in par if valor is not None]
+    
+    array2 = [valor for par in itertools.zip_longest(grupCategories['Legs'], grupCategories['Core'])
+          for valor in par if valor is not None]
+
     upperLower = {'d1': array1, 'd2': array2}
 
     Training = {
