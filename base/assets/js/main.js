@@ -115,10 +115,6 @@ function getExer() {
 }
 
 
-window.addEventListener("load", function () {
-});
-
-
 
 
 function loading(x) {

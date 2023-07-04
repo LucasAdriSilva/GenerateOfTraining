@@ -16,6 +16,12 @@ def getExercisesMusc():
   response = json.dumps(res)
   return response, 200
 
+@api.route("/getAllExer")
+def getAllExer():
+  res = Exercises.allExer()
+  response = json.dumps(res)
+  return response, 200
+
 
 @api.route("/getExercisesBodyWeight")
 def getExercisesBodyWeight():

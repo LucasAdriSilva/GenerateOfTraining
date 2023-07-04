@@ -23,5 +23,6 @@ class week:
                 new_array.append('Sábado')
             if day == "Dom":
                 new_array.append('Domingo')
+        return new_array
 
                  

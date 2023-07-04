@@ -44,7 +44,7 @@
     </div>
 
     <div class="row reset-Padding">
-        
+
         <div class="menu-desktop border d-none d-lg-block reset-Padding "
             style="position: fixed; top: 0; right: 0; left: 0; z-index: 1030; height: 100vh;">
 
@@ -75,7 +75,8 @@
                     </div>
 
                     {% if data[5] == True %}
-                    <div class="d-flex justify-content-start align-items-center div-item-menu {%if data[3]['nav'] == 'creat' %} menu-item-active {%endif%}"  onclick="window.location.href='/exercice'">
+                    <div class="d-flex justify-content-start align-items-center div-item-menu {%if data[3]['nav'] == 'creat' %} menu-item-active {%endif%}"
+                        onclick="window.location.href='/exercice'">
                         <svg xmlns="http://www.w3.org/2000/svg" class="menu-item-icon" viewBox="0 0 24 24" fill="none"
                             stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-home ">
@@ -86,7 +87,7 @@
                     </div>
 
                     <div class="d-flex justify-content-start align-items-center div-item-menu {%if data[3]['nav'] == 'user' %} menu-item-active {%endif%}"
-                        style="margin-inline: auto;"  onclick="window.location.href='/user'">
+                        style="margin-inline: auto;" onclick="window.location.href='/user'">
                         <svg xmlns="http://www.w3.org/2000/svg" class="menu-item-icon" viewBox="0 0 24 24" fill="none"
                             stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-user">
@@ -126,7 +127,7 @@
 
                 </div>
 
-                <div class="col-10 d-flex justify-content-between align-items-lg-center reset-Padding"
+                <div class="col-10 d-flex justify-content-between align-items-lg-center reset-Padding position-relative"
                     style="margin-inline: auto;">
 
                     <div class="d-flex justify-content-center align-items-center gap-3">
@@ -140,11 +141,32 @@
                         <span class="reset name-user">{{data[0]}}</span>
                     </div>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                        class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                        <path
-                            d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                    </svg>
+
+
+                    <div id="container-floating">
+
+                        <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="">
+                            <p class="item-btn-float" onclick="window.location.href='/logout'">Logout</p>
+                        </div>
+
+                        <div id="floating-button" data-toggle="tooltip" data-placement="left"
+                            data-original-title="Create">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="black"
+                                class="bi bi-three-dots-vertical plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                class="bi bi-three-dots-vertical edit" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+                        </div>
+
+                    </div>
                 </div>
 
 
@@ -182,19 +204,21 @@
         <div class="offcanvas-body">
 
             <div class="row reset-Padding" style="margin-top: 100px;">
-                
-                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'home' %} menu-item-active {%endif%}" onclick="window.location.href='/'">
+
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'home' %} menu-item-active {%endif%}"
+                    onclick="window.location.href='/'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                         stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-home">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                     </svg>
-                    <h3 class="reset menu-item-text" >Início</h3>
+                    <h3 class="reset menu-item-text">Início</h3>
                 </div>
 
                 {% if data[5] == True %}
-                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'creat' %} menu-item-active {%endif%}" onclick="window.location.href='/exercice'">
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'creat' %} menu-item-active {%endif%}"
+                    onclick="window.location.href='/exercice'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                         stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-home">
@@ -204,7 +228,8 @@
                     <h5 class="reset pt-1 menu-item-text">Lista de exercícios</h5>
                 </div>
 
-                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2 {%if data[3]['nav'] == 'user' %} menu-item-active {%endif%}" onclick="window.location.href='/user'">
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2 {%if data[3]['nav'] == 'user' %} menu-item-active {%endif%}"
+                    onclick="window.location.href='/user'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                         stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-user">
@@ -219,21 +244,20 @@
                 {% endif %}
 
                 <div id="btn-install-button1"
-                        class="d-flex justify-content-center align-items-center reset-Padding div-btn-app">
+                    class="d-flex justify-content-center align-items-center reset-Padding div-btn-app">
 
-                        <svg id="download-icon" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
-                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" class=" d-lg-none  feather-download"
-                            style="margin-left: 10px;">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
+                    <svg id="download-icon" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                        viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class=" d-lg-none  feather-download" style="margin-left: 10px;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
 
 
-                        <button id="install-button2" class="w-100 text-uppercase text-white fw-bolder reset-Padding"
-                            style="display:none;">Baixar APP</button> 
-                    </div>
+                    <button id="install-button2" class="w-100 text-uppercase text-white fw-bolder reset-Padding"
+                        style="display:none;">Baixar APP</button>
+                </div>
 
                 <div class="d-flex justify-content-center align-items-center fixed-bottom "
                     style="top: 88%; left: 0; width: 80vw;">
@@ -249,17 +273,41 @@
                         <span class="reset name-user">{{data[0]}}</span>
                     </div>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                         class="bi bi-three-dots-vertical" viewBox="0 0 16 16" style="margin-right: 10px;">
                         <path
                             d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                    </svg>
+                    </svg> -->
+                    <div id="container-floating">
+
+                        <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="">
+                            <p class="item-btn-float" onclick="window.location.href='/logout'">Logout</p>
+                        </div>
+
+                        <div id="floating-button" data-toggle="tooltip" data-placement="left"
+                            data-original-title="Create">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="black"
+                                class="bi bi-three-dots-vertical plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                class="bi bi-three-dots-vertical edit" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+                        </div>
+
+                    </div>
                 </div>
 
 
             </div>
         </div>
-    </div> 
+    </div>
 
 
 

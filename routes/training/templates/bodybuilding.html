@@ -402,6 +402,8 @@
         const success = document.getElementById('success' + id)
         const noInput = document.getElementById('noInput' + id)
         const finishExer = document.getElementById('finishExer' + id)
+        const container = document.getElementById('container' + id)
+
 
         var exer = allexercicies.filter(e => e.name == Title.innerText)
         // Se for segs
@@ -415,6 +417,7 @@
             // Dentro dos parametros
             if (repeticao <= 4 && input.value < 60) {
                 input.disabled = true;
+                container.classList.remove('d-none')
                 const btnFinish = document.getElementById('finishExer' + id)
                 if (btnFinish.classList.contains('d-none')) {
                     document.getElementById(`container${id}`).classList.remove('d-none')
@@ -443,7 +446,7 @@
             }
             // Se o numero de repetição for 5 ou 6 mostra o modal
             if (repeticao == 5 || repeticao == 6) {
-
+                
                 noInput.classList.add('d-none')
                 //  dar opção de eliminar exercicio
                 var modal = new bootstrap.Modal(document.querySelector('#toggleExerSegs'));
@@ -494,6 +497,9 @@
             }
             // Se for maior que 6 mostra messagem de erro PESADO
             if (repeticao > 6 || input.value >= 60) {
+
+                container.classList.add('d-none')
+
                 noInput.classList.add('d-none')
                 // Texto de sucesso some
                 success.classList.add('d-none')
@@ -519,6 +525,8 @@
             }
             // Leve
             if (repeticao < 2) {
+                container.classList.add('d-none')
+
                 noInput.classList.add('d-none')
                 // Texto de sucesso some
                 success.classList.add('d-none')

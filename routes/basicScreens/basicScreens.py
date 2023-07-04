@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, make_r
 import json
 from model.exercicio import Exercises 
 from model.db import Db 
+from model.week import week
 from fpdf import FPDF
 from basicFunction import getUrl, remove_repeated_items_in_list
 import itertools
@@ -21,6 +22,16 @@ def index():
    
     # Verifica o retorno do banco nao é null
     if ip_found is not None:
+
+      requireds =json.loads(ip_found[6])
+      for item in requireds:
+        if item['name'] == 'DaysChosen':
+            chosen_day = item['value']
+            break
+      days =week.convertDays(chosen_day)
+
+      # days1 = [days[0], days[2]]
+      # days2 = [days[1], days[3]]
 
       if ip_found[-2] is None and ip_found[-3] is not None and ip_found[5] is not None:
         data = {
@@ -67,7 +78,8 @@ def index():
           'dayTraining': 3,
           'nameRotina': ip_found[-2],
           'training': last_value,
-          'fistAcess': newInfo
+          'fistAcess': newInfo,
+          'days': days
         }
         # return render_template("home.html", data = data)    
 
@@ -85,7 +97,8 @@ def index():
             'ip': ip_found[0],
             'dayTraining': ip_found[5],
             'nameRotina': chosen,
-            'training':  training
+            'training':  training,
+            'days': days
           }  
           # return render_template("home.html", data = data)   
           return getUrl("home.html", value = data)    

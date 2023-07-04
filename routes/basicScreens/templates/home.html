@@ -316,7 +316,7 @@
         var trainingFull = JSON.parse(data.Training);
         var Requireds = JSON.parse(data.Requireds);
 
-        var ChosenTraining = data.ChosenTraining.charAt(0).toLowerCase() + data.ChosenTraining.slice(1);
+         var ChosenTraining = data.ChosenTraining.charAt(0).toLowerCase() + data.ChosenTraining.slice(1);
         var training = trainingFull[ChosenTraining];
         
         let indexDaysOfWeek = Requireds.findIndex(e => e.name == 'DaysChosen')
@@ -328,15 +328,13 @@
                 #707070;">Minha rotina</span>
             </div>
             <div class="col-11 mt-3 m-auto">
-                <div class="card w-100">
+                <div class="card">
                     <div class="card-body">
         
                         <h5 class="title-chosen-rotin">${data.ChosenTraining}</h5>
         
                         <div id="daysOfWeek" class="col-12 d-flex gap-1 reset-Padding-x">
-                            <div class="squad2-active">${daysOfWeek[0]}</div>
-                            <div class="squad2-active">${daysOfWeek[1]}</div>
-                            <div class="squad2-active">${daysOfWeek[2]}</div>
+
                         </div>
         
                         <p id='nameExers' class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
@@ -369,14 +367,13 @@
                 #707070;">Minha rotina</span>
             </div>
             <div class="col-11 mt-3 m-auto">
-                <div class="card w-100 ">
+                <div class="card">
                     <div class="card-body">
         
                         <h5 class="title-chosen-rotin">${data.ChosenTraining}</h5>
         
-                        <div class="col-12 d-flex gap-1 reset-Padding-x">
-                            <div class="squad2-active">${daysOfWeek[0]}</div>
-                            <div class="squad2-active">${daysOfWeek[1]}</div>
+                        <div id="daysOfWeek" class="col-12 d-flex gap-1 reset-Padding-x">
+
                         </div>
         
                         <p id="nameExers1" class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
@@ -395,13 +392,11 @@
                     </div>
                 </div>
         
-                <div class="card w-100 mt-2">
+                <div class="card mt-2">
                     <div class="card-body">
                         <h5 class="title-chosen-rotin">${data.ChosenTraining}</h5>
         
-                        <div class="col-12 d-flex gap-1 reset-Padding-x">
-                            <div class="squad2-active">${daysOfWeek[2]}</div>
-                            <div class="squad2-active">${daysOfWeek[3]}</div>
+                        <div id="daysOfWeek2" class="col-12 d-flex gap-1 reset-Padding-x">
                         </div>
         
                         <p id="nameExers2" class="card-text mt-2" style="color: rgba(112, 112, 112, 0.80);">
@@ -432,6 +427,23 @@
                 nameExers2.innerHTML += `${e.name}${index === training.d2.length - 1 ? '' : ', '}`;
             });
 
+        }
+   
+        const DivdaysOfWeek = document.getElementById('daysOfWeek')
+        const DivdaysOfWeek2 = document.getElementById('daysOfWeek2')
+
+        if(daysOfWeek.length == 3){
+            daysOfWeek.forEach(day => {
+                let newDiv = `<div class="squad2-active">${day}</div>`;
+                DivdaysOfWeek.innerHTML += newDiv;
+            });
+        }
+        else{
+            DivdaysOfWeek.innerHTML = `<div class="squad2-active">${daysOfWeek[0]}</div> <div class="squad2-active">${daysOfWeek[2]}</div>`
+           
+
+            DivdaysOfWeek2.innerHTML = `<div class="squad2-active">${daysOfWeek[1]}</div> <div class="squad2-active">${daysOfWeek[3]}</div>`
+            
         }
     }
 
@@ -509,6 +521,7 @@
         `
         document.body.appendChild(newDiv);
     }
+
 
     window.creatBtn = creatBtn
     window.chosenRoutine = chosenRoutine

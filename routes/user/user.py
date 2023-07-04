@@ -92,8 +92,15 @@ def tracker():
   user_found = Db.get_login(session['login']).data
 
   requireds =json.loads(user_found[6])
-  print(type(requireds[name]))
-  daysChosen = week.convertDays(requireds[8].value)
+
+  for item in requireds:
+    if item['name'] == 'DaysChosen':
+        chosen_day = item['value']
+        break
+  days =week.convertDays(chosen_day)
+
+  days1 = [days[0], days[2]]
+  days2 = [days[1], days[3]]
   
   #Verifica se tem algum treino em execução
   if 'TrainingInExecution' in request.form:
@@ -165,9 +172,12 @@ def tracker():
 
 
   if chosenDay == '0':
-    inf = {'training': data['fullbody'], 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
+    inf = {'training': data['fullbody'], 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining, 'days': days}
   else:
-    inf = {'training': data, 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining}
+    if chosenDay == '1':
+      inf = {'training': data, 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining, 'days': days1}
+    else:
+      inf = {'training': data, 'chosenDay': f"d{chosenDay}", 'chosenTraining':chosen, 'fullTraining': fullTraining, 'days': days2}
   return getUrl('tracker.html', value=inf)
 
 
