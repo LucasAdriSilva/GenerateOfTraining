@@ -5,8 +5,8 @@
 
 {% block content %}
 
-<div class="row d-flex justify-content-center align-items-center mt-3">
-    <div class="col-10">
+<div class="row d-flex justify-content-center align-items-center">
+    <!-- <div class="col-10">
         <h3 class="reset header-creat-exer-v2">
             Crie seu treino<br> De forma Hibrida
         </h3>
@@ -25,261 +25,295 @@
     </div>
 
 
-</div>
+</div> -->
 
-<div id="CarrosselExer" data-bs-touch="false" class="carousel2 slide" style="max-width: 100vw;">
-    <div id="contentCarrossel" class="carousel-inner">
-    </div>
-</div>
-
-<div id="exercices" class="d-flex justify-content-center align-items-center row">
-
-</div>
-
-<div class="d-flex justify-content-center align-items-center row" id="listExer">
-
-</div>
-
-<!-- Modal Exercicios-->
-<div class="modal fade" id="exerciseSuggestion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="exerciseSuggestionLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-gray3">
-                <h1 class="modal-title fs-5  " id="exerciseSuggestionLabel">Opções de exercicio</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="showExer">
-
-            </div>
+    <div id="CarrosselExer" data-bs-touch="false" class="carousel2 slide reset-Padding" style="width: 100vw;">
+        <div id="contentCarrossel" class="carousel-inner">
         </div>
     </div>
-</div>
 
-<!-- Modal Informações do hibrido-->
-<div class="modal fade" id="infos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="infosLabel" aria-hidden="true">
+    <div id="exercices" class="d-flex justify-content-center align-items-center row">
 
-    <div class="modal-dialog modal-dialog-centered" style="margin-inline: 30px;">
-        <div class="row d-flex justify-content-center align-items-center">
-            <div class="modal-content col-12 reset-Padding">
-                <div class="modal-info-content">
-                    <span>
-                        Cada card representará um exercício.
-                    </span>
+    </div>
 
-                    <span class="fw-bolder">
-                        Após a seleção, faça o teste e insira os dados do seu treino.
-                    </span>
+    <div class="d-flex justify-content-center align-items-center row" id="listExer">
 
-                    <span>
-                        Nosso sistema irá verificar se estão corretos.
-                    </span>
+    </div>
+
+    <!-- Modal Exercicios-->
+    <div class="modal fade" id="exerciseSuggestion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="exerciseSuggestionLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-gray3">
+                    <h1 class="modal-title fs-5  " id="exerciseSuggestionLabel">Opções de exercicio</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="showExer">
 
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="modal-content modal-btn col-12 reset-Padding" data-bs-dismiss="modal" aria-label="Close">
-                <span>OK</span>
+    <!-- Modal Informações do hibrido-->
+    <div class="modal fade" id="infos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="infosLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" style="margin-inline: 30px;">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="modal-content col-12 reset-Padding">
+                    <div class="modal-info-content">
+                        <span>
+                            Cada card representará um exercício.
+                        </span>
+
+                        <span class="fw-bolder">
+                            Após a seleção, faça o teste e insira os dados do seu treino.
+                        </span>
+
+                        <span>
+                            Nosso sistema irá verificar se estão corretos.
+                        </span>
+
+                    </div>
+                </div>
+
+                <div class="modal-content modal-btn col-12 reset-Padding" data-bs-dismiss="modal" aria-label="Close">
+                    <span>OK</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+    <!-- Modal Apos carregamento da tela-->
+    <div class="modal fade" id="fineshLoad" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="fineshLoadLabel" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.4);">
 
-<!-- Modal de Exercicios com segundos-->
-<div class="modal fade" id="toggleExerSegs" tabindex="-1" aria-labelledby="toggleExerSegsLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-gray3 d-flex justify-content-center align-items-center">
-                <span class="text-center text-uppercase font-title-modal fw-bold" id="toggleExerSegsLabel">Seu
-                    exercicio
-                    está pesado!</span>
+        <div class="modal-dialog modal-dialog-centered" style="margin-inline: 15px;">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="modal-content col-12 reset-Padding">
+                    <div class="modal-info-content" style="background-color: white">
+                        <span class="text-uppercase fw-bolder" style="font-size: 25px; line-height: 28px;">
+                            Crie seu treino de forma Hibrida
+                        </span>
+
+                        <span class=" mb-2 mt-3">
+                            Escolha entre Musculação ou Peso Corporal 
+                        </span>
+
+                        <span class="fw-bolder" style="font-size: 14px;">
+                            Cada card representará um exercício. Após a seleção, faça o teste e insira os dados do seu treino.
+                        </span>
+
+                    </div>
+                </div>
+
+                <div class="modal-content modal-btn col-12 reset-Padding" data-bs-dismiss="modal" aria-label="Close" style="background-color: white;">
+                    <span>OK</span>
+                </div>
             </div>
-            <div class="modal-body">
+        </div>
+    </div>
+
+    <!-- Modal de Exercicios com segundos-->
+    <div class="modal fade" id="toggleExerSegs" tabindex="-1" aria-labelledby="toggleExerSegsLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-gray3 d-flex justify-content-center align-items-center">
+                    <span class="text-center text-uppercase font-title-modal fw-bold" id="toggleExerSegsLabel">Seu
+                        exercicio
+                        está pesado!</span>
+                </div>
+                <div class="modal-body">
+                    <div class="row reset-Padding">
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <span class="text-center font-title-modal">Sugerimos excluir o exercicio </span>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center align-items-cente">
+                            <span id="exerDeleter" class="text-center fw-bolder text-uppercase"></span>
+                        </div>
+                        <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-cente">
+                            <span class="mt-2 text-center font-capt">
+                                Você terá que fazer muitas séries de
+                                <span id="nameExer" class="fw-bolder text-uppercase"></span> e por isso ele pode valer
+                                por 2
+                                exercícios ao mesmo tempo.
+                            </span>
+                            <span class="mt-2 text-center font-capt text-danger">
+                                Se não quiser excluir, terá que excolher um mais fácil para diminuir o numero de
+                                séries.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer d-flex justify-content-center">
+                    <button id="removeExer" data-bs-dismiss="modal" class="btn btn-success">Excluir</button>
+                    <button id="notRemove" data-bs-dismiss="modal" class="btn btn-success">Não Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <audio id="myAudio">
+        <source src="assets/audio/not.mp3" type="audio/mp3">
+    </audio>
+
+    <script type="module">
+        import { apiGet } from './assets/js/api.js'
+        var Musc;
+        var BodyWeight;
+        let listExer;
+        let sendTraining = [];
+        let filterExer
+        var Training = [
+            { 'category': 'Push', 'type': 'Horizontal' },
+            { 'category': 'Push', 'type': 'Vertical' },
+            { 'category': 'Pull', 'type': 'Horizontal' },
+            { 'category': 'Pull', 'type': 'Vertical' },
+            { 'category': 'Legs', 'type': 'Parte da frente' },
+            { 'category': 'Legs', 'type': 'Parte de trás' },
+            { 'category': 'Core', 'type': 'Abdômen' },
+            { 'category': 'Core', 'type': 'Lombar' },
+        ]
+
+        function openInfo() {
+            var modal = new bootstrap.Modal(document.querySelector("#infos"));
+            modal.show()
+        }
+
+        function creatExercisesBase() {
+            let addDiv = document.getElementById('exercices')
+            let id = 1
+            let x = 1
+            addDiv.innerHTML = ''
+
+            Training = removeUndefined(Training)
+            Training.forEach(exer => {
+
+                // Criação da nova div
+                var novaDiv = document.createElement("div");
+                x == 1 ? novaDiv.className = "carousel-item active" : novaDiv.className = "carousel-item"
+                novaDiv.id = "exer" + x;
+
+                // Criação do conteúdo da div
+                novaDiv.innerHTML = `
                 <div class="row reset-Padding">
-                    <div class="col-12 d-flex justify-content-center align-items-center">
-                        <span class="text-center font-title-modal">Sugerimos excluir o exercicio </span>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center align-items-cente">
-                        <span id="exerDeleter" class="text-center fw-bolder text-uppercase"></span>
-                    </div>
-                    <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-cente">
-                        <span class="mt-2 text-center font-capt">
-                            Você terá que fazer muitas séries de
-                            <span id="nameExer" class="fw-bolder text-uppercase"></span> e por isso ele pode valer
-                            por 2
-                            exercícios ao mesmo tempo.
-                        </span>
-                        <span class="mt-2 text-center font-capt text-danger">
-                            Se não quiser excluir, terá que excolher um mais fácil para diminuir o numero de
-                            séries.
-                        </span>
-                    </div>
+                
+                <div id="${'btnChosen' + x}" class="row position-relative d-flex justify-content-center algin-items-center ${'delContent' + x}" style="height: 200px">
+
+                    <!-- <div class="col-12 d-flex align-items-center ps-3 reset-Padding m-auto">       
+                        <div class="row my-1" style="padding: 5px 50px 5px 50px;  border-radius: 10px;">       -->
+                            
+                        <!-- </div>
+                    </div> -->
                 </div>
-            </div>
 
-
-            <div class="modal-footer d-flex justify-content-center">
-                <button id="removeExer" data-bs-dismiss="modal" class="btn btn-success">Excluir</button>
-                <button id="notRemove" data-bs-dismiss="modal" class="btn btn-success">Não Excluir</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<audio id="myAudio">
-    <source src="assets/audio/not.mp3" type="audio/mp3">
-</audio>
-
-<script type="module">
-    import { apiGet } from './assets/js/api.js'
-    var Musc;
-    var BodyWeight;
-    let listExer;
-    let sendTraining = [];
-    let filterExer
-    var Training = [
-        { 'category': 'Push', 'type': 'Horizontal' },
-        { 'category': 'Push', 'type': 'Vertical' },
-        { 'category': 'Pull', 'type': 'Horizontal' },
-        { 'category': 'Pull', 'type': 'Vertical' },
-        { 'category': 'Legs', 'type': 'Parte da frente' },
-        { 'category': 'Legs', 'type': 'Parte de trás' },
-        { 'category': 'Core', 'type': 'Abdômen' },
-        { 'category': 'Core', 'type': 'Lombar' },
-    ]
-
-    function openInfo() {
-        var modal = new bootstrap.Modal(document.querySelector("#infos"));
-        modal.show()
-    }
-
-    function creatExercisesBase() {
-        let addDiv = document.getElementById('exercices')
-        let id = 1
-        let x = 1
-        addDiv.innerHTML = ''
-
-        Training = removeUndefined(Training)
-        Training.forEach(exer => {
-
-            if (exer == undefined) {
-                return
-            }
-            // Criação da nova div
-            var novaDiv = document.createElement("div");
-            x == 1 ? novaDiv.className = "carousel-item active" : novaDiv.className = "carousel-item"
-            novaDiv.id = "exer" + x;
-
-            // Criação do conteúdo da div
-            novaDiv.innerHTML = `<div class="row reset-Padding">
-                <div class="col-10 m-auto d-flex justify-content-center align-items-center"
+                <div id="${'firstAllineare' + x}" class="col-12 m-auto d-flex justify-content-center align-items-center ${'delContent' + x}"
                     style="background-color: #545454;">
                     <span class="reset pt-1 pb-1 text-count ">${x}/${Training.length} </span>
                 </div>
 
-                <div id="${'btnChosen' + x}" class="row position-relative">
-
-                    <div class="col-10 d-flex align-items-center ps-3 reset-Padding m-auto">       
-                        <div class="row my-1" style="border: 1px solid black; padding: 5px 50px 5px 50px;  border-radius: 10px;">      
-                            <div class="col-12 d-flex flex-column justify-content-center align-items-center reset-Padding my-3">
-                                               
-                                ${exer.type == 'Abdômen' || exer.type == 'Lombar' ?
-                    `<span class="reset text-uppercase text-center" style="font-size: 18px; font-weight: 800; color: #545454;"> ${exer.category.toUpperCase()}</span>` :
-                    `<span class="reset text-uppercase text-center" style="font-size: 18px; font-weight: 800; color: #545454;"> ${exer.category.toUpperCase()} ${exer.type.toUpperCase()}</span>`}
-                                
-                            </div>
-        
-                            <div class="col-12 d-flex flex-column justify-content-center align-items-center reset-Padding gap-3">
-                                <button style="border: none; border-radius: 10px; background-color: #FFC400; width: 75%" class="btn text-uppercase" onclick="creatBasicExer(true, ${x}, '${exer.category}', '${exer.type}')">Peso do corpo</button>
-                                <button style="border: none; border-radius: 10px; background-color: #FFC400; width: 75%" class="btn text-uppercase mb-3" onclick="creatBasicExer(false,${x}, '${exer.category}', '${exer.type}')">Musculação</button>
-                            </div>
-                        </div>
-                    </div>
+                
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center reset-Padding my-3 ${'delContent' + x}">                          
+                    ${exer.type == 'Abdômen' || exer.type == 'Lombar' ?
+                        `<span class="reset text-uppercase text-center" style="font-size: 18px; font-weight: 800; color: #545454;"> ${exer.category.toUpperCase()}</span>` :
+                        `<span class="reset text-uppercase text-center" style="font-size: 18px; font-weight: 800; color: #545454;"> ${exer.category.toUpperCase()} ${exer.type.toUpperCase()}</span>`}
+                    
                 </div>
-                <div id="${'TraingChosen' + x}" class="col-10 d-none reset-Padding mt-2 m-auto d-flex justify-content-center align-items-center rounded-4"
+
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center reset-Padding gap-3 ${'delContent' + x}">
+                    <button style="border: none; border-radius: 10px; background-color: #FFC400; width: 75%" class="btn text-uppercase" onclick="creatBasicExer(true, ${x}, '${exer.category}', '${exer.type}')">Peso do corpo</button>
+                    <button style="border: none; border-radius: 10px; background-color: #FFC400; width: 75%" class="btn text-uppercase mb-3" onclick="creatBasicExer(false,${x}, '${exer.category}', '${exer.type}')">Musculação</button>
+                </div>
+                
+
+                <div id="${'TraingChosen' + x}" class="col-12 d-none reset-Padding mt-2 m-auto d-flex justify-content-center align-items-center rounded-4"
                     style=" height: 100%;">
                 </div>
         </div>
             </div>`;
-            x += 1
-            contentCarrossel.appendChild(novaDiv)
+                x += 1
+                contentCarrossel.appendChild(novaDiv)
+            })
+
+        }
+
+        window.addEventListener('load', async function () {
+            var modal = new bootstrap.Modal(document.querySelector("#fineshLoad"));
+            modal.show()
+            Musc = await apiGet('getExercisesMusc', false)
+            BodyWeight = await apiGet('getExercisesBodyWeight', false)
+            listExer = [...Musc, ...BodyWeight]
+            creatExercisesBase()
         })
 
-    }
+        function showBtn(btn) {
+            btn.classList.add('d-block')
+            btn.classList.remove('d-none')
+        }
 
-    window.addEventListener('load', async function () {
-        Musc = await apiGet('getExercisesMusc', false)
-        BodyWeight = await apiGet('getExercisesBodyWeight', false)
-        listExer = [...Musc, ...BodyWeight]
-        creatExercisesBase()
-    })
+        function removeExer(exer, id, Title, Input, exerRestante) {
+            // Remove o exercicio do array
+            var treino2 = []
+            Training.forEach(e => {
+                if (e == undefined) {
+                    return
+                }
+                treino2.push(e)
+            })
 
-    function showBtn(btn) {
-        btn.classList.add('d-block')
-        btn.classList.remove('d-none')
-    }
-
-    function removeExer(exer, id, Title, Input, exerRestante) {
-        // Remove o exercicio do array
-        var treino2 = []
-        Training.forEach(e => {
-            if (e == undefined) {
-                return
+            let index = treino2.findIndex(e => e.name === exer[0].name);
+            if (index !== -1) {
+                treino2.splice(index, 1); //remova o elemento com o índice encontrado
             }
-            treino2.push(e)
-        })
 
-        let index = treino2.findIndex(e => e.name === exer[0].name);
-        if (index !== -1) {
-            treino2.splice(index, 1); //remova o elemento com o índice encontrado
-        }
-
-        let treinoDel = Training.findIndex(e => e.name === exer[0].name)
-        if (treinoDel !== -1) {
-            Training.splice(treinoDel, 1); //remova o elemento com o índice encontrado
-        }
-        // ---------------------------------------------------------------------
-        // remove visualmente o exer
-        var x = 1
-        Training.forEach(e => {
-            if (e == undefined) {
-                return
+            let treinoDel = Training.findIndex(e => e.name === exer[0].name)
+            if (treinoDel !== -1) {
+                Training.splice(treinoDel, 1); //remova o elemento com o índice encontrado
             }
-            if (e.name == exer[0].name) {
-                const divRemove = document.getElementById('exer' + x)
-                divRemove.remove()
+            // ---------------------------------------------------------------------
+            // remove visualmente o exer
+            var x = 1
+            Training.forEach(e => {
+                if (e == undefined) {
+                    return
+                }
+                if (e.name == exer[0].name) {
+                    const divRemove = document.getElementById('exer' + x)
+                    divRemove.remove()
+                }
+                x++
+            })
+            Training = treino2
+            if (Title) {
+                gerarTreino(Title, Input, id)
             }
-            x++
-        })
-        Training = treino2
-        if (Title) {
-            gerarTreino(Title, Input, id)
-        }
 
-        if (exerRestante) {
-            let index = Training.findIndex(e => e.name == exerRestante[0].name)
+            if (exerRestante) {
+                let index = Training.findIndex(e => e.name == exerRestante[0].name)
 
-            let input = document.getElementById('ValidExer' + (index + 1))
-            input.classList.remove('input-danger')
-            input.classList.remove('text-danger')
-        }
+                let input = document.getElementById('ValidExer' + (index + 1))
+                input.classList.remove('input-danger')
+                input.classList.remove('text-danger')
+            }
 
-        let ID = 1
-        let content
-        const exercices = document.getElementById('exercices')
-        exercices.innerHTML = content
-        Training.forEach(exer => {
-            if (exer.name) {
-                console.log(exer)
-                content += ` 
+            let ID = 1
+            let content
+            const exercices = document.getElementById('exercices')
+            exercices.innerHTML = content
+            Training.forEach(exer => {
+                if (exer.name) {
+                    console.log(exer)
+                    content += ` 
             <div id="exer${ID}" class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white" style="border: 1px solid rgb(163, 163, 163);">
    
                <div class="row position-relative">
                    
-                   <div class="col-3 d-flex justify-content-center align-items-center">
+                   <div class="col-3 d-flex justify-content-center align-items-center my-1">
                        <img class="rounded-4" id="img${ID}" width="68" height="68"
                            src="${exer.url}"
                            alt="">
@@ -298,14 +332,14 @@
                       </div>
                       
                       ${exer.kg == 0 ?
-                        `<div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
+                            `<div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
                             <p class="reset text-uppercase text-gray1">REPT</p>
                             <input required="true" disabled placeholder="11"
                             class="w-75 input-value text-center rounded-3" type="text">
                         </div>`
-                        :
-                        ``
-                    }
+                            :
+                            ``
+                        }
                       
           
                       <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center reset-Padding">
@@ -345,9 +379,9 @@
                </div>
            </div> 
            `
-            }
-            else {
-                content += `     
+                }
+                else {
+                    content += `     
             <div id="exer${ID}"
             class="col-lg-5 position-relative col-11 d-flex justify-content-center align-items-center rounded-3 p-2 m-2 bg-white"
             style="border: 1px solid rgb(163, 163, 163);">
@@ -370,33 +404,33 @@
             </div>
         </div>
                 `
+                }
+                ID++
+            })
+            exercices.innerHTML = content
+            for (let i = 1; i <= Training.length + 1; i++) {
+                creatStruct(i)
             }
-            ID++
-        })
-        exercices.innerHTML = content
-        for (let i = 1; i <= Training.length + 1; i++) {
-            creatStruct(i)
+            return Training; //retorne o array atualizado
         }
-        return Training; //retorne o array atualizado
-    }
 
-    function creatBasicExer(bool, id, category, type) {
-        var modal = new bootstrap.Modal(document.querySelector("#exerciseSuggestion"));
-        modal.show()
+        function creatBasicExer(bool, id, category, type) {
+            var modal = new bootstrap.Modal(document.querySelector("#exerciseSuggestion"));
+            modal.show()
 
 
-        const title = document.getElementById('exerciseSuggestionLabel')
-        title.innerHTML = `${category} ${type}`
-        var allExer;
-        // Se for true == peso do corpo se não é Musculação
-        bool ? allExer = BodyWeight : allExer = Musc
+            const title = document.getElementById('exerciseSuggestionLabel')
+            title.innerHTML = `${category} ${type}`
+            var allExer;
+            // Se for true == peso do corpo se não é Musculação
+            bool ? allExer = BodyWeight : allExer = Musc
 
-        filterExer = allExer.filter(e => e.category == category && e.type == type)
+            filterExer = allExer.filter(e => e.category == category && e.type == type)
 
-        const modalExer = document.getElementById('showExer')
-        modalExer.innerHTML = ''
-        filterExer.forEach((exer, i) => {
-            modalExer.innerHTML += `
+            const modalExer = document.getElementById('showExer')
+            modalExer.innerHTML = ''
+            filterExer.forEach((exer, i) => {
+                modalExer.innerHTML += `
             <div class="row mt-3 mb-5 reset-Padding">
                 <div class="col-4 d-flex justify-content-center align-items-center reset-Padding">
                     <img class="rounded-4" " src="${exer.url}" style="width: 80%;">
@@ -409,32 +443,44 @@
 
             </div>
         `
-        })
+            })
 
-    }
+        }
 
-    function choseExer(i, id) {
+        function choseExer(i, id) {
+            //Deletar conteudo anteriror
+            var delContent = document.querySelectorAll('.delContent' + id)
+            delContent.forEach(e => {
+                e.remove()
+            })
 
-        let exer = filterExer[i]
+            let exer = filterExer[i]
 
-        const slide = document.getElementById('TraingChosen' + id)
-        const btnChosen = document.getElementById('btnChosen' + id)
+            const slide = document.getElementById('TraingChosen' + id)
+            const btnChosen = document.getElementById('btnChosen' + id)
 
-        let div = ''
-        let x = 1
-        div += `
+            const nextExer = filterExer[id] && filterExer[id].name;
+
+            let div = ''
+            let x = 1
+            div += `
                 <div class="row reset-Padding d-flex justify-content-between">
 
                     <div class="col-12 reset-Padding d-flex justify-content-center align-items-center m-auto"
-                        style="border: 1px solid #545454; border-radius: 13px;">
+                        style="border-radius: 13px;">
                         <img id="${'img' + id}" src="${exer.url}" class="img-size" style="border: none;">
+                    </div>  
+
+                    <div class="col-12 m-auto d-flex justify-content-center align-items-center" style="background-color: #545454;">
+                        <span class="reset pt-1 pb-1 text-count ">
+                            ${x}/${Training.length} 
+                        </span>
                     </div>
 
-                    <div class="col-12 mt-2">
+                    <div class="col-12 pt-2 bg-gray3">
                         <div class="row d-flex justify-content-center align-items-center">
                             
-                            <div
-                                class="col-12 d-flex justify-content-center align-items-center reset-Padding">
+                            <div class="col-12 d-flex justify-content-center align-items-center reset-Padding">
                                 <input type="hidden" id=${'nivel' + id} name="nivel" value="${exer.nivel}">
                                 <span id=${'ValidTitle' + id} class="reset title-creat-exer" >
                                 ${exer.name}
@@ -443,237 +489,253 @@
 
 
 
-                            <div
-                                class="row reset-Padding mt-2 mb-3 d-flex justify-content-center align-items-center">
-                                <div
-                                    class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center">
+                            <div class="row reset-Padding mt-2 mb-3 d-flex justify-content-center align-items-center">
+                                <div class="col-${exer.kg == 0 ? `2` : `3`} d-flex flex-column justify-content-center align-items-center">
                                     <span class="reset  name-input">
                                         Série
                                     </span>
-                                    <input type="number" class="input-creat" name="" id=""
-                                        placeholder="1" disabled>
+                                    <input type="number" class="input-creat placeholder-input" placeholder="1" disabled>
                                 </div>
 
-                                ${exer.kg == 0 ?
-                `<div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-center align-items-center">
+                                ${exer.kg == 0 ? `
+                                    <div class="col-${exer.kg == 0 ? `2` : `3`} d-flex flex-column justify-content-center align-items-center">
                                     <span class="reset  name-input">
                                         Rept
                                     </span>
-                                    
                                         <input type="number" class="input-creat" required="true" disabled placeholder="11">
                                     </div>`
-                :
-                ``
-            }
+                    :
+                    ``}
 
-                                <div class="col-${exer.kg == 0 ? `3` : `4`} d-flex flex-column justify-content-start align-items-center">
+                                <div class="col-${exer.kg == 0 ? `2` : `3`} d-flex flex-column justify-content-start align-items-center">
                                     <span id="${'repts' + id}" class="reset name-input">
                                         ${exer.segs ? 'SEGS' : exer.kg == 0 ? 'KG' : 'REPT'}
                                     </span>
-                                    <input type="number" class="input-creat2" id="${'ValidExer' + id}">
+                                    <!-- <input type="number" class="input-creat2" id="${'ValidExer' + id}"> -->
+                                    <input pattern="^-?\d*\.?\d+$" placeholder="0" inputmode="numeric" required="true" id="${'ValidExer' + id}" class=" input-value " type="number">
                                 </div>
 
                                 
-                                
-                                <div class="col-12 d-flex justify-content-center align-items-center mt-4 reset-Padding">
-                                    <span id="msgTopBtn" class="reset" style="color:rgba(112, 112, 112, 0.69); font-size:23px;">Descanso: 3 minutos</span>
-                                </div>
-
-                                <div id="${'container' + id}" class="col-10 w-100 d-flex justify-content-center align-items-center">
-                                    <div id="${'clock' + id}" onclick="btnClockStart(${id})" class="btn btn-reset">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-auto">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12 6 12 12 16 14"></polyline>
-                                      </svg>
-                                      Testar próximo
-                                    </div>
-
-                                    <div id="${'progress-bar' + id}" class="d-none"></div>
-
-                                    <div id="${'countdown' + id}" class="d-none d-flex justify-content-center align-items-center h-100">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12 6 12 12 16 14"></polyline>
-                                      </svg>
-                                      <span id="${'timecount' + id}">03:00</span>
-                                    </div>
+                                <div class="col-${exer.kg == 0 ? `2` : `3`} d-flex flex-column justify-content-center align-items-center">
+                                    <i class="bi bi-check-lg"></i>
+                                    <input id="${'check' + id}" class="form-check-input" type="checkbox" style="width: 20px; height: 20px; border-radius: 5px; border: none; background-color: rgba(25, 149, 168, 0.5);">
                                 </div>
                                 
-                                <div id="${'toggleExer' + id}"class="col-12 d-none d-flex flex-column justify-content-center">
-          
-                                <button id="${'btn' + id}" onclick="filter(${id}, '${exer.name}', '${exer.category}', '${exer.type}', ${exer.nivel})" class="btn btn-slide" data-bs-toggle="modal"  data-bs-target="#exampleModal">Trocar Exercicío</button>
-                                  
-                                </button>
-                      
-                                  <span id="${'heavy' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
-                                          *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
-                                      </span>
-                      
-                                       <span id="${'light' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
-                                          *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está  alta! Vamos trocar para um mais pesado?
-                                      </span> 
-                      
-                                      </div>
-                                      <span id="${'success' + id}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
-                                      Perfeito, agora é só descansar e fazer o próximo exercício
-                                      </span> 
-                      
-                                      <span id="${'noInput' + id}" class="reset px-3 text-start text-danger d-none" style="font-size: 10px;">
-                                      Por favor, insira o numero máximo de ${exer.segs ? 'segundos' : 'repetição'}, para montarmos seu treino.
-                                      </span> 
 
-                                      <div id="${'finishExer' + id}" onclick="nextSlideExer(${id})" class="btn btn-reset d-none">
-                                        Próximo exercício
-                                    </div>
-                            </div>
+                                
                             </div>
                         </div>
                     </div>
+
+                    <div id="${'divRes' + id}" class="row">
+                        <div id="msgTopBtn" class="col-10 m-auto d-flex justify-content-center align-items-center mt-4 reset-Padding">
+                            <span  class="reset" style="color:rgba(112, 112, 112, 0.69); font-size:15px;">Descanso: 3 minutos</span>
+                        </div>
+
+                        <div id="${'container' + id}" class="col-10 m-auto d-flex justify-content-center align-items-center">
+                            
+                            <div id="${'clock' + id}"  class="btn btn-reset" style="border: none!important">
+                                
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" troke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-auto">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                              </svg>
+
+                              <div class="d-flex flex-column align-items-start justify-content-center"> 
+                                <span style="font-size:12px; line-height: 10px; color: rgba(84, 84, 84, 0.60)" class="pt-1">Próximo: ${nextExer}</span>
+                                <span style="font-size:20px; line-height: 20px" class="text-uppercase fw-bolder pb-1">Iniciar descanso</span>
+                              </div>
+                              
+                            </div>
+
+                            <div id="${'progress-bar' + id}" class="d-none"></div>
+
+                            <div id="${'countdown' + id}" class="d-none d-flex justify-content-center align-items-center h-100">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                              </svg>
+                              <span id="${'timecount' + id}">03:00</span>
+                            </div>
+                        </div>
+                        
+                        <div id="${'toggleExer' + id}"class="col-12 d-none d-flex flex-column justify-content-center align-items-center mt-4">
+  
+                            <button id="${'btn' + id}" onclick="filter(${id}, '${exer.name}', '${exer.category}', '${exer.type}', ${exer.nivel})" class="btn btn-primary mb-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Trocar Exercicío
+                            </button>
+
+                            <span id="${'heavy' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
+                                *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
+                            </span>
+                
+                            <span id="${'light' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
+                                *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está  alta! Vamos trocar para um mais pesado?
+                            </span> 
+                
+                            <span id="${'success' + id}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
+                                Perfeito, agora é só descansar e fazer o próximo exercício
+                            </span> 
+                
+                            <span id="${'noInput' + id}" class="reset px-3 text-start text-danger d-none" style="font-size: 10px;">
+                                Por favor, insira o numero máximo de ${exer.segs ? 'segundos' : 'repetição'}, para montarmos seu treino.
+                            </span> 
+
+                            
+                        </div>
+
+                        <div clas="w-100 m-auto d-flex justify-content-center align-items-center">
+                            <div id="${'finishExer' + id}" onclick="nextSlideExer(${id})" class="m-auto btn btn-reset d-none">
+                                Próximo exercício
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
            `
-        x++
+            x++
 
-        slide.innerHTML = div
-        for (let i = 1; i <= Training.length + 1; i++) {
-            creatStruct(i)
-        }
-
-        slide.classList.remove('d-none')
-        btnChosen.classList.add('d-none')
-    }
-
-    //Funções ja usadas
-    function filter(id, name, category, type, nivel) {
-        // Mescla os dados entre os arrays
-        let arrayCorrecty = correctingArray(Training, listExer)
-        // Procura no array de exercicios qual é o que vai ser alterado
-        let exerFound = listExer.filter(e => e.name == name)
-
-        let filterType
-
-        //const divHidden = document.getElementById('divToggle')
-        //divHidden.classList.remove('d-none')
-        //divHidden.classList.add('d-block')
-
-        const inputValue = document.getElementById('ValidExer' + id)
-        let input = parseInt(inputValue.value)
-
-
-        nivel = exerFound[0].nivel
-        let segs = exerFound[0].segs
-        // Verifica se o exercicio precisa tratar segundos
-        if (segs) {
-            //input 18s
-            let segundos = input / 2 //9s
-            let repeticao = 60 / segundos // 6 reptes
-            let sugundosTotais = segundos * repeticao // 54segundos totais
-            if (repeticao == 5 || repeticao == 6) {
-
-            }
-            if (repeticao > 6 || input <= 60) {
-                nivel -= 1
-            }
-            if (repeticao < 2) {
-                nivel += 1
+            slide.innerHTML = div
+            for (let i = 1; i <= Training.length + 1; i++) {
+                creatStruct(i)
             }
 
-        }
-        else {
-            if (input != null) {
-                input == 0 || input <= 2 ? nivel -= 2 : null;
-
-                input >= 3 && input <= 5 ? nivel -= 1 : null;
-
-                input >= 6 && input <= 15 ? nivel : null  // valor ser mostrado default
-
-                input > 15 && input <= 25 ? nivel += 1 : null;
-
-                input > 25 && input <= 40 ? nivel += 2 : null;
-
-                input > 40 ? nivel += 2 : null;
-
-                input < 0 ? nivel = 0 : null
-
-                nivel < 0 ? nivel = 0 : null
-
-                /*nivel > 6 ? nivel = 6 : nivel = nivel
-
-                nivel < 0 ? nivel = 0 : nivel = nivel*/
-            }
+            slide.classList.remove('d-none')
+            btnChosen ? btnChosen.classList.add('d-none') : null
         }
 
-        if (category) {
-            filterType = listExer.filter(exercise => exercise.category === category);
-        }
-        // Filtra os exercícios com base no nível, se o nível for especificado
-        if (nivel !== undefined && nivel >= 0) {
-            filterType = filterType.filter(exercise => exercise.nivel === nivel);
-        }
-        // Filtra os exercícios com base no tipo, se o tipo for especificado
-        if (type) {
-            filterType = filterType.filter(exercise => exercise.type === type);
-        }
+        //Funções ja usadas
+        function filter(id, name, category, type, nivel) {
+            // Mescla os dados entre os arrays
+            let arrayCorrecty = correctingArray(Training, listExer)
+            // Procura no array de exercicios qual é o que vai ser alterado
+            let exerFound = listExer.filter(e => e.name == name)
 
-        //Verifica se o nivel é maior que 6 ou menor que 0 se for carrega um erro
-        if (nivel > 6) {
-            const titleModal = document.getElementById('exampleModalLabel')
-            titleModal.innerHTML = 'Atenção'
-            titleModal.classList.add('fw-bolder')
+            let filterType
 
-            const exerWeight = document.getElementById('exerWeight')
-            exerWeight.classList.remove('d-none')
+            //const divHidden = document.getElementById('divToggle')
+            //divHidden.classList.remove('d-none')
+            //divHidden.classList.add('d-block')
 
-            const divToggle = document.getElementById('divToggle')
-            divToggle.classList.add('d-none')
+            const inputValue = document.getElementById('ValidExer' + id)
+            let input = parseInt(inputValue.value)
 
-        }
 
-        else if (nivel < 0) {
-            const exerWeight = document.getElementById('zeroExer')
-            exerWeight.classList.remove('d-none')
+            nivel = exerFound[0].nivel
+            let segs = exerFound[0].segs
+            // Verifica se o exercicio precisa tratar segundos
+            if (segs) {
+                //input 18s
+                let segundos = input / 2 //9s
+                let repeticao = 60 / segundos // 6 reptes
+                let sugundosTotais = segundos * repeticao // 54segundos totais
+                if (repeticao == 5 || repeticao == 6) {
 
-            const divToggle = document.getElementById('divToggle')
-            divToggle.classList.add('d-none')
-        }
-
-        else {
-            // Retira exercicios repetidos
-            let filtered = filterType.filter((item, index, arr) => {
-                return arr.findIndex(t => t.name === item.name) === index;
-            });
-            filterType = filtered;
-
-            // Retira os exercicios que estão no Training
-            let altered = [];
-            filterType.forEach(e => {
-                if (!Training.find(i => i.name === e.name)) {
-                    altered.push(e);
                 }
-            });
-            filterType = altered;
+                if (repeticao > 6 || input <= 60) {
+                    nivel -= 1
+                }
+                if (repeticao < 2) {
+                    nivel += 1
+                }
 
+            }
+            else {
+                if (input != null) {
+                    input == 0 || input <= 2 ? nivel -= 2 : null;
 
-            // Retira todos os exercicios com o nome do que está subistituindo
-            filterType = filterType.filter(e => e.name !== exerFound[0].name);
+                    input >= 3 && input <= 5 ? nivel -= 1 : null;
 
-            let forced;
-            if (filterType.length == 0) {
-                forced = true
-                filterType = Musc.filter(e => e.category == category && e.type == type)
+                    input >= 6 && input <= 15 ? nivel : null  // valor ser mostrado default
+
+                    input > 15 && input <= 25 ? nivel += 1 : null;
+
+                    input > 25 && input <= 40 ? nivel += 2 : null;
+
+                    input > 40 ? nivel += 2 : null;
+
+                    input < 0 ? nivel = 0 : null
+
+                    nivel < 0 ? nivel = 0 : null
+
+                    /*nivel > 6 ? nivel = 6 : nivel = nivel
+    
+                    nivel < 0 ? nivel = 0 : nivel = nivel*/
+                }
             }
 
+            if (category) {
+                filterType = listExer.filter(exercise => exercise.category === category);
+            }
+            // Filtra os exercícios com base no nível, se o nível for especificado
+            if (nivel !== undefined && nivel >= 0) {
+                filterType = filterType.filter(exercise => exercise.nivel === nivel);
+            }
+            // Filtra os exercícios com base no tipo, se o tipo for especificado
+            if (type) {
+                filterType = filterType.filter(exercise => exercise.type === type);
+            }
 
-            var modal = new bootstrap.Modal(document.querySelector("#exerciseSuggestion"));
-            modal.show()
+            //Verifica se o nivel é maior que 6 ou menor que 0 se for carrega um erro
+            if (nivel > 6) {
+                const titleModal = document.getElementById('exampleModalLabel')
+                titleModal.innerHTML = 'Atenção'
+                titleModal.classList.add('fw-bolder')
 
-            const modalExer = document.getElementById('showExer')
-            modalExer.innerHTML = ''
-            filterType.forEach((exer, i) => {
-                let index = Training.findIndex(e => e.category == exer.category && e.type == exer.type)
-                index != -1 ? index++ : console.log('err')
+                const exerWeight = document.getElementById('exerWeight')
+                exerWeight.classList.remove('d-none')
 
-                console.log(exer)
-                modalExer.innerHTML += `
+                const divToggle = document.getElementById('divToggle')
+                divToggle.classList.add('d-none')
+
+            }
+
+            else if (nivel < 0) {
+                const exerWeight = document.getElementById('zeroExer')
+                exerWeight.classList.remove('d-none')
+
+                const divToggle = document.getElementById('divToggle')
+                divToggle.classList.add('d-none')
+            }
+
+            else {
+                // Retira exercicios repetidos
+                let filtered = filterType.filter((item, index, arr) => {
+                    return arr.findIndex(t => t.name === item.name) === index;
+                });
+                filterType = filtered;
+
+                // Retira os exercicios que estão no Training
+                let altered = [];
+                filterType.forEach(e => {
+                    if (!Training.find(i => i.name === e.name)) {
+                        altered.push(e);
+                    }
+                });
+                filterType = altered;
+
+
+                // Retira todos os exercicios com o nome do que está subistituindo
+                filterType = filterType.filter(e => e.name !== exerFound[0].name);
+
+                let forced;
+                if (filterType.length == 0) {
+                    forced = true
+                    filterType = Musc.filter(e => e.category == category && e.type == type)
+                }
+
+
+                var modal = new bootstrap.Modal(document.querySelector("#exerciseSuggestion"));
+                modal.show()
+
+                const modalExer = document.getElementById('showExer')
+                modalExer.innerHTML = ''
+                filterType.forEach((exer, i) => {
+                    let index = Training.findIndex(e => e.category == exer.category && e.type == exer.type)
+                    index != -1 ? index++ : console.log('err')
+
+                    console.log(exer)
+                    modalExer.innerHTML += `
             <div class="row my-5">
                 ${forced ? `<div class="col-12 d-flex justify-content-center align-items-center">
                     <span class="text-danger text-center mb-3">Não temos mais exercicio com peso do corpo, tente fazer com a musculação</span>
@@ -689,38 +751,38 @@
                 </div>
             </div>
         `
-            })
+                })
 
+
+            }
 
         }
 
-    }
+        function subs(id, name, category, type, img, nivel) {
+            const Name = document.getElementById('ValidTitle' + id)
+            const Img = document.getElementById('img' + id)
+            const div = document.getElementById('toggleExer' + id)
+            const input = document.getElementById('ValidExer' + id)
+            const repts = document.getElementById('repts' + id)
 
-    function subs(id, name, category, type, img, nivel) {
-        const Name = document.getElementById('ValidTitle' + id)
-        const Img = document.getElementById('img' + id)
-        const div = document.getElementById('toggleExer' + id)
-        const input = document.getElementById('ValidExer' + id)
-        const repts = document.getElementById('repts' + id)
+            var nameExer = exercises.filter(e => e.name == name)
+            // Subistituir no array
+            let indexExer = sendTraining.findIndex(e => e.name == Name.innerText)
+            if (indexExer != -1) {
+                sendTraining[indexExer] = nameExer[0]
+            }
 
-        var nameExer = exercises.filter(e => e.name == name)
-        // Subistituir no array
-        let indexExer = sendTraining.findIndex(e => e.name == Name.innerText)
-        if (indexExer != -1) {
-            sendTraining[indexExer] = nameExer[0]
-        }
+            if (nameExer[0].segs) {
+                repts.innerHTML = 'SEGS'
+            }
+            else {
+                repts.innerHTML = 'REPS'
+            }
 
-        if (nameExer[0].segs) {
-            repts.innerHTML = 'SEGS'
-        }
-        else {
-            repts.innerHTML = 'REPS'
-        }
+            // zerar a div do botão
+            div.innerHTML = ''
 
-        // zerar a div do botão
-        div.innerHTML = ''
-
-        div.innerHTML = `
+            div.innerHTML = `
             <button id="${'btn' + id}" onclick="filter(${id}, '${name}', '${category}', '${type}', ${nivel})" class="btn           btn-primary mb-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Trocar Exercicío</button>
             <span id="${'heavy' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
             *Ops, sua quantidade de ${nameExer[0].segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
@@ -736,240 +798,110 @@
             </span> 
         `
 
-        // Trocando o exercicio
-        Name.innerHTML = name
-        Img.src = img
+            // Trocando o exercicio
+            Name.innerHTML = name
+            Img.src = img
 
-        // Esconde o button
-        const btn = document.getElementById('toggleExer' + id)
-        btn.classList.add('d-none')
-        btn.classList.remove('d-block')
+            // Esconde o button
+            const btn = document.getElementById('toggleExer' + id)
+            btn.classList.add('d-none')
+            btn.classList.remove('d-block')
 
-        // Zerar input
-        input.value = ''
+            // Zerar input
+            input.value = ''
 
-        input.classList.remove('text-danger')
-        input.classList.remove('input-exer')
-        input.classList.remove('input-danger')
-        input.classList.remove('input-exer-fail')
+            input.classList.remove('text-danger')
+            input.classList.remove('input-exer')
+            input.classList.remove('input-danger')
+            input.classList.remove('input-exer-fail')
 
-        input.classList.add('input-exer')
-        input.classList.add('input-value')
+            input.classList.add('input-exer')
+            input.classList.add('input-value')
 
-        repts.classList.remove('text-danger')
-        repts.classList.add('text-gray1')
+            repts.classList.remove('text-danger')
+            repts.classList.add('text-gray1')
 
-        //Mostrar o btn de iniciar tempo novamente
-        document.getElementById(`${'container' + id}`).classList.remove('d-none')
-
-    }
-
-    function openToggleExer(id, Title, Input, bool) {
-        const input = document.getElementById('ValidExer' + id);
-        const btn = document.getElementById('toggleExer' + id)
-        const light = document.getElementById('light' + id)
-        const heavy = document.getElementById('heavy' + id)
-        const repts = document.getElementById('repts' + id)
-        const success = document.getElementById('success' + id)
-        const noInput = document.getElementById('noInput' + id)
-        const finishExer = document.getElementById('finishExer' + id)
-
-        var exer = listExer.filter(e => e.name == Title.innerText)
-        // Se for segs
-        if (exer[0].segs) {
-            // Se o exercicio nao for de segundos ira executar essa validação
-
-
-            let segundos = input.value / 2 //Resposta em segundos
-            let repeticao = 60 / Math.round(segundos) // Repostas em repetição
-            repeticao = Math.round(repeticao)
-            let sugundosTotais = segundos * repeticao // Segundos totais do exer
-
-            // Dentro dos parametros
-            if (repeticao <= 4 && input.value < 60) {
-
-                input.disabled = true;
-                const btnFinish = document.getElementById('finishExer' + id)
-                if (btnFinish.classList.contains('d-none')) {
-                    document.getElementById(`container${id}`).classList.remove('d-none')
-                    noInput.classList.add('d-none')
-                }
-
-                if (bool) {
-                    success.classList.remove('d-none')
-                    // Tempo da message de sucesso
-                    setTimeout(function () {
-                        success.classList.add("d-none");
-                    }, 5000);
-                }
-                input.classList.remove('text-danger')
-                input.classList.remove('input-danger')
-
-                repts.classList.remove('text-danger')
-                repts.classList.add('text-gray1')
-
-                btn.classList.add('d-none')
-                btn.classList.remove('d-block')
-
-                gerarTreino(Title, Input, id)
-            }
-            // Se o numero de repetição for 5 ou 6 mostra o modal
-            if (repeticao == 5 || repeticao == 6) {
-                //  dar opção de eliminar exercicio
-                var modal = new bootstrap.Modal(document.querySelector('#toggleExerSegs'));
-
-                // Pegar nome do exer que ira ser deletado
-                let exerRemove = listExer.filter(e => e.category == exer[0].category && e.name != exer[0].name)
-
-                // Imprimir na tela
-                const exerDeletr = document.getElementById('exerDeleter')
-                exerDeletr.innerHTML = exerRemove[0].name
-
-                // Imprimir nome do exercicio que está pesado
-                const name = document.getElementById('nameExer')
-                name.innerHTML = exer[0].name
-
-                var fixArray = []
-                Training.forEach(e => {
-                    if (e == undefined) {
-                        return
-                    }
-                    fixArray.push(e)
-                })
-
-                var countCategory = fixArray.filter(e => e.category == exer[0].category)
-
-                if (countCategory.length == 1) {
-                    // Mostra o botão de trocar o exercicio
-                    btn.classList.add('d-block')
-                    btn.classList.remove('d-none')
-                    document.getElementById(`container${id}`).classList.add('d-none')
-                }
-                else {
-                    // filtra por categori e pega o outro exercicio da mesma catagoria
-                    let exerRemove = listExer.filter(e => e.category == exer[0].category && e.name != exer[0].name)
-
-                    btn.classList.add('d-none')
-
-                    const btnremove = document.getElementById('removeExer')
-                    btnremove.onclick = function () { removeExer(exerRemove, id, Title, Input, exer) };
-
-                    // Exibir o modal
-                    modal.show();
-
-                    const notRemove = document.getElementById('notRemove')
-                    notRemove.onclick = function () { showBtn(btn) }
-                }
-
-            }
-            // Se for maior que 6 mostra messagem de erro PESADO
-            if (repeticao > 6 || input.value >= 60) {
-                document.getElementById(`container${id}`).classList.add('d-none')
-                noInput.classList.add('d-none')
-                //sumindo btn
-                finishExer.classList.add('d-none')
-
-                // Texto de sucesso some
-                success.classList.add('d-none')
-
-                // Mostra o botão de trocar o exercicio
-                btn.classList.add('d-block')
-                btn.classList.remove('d-none')
-
-                //Mostra a obs de exer leve
-                light.classList.add('d-block')
-                light.classList.remove('d-none')
-
-                //Oculta a obs de exer pesado
-                heavy.classList.add('d-none')
-                heavy.classList.remove('d-block')
-
-                //Add visuald e erro
-                input.classList.add('text-danger')
-                input.classList.add('input-danger')
-
-                repts.classList.add('text-danger')
-                repts.classList.remove('text-gray1')
-            }
-            // Leve
-            if (repeticao < 2) {
-                //sumindo btn
-                finishExer.classList.add('d-none')
-                document.getElementById(`container${id}`).classList.add('d-none')
-
-                // Texto de sucesso some
-                success.classList.add('d-none')
-
-                // Mostra o botão de trocar o exercicio
-                btn.classList.add('d-block')
-                btn.classList.remove('d-none')
-
-                //Mostra a obs de exer leve
-                light.classList.add('d-block')
-                light.classList.remove('d-none')
-
-                //Oculta a obs de exer pesado
-                heavy.classList.add('d-none')
-                heavy.classList.remove('d-block')
-
-                //Add visuald e erro
-                input.classList.add('text-danger')
-                input.classList.add('input-danger')
-
-                repts.classList.add('text-danger')
-                repts.classList.remove('text-gray1')
-            }
+            //Mostrar o btn de iniciar tempo novamente
+            document.getElementById(`${'container' + id}`).classList.remove('d-none')
 
         }
-        // Se for repts
-        else {
-            if (exer[0].kg >= 0 && input.value > 0) {
-                if (input.value != 0) {
+
+        function openToggleExer(id, Title, Input, bool) {
+            const input = document.getElementById('ValidExer' + id);
+            const btn = document.getElementById('toggleExer' + id)
+            const light = document.getElementById('light' + id)
+            const heavy = document.getElementById('heavy' + id)
+            const repts = document.getElementById('repts' + id)
+            const success = document.getElementById('success' + id)
+            const noInput = document.getElementById('noInput' + id)
+            const finishExer = document.getElementById('finishExer' + id)
+
+            var exer = listExer.filter(e => e.name == Title.innerText)
+            // Se for segs
+            if (exer[0].segs) {
+                // Se o exercicio nao for de segundos ira executar essa validação
+
+
+                let segundos = input.value / 2 //Resposta em segundos
+                let repeticao = 60 / Math.round(segundos) // Repostas em repetição
+                repeticao = Math.round(repeticao)
+                let sugundosTotais = segundos * repeticao // Segundos totais do exer
+
+                // Dentro dos parametros
+                if (repeticao <= 4 && input.value < 60) {
+                    const msgTopBtn = document.getElementById('msgTopBtn')
+                    msgTopBtn.classList.remove('d-none')
+
                     input.disabled = true;
-                    const btnFinish = document.getElementById('finishExer' + id)
-                    if (btnFinish.classList.contains('d-none')) {
-                        document.getElementById(`container${id}`).classList.remove('d-none')
-                        noInput.classList.add('d-none')
-
-                    }
-                    if (bool) {
-                        success.classList.remove('d-none')
-                        // Tempo da message de sucesso
-                        setTimeout(function () {
-                            success.classList.add("d-none");
-                        }, 5000);
-                    }
-
-                    input.classList.remove('text-danger')
-                    input.classList.remove('input-danger')
-
-                    repts.classList.remove('text-danger')
-                    repts.classList.add('text-gray1')
-
-                    btn.classList.add('d-none')
-                    btn.classList.remove('d-block')
                     gerarTreino(Title, Input, id)
+                    btnClockStart(id)
+
                 }
-            }
-            else {
-                if (input.value < 6) {
-                    //sumindo btn
-                    finishExer.classList.add('d-none')
+                // Se o numero de repetição for 5 ou 6 mostra o modal
+                if (repeticao == 5 || repeticao == 6) {
+                    var modal = new bootstrap.Modal(document.querySelector('#excluseExer'));
+                    modal.show();
+
+
+                    const msgTopBtn = document.getElementById('msgTopBtn')
+                    msgTopBtn.classList.add('d-none')
+                    noInput.classList.add('d-none')
+
+                    let exerRemove = sendTraining.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+
+                    const closeModalExerSegs = document.getElementById('closeModalExerSegs')
+                    closeModalExerSegs.addEventListener('click', function () {
+                        console.log('teste')
+                        removeExer(exerRemove, id, Title, Input, exer)
+                        gerarTreino(Title, Input, id)
+                        btnClockStart(id)
+                    })
+
+
+                }
+                // Se for maior que 6 mostra messagem de erro PESADO
+                if (repeticao > 6 || input.value >= 60) {
+                    const msgTopBtn = document.getElementById('msgTopBtn')
+                    msgTopBtn.classList.add('d-none')
+
                     document.getElementById(`container${id}`).classList.add('d-none')
+                    noInput.classList.add('d-none')
                     // Texto de sucesso some
                     success.classList.add('d-none')
+                    finishExer.classList.add('d-none')
+
 
                     // Mostra o botão de trocar o exercicio
                     btn.classList.add('d-block')
                     btn.classList.remove('d-none')
 
-                    //Mostra a obs de exer pesado
-                    heavy.classList.add('d-block')
-                    heavy.classList.remove('d-none')
+                    //Mostra a obs de exer leve
+                    light.classList.add('d-block')
+                    light.classList.remove('d-none')
 
-                    //Oculta a obs de exer leve
-                    light.classList.add('d-none')
-                    light.classList.remove('d-block')
+                    //Oculta a obs de exer pesado
+                    heavy.classList.add('d-none')
+                    heavy.classList.remove('d-block')
 
                     //Add visuald e erro
                     input.classList.add('text-danger')
@@ -978,47 +910,16 @@
                     repts.classList.add('text-danger')
                     repts.classList.remove('text-gray1')
 
+
                 }
-                if (input.value > 5 && input.value < 16) {
-                    input.disabled = true;
-                    const btnFinish = document.getElementById('finishExer' + id)
-                    if (btnFinish.classList.contains('d-none')) {
-                        document.getElementById(`container${id}`).classList.remove('d-none')
-                        noInput.classList.add('d-none')
-                    }
+                // Leve
+                if (repeticao < 2) {
+                    const msgTopBtn = document.getElementById('msgTopBtn')
+                    msgTopBtn.classList.add('d-none')
 
-                    if (bool) {
-                        success.classList.remove('d-none')
-                        // Tempo da message de sucesso
-                        setTimeout(function () {
-                            success.classList.add("d-none");
-                        }, 5000);
-                    }
-
-
-                    input.classList.remove('text-danger')
-                    input.classList.remove('input-danger')
-
-                    repts.classList.remove('text-danger')
-                    repts.classList.add('text-gray1')
-
-                    btn.classList.add('d-none')
-                    btn.classList.remove('d-block')
-                    gerarTreino(Title, Input, id)
-
-                    //const divPai = document.getElementById('divToggle')
-                    //divPai.innerHTML = ''
-                    if (Training.length === 8) {
-                        // fechar model
-                        // const button = document.getElementById('saveTraining')
-                        // button.setAttribute('data-bs-dismiss', 'modal')
-                    }
-                }
-                if (input.value > 15) {
-                    //sumindo btn
-                    finishExer.classList.add('d-none')
                     document.getElementById(`container${id}`).classList.add('d-none')
-
+                    finishExer.classList.add('d-none')
+                    noInput.classList.add('d-none')
                     // Texto de sucesso some
                     success.classList.add('d-none')
 
@@ -1041,59 +942,228 @@
                     repts.classList.add('text-danger')
                     repts.classList.remove('text-gray1')
                 }
-            }
-        }
-    }
 
-    function gerarTreino(title, input, id) {
-        // Cria um novo objeto com as informações do exercício
-        const exer = listExer.filter(e => e.name == title.innerText)[0].url
-        let novoExercicio = {}
-        var valueInput = parseInt(input.value)
-
-        let exerFound = listExer.filter(e => e.name == title.innerText)[0]
-
-        let segundos = Math.round(valueInput / 2)//Resposta em segundos
-        let repeticao = Math.round(60 / segundos) // Repostas em repetição
-
-        //Se for segs ou kg
-
-        if (exerFound.segs || 'kg' in exerFound) {
-            exerFound.segs ?
-                novoExercicio = { name: title.innerText, count: segundos, rept: repeticao, rest: 3, url: exer, num: id, segs: "true" } :
-                novoExercicio = { name: title.innerText, kg: valueInput, rept: 3, rest: 3, url: exer, num: id }
-        }
-        else {
-            novoExercicio = { name: title.innerText, count: valueInput, rept: 3, rest: 3, url: exer, num: id };
-        }
-
-        const found = sendTraining.findIndex(e => e.name == novoExercicio.name)
-
-        if (found !== -1) {
-
-            if (exerFound.segs) {
-                // add no treino, com as regras de segundos
-                sendTraining[found].rept = repeticao
-                sendTraining[found].count = segundos
             }
             else {
-                if ('kg' in exerFound) {
-                    sendTraining[found].kg = valueInput
-                    sendTraining[found].rept = 3
+                if (exer[0].kg >= 0 && input.value > 0) {
+                    const msgTopBtn = document.getElementById('msgTopBtn')
+                    msgTopBtn.classList.remove('d-none')
 
-                } else {
-                    if (sendTraining[found].name == "Dips na paralela" || sendTraining[found].name == "Pull Ups") {
-                        if (valueInput == 3 || valueInput == 4 || valueInput == 5) {
-                            if (valueInput == 3) {
-                                sendTraining[found].rept = 5
-                                sendTraining[found].count = (valueInput - 1)
+                    input.disabled = true;
+                    gerarTreino(Title, Input, id)
+                    btnClockStart(id)
+                }
+                else {
+                    if (exer[0].name == 'Dips na paralela' || exer[0].name == 'Pull Ups') {
+                        if (input.value <= 3) {
+                            const msgTopBtn = document.getElementById('msgTopBtn')
+                            msgTopBtn.classList.add('d-none')
+
+                            finishExer.classList.add('d-none')
+
+                            noInput.classList.add('d-none')
+                            // Texto de sucesso some
+                            success.classList.add('d-none')
+
+                            // Mostra o botão de trocar o exercicio
+                            btn.classList.add('d-block')
+                            btn.classList.remove('d-none')
+
+                            document.getElementById(`container${id}`).classList.add('d-none')
+
+                            //Mostra a obs de exer pesado
+                            heavy.classList.add('d-block')
+                            heavy.classList.remove('d-none')
+
+                            //Oculta a obs de exer leve
+                            light.classList.add('d-none')
+                            light.classList.remove('d-block')
+
+                            //Add visuald e erro
+                            input.classList.add('text-danger')
+                            input.classList.add('input-danger')
+
+                            repts.classList.add('text-danger')
+                            repts.classList.remove('text-gray1')
+
+                        }
+                        if (input.value > 3 && input.value < 16) {
+                            const msgTopBtn = document.getElementById('msgTopBtn')
+                            msgTopBtn.classList.remove('d-none')
+
+                            input.disabled = true;
+                            gerarTreino(Title, Input, id)
+                            btnClockStart(id)
+
+
+
+                        }
+                        if (input.value > 15) {
+                            const msgTopBtn = document.getElementById('msgTopBtn')
+                            msgTopBtn.classList.add('d-none')
+
+                            finishExer.classList.add('d-none')
+                            noInput.classList.add('d-none')
+                            // Texto de sucesso some
+                            success.classList.add('d-none')
+
+                            // Mostra o botão de trocar o exercicio
+                            btn.classList.add('d-block')
+                            btn.classList.remove('d-none')
+
+                            document.getElementById(`container${id}`).classList.add('d-none')
+
+                            //Mostra a obs de exer leve
+                            light.classList.add('d-block')
+                            light.classList.remove('d-none')
+
+                            //Oculta a obs de exer pesado
+                            heavy.classList.add('d-none')
+                            heavy.classList.remove('d-block')
+
+                            //Add visuald e erro
+                            input.classList.add('text-danger')
+                            input.classList.add('input-danger')
+
+                            repts.classList.add('text-danger')
+                            repts.classList.remove('text-gray1')
+                        }
+                    }
+                    else {
+                        if (input.value < 6) {
+                            const msgTopBtn = document.getElementById('msgTopBtn')
+                            msgTopBtn.classList.add('d-none')
+
+                            finishExer.classList.add('d-none')
+                            noInput.classList.add('d-none')
+
+                            // Texto de sucesso some
+                            success.classList.add('d-none')
+
+                            // Mostra o botão de trocar o exercicio
+                            btn.classList.add('d-block')
+                            btn.classList.remove('d-none')
+
+                            document.getElementById(`container${id}`).classList.add('d-none')
+
+                            //Mostra a obs de exer pesado
+                            heavy.classList.add('d-block')
+                            heavy.classList.remove('d-none')
+
+                            //Oculta a obs de exer leve
+                            light.classList.add('d-none')
+                            light.classList.remove('d-block')
+
+                            //Add visuald e erro
+                            input.classList.add('text-danger')
+                            input.classList.add('input-danger')
+
+                            repts.classList.add('text-danger')
+                            repts.classList.remove('text-gray1')
+
+                        }
+                        if (input.value > 5 && input.value < 16) {
+                            const msgTopBtn = document.getElementById('msgTopBtn')
+                            msgTopBtn.classList.remove('d-none')
+
+                            input.disabled = true;
+                            gerarTreino(Title, Input, id)
+                            btnClockStart(id)
+
+
+
+                        }
+                        if (input.value > 15) {
+                            const msgTopBtn = document.getElementById('msgTopBtn')
+                            msgTopBtn.classList.add('d-none')
+
+                            finishExer.classList.add('d-none')
+
+                            // Texto de sucesso some
+                            noInput.classList.add('d-none')
+                            success.classList.add('d-none')
+
+                            // Mostra o botão de trocar o exercicio
+                            btn.classList.add('d-block')
+                            btn.classList.remove('d-none')
+
+                            document.getElementById(`container${id}`).classList.add('d-none')
+
+                            //Mostra a obs de exer leve
+                            light.classList.add('d-block')
+                            light.classList.remove('d-none')
+
+                            //Oculta a obs de exer pesado
+                            heavy.classList.add('d-none')
+                            heavy.classList.remove('d-block')
+
+                            //Add visuald e erro
+                            input.classList.add('text-danger')
+                            input.classList.add('input-danger')
+
+                            repts.classList.add('text-danger')
+                            repts.classList.remove('text-gray1')
+                        }
+                    }
+
+                }
+            }
+        }
+
+        function gerarTreino(title, input, id) {
+            // Cria um novo objeto com as informações do exercício
+            const exer = listExer.filter(e => e.name == title.innerText)[0].url
+            let novoExercicio = {}
+            var valueInput = parseInt(input.value)
+
+            let exerFound = listExer.filter(e => e.name == title.innerText)[0]
+
+            let segundos = Math.round(valueInput / 2)//Resposta em segundos
+            let repeticao = Math.round(60 / segundos) // Repostas em repetição
+
+            //Se for segs ou kg
+
+            if (exerFound.segs || 'kg' in exerFound) {
+                exerFound.segs ?
+                    novoExercicio = { name: title.innerText, count: segundos, rept: repeticao, rest: 3, url: exer, num: id, segs: "true" } :
+                    novoExercicio = { name: title.innerText, kg: valueInput, rept: 3, rest: 3, url: exer, num: id }
+            }
+            else {
+                novoExercicio = { name: title.innerText, count: valueInput, rept: 3, rest: 3, url: exer, num: id };
+            }
+
+            const found = sendTraining.findIndex(e => e.name == novoExercicio.name)
+
+            if (found !== -1) {
+
+                if (exerFound.segs) {
+                    // add no treino, com as regras de segundos
+                    sendTraining[found].rept = repeticao
+                    sendTraining[found].count = segundos
+                }
+                else {
+                    if ('kg' in exerFound) {
+                        sendTraining[found].kg = valueInput
+                        sendTraining[found].rept = 3
+
+                    } else {
+                        if (sendTraining[found].name == "Dips na paralela" || sendTraining[found].name == "Pull Ups") {
+                            if (valueInput == 3 || valueInput == 4 || valueInput == 5) {
+                                if (valueInput == 3) {
+                                    sendTraining[found].rept = 5
+                                    sendTraining[found].count = (valueInput - 1)
+                                }
+                                if (valueInput == 4) {
+                                    sendTraining[found].rept = 5
+                                    sendTraining[found].count = (valueInput - 1)
+                                }
+                                if (valueInput == 5) {
+                                    sendTraining[found].rept = 4
+                                    sendTraining[found].count = (valueInput - 1)
+                                }
                             }
-                            if (valueInput == 4) {
-                                sendTraining[found].rept = 5
-                                sendTraining[found].count = (valueInput - 1)
-                            }
-                            if (valueInput == 5) {
-                                sendTraining[found].rept = 4
+                            else {
+                                sendTraining[found].rept = 3
                                 sendTraining[found].count = (valueInput - 1)
                             }
                         }
@@ -1102,236 +1172,234 @@
                             sendTraining[found].count = (valueInput - 1)
                         }
                     }
-                    else {
-                        sendTraining[found].rept = 3
-                        sendTraining[found].count = (valueInput - 1)
-                    }
-                }
-            }
-        }
-        else {
-            sendTraining.push(novoExercicio);
-            console.log(sendTraining)
-        }
-    }
-
-    function creatStruct(id) {
-        const input = document.getElementById('ValidExer' + id)
-        const title = document.getElementById('ValidTitle' + id)
-        const repts = document.getElementById('repts' + id)
-        if (input != null) {
-            input.addEventListener('blur', function () {
-                if (input.value == NaN ||
-                    input.value == null ||
-                    input.value == undefined ||
-                    input.value == "") {
-
-                    input.classList.remove('input-exer')
-                    input.classList.add('input-exer-fail')
-                    repts.classList.add('text-danger')
-                } else {
-                    repts.classList.remove('text-danger')
-                    input.classList.remove('input-exer-fail')
-                    input.classList.add('input-exer')
-                    openToggleExer(id, title, input, true)
-                }
-            })
-        }
-    }
-
-    function correctingArray(treino, exercicio) {
-        let data_all = [];
-
-        exercicio.forEach(a => {
-            treino.forEach(t => {
-                if (a["name"] == t["name"]) {
-                    let new_data = Object.assign({}, a, t);
-                    data_all.push(new_data);
-                }
-            });
-        });
-        return data_all
-    }
-
-    function btnClockStart(id) {
-        const input = document.getElementById('ValidExer' + id);
-        const btn = document.getElementById('toggleExer' + id)
-        const light = document.getElementById('light' + id)
-        const heavy = document.getElementById('heavy' + id)
-        const repts = document.getElementById('repts' + id)
-        const success = document.getElementById('success' + id)
-        const noInput = document.getElementById('noInput' + id)
-        const finishExer = document.getElementById('finishExer' + id)
-
-
-        if (input.value == NaN || input.value == null || input.value == undefined || input.value == "") {
-            input.classList.remove('input-exer')
-            input.classList.add('input-exer-fail')
-            repts.classList.add('text-danger')
-        } else {
-
-            repts.classList.remove('text-danger')
-            input.classList.remove('txt-header-input')
-            input.classList.add('input-value')
-            repts.classList.add('txt-header-input')
-            const clock = document.getElementById(`clock${id}`)
-            clock.innerHTML = ''
-            //clock.remove()
-
-            const container = document.getElementById(`container${id}`);
-            const progressBar = document.getElementById(`progress-bar${id}`);
-            const countdownTime = document.getElementById(`timecount${id}`);
-            const countdown = document.getElementById(`countdown${id}`);
-
-            container.style.backgroundColor = '#E5E5E5'
-            progressBar.classList.remove('d-none')
-            countdown.classList.remove('d-none')
-
-            const totalTime = 3; // Tempo total em segundos (3 minutos)
-            let currentTime = 0;
-
-            const updateProgress = setInterval(() => {
-                currentTime++;
-                const progressPercentage = (currentTime / totalTime) * 100;
-                progressBar.style.width = `${progressPercentage}%`;
-
-                // Atualizar countdown
-                const remainingTime = totalTime - currentTime;
-                const minutes = Math.floor(remainingTime / 60).toString().padStart(2, '0');
-                const seconds = (remainingTime % 60).toString().padStart(2, '0');
-                countdownTime.textContent = `${minutes}:${seconds}`;
-
-                // Atualizar background color
-                const hue = Math.floor((currentTime / totalTime) * 120); // Valor entre 0 e 120
-                //const saturation = 100; // Valor fixo
-                //const lightness = 50; // Valor fixo
-                //container.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)//`;
-
-                if (currentTime >= totalTime) {
-                    clearInterval(updateProgress);
-                    const finishExer = document.getElementById(`finishExer${id}`)
-                    finishExer.classList.remove('d-none')
-
-                    container.classList.add('d-none')
-                    light.classList.add('d-none')
-                    heavy.classList.add('d-none')
-                    success.classList.add('d-none')
-
-                }
-            }, 1000);
-        }
-
-
-
-
-    }
-
-    function nextSlideExer(id) {
-        const modal = $('#exampleModal');
-        if (modal.length) {
-            modal.modal('hide');
-        }
-        if (id != 8) {
-            $('.carousel2').carousel('next')
-        }
-        else {
-            enviarTreino()
-        }
-    }
-
-    function removeUndefined(array) {
-        return array.filter(item => item !== undefined);
-    }
-
-    function verificationCountOfRept(training) {
-        let arrayAux = [];
-        training.forEach(exer => {
-            let detailOfExer = listExer.filter(e => e.name == exer.name)[0]
-            arrayAux.push(detailOfExer)
-        })
-
-        let Push = arrayAux.filter(e => e.category == 'Push')
-        let Pull = arrayAux.filter(e => e.category == 'Pull')
-        let Core = arrayAux.filter(e => e.category == 'Core')
-        let Legs = arrayAux.filter(e => e.category == 'Legs')
-
-        if (Push.length < 2) {
-            training.forEach(exer => {
-                if (exer.name == Push[0].name) {
-                    exer.rept = 4
-                }
-            })
-        }
-
-        if (Pull.length < 2) {
-            training.forEach(exer => {
-                if (exer.name == Pull[0].name) {
-                    exer.rept = 4
-                }
-            })
-        }
-
-        if (Core.length < 2) {
-            training.forEach(exer => {
-                if (exer.name == Core[0].name) {
-                    exer.rept = 4
-                }
-            })
-        }
-
-        if (Legs.length < 2) {
-            training.forEach(exer => {
-                if (exer.name == Legs[0].name) {
-                    exer.rept = 4
-                }
-            })
-        }
-    }
-
-    async function enviarTreino() {
-        for (let i = 0; i < sendTraining.length; i++) {
-            const tr = sendTraining[i];
-            if ('kg' in tr) {
-                if (tr.kg == 0 || tr.kg == null) {
-                    return false
                 }
             }
             else {
-                if (tr.count == 0 || tr.count == null) {
-                    return false;
-                }
+                sendTraining.push(novoExercicio);
+                console.log(sendTraining)
             }
         }
 
-        loading(true);
-        verificationCountOfRept(sendTraining)
-        try {
-            const response = await fetch('/sendTraining', {
-                method: 'POST',
-                body: JSON.stringify(sendTraining),
-                headers: {
-                    'Content-Type': 'application/json'
+        function creatStruct(id) {
+            const check = document.getElementById('check' + id)
+            const input = document.getElementById('ValidExer' + id)
+            const title = document.getElementById('ValidTitle' + id)
+            const repts = document.getElementById('repts' + id)
+            const btnFinish = document.getElementById('finishExer' + id)
+
+            if (!check) {
+                return
+            }
+            check.addEventListener('change', function () {
+                if (input.value == null) {
+                    this.checked = false
                 }
+                if (this.checked) {
+                    if (input.value == NaN ||
+                        input.value == null ||
+                        input.value == undefined ||
+                        input.value == "") {
+
+                        input.classList.remove('input-exer')
+                        input.classList.add('input-exer-fail')
+                        repts.classList.add('text-danger')
+                    } else {
+                        repts.classList.remove('text-danger')
+                        input.classList.remove('input-exer-fail')
+                        input.classList.add('input-exer')
+                        openToggleExer(id, title, input, true)
+                    }
+                }
+            })
+        }
+
+        function correctingArray(treino, exercicio) {
+            let data_all = [];
+
+            exercicio.forEach(a => {
+                treino.forEach(t => {
+                    if (a["name"] == t["name"]) {
+                        let new_data = Object.assign({}, a, t);
+                        data_all.push(new_data);
+                    }
+                });
             });
-            if (response.redirected) {
-                window.location.replace(response.url);
-            } else {
-                //loadExer(false)
-            }
-        } catch (error) {
-            console.error('Erro na requisição:', error);
-            // Esconde a animação de carregamento
-            loadExer(false)
+            return data_all
         }
-    }
 
-    window.creatBasicExer = creatBasicExer;
-    window.choseExer = choseExer;
-    window.filter = filter;
-    window.subs = subs;
-    window.enviarTreino = enviarTreino;
-    window.btnClockStart = btnClockStart;
-    window.nextSlideExer = nextSlideExer;
-    window.openInfo = openInfo;
-</script>
-{% endblock %}
+        function btnClockStart(id) {
+            const input = document.getElementById('ValidExer' + id);
+            const btn = document.getElementById('toggleExer' + id)
+            const light = document.getElementById('light' + id)
+            const heavy = document.getElementById('heavy' + id)
+            const repts = document.getElementById('repts' + id)
+            const success = document.getElementById('success' + id)
+            const noInput = document.getElementById('noInput' + id)
+            const finishExer = document.getElementById(`finishExer${id}`)
+
+
+            if (input.value == NaN || input.value == null || input.value == undefined || input.value == "") {
+                input.classList.remove('input-exer')
+                input.classList.add('input-exer-fail')
+                repts.classList.add('text-danger')
+            } else {
+                repts.classList.remove('text-danger')
+                input.classList.remove('txt-header-input')
+                input.classList.add('input-value')
+                repts.classList.add('txt-header-input')
+                const clock = document.getElementById(`clock${id}`)
+                clock ? clock.remove() : null
+                //clock.remove()
+
+                const container = document.getElementById(`container${id}`);
+                const progressBar = document.getElementById(`progress-bar${id}`);
+                const countdownTime = document.getElementById(`timecount${id}`);
+                const countdown = document.getElementById(`countdown${id}`);
+
+                container.style.backgroundColor = '#E5E5E5'
+                progressBar.classList.remove('d-none')
+                countdown.classList.remove('d-none')
+
+                const totalTime = 3; // Tempo total em segundos (3 minutos)
+                let currentTime = 0;
+
+                const updateProgress = setInterval(() => {
+                    currentTime++;
+                    const progressPercentage = (currentTime / totalTime) * 100;
+                    progressBar.style.width = `${progressPercentage}%`;
+
+                    // Atualizar countdown
+                    const remainingTime = totalTime - currentTime;
+                    const minutes = Math.floor(remainingTime / 60).toString().padStart(2, '0');
+                    const seconds = (remainingTime % 60).toString().padStart(2, '0');
+                    countdownTime.textContent = `${minutes}:${seconds}`;
+
+                    // Atualizar background color
+                    const hue = Math.floor((currentTime / totalTime) * 120); // Valor entre 0 e 120
+                    //const saturation = 100; // Valor fixo
+                    //const lightness = 50; // Valor fixo
+                    //container.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)//`;
+
+                    if (currentTime >= totalTime) {
+                        clearInterval(updateProgress);
+                        finishExer.classList.remove('d-none')
+
+                        container.classList.add('d-none')
+                        light.classList.add('d-none')
+                        heavy.classList.add('d-none')
+                        success.classList.add('d-none')
+
+                    }
+                }, 1000);
+            }
+        }
+
+        function nextSlideExer(id) {
+            const modal = $('#exampleModal');
+            if (modal.length) {
+                modal.modal('hide');
+            }
+            if (id != 8) {
+                $('.carousel2').carousel('next')
+            }
+            else {
+                enviarTreino()
+            }
+        }
+
+        function removeUndefined(array) {
+            return array.filter(item => item !== undefined);
+        }
+
+        function verificationCountOfRept(training) {
+            let arrayAux = [];
+            training.forEach(exer => {
+                let detailOfExer = listExer.filter(e => e.name == exer.name)[0]
+                arrayAux.push(detailOfExer)
+            })
+
+            let Push = arrayAux.filter(e => e.category == 'Push')
+            let Pull = arrayAux.filter(e => e.category == 'Pull')
+            let Core = arrayAux.filter(e => e.category == 'Core')
+            let Legs = arrayAux.filter(e => e.category == 'Legs')
+
+            if (Push.length < 2) {
+                training.forEach(exer => {
+                    if (exer.name == Push[0].name) {
+                        exer.rept = 4
+                    }
+                })
+            }
+
+            if (Pull.length < 2) {
+                training.forEach(exer => {
+                    if (exer.name == Pull[0].name) {
+                        exer.rept = 4
+                    }
+                })
+            }
+
+            if (Core.length < 2) {
+                training.forEach(exer => {
+                    if (exer.name == Core[0].name) {
+                        exer.rept = 4
+                    }
+                })
+            }
+
+            if (Legs.length < 2) {
+                training.forEach(exer => {
+                    if (exer.name == Legs[0].name) {
+                        exer.rept = 4
+                    }
+                })
+            }
+        }
+
+        async function enviarTreino() {
+            for (let i = 0; i < sendTraining.length; i++) {
+                const tr = sendTraining[i];
+                if ('kg' in tr) {
+                    if (tr.kg == 0 || tr.kg == null) {
+                        return false
+                    }
+                }
+                else {
+                    if (tr.count == 0 || tr.count == null) {
+                        return false;
+                    }
+                }
+            }
+
+            loading(true);
+            verificationCountOfRept(sendTraining)
+            try {
+                const response = await fetch('/sendTraining', {
+                    method: 'POST',
+                    body: JSON.stringify(sendTraining),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.redirected) {
+                    window.location.replace(response.url);
+                } else {
+                    //loadExer(false)
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                // Esconde a animação de carregamento
+                loadExer(false)
+            }
+        }
+
+        window.creatBasicExer = creatBasicExer;
+        window.choseExer = choseExer;
+        window.filter = filter;
+        window.subs = subs;
+        window.enviarTreino = enviarTreino;
+        window.btnClockStart = btnClockStart;
+        window.nextSlideExer = nextSlideExer;
+        window.openInfo = openInfo;
+    </script>
+    {% endblock %}
