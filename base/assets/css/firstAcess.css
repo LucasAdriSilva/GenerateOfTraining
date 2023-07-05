@@ -192,10 +192,12 @@
 }
 
 .days {
-    width: 35px;
-    height: 35px;
-    background-color: #E5E5E5;
+    /* width: 35px;*/
+    height: 39px;
+    /* background-color: #E5E5E5; */
     border-radius: 2px;
+    border: 1px solid rgba(229, 229, 229, 1);
+    text-align: center;
 }
 
 .msgErr-title {
@@ -284,10 +286,10 @@
 .img-size {
     width: 200px;
     height: 200px;
-    padding: 10px;
 }
 
 .title-creat-exer {
+    /* text-transform: uppercase; */
     text-align: center;
     font-size: 27px;
     color: #707070;
@@ -344,16 +346,20 @@
 
 .name-input {
     color: #707070;
-    font-size: 23px;
+    font-size: 18px;
     text-transform: uppercase;
     text-align: center;
 }
 
+
+
 .input-creat {
+    color: rgb(25, 149, 168);
     border: none;
     width: 100%;
     text-align: center;
-    font-size: 23px;
+    font-size: 18px;
+    background-color: transparent !important;
 }
 
 .input-creat2 {
@@ -379,10 +385,12 @@
     margin-bottom: 50px;
 }
 
+
+
 .btn-reset,
 [id^="container"] {
-    width: 260px;
-    height: 43px;
+    width: 300px;
+    height: 43px;  
     background-color: #FFC400;
     font-weight: 500;
     font-size: 23px;
@@ -391,10 +399,13 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    border-radius: 6px;
 }
 
 [id^="container"] {
     position: relative;
+    width: 300px;
+    height: 43px; 
 }
 
 [id^="progress-bar"] {
@@ -402,7 +413,7 @@
     top: 0;
     left: 0;
     width: 0;
-    height: 100%;
+    height: 43px; 
     background-color: #FFC400;
     transition: width 1s linear;
 }
@@ -427,7 +438,9 @@
 }
 
 
-
+[id^="ValidExer"]:focus {
+    outline: none;
+}
 
 .text-count {
     font-size: 20px;
@@ -456,11 +469,22 @@
     font-size: 20px;
 }
 
+.placeholder-input::placeholder{
+    color: rgb(25, 149, 168);
+    font-weight: 800;
+    font-size: 18px;
+}
+
 .input-value {
-    border: 1px solid rgb(133, 133, 133) !important;
+    background-color: transparent!important;
+    border: none !important;
     width: 75%;
     text-align: center;
     border-radius: 6px;
+    color: rgba(112, 112, 112, 1);
+}
+.input-value::placeholder {
+    font-size: 18px;
 }
 
 .btn-chosen-training {
@@ -509,10 +533,14 @@
     width: 75%;
 }
 
-#showExer{
+#showExer {
     height: fit-content;
     max-height: 70vh;
     overflow-y: scroll;
+}
+
+.bg-gray3{
+    background-color: rgba(84, 84, 84, 0.15);
 }
 
 @media screen and (min-width: 992px) {
@@ -587,8 +615,6 @@
     .img-size {
         width: 350px;
         height: 350px;
-
-        padding: 30px;
     }
 
     .div-option {
@@ -713,7 +739,6 @@
     .img-size {
         width: 600px;
         height: 600px;
-        padding: 30px;
     }
 
     .content1-option {
@@ -862,11 +887,10 @@
 }
 
 @media screen and (max-height: 800px) {
-    .img-size {
+    /* .img-size {
         width: clamp(100px, 20vh, 150px);
         height: clamp(100px, 20vh, 150px);
-        padding: 10px;
-    }
+    } */
 }
 
 @media screen and (max-height: 650px) {
@@ -889,7 +913,6 @@
     .img-size {
         width: 120px;
         height: 120px;
-        padding: 10px;
     }
 }
 

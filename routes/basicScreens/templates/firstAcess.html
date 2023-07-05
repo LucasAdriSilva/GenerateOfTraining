@@ -38,7 +38,7 @@
 
         <div id="quiz" data-bs-touch="false" class=" carousel slide backgroundColor">
             <div class="carousel-inner">
-                <!-- Messagem de bm vindo -->
+                <!-- Messagem de bem vindo -->
                 <div class="carousel-item active ">
                     <div id="firstSlide" class="row reset-Padding">
                         <div
@@ -62,8 +62,8 @@
                     </div>
                 </div>
 
-                <!-- Escolha de terino -->
-                <div class="carousel-item ">
+                <!-- Escolha de treino -->
+                <div class="carousel-item mt-lg-5">
                     <div id="chosenTrainingId" class="row gapEquip">
                         <div
                             class="col-10 col-lg-8 title-BR30 m-auto d-flex align-items-start justify-content-start reset-Padding">
@@ -104,7 +104,7 @@
                 </div>
 
                 <!-- Equipamentos -->
-                <div class="carousel-item ">
+                <div class="carousel-item mt-lg-5">
                     <div class="row gapEquip">
                         <div
                             class="col-10 col-lg-8 title-BR30 m-auto d-flex align-items-center justify-content-center reset-Padding">
@@ -180,9 +180,10 @@
                     </div>
                 </div>
 
-                <!-- Dias e hora -->
-                <div class="carousel-item ">
-                    <div class="row">
+                <!-- Dias  -->
+                <div class="carousel-item mt-lg-5">
+                    <div class="row d-flex justify-content-center gap-4">
+
                         <div
                             class="col-10 col-lg-8 title-BR30 m-auto d-flex align-items-center justify-content-center reset-Padding">
                             <h3 class="text-center reset title-BR30 bg-quiz title-pag2">
@@ -191,67 +192,69 @@
 
                         </div>
 
-                        <div
-                            class="col-10 col-lg-8 m-auto d-sm-none d-flex align-items-center justify-content-center reset-Padding">
-                            <button id="day3" onclick="choseDay(3,3)" class="btn  btn-chosen-day"
-                                style="margin-top: 27px;">3 Dias</button>
-                        </div>
-                        <div
-                            class="col-10 col-lg-8 d-sm-none m-auto d-flex align-items-center justify-content-center reset-Padding">
-                            <button id="day4" onclick="choseDay(4,4)" class="btn  btn-chosen-day">4 Dias</button>
-                        </div>
 
-                        <div
-                            class="col-10 col-lg-8 m-auto d-none d-sm-flex align-items-center justify-content-center reset-Padding gap-5 mt-4">
-                            <div class="d-flex justify-content-center align-items-center gap-2">
-                                <button id="day5" onclick="choseDay(3,5)" class="btn btn-circle-day"></button>
-                                <span class="reset txt-btn-circle-day">3 Dias</span>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center gap-2">
-                                <button id="day6" onclick="choseDay(4,6)" class="btn btn-circle-day"></button>
-                                <span class="reset txt-btn-circle-day">4 Dias</span>
-                            </div>
-
-                        </div>
-
-
-
-
-                        <div
-                            class="col-10 d-flex flex-column justify-content-center align-items-center reset-Padding col-header-pag4">
-                            <h3 class="text-pag3">Quanto tempo por dia você tem (com certeza)?
-                            </h3>
-                        </div>
-
-                        <div
-                            class="col-12 d-flex flex-column flex-lg-row justify-content-center align-items-center col-hours-min">
-
-                            <select id="hours" class="mx-3 select2" aria-label="Default select example">
-                                <option class="text-center" selected value="0">Horas</option>
-                                <option class="text-center" value="0">0 Hora</option>
-                                <option class="text-center" value="1">1 Hora</option>
-                                <option class="text-center" value="2">2 Horas</option>
-                                <option class="text-center" value="3">3 Horas</option>
-                                <option class="text-center" value="4">4 Horas</option>
-                            </select>
-
-
-                            <select id="min" class="mx-3 select2" aria-label="Default select example">
-                                <option class="text-center" selected value="0">Min.</option>
-                                <option class="text-center" value="0">0 Min</option>
-                                <option class="text-center" value="5">5 Min</option>
-                                <option class="text-center" value="10">10 Min</option>
-                                <option class="text-center" value="15">15 Min</option>
-                                <option class="text-center" value="20">20 Min</option>
-                                <option class="text-center" value="25">25 Min</option>
-                                <option class="text-center" value="30">30 Min</option>
-                                <option class="text-center" value="35">35 Min</option>
-                                <option class="text-center" value="40">40 Min</option>
-                                <option class="text-center" value="45">45 Min</option>
-                                <option class="text-center" value="50">50 Min</option>
-                                <option class="text-center" value="55">55 Min</option>
+                        <div class="col-10 d-flex m-auto align-items-center justify-content-center reset-Padding">
+                            <select id="Days" class="mx-3 select2" aria-label="Default select example">
+                                <option class="text-center" selected value="0">Dias</option>
+                                <option class="text-center" value="3">3</option>
+                                <option class="text-center" value="4">4</option>
                             </select>
                         </div>
+
+                        <div
+                            class="col-10 daysJS d-none m-auto align-items-center justify-content-center reset-Padding">
+                            <div class="row justify-content-around">
+                                <div onclick="choseDayofTraining('Seg')" id="Seg"
+                                    class="col-5 days d-flex justify-content-center align-items-center reset-Padding">
+                                    Segunda-feira</div>
+
+
+                                <div onclick="choseDayofTraining('Ter')" id="Ter"
+                                    class="col-5 days d-flex justify-content-center align-items-center reset-Padding">
+                                    Terça-feira</div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="col-10 daysJS d-none m-auto align-items-center justify-content-center reset-Padding">
+                            <div class="row justify-content-around ">
+                                <div onclick="choseDayofTraining('Quar')" id="Quar"
+                                    class="col-5 days d-flex justify-content-center align-items-center reset-Padding">
+                                    Quarta-feira</div>
+
+
+                                <div onclick="choseDayofTraining('Quin')" id="Quin"
+                                    class="col-5 days d-flex justify-content-center align-items-center reset-Padding">
+                                    Quinta-feira</div>
+                            </div>
+                        </div>
+
+
+                        <div
+                            class="col-10 daysJS d-none m-auto align-items-center justify-content-center reset-Padding">
+                            <div class="row justify-content-around">
+                                <div onclick="choseDayofTraining('Sex')" id="Sex"
+                                    class="col-5 days d-flex justify-content-center align-items-center reset-Padding">
+                                    Sexta-feira</div>
+
+
+                                <div onclick="choseDayofTraining('Sab')" id="Sab"
+                                    class="col-5 days d-flex justify-content-center align-items-center reset-Padding">
+                                    Sábado</div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="col-10 daysJS d-none m-auto align-items-center justify-content-center reset-Padding">
+                            <div class="row justify-content-around">
+                                <div onclick="choseDayofTraining('Dom')" id="Dom"
+                                    class="col-5 days d-flex justify-content-center align-items-center reset-Padding">
+                                    Domingo</div>
+                                <div class="col-5"></div>
+                            </div>
+
+                        </div>
+
 
 
                         <div class="col-12 d-flex justify-content-center algin-items-center" style=" margin-top: 36px;">
@@ -259,72 +262,61 @@
                                 Continuar
                             </button>
                         </div>
-                        <!-- <div class="col-12 d-flex justify-content-center algin-items-center" style=" margin-top: 36px;">
-                            <button onclick="verificationRequireds()" class="text-uppercase btn-pag2">
-                                Continuar
-                            </button>
-                        </div> -->
 
-                        <!-- <div id="timeErr" class="col-12 d-none d-flex justify-content-center align-i">
-
-                            <span class="text-danger text-center">
-                                O limite minimo de tempo é de 40 minutos, por favor altere o tempo do seu treino
-                            </span>
-                        </div> -->
                     </div>
                 </div>
 
-                <!-- Quais dias -->
-                <div class="carousel-item ">
-                    <div class="row">
-                        <div
-                            class="col-10 col-lg-8 title-BR30 m-auto d-flex align-items-center justify-content-center reset-Padding">
-                            <h3 class="text-center reset title-BR30 bg-quiz title-pag2">
-                                Escolhas dos dias de treinos
-                            </h3>
-                        </div>
-                        <div
-                            class="col-10 col-lg-8 m-auto d-flex align-items-center justify-content-center reset-Padding gap-2 gap-lg-4 gap-xxl-5 mt-5">
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div onclick="choseDayofTraining('Seg')" id="Seg" class="days"></div>
-                                <span class="small font-chosen-day">Seg.</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div onclick="choseDayofTraining('Ter')" id="Ter" class="days"></div>
-                                <span class="small font-chosen-day">Ter.</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div onclick="choseDayofTraining('Quar')" id="Quar" class="days"></div>
-                                <span class="small font-chosen-day">Quar.</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div onclick="choseDayofTraining('Quin')" id="Quin" class="days"></div>
-                                <span class="small font-chosen-day">Quin.</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div onclick="choseDayofTraining('Sex')" id="Sex" class="days"></div>
-                                <span class="small font-chosen-day">Sex.</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div onclick="choseDayofTraining('Sab')" id="Sab" class="days"></div>
-                                <span class="small font-chosen-day">Sab.</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div onclick="choseDayofTraining('Dom')" id="Dom" class="days"></div>
-                                <span class="small font-chosen-day">Dom.</span>
-                            </div>
-                        </div>
+                <!-- hora -->
+                <div class="carousel-item mt-lg-5">
 
-                        <div class="col-12 d-flex justify-content-center algin-items-center" style=" margin-top: 36px;">
-                            <button id="btn5" onclick="verificationRequireds()" class="text-uppercase btn-pag2">
-                                Continuar
-                            </button>
-                        </div>
+                    <div
+                        class="col-10 col-lg-8 title-BR30 m-auto d-flex align-items-center justify-content-center reset-Padding">
+                        <h3 class="text-center reset title-BR30 bg-quiz title-pag2">
+                            Quanto tempo por dia você tem (com certeza)
+                        </h3>
+
+                    </div>
+
+                    <div
+                        class="col-12 d-flex flex-column flex-lg-row justify-content-center align-items-center col-hours-min">
+
+                        <select id="hours" class="mx-3 select2" aria-label="Default select example">
+                            <option class="text-center" selected value="0">Horas</option>
+                            <option class="text-center" value="0">0 Hora</option>
+                            <option class="text-center" value="1">1 Hora</option>
+                            <option class="text-center" value="2">2 Horas</option>
+                            <option class="text-center" value="3">3 Horas</option>
+                            <option class="text-center" value="4">4 Horas</option>
+                        </select>
+
+
+                        <select id="min" class="mx-3 select2" aria-label="Default select example">
+                            <option class="text-center" selected value="0">Min.</option>
+                            <option class="text-center" value="0">0 Min</option>
+                            <option class="text-center" value="5">5 Min</option>
+                            <option class="text-center" value="10">10 Min</option>
+                            <option class="text-center" value="15">15 Min</option>
+                            <option class="text-center" value="20">20 Min</option>
+                            <option class="text-center" value="25">25 Min</option>
+                            <option class="text-center" value="30">30 Min</option>
+                            <option class="text-center" value="35">35 Min</option>
+                            <option class="text-center" value="40">40 Min</option>
+                            <option class="text-center" value="45">45 Min</option>
+                            <option class="text-center" value="50">50 Min</option>
+                            <option class="text-center" value="55">55 Min</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-12 d-flex justify-content-center algin-items-center" style=" margin-top: 36px;">
+                        <button id="btn5" onclick="verificationRequireds()" class="text-uppercase btn-pag2">
+                            Continuar
+                        </button>
                     </div>
                 </div>
-
             </div>
         </div>
+
 
         <div id="msgErr" class="row d-none justify-content-start content-margin">
 
@@ -387,9 +379,10 @@
 
         </div>
 
-        <div id="div2" class="row d-none rounded-3 d-flex justify-content-center align-content-start content-margin">
+        <div id="div2" class="row mt-lg-5 d-none rounded-3 d-flex justify-content-center align-content-start "
+            style="margin-top: 70px;">
 
-            <div class="col-10 mt-3">
+            <!-- <div class="col-10 mt-3">
                 <h3 class="reset header-creat-exer">
                     Hora de saber qual o seu nivel de força!
                 </h3>
@@ -398,10 +391,10 @@
             <div class="col-11 d-flex flex-column d-flex justify-content-center align-items-center">
                 <span class="reset sub-title-creat-exer">Faça o máximo de repetições que conseguir fazer e adicione as
                     informações abaixo</span>
-            </div>
+            </div> -->
 
 
-            <div id="CarrosselExer" data-bs-touch="false" class="carousel2 slide">
+            <div id="CarrosselExer" data-bs-touch="false" class="carousel2 slide reset-Padding">
                 <div id="contentCarrossel" class="carousel-inner">
 
                     <!-- <div class="carousel-item active ">
@@ -776,7 +769,7 @@
     </div>
 
     <!-- Modal de Exercicios com segundos-->
-    <div class="modal fade" id="toggleExerSegs" tabindex="-1" aria-labelledby="toggleExerSegsLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="toggleExerSegs" tabindex="-1" aria-labelledby="toggleExerSegsLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center align-items-center">
@@ -814,7 +807,33 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+
+    <!-- Modal Avisando ad exclusão-->
+     <div class="modal fade" id="excluseExer" tabindex="-1" aria-labelledby="excluseExerLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="margin-inline: 30px;">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="modal-content col-12 reset-Padding">
+                    <div class="modal-info-content">
+                        <span>
+                            Verificamos que você tera que fazer mais que 3 séries desse exercicios!
+                        </span>
+    
+                        <span class="fw-bolder">
+                            Neste caso, você tera apenas um Core
+                        </span>
+    
+                    </div>
+                </div>
+    
+                <div id="closeModalExerSegs" class="modal-content modal-btn col-12 reset-Padding" data-bs-dismiss="modal" aria-label="Close">
+                    <span>OK</span>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+
 
     <!-- Loading -->
     <div id="loading" class="loading d-none d-flex justify-content-center align-content-center flex-column">
@@ -889,11 +908,30 @@
         const min = document.getElementById('min')
         const hours = document.getElementById('hours')
         const quizCarousel = document.querySelector('#quiz');
+        const days = document.getElementById('Days')
+
+        days.addEventListener('change', function () {
+            let i = requireds.findIndex(e => e.name == "Days")
+            const divs = document.querySelectorAll('.daysJS')
+
+            if (i == -1) {
+                requireds.push({ name: 'Days', value: days.value })
+                days.classList.add('d-none')
+            }
+            else {
+                requireds[i].value = days.value
+            }
+            divs.forEach(e => {
+                e.classList.remove('d-none')
+            })
+            console.log(requireds); // Faça o que quiser com o valor selecionado
+        });
 
         // Desativa a rotação automática do carrossel
         quizCarousel.setAttribute('data-bs-interval', 'false');
 
         min.addEventListener('change', async function () {
+            const btn6 = document.getElementById('btn4')
             var M = parseInt(min.value)
             var H = parseInt(hours.value)
             const index2 = requireds.findIndex((e) => e.min == min.value)
@@ -917,10 +955,12 @@
                 }
 
             }
+            M.value != 0 && H.value != 0 ? btn6.classList.add('btn-primary') : btn6.classList.remove('btn-primary')
             checkingRequired()
         })
 
         hours.addEventListener('change', async function () {
+            const btn6 = document.getElementById('btn4')
             var H = parseInt(hours.value)
             var M = parseInt(min.value)
 
@@ -940,6 +980,8 @@
                 requireds.push({ name: 'Hours', value: hours.value })
             }
 
+            chosenDays == weekSelect.length ? btn4.classList.add('btn-primary') : btn4.classList.remove('btn-primary')
+            M.value != 0 && H.value != 0 ? btn6.classList.add('btn-primary') : btn6.classList.remove('btn-primary')
             checkingRequired()
         })
 
@@ -1030,7 +1072,7 @@
             contentCarrossel.innerHTML = ''
 
             newExercisesBase = removeUndefined(newExercisesBase)
-            newExercisesBase.forEach(exer => {
+            newExercisesBase.forEach((exer, index) => {
 
                 if (exer == undefined) {
                     return
@@ -1042,107 +1084,125 @@
                 novaDiv.id = "exer" + x;
 
 
+                const nextExer = newExercisesBase[index + 1] && newExercisesBase[index + 1].name;
+
                 // Criação do conteúdo da div
-                novaDiv.innerHTML = `<div class="row mt-4">
-                    <div class="col-10 m-auto d-flex justify-content-center align-items-center"
+                novaDiv.innerHTML = `<div class="row d-flex justify-content-center">
+
+                    <div class="col-12 reset-Padding d-flex justify-content-center align-items-center my-1">
+                                <img id="${'img' + x}" src="${exer.url}" class="img-size" style="border: none;">
+                    </div>
+
+                    <div class="col-12 reset-Padding d-flex justify-content-center align-items-center"
                         style="background-color: #545454;">
                         <span class="reset pt-1 pb-1 text-count ">${x}/${newExercisesBase.length} </span>
                     </div>
 
-                    <div class="col-10 reset-Padding mt-2 m-auto d-flex justify-content-center align-items-center rounded-4"
-                        style=" height: 100%;">
+                    <div class="col-12 reset-Padding  m-auto d-flex justify-content-center align-items-center rounded-4">
                         <div class="row reset-Padding d-flex justify-content-between">
-
-                            <div class="col-12 reset-Padding d-flex justify-content-center align-items-center"
-                                style="border: 1px solid #545454; border-radius: 13px;">
-                                <img id="${'img' + x}" src="${exer.url}" class="img-size" style="border: none;">
-                            </div>
-
-                            <div class="col-12 mt-2">
-                                <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-12 reset-Padding">
+                                <div class="row d-flex justify-content-center align-items-center bg-gray3 pt-2">
                                     
-                                    <div
-                                        class="col-12 d-flex justify-content-center align-items-center reset-Padding">
+                                    <div class="col-12 d-flex justify-content-center align-items-center reset-Padding">
                                         <input type="hidden" id=${'nivel' + x} name="nivel" value="${exer.nivel}">
                                         <span id=${'ValidTitle' + x} class="reset title-creat-exer" >
-                                        ${exer.name}
-                                    </span>
+                                            ${exer.name}
+                                        </span>
+
                                     </div>
 
-
-
-                                    <div
-                                        class="row reset-Padding mt-2 mb-3 d-flex justify-content-center align-items-center">
-                                        <div
-                                            class="col-5 d-flex flex-column justify-content-center align-items-center">
+                                    <div class="row reset-Padding mb-4 d-flex justify-content-center align-items-center">
+                                        
+                                        <div class="col-3 d-flex flex-column justify-content-center align-items-center ">
                                             <span class="reset  name-input">
                                                 Série
                                             </span>
-                                            <input type="number" class="input-creat" name="" id=""
-                                                placeholder="1" disabled>
+
+                                            <input type="number" class="input-creat placeholder-input" placeholder="1" disabled>
                                         </div>
 
-                                        <div
-                                            class="col-5 d-flex flex-column justify-content-center align-items-center">
+
+                                        <div class="col-3 d-flex flex-column justify-content-center align-items-center">
                                             <span id="${'repts' + x}" class="reset name-input">
-                                            ${exer.segs ? 'Segs' : 'Reps'}
-                                        </span>
-                                            <input pattern="^-?\d*\.?\d+$" inputmode="numeric" required="true" id="${'ValidExer' + x}" class=" input-value " type="number">
+                                                ${exer.segs ? 'Segs' : 'Reps'}
+                                            </span>
+                                            
+                                            <input pattern="^-?\d*\.?\d+$" placeholder="0" inputmode="numeric" required="true" id="${'ValidExer' + x}" class=" input-value " type="number">
                                         </div>
 
-                                        <div class="col-10 d-flex justify-content-center align-items-center mt-4 reset-Padding">
-                                        <span id="msgTopBtn" class="reset" style="color:#707070; font-size:23px;">Descanso: 3 minutos</span>
+                                        <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                                            <i class="bi bi-check-lg"></i>
+                                            <input id="${'check' + x}" class="form-check-input" type="checkbox" style="width: 20px; height: 20px; border-radius: 5px; border: none; background-color: rgba(25, 149, 168, 0.5);">
                                         </div>
-
-                                        <div id="${'container' + x}" class="col-10 w-100 d-flex justify-content-center align-items-center">
-                                            <div id="${'clock' + x}" onclick="btnClockStart(${x})" class="btn btn-reset">
-                                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-auto">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <polyline points="12 6 12 12 16 14"></polyline>
-                                              </svg>
-                                              Testar próximo
-                                            </div>
-
-                                            <div id="${'progress-bar' + x}" class="d-none"></div>
-
-                                            <div id="${'countdown' + x}" class="d-none d-flex justify-content-center align-items-center h-100">
-                                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <polyline points="12 6 12 12 16 14"></polyline>
-                                              </svg>
-                                              <span id="${'timecount' + x}">03:00</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div id="${'toggleExer' + x}"class="col-12 d-none d-flex flex-column justify-content-center mt-4">
-                  
-                                        <button id="${'btn' + x}" onclick="filter(${x}, '${exer.name}', '${exer.category}', '${exer.type}', ${exer.nivel})" class="btn btn-primary mb-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Trocar Exercicío</button>
-                                          
-                                        </button>
-                              
-                                          <span id="${'heavy' + x}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
-                                                  *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
-                                              </span>
-                              
-                                               <span id="${'light' + x}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
-                                                  *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está  alta! Vamos trocar para um mais pesado?
-                                              </span> 
-                              
-                                              </div>
-                                              <span id="${'success' + x}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
-                                              Perfeito, agora é só descansar e fazer o próximo exercício
-                                              </span> 
-                              
-                                              <span id="${'noInput' + x}" class="reset px-3 text-start text-danger d-none" style="font-size: 10px;">
-                                              Por favor, insira o numero máximo de ${exer.segs ? 'segundos' : 'repetição'}, para montarmos seu treino.
-                                              </span> 
-
-                                              <div id="${'finishExer' + x}" onclick="nextSlideExer(${x})" class="btn btn-reset d-none">
-                                                Próximo exercício
-                                            </div>
-                                    </div>
                                     </div>
                                 </div>
+
+
+                                <div id="${'divRes' + x}" class="row">
+                                    <div id="msgTopBtn" class="col-10 m-auto d-flex justify-content-center align-items-center mt-4 reset-Padding">
+                                        <span  class="reset" style="color:rgba(112, 112, 112, 0.69); font-size:15px;">Descanso: 3 minutos</span>
+                                    </div>
+    
+                                    <div id="${'container' + x}" class="col-10 m-auto d-flex justify-content-center align-items-center">
+                                        
+                                        <div id="${'clock' + x}"  class="btn btn-reset" style="border: none!important">
+                                            
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" troke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock align-self-auto">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                          </svg>
+
+                                          <div class="d-flex flex-column align-items-start justify-content-center"> 
+                                            <span style="font-size:12px; line-height: 10px; color: rgba(84, 84, 84, 0.60)" class="pt-1">Próximo: ${nextExer}</span>
+                                            <span style="font-size:20px; line-height: 20px" class="text-uppercase fw-bolder pb-1">Iniciar descanso</span>
+                                          </div>
+                                          
+                                        </div>
+    
+                                        <div id="${'progress-bar' + x}" class="d-none"></div>
+    
+                                        <div id="${'countdown' + x}" class="d-none d-flex justify-content-center align-items-center h-100">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                          </svg>
+                                          <span id="${'timecount' + x}">03:00</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="${'toggleExer' + x}"class="col-12 d-none d-flex flex-column justify-content-center align-items-center mt-4">
+              
+                                        <button id="${'btn' + x}" onclick="filter(${x}, '${exer.name}', '${exer.category}', '${exer.type}', ${exer.nivel})" class="btn btn-primary mb-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            Trocar Exercicío
+                                        </button>
+            
+                                        <span id="${'heavy' + x}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
+                                            *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
+                                        </span>
+                            
+                                        <span id="${'light' + x}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
+                                            *Ops, sua quantidade de ${exer.segs ? 'segundos' : 'repetição'} está  alta! Vamos trocar para um mais pesado?
+                                        </span> 
+                            
+                                        <span id="${'success' + x}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
+                                            Perfeito, agora é só descansar e fazer o próximo exercício
+                                        </span> 
+                            
+                                        <span id="${'noInput' + x}" class="reset px-3 text-start text-danger d-none" style="font-size: 10px;">
+                                            Por favor, insira o numero máximo de ${exer.segs ? 'segundos' : 'repetição'}, para montarmos seu treino.
+                                        </span> 
+    
+                                        
+                                    </div>
+
+                                    <div clas="w-100 m-auto d-flex justify-content-center align-items-center">
+                                        <div id="${'finishExer' + x}" onclick="nextSlideExer(${x})" class="m-auto btn btn-reset d-none">
+                                            Próximo exercício
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
 
                         </div>
@@ -1280,15 +1340,6 @@
                     return arr.findIndex(t => t.name === item.name) === index;
                 });
                 filterType = filtered;
-
-                // Retira os exercicios que estão no newExercisesBase
-                //let altered = [];
-                //filterType.forEach(e => {
-                //    if (!newExercisesBase.find(i => i.name === e.name)) {
-                //        altered.push(e);
-                //    }
-                //});
-                //filterType = altered;
 
 
                 // Retira todos os exercicios com o nome do que está subistituindo
@@ -1521,6 +1572,7 @@
             const div = document.getElementById('toggleExer' + id)
             const input = document.getElementById('ValidExer' + id)
             const repts = document.getElementById('repts' + id)
+            const divRes = document.getElementById('divRes' + id)
 
             var nameExer = exercises.filter(e => e.name == name)
             // Subistituir no array
@@ -1539,25 +1591,28 @@
             // zerar a div do botão
             div.innerHTML = ''
 
-            div.innerHTML = `<button id="${'btn' + id}" onclick="filter(${id}, '${name}', '${category}', '${type}', ${nivel})" class="btn btn-primary mb-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Trocar Exercicío</button>
-        <span id="${'heavy' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
-        *Ops, sua quantidade de ${nameExer[0].segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
-        </span>
-      
-        <span id="${'light' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
-          *Ops, sua quantidade de ${nameExer[0].segs ? 'segundos' : 'repetição'} está alta! Vamos trocar para um mais pesado?
-        </span> 
-      
-        </div>
-        <span id="${'success' + id}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
-        Perfeito, agora é só descansar ${nameExer[0].rest}m e fazer o próximo exercício
-        </span> 
+            div.innerHTML = `
+            <button id="${'btn' + id}" onclick="filter(${id}, '${name}', '${category}', '${type}', ${nivel})" class="btn btn-primary mb-2 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Trocar Exercicío</button>
+                <span id="${'heavy' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
+                *Ops, sua quantidade de ${nameExer[0].segs ? 'segundos' : 'repetição'} está baixa! Vamos trocar para um mais leve?
+                </span>
+            
+                <span id="${'light' + id}" class="reset text-danger text-start px-2 d-none" style="font-size: 10px;">
+                *Ops, sua quantidade de ${nameExer[0].segs ? 'segundos' : 'repetição'} está alta! Vamos trocar para um mais pesado?
+                </span> 
+            
+                </div>
+                <span id="${'success' + id}" class="reset px-3 text-start text-success d-none" style="font-size: 10px;">
+                Perfeito, agora é só descansar ${nameExer[0].rest}m e fazer o próximo exercício
+                </span> 
 
-        <div id="${'finishExer' + id}" onclick="nextSlideExer(${id})" class="btn btn-reset d-none">
-            Próximo exercício
-        </div>
-        `
-
+                
+                `
+            divRes.innerHTML += `
+                <div id="${'finishExer' + id}" onclick="nextSlideExer(${id})" class="btn btn-reset d-none">
+                    Próximo exercício
+                </div>
+                `
             // Trocando o exercicio
             Name.innerHTML = name
             Img.src = img
@@ -1566,6 +1621,10 @@
             const btn = document.getElementById('toggleExer' + id)
             btn.classList.add('d-none')
             btn.classList.remove('d-block')
+
+            //Zerando check
+            const check = document.getElementById('check' + id)
+            check.checked = false;
 
             // Zerar input
             input.value = ''
@@ -1583,6 +1642,10 @@
 
             //Mostrar o btn de iniciar tempo novamente
             document.getElementById(`${'container' + id}`).classList.remove('d-none')
+
+            //Mostra msg de descanso
+            const msgTopBtn = document.getElementById('msgTopBtn')
+            msgTopBtn.classList.remove('d-none')
 
         }
 
@@ -1608,93 +1671,120 @@
 
                 // Dentro dos parametros
                 if (repeticao <= 4 && input.value < 60) {
+                    const msgTopBtn = document.getElementById('msgTopBtn')
+                    msgTopBtn.classList.remove('d-none')
+
                     input.disabled = true;
-                    const btnFinish = document.getElementById('finishExer' + id)
-                    if (btnFinish.classList.contains('d-none')) {
-                        document.getElementById(`container${id}`).classList.remove('d-none')
-                        noInput.classList.add('d-none')
-                        if (bool) {
-                            success.classList.remove('d-none')
-                            // Tempo da message de sucesso
-                            setTimeout(function () {
-                                success.classList.add("d-none");
-                            }, 3000);
-                        }
-                    }
-                    // if (bool) {
-                    noInput.classList.add('d-none')
-                    success.classList.remove('d-none')
-                    // Tempo da message de sucesso
-                    setTimeout(function () {
-                        success.classList.add("d-none");
-                    }, 3000);
-                    // }
-                    input.classList.remove('text-danger')
-                    input.classList.remove('input-danger')
-
-                    repts.classList.remove('text-danger')
-                    repts.classList.add('text-gray1')
-
-                    btn.classList.add('d-none')
-                    btn.classList.remove('d-block')
-
                     gerarTreino(Title, Input, id)
+                    btnClockStart(id)
+
+                    //const btnFinish = document.getElementById('finishExer' + id)
+                    //if (btnFinish.classList.contains('d-none')) {
+                    //    document.getElementById(`container${id}`).classList.remove('d-none')
+                    //    noInput.classList.add('d-none')
+                    //    if (bool) {
+                    //        success.classList.remove('d-none')
+                    //        // Tempo da message de sucesso
+                    //        setTimeout(function () {
+                    //            success.classList.add("d-none");
+                    //        }, 3000);
+                    //    }
+                    //}
+                    // if (bool) {
+                    //noInput.classList.add('d-none')
+                    //success.classList.remove('d-none')
+                    // Tempo da message de sucesso
+                    //setTimeout(function () {
+                    //    success.classList.add("d-none");
+                    //}, 3000);
+                    // }
+                    //input.classList.remove('text-danger')
+                    //input.classList.remove('input-danger')
+                    //
+                    //repts.classList.remove('text-danger')
+                    //repts.classList.add('text-gray1')
+                    //
+                    //btn.classList.add('d-none')
+                    //btn.classList.remove('d-block')
+
                 }
                 // Se o numero de repetição for 5 ou 6 mostra o modal
                 if (repeticao == 5 || repeticao == 6) {
+                    var modal = new bootstrap.Modal(document.querySelector('#excluseExer'));
+                    modal.show();
+                    
+
+                    const msgTopBtn = document.getElementById('msgTopBtn')
+                    msgTopBtn.classList.add('d-none')
                     noInput.classList.add('d-none')
+                    
+                    let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+                    
+                    
+                    
+                    const closeModalExerSegs = document.getElementById('closeModalExerSegs')
+                    closeModalExerSegs.addEventListener('click', function(){
+                        console.log('teste')
+                        removeExer(exerRemove, id, Title, Input, exer)
+                        gerarTreino(Title, Input, id)
+                        btnClockStart(id)
+                     })
+
                     //  dar opção de eliminar exercicio
-                    var modal = new bootstrap.Modal(document.querySelector('#toggleExerSegs'));
+                    //var modal = new bootstrap.Modal(document.querySelector('#toggleExerSegs'));
 
                     // Pegar nome do exer que ira ser deletado
-                    let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+                    //let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
 
                     // Imprimir na tela
-                    const exerDeletr = document.getElementById('exerDeleter')
-                    exerDeletr.innerHTML = exerRemove[0].name
+                    //const exerDeletr = document.getElementById('exerDeleter')
+                    //exerDeletr.innerHTML = exerRemove[0].name
 
                     // Imprimir nome do exercicio que está pesado
-                    const name = document.getElementById('nameExer')
-                    name.innerHTML = exer[0].name
+                    //const name = document.getElementById('nameExer')
+                    //name.innerHTML = exer[0].name
 
 
 
-                    var fixArray = []
-                    newExercisesBase.forEach(e => {
-                        if (e == undefined) {
-                            return
-                        }
-                        fixArray.push(e)
-                    })
+                    //var fixArray = []
+                    //newExercisesBase.forEach(e => {
+                    //    if (e == undefined) {
+                    //        return
+                    //    }
+                    //    fixArray.push(e)
+                    //})
 
-                    var countCategory = fixArray.filter(e => e.category == exer[0].category)
+                    //var countCategory = fixArray.filter(e => e.category == exer[0].category)
 
-                    if (countCategory.length == 1) {
+                    //if (countCategory.length == 1) {
                         // Mostra o botão de trocar o exercicio
-                        btn.classList.add('d-block')
-                        btn.classList.remove('d-none')
+                    //    btn.classList.add('d-block')
+                    //    btn.classList.remove('d-none')
 
-                        document.getElementById(`container${id}`).classList.add('d-none')
-                    }
-                    else {
-                        // filtra por categori e pega o outro exercicio da mesma catagoria
-                        let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
+                    //    document.getElementById(`container${id}`).classList.add('d-none')
+                    //}
+                    //else {
+                    //    // filtra por categori e pega o outro exercicio da mesma catagoria
+                    //    let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
 
-                        btn.classList.add('d-none')
+                    //    btn.classList.add('d-none')
 
-                        const btnremove = document.getElementById('removeExer')
-                        btnremove.onclick = function () { removeExer(exerRemove, id, Title, Input, exer) };
+                    //    const btnremove = document.getElementById('removeExer')
+                    //    btnremove.onclick = function () { removeExer(exerRemove, id, Title, Input, exer) };
 
-                        // Exibir o modal
-                        modal.show();
+                    //    // Exibir o modal
+                    //    modal.show();
 
-                        const notRemove = document.getElementById('notRemove')
-                        notRemove.onclick = function () { showBtn(btn) }
-                    }
+                    //    const notRemove = document.getElementById('notRemove')
+                    //    notRemove.onclick = function () { showBtn(btn) }
+                    //}
 
                 }
                 // Se for maior que 6 mostra messagem de erro PESADO
                 if (repeticao > 6 || input.value >= 60) {
+                    const msgTopBtn = document.getElementById('msgTopBtn')
+                    msgTopBtn.classList.add('d-none')
+
                     document.getElementById(`container${id}`).classList.add('d-none')
                     noInput.classList.add('d-none')
                     // Texto de sucesso some
@@ -1720,9 +1810,14 @@
 
                     repts.classList.add('text-danger')
                     repts.classList.remove('text-gray1')
+
+
                 }
                 // Leve
                 if (repeticao < 2) {
+                    const msgTopBtn = document.getElementById('msgTopBtn')
+                    msgTopBtn.classList.add('d-none')
+
                     document.getElementById(`container${id}`).classList.add('d-none')
                     finishExer.classList.add('d-none')
                     noInput.classList.add('d-none')
@@ -1755,6 +1850,9 @@
             else {
                 if (exer[0].name == 'Dips na paralela' || exer[0].name == 'Pull Ups') {
                     if (input.value <= 3) {
+                        const msgTopBtn = document.getElementById('msgTopBtn')
+                        msgTopBtn.classList.add('d-none')
+
                         finishExer.classList.add('d-none')
 
                         noInput.classList.add('d-none')
@@ -1784,38 +1882,43 @@
 
                     }
                     if (input.value > 3 && input.value < 16) {
+                        const msgTopBtn = document.getElementById('msgTopBtn')
+                        msgTopBtn.classList.remove('d-none')
+
                         input.disabled = true;
-                        let card = parseInt(id)
-
-
-                        input.classList.remove('text-danger')
-                        input.classList.remove('input-danger')
-
-                        repts.classList.remove('text-danger')
-                        repts.classList.add('text-gray1')
-
-                        btn.classList.add('d-none')
-                        btn.classList.remove('d-block')
-
-                        const btnFinish = document.getElementById('finishExer' + id)
-                        if (btnFinish.classList.contains('d-none')) {
-                            document.getElementById(`container${id}`).classList.remove('d-none')
-                            noInput.classList.add('d-none')
-                            if (bool) {
-                                success.classList.remove('d-none')
-                                // Tempo da message de sucesso
-                                setTimeout(function () {
-                                    success.classList.add("d-none");
-                                }, 3000);
-                            }
-                        }
-
                         gerarTreino(Title, Input, id)
+                        btnClockStart(id)
 
-                        const divPai = document.getElementById('divToggle')
-                        divPai.innerHTML = ''
+
+                        //input.classList.remove('text-danger')
+                        //input.classList.remove('input-danger')
+
+                        //repts.classList.remove('text-danger')
+                        //repts.classList.add('text-gray1')
+
+                        //btn.classList.add('d-none')
+                        //btn.classList.remove('d-block')
+
+                        //const btnFinish = document.getElementById('finishExer' + id)
+                        //if (btnFinish.classList.contains('d-none')) {
+                        //    document.getElementById(`container${id}`).classList.remove('d-none')
+                        //    noInput.classList.add('d-none')
+                        //    if (bool) {
+                        //        success.classList.remove('d-none')
+                        //        // Tempo da message de sucesso
+                        //        setTimeout(function () {
+                        //            success.classList.add("d-none");
+                        //        }, 3000);
+                        //    }
+                        //}
+
+                        //const divPai = document.getElementById('divToggle')
+                        //divPai.innerHTML = ''
                     }
                     if (input.value > 15) {
+                        const msgTopBtn = document.getElementById('msgTopBtn')
+                        msgTopBtn.classList.add('d-none')
+
                         finishExer.classList.add('d-none')
                         noInput.classList.add('d-none')
                         // Texto de sucesso some
@@ -1845,6 +1948,9 @@
                 }
                 else {
                     if (input.value < 6) {
+                        const msgTopBtn = document.getElementById('msgTopBtn')
+                        msgTopBtn.classList.add('d-none')
+
                         finishExer.classList.add('d-none')
                         noInput.classList.add('d-none')
 
@@ -1874,42 +1980,44 @@
 
                     }
                     if (input.value > 5 && input.value < 16) {
+                        const msgTopBtn = document.getElementById('msgTopBtn')
+                        msgTopBtn.classList.remove('d-none')
+
                         input.disabled = true;
-                        let card = parseInt(id)
-
-                        input.classList.remove('text-danger')
-                        input.classList.remove('input-danger')
-
-                        repts.classList.remove('text-danger')
-                        repts.classList.add('text-gray1')
-
-                        btn.classList.add('d-none')
-                        btn.classList.remove('d-block')
-
-                        const btnFinish = document.getElementById('finishExer' + id)
-                        if (btnFinish.classList.contains('d-none')) {
-                            document.getElementById(`container${id}`).classList.remove('d-none')
-                            noInput.classList.add('d-none')
-                            if (bool) {
-                                success.classList.remove('d-none')
-                                let divExer = document.getElementById('exer' + id)
-                                // Tempo da message de sucesso
-                                setTimeout(function () {
-                                    success.classList.add("d-none");
-                                }, 3000);
-                            }
-                        }
                         gerarTreino(Title, Input, id)
+                        btnClockStart(id)
 
-                        const divPai = document.getElementById('divToggle')
-                        divPai.innerHTML = ''
-                        if (treino.length === 8) {
-                            // fechar model
-                            // const button = document.getElementById('saveTraining')
-                            // button.setAttribute('data-bs-dismiss', 'modal')
-                        }
+                        //input.classList.remove('text-danger')
+                        //input.classList.remove('input-danger')
+
+                        //repts.classList.remove('text-danger')
+                        //repts.classList.add('text-gray1')
+
+                        //btn.classList.add('d-none')
+                        //btn.classList.remove('d-block')
+
+                        //const btnFinish = document.getElementById('finishExer' + id)
+                        //if (btnFinish.classList.contains('d-none')) {
+                        //    document.getElementById(`container${id}`).classList.remove('d-none')
+                        //    noInput.classList.add('d-none')
+                        //    if (bool) {
+                        //        success.classList.remove('d-none')
+                        //        let divExer = document.getElementById('exer' + id)
+                        //        // Tempo da message de sucesso
+                        //        setTimeout(function () {
+                        //            success.classList.add("d-none");
+                        //        }, 3000);
+                        //    }
+                        //}
+
+                        //const divPai = document.getElementById('divToggle')
+                        //divPai.innerHTML = ''
+
                     }
                     if (input.value > 15) {
+                        const msgTopBtn = document.getElementById('msgTopBtn')
+                        msgTopBtn.classList.add('d-none')
+
                         finishExer.classList.add('d-none')
 
                         // Texto de sucesso some
@@ -1988,29 +2096,32 @@
         }
 
         function creatStruct(id) {
+            const check = document.getElementById('check' + id)
             const input = document.getElementById('ValidExer' + id)
             const title = document.getElementById('ValidTitle' + id)
             const repts = document.getElementById('repts' + id)
             const btnFinish = document.getElementById('finishExer' + id)
 
-            input.addEventListener('blur', function () {
-
-                //if (btnFinish.classList.contains('d-none')) {
-                if (input.value == NaN ||
-                    input.value == null ||
-                    input.value == undefined ||
-                    input.value == "") {
-
-                    input.classList.remove('input-exer')
-                    input.classList.add('input-exer-fail')
-                    repts.classList.add('text-danger')
-                } else {
-                    repts.classList.remove('text-danger')
-                    input.classList.remove('input-exer-fail')
-                    input.classList.add('input-exer')
-                    openToggleExer(id, title, input, true)
+            check.addEventListener('change', function () {
+                if(input.value == null) {
+                    this.checked = false
                 }
-                //}
+                if (this.checked) {
+                    if (input.value == NaN ||
+                        input.value == null ||
+                        input.value == undefined ||
+                        input.value == "") {
+
+                        input.classList.remove('input-exer')
+                        input.classList.add('input-exer-fail')
+                        repts.classList.add('text-danger')
+                    } else {
+                        repts.classList.remove('text-danger')
+                        input.classList.remove('input-exer-fail')
+                        input.classList.add('input-exer')
+                        openToggleExer(id, title, input, true)
+                    }
+                }
 
             })
         }
@@ -2157,7 +2268,6 @@
 
         function removeExer(exer, id, Title, Input, exerRestante) {
             // Remove o exercicio do array
-
             var treino2 = []
             newExercisesBase.forEach(e => {
                 if (e == undefined) {
@@ -2175,32 +2285,42 @@
             if (treinoDel !== -1) {
                 treino.splice(treinoDel, 1); //remova o elemento com o índice encontrado
             }
+            
+            
+            
             // ---------------------------------------------------------------------
             // remove visualmente o exer
-            var x = 1
-            newExercisesBase.forEach(e => {
-                if (e == undefined) {
-                    return
-                }
-                if (e.name == exer[0].name) {
-                    const divRemove = document.getElementById('exer' + x)
-                    divRemove.remove()
-                }
-                x++
-            })
+            //<div id="CarrosselExer" data-bs-touch="false" class="carousel2 slide reset-Padding">
+
+            $('.carousel2 .carousel-item').eq(id+1).remove();
+
+            //var x = 1
+            //newExercisesBase.forEach(e => {
+            //    if (e == undefined) {
+            //        return
+            //    }
+            //    if (e.name == exer[0].name) {
+            //        const divRemove = document.getElementById('exer' + x)
+            //        divRemove.remove()
+            //    }
+            //    x++
+            //})
+
             newExercisesBase = treino2
+
             if (Title) {
                 gerarTreino(Title, Input, id)
+                btnClockStart(id)
             }
 
-            if (exerRestante) {
-                let index = newExercisesBase.findIndex(e => e.name == exerRestante[0].name)
+            //if (exerRestante) {
+            //    let index = newExercisesBase.findIndex(e => e.name == exerRestante[0].name)
 
-                let input = document.getElementById('ValidExer' + (index + 1))
-                input.classList.remove('input-danger')
-                input.classList.remove('text-danger')
-            }
-            return newExercisesBase; //retorne o array atualizado
+            //    let input = document.getElementById('ValidExer' + (index + 1))
+            //    input.classList.remove('input-danger')
+            //    input.classList.remove('text-danger')
+            //}
+            //return newExercisesBase; //retorne o array atualizado
         }
 
         function openModal(id) {
@@ -2228,16 +2348,29 @@
         }
 
         async function verificationRequireds() {
-            loading(true)
-            if (numberDaysChosen != chosenDays) {
-                creatMessageOfErr('Escolha os dias antes de prosseguir', 3)
+            const min2 = document.getElementById('min')
+
+            let indexHours = requireds.findIndex(e => e.name == 'Hours')
+            let indexMin = requireds.findIndex(e => e.name == 'Min')
+
+
+            if (indexHours == -1) {
+                creatMessageOfErr('Selecione quantos de horas você deseja treinar', 4)
                 return
-            } else {
-                requireds.push({ name: 'DaysChosen', value: weekSelect })
+            }
+            if (indexMin == -1) {
+                creatMessageOfErr('Selecione quantos de minutos você deseja treinar', 4)
+                return
+            }
+
+            if (hours.value == 0 && min2.value < 40) {
+                creatMessageOfErr('O seu tempo de treino não pode ser menor que 40m', 4)
+                return
             }
             await apiPost('saveDU', requireds)
-
             if (choseTraining == 'Hibrido') {
+                const msgErr = document.getElementById('msgErr')
+                msgErr.remove()
                 const element = document.body; // substitua 'seuElemento' pelo ID do elemento que você deseja animar
 
                 // Adiciona a classe para animação
@@ -2246,10 +2379,13 @@
                 // Redireciona a página após 800 milissegundos (0,8 segundos)
                 setTimeout(() => {
                     window.location.href = '/hybrid';
-                }, 100);
+                }, 800);
+                return
             }
             if (choseTraining == 'Musc') {
-                const element = document.getElementById('seuElemento'); // substitua 'seuElemento' pelo ID do elemento que você deseja animar
+                const msgErr = document.getElementById('msgErr')
+                msgErr.remove()
+                const element = document.body; // substitua 'seuElemento' pelo ID do elemento que você deseja animar
 
                 // Adiciona a classe para animação
                 element.classList.add('fade-out');
@@ -2258,6 +2394,7 @@
                 setTimeout(() => {
                     window.location.href = '/bodybuilding';
                 }, 800);
+                return
             }
 
             const content = document.querySelectorAll('.content');
@@ -2396,7 +2533,7 @@
 
                 // Oitavo Exercicio
                 newExercisesBase.push(exercises.filter(e => e.name == 'Prancha Abdominal')[0])
-                loading(false)
+                //document.body.style.flexDirection = "row";
                 creatExercisesBase()
             }
         }
@@ -2437,22 +2574,28 @@
         function nextSlide(x) {
             if (x == 6) {
                 const firstSlide = document.getElementById('firstSlide');
-                firstSlide.classList.add('d-none')
+                firstSlide.classList.add('d-none');
                 const content = document.querySelectorAll('.content');
                 content[0].style.justifyContent = 'start';
-                content[0].style.transition = 'margin-top 2s'; // Defina a duração da animação aqui
+                //content[0].style.transition = 'margin-top 2s'; // Defina a duração da animação aqui
                 content[0].style.marginTop = '80px';
 
-                const menu = document.getElementById('menu')
-                menu.classList.remove('d-none')
+                const menu = document.getElementById('menu');
+                menu.classList.remove('d-none');
                 $('.carousel').carousel('next');
-                const oldDiv = document.getElementById(`div${x - 1}`)
-                const newDiv = document.getElementById(`div${x}`)
-                oldDiv.classList.remove('div-activate')
-                oldDiv.classList.add('div-normal')
+                const oldDiv = document.getElementById(`div${x - 1}`);
+                const newDiv = document.getElementById(`div${x}`);
+                oldDiv.classList.remove('div-activate');
+                oldDiv.classList.add('div-normal');
 
-                newDiv.classList.remove('div-normal')
-                newDiv.classList.add('div-activate')
+                newDiv.style.opacity = '0'; // Define a opacidade inicial como 0
+                newDiv.classList.remove('div-normal');
+                newDiv.classList.add('div-activate');
+
+                // Aplica o efeito de fade-in após um pequeno atraso
+                setTimeout(function () {
+                    newDiv.style.opacity = '1';
+                }, 2000);
             }
             else if (x == 7) {
                 const idVerify = document.getElementById('chosenTrainingId')
@@ -2498,13 +2641,34 @@
             }
             else if (x == 9) {
                 let indexDays = requireds.findIndex(e => e.name == 'Days')
-                let indexHours = requireds.findIndex(e => e.name == 'Hours')
-                let indexMin = requireds.findIndex(e => e.name == 'Min')
-
                 if (indexDays == -1) {
                     creatMessageOfErr('Selecione quantos dias você deseja treinar', 4)
                     return
                 }
+
+                if (requireds[indexDays].value > weekSelect.length) {
+                    creatMessageOfErr('Ainda falta escolher os dias de treino', 4)
+                    return
+                }
+
+                $('.carousel').carousel('next');
+                const oldDiv = document.getElementById(`div${x - 1}`)
+                const newDiv = document.getElementById(`div${x}`)
+                oldDiv.classList.remove('div-activate')
+                oldDiv.classList.add('div-normal')
+
+                newDiv.classList.remove('div-normal')
+                newDiv.classList.add('div-activate')
+
+                requireds.push({ name: "DaysChosen", value: weekSelect})
+
+            }
+            else if (x == 10) {
+
+                let indexHours = requireds.findIndex(e => e.name == 'Hours')
+                let indexMin = requireds.findIndex(e => e.name == 'Min')
+
+
                 if (indexHours == -1) {
                     creatMessageOfErr('Selecione quantos de horas você deseja treinar', 4)
                     return
@@ -2514,7 +2678,7 @@
                     return
                 }
 
-                if (indexDays != -1 && indexHours != -1 && indexMin != -1) {
+                if (indexHours != -1 && indexMin != -1) {
 
                     if (hours.value == 0 && min.value < 40) {
                         creatMessageOfErr('O seu tempo de treino não pode ser menor que 40m', 5)
@@ -2581,14 +2745,21 @@
         }
 
         function choseDayofTraining(id) {
+            const btn4 = document.getElementById('btn4')
 
             let indexChosenDay = requireds.findIndex(e => e.name == "Days")
+            if (indexChosenDay == -1) {
+                creatMessageOfErr('Escolha a quantidade de dias antes de prosseguir', 3)
+                chosenDays == weekSelect.length ? btn4.classList.add('btn-primary') : btn4.classList.remove('btn-primary')
+                return
+            }
             chosenDays = requireds[indexChosenDay].value
 
             let indexExisting = weekSelect.findIndex(e => e == id)
             //Verifica se ja escolheu todos os dias
             if (numberDaysChosen >= chosenDays && indexExisting == -1) {
                 creatMessageOfErr('Você já escolheu os dias, só proseeguir', 3)
+                chosenDays == weekSelect.length ? btn4.classList.add('btn-primary') : btn4.classList.remove('btn-primary')
                 return
             }
 
@@ -2596,6 +2767,7 @@
             let iBlock = daysBlock.findIndex(e => e == id)
             if (iBlock != -1) {
                 creatMessageOfErr('Escolha outro dia, esse é dia de descanso', 3)
+                chosenDays == weekSelect.length ? btn4.classList.add('btn-primary') : btn4.classList.remove('btn-primary')
                 return
             }
 
@@ -2618,6 +2790,7 @@
                         daysBlock.splice(daysBlock[daysBlock.findIndex(e => e == week[index - 1])], 1)
 
                     numberDaysChosen--
+                    chosenDays == weekSelect.length ? btn4.classList.add('btn-primary') : btn4.classList.remove('btn-primary')
                     return
                 }
 
@@ -2652,6 +2825,8 @@
                     const btn5 = document.getElementById('btn5')
                     btn5.classList.add('btn-primary')
                 }
+                chosenDays == weekSelect.length ? btn4.classList.add('btn-primary') : btn4.classList.remove('btn-primary')
+
             }
 
             if (chosenDays == 4) {
@@ -2660,7 +2835,12 @@
                 let previousDay = week[index - 1]
 
                 //Se for dia de descanso retorna
-                if (daysBlock.findIndex(e => e == week[index + 1]) != -1) { return }
+                if (daysBlock.findIndex(e => e == week[index + 1]) != -1) {
+                    let nameDay = abreviton(week[index + 1])
+                    creatMessageOfErr(`Escolha outro dia, pois ${nameDay} é dia de descanso`, 3)
+                    chosenDays == weekSelect.length ? btn4.classList.add('btn-primary') : btn4.classList.remove('btn-primary')
+                    return
+                }
 
                 //Se for um dia com treino ele ira tirar
                 if (indexFound != -1) {
@@ -2720,6 +2900,7 @@
                     week[index] == 'Seg' ? daysBlock.splice(daysBlock.findIndex(e => e == 'Dom'), 1) : null
 
                     remainingDaysCheckMoreTwo()
+                    chosenDays == weekSelect.length ? btn4.classList.add('btn-primary') : btn4.classList.remove('btn-primary')
                     return
                 }
 
@@ -2752,6 +2933,10 @@
                     btn5.classList.add('btn-primary')
                 }
             }
+
+
+            chosenDays == weekSelect.length ? btn4.classList.add('btn-primary') : btn4.classList.remove('btn-primary')
+
         }
 
         function addDayBlock(day) {
@@ -2838,6 +3023,37 @@
 
         }
 
+        function abreviton(x) {
+            let str;
+            switch (x) {
+                case "Seg":
+                    str = "Segunda";
+                    break;
+                case "Ter":
+                    str = "Terça";
+                    break;
+                case "Quar":
+                    str = "Quarta";
+                    break;
+                case "Quin":
+                    str = "Quinta";
+                    break;
+                case "Sex":
+                    str = "Sexta";
+                    break;
+                case "Sab":
+                    str = "Sábado";
+                    break;
+                case "Dom":
+                    str = "Domingo";
+                    break;
+                default:
+                    str = "o dia seguinte";
+            }
+            return str;
+        }
+
+
         function creatMessageOfErr(txt, sec) {
             const messageElement = document.createElement('div');
             messageElement.textContent = txt;
@@ -2883,6 +3099,7 @@
             const repts = document.getElementById('repts' + id)
             const success = document.getElementById('success' + id)
             const noInput = document.getElementById('noInput' + id)
+            const finishExer = document.getElementById(`finishExer${id}`)
 
 
             if (input.value == NaN || input.value == null || input.value == undefined || input.value == "") {
@@ -2895,7 +3112,7 @@
                 input.classList.add('input-value')
                 repts.classList.add('txt-header-input')
                 const clock = document.getElementById(`clock${id}`)
-                clock.innerHTML = ''
+                clock ? clock.remove() : null
                 //clock.remove()
 
                 const container = document.getElementById(`container${id}`);
@@ -2930,7 +3147,7 @@
                     if (currentTime >= totalTime) {
                         clearInterval(updateProgress);
 
-                        const finishExer = document.getElementById(`finishExer${id}`)
+
                         finishExer.classList.remove('d-none')
 
                         container.classList.add('d-none')

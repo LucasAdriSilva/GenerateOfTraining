@@ -15,20 +15,18 @@ def index():
   # Verifica se tem o ip e login na sessão
   if 'ip' in session or 'login' in session:
 
-    if 'ip' in session:
-      ip_found = Db.get_ip(session['ip']).data
     if 'login' in session:
       ip_found = Db.get_login(session['login']).data
    
     # Verifica o retorno do banco nao é null
-    if ip_found is not None:
+    if ip_found[4] is not None:
 
       requireds =json.loads(ip_found[6])
       for item in requireds:
         if item['name'] == 'DaysChosen':
             chosen_day = item['value']
+            days =week.convertDays(chosen_day)
             break
-      days =week.convertDays(chosen_day)
 
       # days1 = [days[0], days[2]]
       # days2 = [days[1], days[3]]

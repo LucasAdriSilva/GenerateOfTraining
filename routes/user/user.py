@@ -98,9 +98,10 @@ def tracker():
         chosen_day = item['value']
         break
   days =week.convertDays(chosen_day)
-
-  days1 = [days[0], days[2]]
-  days2 = [days[1], days[3]]
+  
+  if len(days) > 3:
+    days1 = [days[0], days[2]]
+    days2 = [days[1], days[3]]
   
   #Verifica se tem algum treino em execução
   if 'TrainingInExecution' in request.form:
