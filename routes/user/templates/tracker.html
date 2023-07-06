@@ -212,8 +212,8 @@
                             check.checked = false
 
                             line.classList.remove('bg-sucess-exer')
-                            kg == NaN ? dangerInput('exer' + i + 'kg' + e) : null
-                            repts == NaN ? dangerInput('exer' + i + 'kg' + e) : null
+                            //kg.value == NaN ? dangerInput('exer' + i + 'kg' + e) : null
+                            //repts.value == NaN ? dangerInput('exer' + i + 'kg' + e) : null
                         }
                     }
 
@@ -500,7 +500,6 @@
         if (kg.value == NaN || kg.value == 0 || repts.value == NaN || repts.value == 0){
             kg.value == NaN || kg.value == 0 ? dangerInput(strKG) : clearInput(strKG)
             repts.value == NaN || repts.value == 0 ? dangerInput(str) : clearInput(str)
-            dangerInput(str)
             return
         }
         clearInput(str)
