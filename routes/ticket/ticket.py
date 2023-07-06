@@ -8,6 +8,8 @@ ticket = Blueprint('ticket', __name__, template_folder='templates')
 
 @ticket.route('/suport')
 def suporte():
+    if 'login' not in session:
+        return getUrl('login.html')
     #Se for um ADM ele irá ver todas as conversar
     if session['login'] == 'Lucas':
         rooms = Db.getTickets().data
@@ -31,22 +33,21 @@ def suporte():
         user_found = Db.get_login(session['login']).data
         user_found = json.loads(user_found[3])
         response = []
-        for date in user_found:
-            if 'rooms' in date:
-                rooms = date['rooms']  
-                for room in rooms:
-                    if room['messagens'] != {}:                
-                        last_key, last_value = list(room['messagens'].items())[-1]
-                        last_key_parts = last_key.split('--')
-                        last_datetime = datetime.datetime.strptime(last_key_parts[-1], "%Y-%m-%d-%H-%M-%S")
-                        last_time = last_datetime.strftime("%H:%M")
-                        last_message = last_value
-                        newData = {'id': room['id'],'name': room['name'], 'latest_message': last_message, 'last_time': last_time}
-                        response.append(newData)
-                    else:
-                        newData = {'id': room['id'],'name': room['name'], 'latest_message': '', 'last_time': ''}
-                        response.append(newData)
-                return getUrl('index.html', value=response)      
+
+        if 'rooms' in user_found:
+            for room in user_found['rooms']:              
+                if room['messagens'] != {}:                
+                    last_key, last_value = list(room['messagens'].items())[-1]
+                    last_key_parts = last_key.split('--')
+                    last_datetime = datetime.datetime.strptime(last_key_parts[-1], "%Y-%m-%d-%H-%M-%S")
+                    last_time = last_datetime.strftime("%H:%M")
+                    last_message = last_value
+                    newData = {'id': room['id'],'name': room['name'], 'latest_message': last_message, 'last_time': last_time}
+                    response.append(newData)
+                else:
+                    newData = {'id': room['id'],'name': room['name'], 'latest_message': '', 'last_time': ''}
+                    response.append(newData)
+            return getUrl('index.html', value=response)      
         return getUrl('index.html')
 
 @ticket.route('/create_room', methods=['POST'])

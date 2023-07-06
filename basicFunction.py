@@ -24,7 +24,7 @@ def getUrl(url, value='', bool=False):
     name = user_found[1]
     chosentraining = user_found[-2]
 
-    if value =='' and user_found[-3] is not None:
+    if value =='' and user_found[-3] is not None and url != 'index.html':
       value = user_found[-3]
 
     if user_found[-3] is None:

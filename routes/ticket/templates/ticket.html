@@ -194,7 +194,7 @@
 
         window.addEventListener('load', function () {
             const roomName = document.querySelector('#roomName').textContent.trim();
-            const socket = io('http://127.0.0.1:8083/');
+            const socket = io('http://127.0.0.1:8085/');
 
             socket.emit('message', roomName); // Envie o nome da sala usando o evento 'message'
 

@@ -167,6 +167,7 @@
         const bgCheck = document.getElementById('exer' + i + 'bgCheck' + e)
         const kg = document.getElementById('exer' + i + 'kg' + e)
         const repts = document.getElementById('exer' + i + 'repts' + e)
+
         if (check != null) {
             check.addEventListener('change', () => {
 
@@ -194,17 +195,28 @@
                     if (allChecked) {
                         document.getElementById('finishe').classList.remove('d-none')
                     } else {
-                        creatCronometro()
+                        if (kg.value != NaN && kg.value > 0 && repts.value != NaN && repts.value > 0) {
+                            creatCronometro()
+                            clearInput('exer' + i + 'kg' + e)
+                            clearInput('exer' + i + 'repts' + e)
+                            
+                            //Add os stylos de sucesso
+                            line.classList.add('bg-sucess-exer')
+                            fontSerie.style.color = 'white';
+                            fontAnt.style.color = 'white';
+                            bgFontSt.style.color = 'white';
+                            kg != null ? kg.style.color = 'white' : null
+                            repts.style.color = 'white'
+                        }
+                        else {
+                            check.checked = false
+
+                            line.classList.remove('bg-sucess-exer')
+                            kg == NaN ? dangerInput('exer' + i + 'kg' + e) : null
+                            repts == NaN ? dangerInput('exer' + i + 'kg' + e) : null
+                        }
                     }
 
-
-                    //Add os stylos de sucesso
-                    line.classList.add('bg-sucess-exer')
-                    fontSerie.style.color = 'white';
-                    fontAnt.style.color = 'white';
-                    bgFontSt.style.color = 'white';
-                    kg != null ? kg.style.color = 'white' : null
-                    repts.style.color = 'white'
 
                 }
                 else {
@@ -413,10 +425,10 @@
                             <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
                             <div id="${'exer' + index + 'fontAnt' + id}" class="col-4 centers font-exer-ant">${reptId != null ? reptId : 0}x${reptKg != null ? reptKg : 0}</div>
                             <div id="${'exer' + index + 'bgFontSt' + id}" class="col-2 centers font-status">
-                                <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" value="0">
+                                <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" placeholder="0">
                             </div>
                             <div id="${'exer' + index + 'bgKg' + id}" class="col-2 centers">
-                                <input id="${'exer' + index + 'kg' + id}" type="number" class="input-repts" value="0">
+                                <input id="${'exer' + index + 'kg' + id}" type="number" class="input-repts" placeholder="0">
                             </div>
                             <div id="${'exer' + index + 'bgCheck' + id}" class="col-2 centers">
                                 <input id="${'exer' + index + 'check' + id}" class="form-check-input check-exer" type="checkbox">
@@ -434,7 +446,7 @@
                             <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
                             <div id="${'exer' + index + 'fontAnt' + id}" class="col-5 centers font-exer-ant">${reptId != null ? reptId : 0}x</div>
                             <div id="${'exer' + index + 'bgFontSt' + id}" class="col-3 centers font-status">
-                                <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" value="0">
+                                <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" placeholder="0">
                             </div>
                             <div id="${'exer' + index + 'bgCheck' + id}" class="col-2 centers">
                                 <input id="${'exer' + index + 'check' + id}" class="form-check-input check-exer" type="checkbox">
@@ -481,6 +493,16 @@
 
         let strKG = 'exer' + id + 'kg' + serie
         let str = 'exer' + id + 'repts' + serie
+
+        const kg = document.getElementById(strKG)
+        const repts = document.getElementById(str)
+
+        if (kg.value == NaN || kg.value == 0 || repts.value == NaN || repts.value == 0){
+            kg.value == NaN || kg.value == 0 ? dangerInput(strKG) : clearInput(strKG)
+            repts.value == NaN || repts.value == 0 ? dangerInput(str) : clearInput(str)
+            dangerInput(str)
+            return
+        }
         clearInput(str)
         clearInput(strKG)
 
@@ -497,7 +519,7 @@
                 valueNewTraining.push(newData)
             }
 
-            if (!('segs' in newData) && !('kg' in newData)) {
+            if (!('segs' in newData) || !('kg' in newData)) {
                 newData[`rept${serie}`] = parseInt(input.value);
                 newTraining.push(newData);
                 valueNewTraining.push(newData)
@@ -1170,10 +1192,10 @@
                                             <div id="${'exer' + index + 'fontSerie' + e.rept_num}" class="col-2 centers font-serie">${e.rept_num}</div>
                                             <div id="${'exer' + index + 'fontAnt' + e.rept_num}" class="col-4 centers font-exer-ant">${reptId != null ? reptId : 0}x${reptKg != null ? reptKg : 0}</div>
                                             <div id="${'exer' + index + 'bgFontSt' + e.rept_num}" class="col-2 centers font-status">
-                                                <input id="${'exer' + index + 'repts' + e.rept_num}" class="input-repts" type="number" value="0">
+                                                <input id="${'exer' + index + 'repts' + e.rept_num}" class="input-repts" type="number" placeholder="0">
                                             </div>
                                             <div id="${'exer' + index + 'bgKg' + e.rept_num}" class="col-2 centers">
-                                                <input id="${'exer' + index + 'kg' + e.rept_num}" type="number" class="input-repts" value="0">
+                                                <input id="${'exer' + index + 'kg' + e.rept_num}" type="number" class="input-repts" placeholder="0">
                                             </div>
                                             <div id="${'exer' + index + 'bgCheck' + e.rept_num}" class="col-2 centers">
                                                 <input id="${'exer' + index + 'check' + e.rept_num}" class="form-check-input check-exer" type="checkbox">
@@ -1196,7 +1218,7 @@
                                             <div id="${'exer' + index + 'fontSerie' + e.rept_num}" class="col-2 centers font-serie">${e.rept_num}</div>
                                             <div id="${'exer' + index + 'fontAnt' + e.rept_num}" class="col-5 centers font-exer-ant">${reptId != null ? reptId : 0}x</div>
                                             <div id="${'exer' + index + 'bgFontSt' + e.rept_num}" class="col-3 centers font-status">
-                                                <input id="${'exer' + index + 'repts' + e.rept_num}" class="input-repts" type="number" value="0">
+                                                <input id="${'exer' + index + 'repts' + e.rept_num}" class="input-repts" type="number" placeholder="0">
                                             </div>
                                             <div id="${'exer' + index + 'bgCheck' + e.rept_num}" class="col-2 centers">
                                                 <input id="${'exer' + index + 'check' + e.rept_num}" class="form-check-input check-exer" type="checkbox">

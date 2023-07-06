@@ -389,7 +389,7 @@
 
 .btn-reset,
 [id^="container"] {
-    width: 300px;
+    width: clamp(280px, 70%, 400px);
     height: 43px;  
     background-color: #FFC400;
     font-weight: 500;

@@ -238,11 +238,10 @@ class Db:
             rooms = []
             for row in data:
                 user_data = json.loads(row[0])
-                for room in user_data[0]:
-                    if  room == 'rooms' :
-                        for r in user_data[0][room]:
-                            if r['activate']:
-                                rooms.append(r)
+                if 'rooms' in user_data:
+                    for room in user_data['rooms']:
+                        if room['activate']:
+                            rooms.append(room)
  
             response.data = rooms
             c.close()
@@ -268,12 +267,12 @@ class Db:
 
             if data is not None:
                 user_data = json.loads(data[0])
-                if 'rooms' in user_data[0]:
-                    rooms = user_data[0]['rooms']
+                if 'rooms' in user_data:
+                    rooms = user_data['rooms']
                 else:
                     rooms = []
                 rooms.append(room_data)
-                user_data[0]['rooms'] = rooms
+                user_data['rooms'] = rooms
                 new_user_data = json.dumps(user_data)
 
                 query = f"UPDATE user SET UserData = ? WHERE {column_name} = ?"
@@ -308,9 +307,8 @@ class Db:
                 # Atualizar dados na lista de mensagens
                 for row in data:
                     user_data = json.loads(row[0])
-                    if 'rooms' in user_data[0]:
-                        rooms = user_data[0]['rooms']
-                        for r in rooms:
+                    if 'rooms' in user_data:
+                        for r in user_data['rooms']:
                             if r['name'] == names:
                                 r['messagens'][name] = msg
                                 # Atualizar os dados no banco de dados
@@ -338,11 +336,10 @@ class Db:
             rooms = []
             for row in data:
                 user_data = json.loads(row[0])
-                for room in user_data:
-                    if 'rooms' in room:
-                        for r in room['rooms']:
-                            if r['name'] == ticket_name:
-                                rooms.append(r)
+                if 'rooms' in user_data:
+                    for room in user_data['rooms']:
+                        if room['name'] == ticket_name:
+                            rooms.append(room)
 
             response.data = rooms
             c.close()

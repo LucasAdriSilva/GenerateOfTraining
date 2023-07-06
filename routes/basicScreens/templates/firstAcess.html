@@ -702,65 +702,95 @@
         </div>
 
         <div class="offcanvas-body">
+
             <div class="row reset-Padding" style="margin-top: 100px;">
 
-                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2"
-                    style="background-color: hsl(46, 100%, 50%); border-radius: 9px" onclick="window.location.href='/'">
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'home' %} menu-item-active {%endif%}"
+                    onclick="window.location.href='/'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                         stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-home">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                     </svg>
-                    <h3 class="reset" style="font-size: 21px;">Início</h3>
+                    <h3 class="reset menu-item-text">Início</h3>
                 </div>
 
                 {% if data[5] == True %}
-                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2">
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'creat' %} menu-item-active {%endif%}"
+                    onclick="window.location.href='/exercice'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                         stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-home">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                     </svg>
-                    <h5 class="reset pt-1" style="font-size: 21px;">Lista de exercícios</h5>
+                    <h5 class="reset pt-1 menu-item-text">Lista de exercícios</h5>
                 </div>
 
-                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2">
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2 {%if data[3]['nav'] == 'user' %} menu-item-active {%endif%}"
+                    onclick="window.location.href='/user'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                         stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-user">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
-                    <h5 class="reset pt-1" style="font-size: 21px;">Meu perfil</h5>
+                    <h5 class="reset pt-1 menu-item-text">Meu perfil</h5>
 
                 </div>
 
 
                 {% endif %}
-                <div class="col-12 d-flex justify-content-center align-items-center reset-Padding"
-                    style="background-color: #545454 !important; font-size: 21px; border-radius: 9px; margin-top: 40px;">
-                    <i class="bi bi-download ps-3 pe-3 text-white" style="font-size: 3rem;"></i>
-                    <button id="install-button" class="w-100 text-uppercase text-white fw-bolder reset-Padding"
-                        style="display:none;">Baixar APP</button>
-                </div>
 
-                <div class="col-12 d-flex justify-content-center align-items-center fixed-bottom reset-Padding gap-4"
-                    style="top: 90%; left: 0; width: 80vw;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="#FFC400"
-                        class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                        <path fill-rule="evenodd"
-                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                    </svg>
-                    <h3 class="reset">{{data[0]}}</h3>
+                <div id="downloadPWA"></div>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                        class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                <div class="d-flex justify-content-center align-items-center fixed-bottom "
+                    style="top: 88%; left: 0; width: 80vw;">
+
+                    <div class="d-flex justify-content-start align-items-center gap-3 w-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="#FFC400"
+                            class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            <path fill-rule="evenodd"
+                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                        </svg>
+
+                        <span class="reset name-user">{{data[0]}}</span>
+                    </div>
+
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                        class="bi bi-three-dots-vertical" viewBox="0 0 16 16" style="margin-right: 10px;">
                         <path
                             d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                    </svg>
+                    </svg> -->
+                    <div id="content-floating">
+                        <div class="nd2 nds" data-toggle="tooltip" data-placement="left" data-original-title="">
+                            <p class="item-btn-float" onclick="window.location.href='/suport'">Suport</p>
+                        </div>
+
+                        <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="">
+                            <p class="item-btn-float" onclick="window.location.href='/logout'">Logout</p>
+                        </div>
+
+                        <div id="floating-button" data-toggle="tooltip" data-placement="left"
+                            data-original-title="Create">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="black"
+                                class="bi bi-three-dots-vertical plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                class="bi bi-three-dots-vertical edit" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+                        </div>
+
+                    </div>
                 </div>
 
 
@@ -768,49 +798,9 @@
         </div>
     </div>
 
-    <!-- Modal de Exercicios com segundos-->
-    <!-- <div class="modal fade" id="toggleExerSegs" tabindex="-1" aria-labelledby="toggleExerSegsLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header d-flex justify-content-center align-items-center">
-                    <span class="text-center text-uppercase font-title-modal fw-bold" id="toggleExerSegsLabel">Seu
-                        exercicio
-                        está pesado!</span>
-                </div>
-                <div class="modal-body">
-                    <div class="row reset-Padding">
-                        <div class="col-12 d-flex justify-content-center align-items-center">
-                            <span class="text-center font-title-modal">Sugerimos excluir o exercicio </span>
-                        </div>
-                        <div class="col-12 d-flex justify-content-center align-items-cente">
-                            <span id="exerDeleter" class="text-center fw-bolder text-uppercase"></span>
-                        </div>
-                        <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-cente">
-                            <span class="mt-2 text-center font-capt">
-                                Você terá que fazer muitas séries de
-                                <span id="nameExer" class="fw-bolder text-uppercase"></span> e por isso ele pode valer
-                                por 2
-                                exercícios ao mesmo tempo.
-                            </span>
-                            <span class="mt-2 text-center font-capt text-danger">
-                                Se não quiser excluir, terá que excolher um mais fácil para diminuir o numero de
-                                séries.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="modal-footer d-flex justify-content-center">
-                    <button id="removeExer" data-bs-dismiss="modal" class="btn btn-success">Excluir</button>
-                    <button id="notRemove" data-bs-dismiss="modal" class="btn btn-success">Não Excluir</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
     <!-- Modal Avisando ad exclusão-->
-     <div class="modal fade" id="excluseExer" tabindex="-1" aria-labelledby="excluseExerLabel" aria-hidden="true">
+    <div class="modal fade" id="excluseExer" tabindex="-1" aria-labelledby="excluseExerLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="margin-inline: 30px;">
             <div class="row d-flex justify-content-center align-items-center">
                 <div class="modal-content col-12 reset-Padding">
@@ -818,20 +808,21 @@
                         <span>
                             Verificamos que você tera que fazer mais que 3 séries desse exercicios!
                         </span>
-    
+
                         <span class="fw-bolder">
                             Neste caso, você tera apenas um Core
                         </span>
-    
+
                     </div>
                 </div>
-    
-                <div id="closeModalExerSegs" class="modal-content modal-btn col-12 reset-Padding" data-bs-dismiss="modal" aria-label="Close">
+
+                <div id="closeModalExerSegs" class="modal-content modal-btn col-12 reset-Padding"
+                    data-bs-dismiss="modal" aria-label="Close">
                     <span>OK</span>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
 
 
@@ -847,41 +838,13 @@
         <source src="assets/audio/not.mp3" type="audio/mp3">
     </audio>
 
+    <script type="module">
+        import { CreateBtn } from './assets/js/btnDownload.js'
+        CreateBtn()
+    </script>
+
     <script>
-        let deferredPrompt;
         const exercises = giveExer();
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('install-button').style.display = 'block';
-        });
-
-        window.addEventListener('load', () => {
-            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-                document.getElementById('install-button').style.display = 'none';
-            }
-        });
-
-        window.addEventListener('appinstalled', (evt) => {
-            console.log('PWA instalado');
-            document.getElementById('install-button').style.display = 'none';
-        });
-
-        document.getElementById('install-button').addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('Usuário aceitou instalar o PWA');
-                    } else {
-                        console.log('Usuário recusou instalar o PWA');
-                    }
-                    deferredPrompt = null;
-                });
-            }
-        });
-
         const exercisesBase = exercises.filter(e => e.default == true);
         const div2 = document.getElementById('div2');
         var treino = [];
@@ -1712,23 +1675,23 @@
                 if (repeticao == 5 || repeticao == 6) {
                     var modal = new bootstrap.Modal(document.querySelector('#excluseExer'));
                     modal.show();
-                    
+
 
                     const msgTopBtn = document.getElementById('msgTopBtn')
                     msgTopBtn.classList.add('d-none')
                     noInput.classList.add('d-none')
-                    
+
                     let exerRemove = newExercisesBase.filter(e => e.category == exer[0].category && e.name != exer[0].name)
-                    
-                    
-                    
+
+
+
                     const closeModalExerSegs = document.getElementById('closeModalExerSegs')
-                    closeModalExerSegs.addEventListener('click', function(){
+                    closeModalExerSegs.addEventListener('click', function () {
                         console.log('teste')
                         removeExer(exerRemove, id, Title, Input, exer)
                         gerarTreino(Title, Input, id)
                         btnClockStart(id)
-                     })
+                    })
 
                     //  dar opção de eliminar exercicio
                     //var modal = new bootstrap.Modal(document.querySelector('#toggleExerSegs'));
@@ -1757,7 +1720,7 @@
                     //var countCategory = fixArray.filter(e => e.category == exer[0].category)
 
                     //if (countCategory.length == 1) {
-                        // Mostra o botão de trocar o exercicio
+                    // Mostra o botão de trocar o exercicio
                     //    btn.classList.add('d-block')
                     //    btn.classList.remove('d-none')
 
@@ -2103,7 +2066,7 @@
             const btnFinish = document.getElementById('finishExer' + id)
 
             check.addEventListener('change', function () {
-                if(input.value == null) {
+                if (input.value == null) {
                     this.checked = false
                 }
                 if (this.checked) {
@@ -2285,14 +2248,14 @@
             if (treinoDel !== -1) {
                 treino.splice(treinoDel, 1); //remova o elemento com o índice encontrado
             }
-            
-            
-            
+
+
+
             // ---------------------------------------------------------------------
             // remove visualmente o exer
             //<div id="CarrosselExer" data-bs-touch="false" class="carousel2 slide reset-Padding">
 
-            $('.carousel2 .carousel-item').eq(id+1).remove();
+            $('.carousel2 .carousel-item').eq(id + 1).remove();
 
             //var x = 1
             //newExercisesBase.forEach(e => {
@@ -2660,7 +2623,7 @@
                 newDiv.classList.remove('div-normal')
                 newDiv.classList.add('div-activate')
 
-                requireds.push({ name: "DaysChosen", value: weekSelect})
+                requireds.push({ name: "DaysChosen", value: weekSelect })
 
             }
             else if (x == 10) {
