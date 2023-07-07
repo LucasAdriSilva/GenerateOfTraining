@@ -194,30 +194,67 @@
 
                     if (allChecked) {
                         document.getElementById('finishe').classList.remove('d-none')
-                    } else {
-                        if (kg.value != NaN && kg.value > 0 && repts.value != NaN && repts.value > 0) {
-                            creatCronometro()
-                            clearInput('exer' + i + 'kg' + e)
-                            clearInput('exer' + i + 'repts' + e)
-                            
-                            //Add os stylos de sucesso
-                            line.classList.add('bg-sucess-exer')
-                            fontSerie.style.color = 'white';
-                            fontAnt.style.color = 'white';
-                            bgFontSt.style.color = 'white';
-                            kg != null ? kg.style.color = 'white' : null
-                            repts.style.color = 'white'
+                    }
+                    else {
+                        let strKG = 'exer' + i + 'kg' + e
+                        let str = 'exer' + i + 'repts' + e
+                        //Se nao tiver pode ser por repetição ou segundos
+                        if (kg == null) {
+                            //Input rept
+                            if (repts.value == NaN || repts.value == 0) {
+                                dangerInput(str)
+                                check.checked = false
+                                line.classList.remove('bg-sucess-exer')
+                                return;
+                            } else {
+                                clearInput(str)
+                                creatCronometro()
+                                //Add os stylos de sucesso
+                                line.classList.add('bg-sucess-exer')
+                                fontSerie.style.color = 'white';
+                                fontAnt.style.color = 'white';
+                                bgFontSt.style.color = 'white';
+                                kg != null ? kg.style.color = 'white' : null
+                                repts.style.color = 'white'
+                            }
                         }
                         else {
-                            check.checked = false
-
-                            line.classList.remove('bg-sucess-exer')
-                            //kg.value == NaN ? dangerInput('exer' + i + 'kg' + e) : null
-                            //repts.value == NaN ? dangerInput('exer' + i + 'kg' + e) : null
+                            //input KG      
+                            if (kg.value == NaN || kg.value == 0) {
+                                dangerInput(strKG)
+                                check.checked = false
+                                line.classList.remove('bg-sucess-exer')
+                                return;
+                            } else {
+                                clearInput(strKG)
+                                creatCronometro()
+                                //Add os stylos de sucesso
+                                line.classList.add('bg-sucess-exer')
+                                fontSerie.style.color = 'white';
+                                fontAnt.style.color = 'white';
+                                bgFontSt.style.color = 'white';
+                                kg != null ? kg.style.color = 'white' : null
+                                repts.style.color = 'white'
+                            }
+                            //Input rept
+                            if (repts.value == NaN || repts.value == 0) {
+                                dangerInput(str)
+                                check.checked = false
+                                line.classList.remove('bg-sucess-exer')
+                                return;
+                            } else {
+                                clearInput(str)
+                                creatCronometro()
+                                //Add os stylos de sucesso
+                                line.classList.add('bg-sucess-exer')
+                                fontSerie.style.color = 'white';
+                                fontAnt.style.color = 'white';
+                                bgFontSt.style.color = 'white';
+                                kg != null ? kg.style.color = 'white' : null
+                                repts.style.color = 'white'
+                            }
                         }
                     }
-
-
                 }
                 else {
                     line.classList.remove('bg-sucess-exer')
@@ -302,6 +339,8 @@
     function validationInput(id, serie) {
         const inputKg = document.getElementById('exer' + id + 'kg' + serie)
         const input = document.getElementById('exer' + id + 'repts' + serie)
+
+
 
         if (input == null) return;
 
@@ -423,7 +462,9 @@
                     let element = `
                         <div id="${'exer' + index + 'line' + id}" class="row pe-2 ps-2 py-2 ${id % 2 == 0 ? 'bg-par-exer' : ''}">
                             <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
-                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-4 centers font-exer-ant">${reptId != null ? reptId : 0}x${reptKg != null ? reptKg : 0}</div>
+
+                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-4 centers font-exer-ant">${reptId != null ? reptId : e.rept}x${reptKg != null ? reptKg : e.kg}</div>
+
                             <div id="${'exer' + index + 'bgFontSt' + id}" class="col-2 centers font-status">
                                 <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" placeholder="0">
                             </div>
@@ -444,7 +485,7 @@
                     let element = `
                         <div id="${'exer' + index + 'line' + id}" class="row pe-2 ps-2 py-2 ${id % 2 == 0 ? 'bg-par-exer' : ''}">
                             <div id="${'exer' + index + 'fontSerie' + id}" class="col-2 centers font-serie">${id}</div>
-                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-5 centers font-exer-ant">${reptId != null ? reptId : 0}x</div>
+                            <div id="${'exer' + index + 'fontAnt' + id}" class="col-5 centers font-exer-ant">${reptId != null ? reptId : e.count ? e.count : e.rept}x</div>
                             <div id="${'exer' + index + 'bgFontSt' + id}" class="col-3 centers font-status">
                                 <input id="${'exer' + index + 'repts' + id}" class="input-repts" type="number" placeholder="0">
                             </div>
@@ -480,7 +521,6 @@
     }
 
 
-
     window.addEventListener("load", async function () {
         let data = await creatVar()
         creatExers(data)
@@ -495,17 +535,41 @@
         let str = 'exer' + id + 'repts' + serie
         const inputKg = document.getElementById(strKG)
         const input = document.getElementById(str)
-        
 
-        if (inputKg.value == NaN || inputKg.value == 0 || input.value == NaN || input.value == 0){
-            inputKg.value == NaN || inputKg.value == 0 ? dangerInput(strKG) : clearInput(strKG)
-            input.value == NaN || input.value == 0 ? dangerInput(str) : clearInput(str)
-            return
+        //Se nao tiver pode ser por repetição ou segundos
+        if (inputKg == null) {
+            //Input rept
+            if (input.value == NaN || input.value == 0) {
+                dangerInput(str)
+                return;
+            } else {
+                clearInput(str)
+            }
         }
+        else {
+            //input KG      
+            if (inputKg.value == NaN || inputKg.value == 0) {
+                dangerInput(strKG)
+                return;
+            } else {
+                clearInput(strKG)
+            }
+            //Input rept
+            if (input.value == NaN || input.value == 0) {
+                dangerInput(str)
+                return;
+            } else {
+                clearInput(str)
+            }
+        }
+
+
+
+
         clearInput(str)
         clearInput(strKG)
 
-        
+
 
         let newData = getName(id)
         let indexNewTraining = valueNewTraining.findIndex(e => e.name === newData.name)
@@ -520,7 +584,7 @@
 
             if (!('segs' in newData) && !('kg' in newData)) {
                 newData[`rept${serie}`] = parseFloat(input.value);
-                newTraining.push(newData); 
+                newTraining.push(newData);
             }
 
             if ('kg' in newData) {
@@ -529,14 +593,14 @@
                 newTraining.push(newData);
             }
 
-        } 
+        }
         else {
             if ('segs' in newData) {
-                newTraining[indexTraining][`rept${serie}`] = parseFloat(input.value); 
+                newTraining[indexTraining][`rept${serie}`] = parseFloat(input.value);
             }
 
             if (!('segs' in newData) && !('kg' in newData)) {
-                newTraining[indexTraining][`rept${serie}`] = parseFloat(input.value);   
+                newTraining[indexTraining][`rept${serie}`] = parseFloat(input.value);
             }
 
 
@@ -566,7 +630,7 @@
             }
 
         } else {
-            if ('segs' in newData) { 
+            if ('segs' in newData) {
                 valueNewTraining[indexNewTraining][`rept${serie}`] = parseFloat(input.value);
             }
 
@@ -581,7 +645,7 @@
             }
 
         }
-        console.log('newTraining',newTraining)
+        console.log('newTraining', newTraining)
     }
 
     async function finishedTraining() {
@@ -1144,8 +1208,6 @@
 
     });
 
-
-
     function verificationOfModal(id) {
         backupContent == null ? openModal(id) : null
     }
@@ -1154,7 +1216,6 @@
         var modal = new bootstrap.Modal(id);
         modal.show()
     }
-
 
     function paresSets() {
         if (backupContent != null) return
@@ -1171,7 +1232,6 @@
 
 
     }
-
 
     function creatExersParedSets(data) {
         let id;
@@ -1282,7 +1342,6 @@
 
         document.getElementById('bodyAccordion').innerHTML = div;
     }
-
 
     window.creatExersParedSets = creatExersParedSets;
     window.verificationOfModal = verificationOfModal;
