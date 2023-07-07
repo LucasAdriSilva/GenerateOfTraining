@@ -493,65 +493,95 @@
 
         let strKG = 'exer' + id + 'kg' + serie
         let str = 'exer' + id + 'repts' + serie
+        const inputKg = document.getElementById(strKG)
+        const input = document.getElementById(str)
+        
 
-        const kg = document.getElementById(strKG)
-        const repts = document.getElementById(str)
-
-        if (kg.value == NaN || kg.value == 0 || repts.value == NaN || repts.value == 0){
-            kg.value == NaN || kg.value == 0 ? dangerInput(strKG) : clearInput(strKG)
-            repts.value == NaN || repts.value == 0 ? dangerInput(str) : clearInput(str)
+        if (inputKg.value == NaN || inputKg.value == 0 || input.value == NaN || input.value == 0){
+            inputKg.value == NaN || inputKg.value == 0 ? dangerInput(strKG) : clearInput(strKG)
+            input.value == NaN || input.value == 0 ? dangerInput(str) : clearInput(str)
             return
         }
         clearInput(str)
         clearInput(strKG)
 
-        const inputKg = document.getElementById(strKG)
-        const input = document.getElementById(str)
+        
 
         let newData = getName(id)
-        let index = newTraining.findIndex(e => e.name === newData.name)
+        let indexNewTraining = valueNewTraining.findIndex(e => e.name === newData.name)
+        let indexTraining = newTraining.findIndex(e => e.name === newData.name)
 
-        if (index == -1) {
+
+        if (indexTraining == -1) {
             if ('segs' in newData) {
-                newData[`rept${serie}`] = parseInt(input.value);
+                newData[`rept${serie}`] = parseFloat(input.value);
                 newTraining.push(newData);
+            }
+
+            if (!('segs' in newData) && !('kg' in newData)) {
+                newData[`rept${serie}`] = parseFloat(input.value);
+                newTraining.push(newData); 
+            }
+
+            if ('kg' in newData) {
+                newData[`rept${serie}`] = parseFloat(input.value);
+                newData[`kg${serie}`] = parseFloat(inputKg.value);
+                newTraining.push(newData);
+            }
+
+        } 
+        else {
+            if ('segs' in newData) {
+                newTraining[indexTraining][`rept${serie}`] = parseFloat(input.value); 
+            }
+
+            if (!('segs' in newData) && !('kg' in newData)) {
+                newTraining[indexTraining][`rept${serie}`] = parseFloat(input.value);   
+            }
+
+
+            if ('kg' in newData) {
+                newTraining[indexTraining][`rept${serie}`] = parseFloat(input.value);
+                newTraining[indexTraining][`kg${serie}`] = parseFloat(inputKg.value);
+            }
+
+        }
+
+
+        if (indexNewTraining == -1) {
+            if ('segs' in newData) {
+                newData[`rept${serie}`] = parseFloat(input.value);
                 valueNewTraining.push(newData)
             }
 
-            if (!('segs' in newData) || !('kg' in newData)) {
-                newData[`rept${serie}`] = parseInt(input.value);
-                newTraining.push(newData);
+            if (!('segs' in newData) && !('kg' in newData)) {
+                newData[`rept${serie}`] = parseFloat(input.value);
                 valueNewTraining.push(newData)
             }
 
             if ('kg' in newData) {
-                newData[`rept${serie}`] = parseInt(input.value);
-                newData[`kg${serie}`] = parseInt(inputKg.value);
-                newTraining.push(newData);
+                newData[`rept${serie}`] = parseFloat(input.value);
+                newData[`kg${serie}`] = parseFloat(inputKg.value);
                 valueNewTraining.push(newData)
             }
 
         } else {
-            if ('segs' in newData) {
-                newTraining[index][`rept${serie}`] = parseInt(input.value);
-                valueNewTraining[index][`rept${serie}`] = parseInt(input.value);
+            if ('segs' in newData) { 
+                valueNewTraining[indexNewTraining][`rept${serie}`] = parseFloat(input.value);
             }
 
             if (!('segs' in newData) && !('kg' in newData)) {
-                newTraining[index][`rept${serie}`] = parseInt(input.value);
-                valueNewTraining[index][`rept${serie}`] = parseInt(input.value);
+                valueNewTraining[indexNewTraining][`rept${serie}`] = parseFloat(input.value);
             }
 
 
             if ('kg' in newData) {
-                newTraining[index][`rept${serie}`] = parseInt(input.value);
-                newTraining[index][`kg${serie}`] = parseInt(inputKg.value);
-                valueNewTraining[index][`rept${serie}`] = parseInt(input.value);
-                valueNewTraining[index][`kg${serie}`] = parseInt(inputKg.value);
+                valueNewTraining[indexNewTraining][`rept${serie}`] = parseFloat(input.value);
+                valueNewTraining[indexNewTraining][`kg${serie}`] = parseFloat(inputKg.value);
             }
 
         }
-        console.log(newTraining)
+        console.log('newTraining',newTraining)
     }
 
     async function finishedTraining() {
