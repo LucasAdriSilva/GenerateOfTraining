@@ -170,7 +170,6 @@
 
         if (check != null) {
             check.addEventListener('change', () => {
-
                 if (check.checked) {
                     let validat = validationInput(i, e)
 
@@ -194,67 +193,9 @@
 
                     if (allChecked) {
                         document.getElementById('finishe').classList.remove('d-none')
+                        stopCounter()
                     }
-                    else {
-                        let strKG = 'exer' + i + 'kg' + e
-                        let str = 'exer' + i + 'repts' + e
-                        //Se nao tiver pode ser por repetição ou segundos
-                        if (kg == null) {
-                            //Input rept
-                            if (repts.value == NaN || repts.value == 0) {
-                                dangerInput(str)
-                                check.checked = false
-                                line.classList.remove('bg-sucess-exer')
-                                return;
-                            } else {
-                                clearInput(str)
-                                creatCronometro()
-                                //Add os stylos de sucesso
-                                line.classList.add('bg-sucess-exer')
-                                fontSerie.style.color = 'white';
-                                fontAnt.style.color = 'white';
-                                bgFontSt.style.color = 'white';
-                                kg != null ? kg.style.color = 'white' : null
-                                repts.style.color = 'white'
-                            }
-                        }
-                        else {
-                            //input KG      
-                            if (kg.value == NaN || kg.value == 0) {
-                                dangerInput(strKG)
-                                check.checked = false
-                                line.classList.remove('bg-sucess-exer')
-                                return;
-                            } else {
-                                clearInput(strKG)
-                                creatCronometro()
-                                //Add os stylos de sucesso
-                                line.classList.add('bg-sucess-exer')
-                                fontSerie.style.color = 'white';
-                                fontAnt.style.color = 'white';
-                                bgFontSt.style.color = 'white';
-                                kg != null ? kg.style.color = 'white' : null
-                                repts.style.color = 'white'
-                            }
-                            //Input rept
-                            if (repts.value == NaN || repts.value == 0) {
-                                dangerInput(str)
-                                check.checked = false
-                                line.classList.remove('bg-sucess-exer')
-                                return;
-                            } else {
-                                clearInput(str)
-                                creatCronometro()
-                                //Add os stylos de sucesso
-                                line.classList.add('bg-sucess-exer')
-                                fontSerie.style.color = 'white';
-                                fontAnt.style.color = 'white';
-                                bgFontSt.style.color = 'white';
-                                kg != null ? kg.style.color = 'white' : null
-                                repts.style.color = 'white'
-                            }
-                        }
-                    }
+        
                 }
                 else {
                     line.classList.remove('bg-sucess-exer')
@@ -340,8 +281,6 @@
         const inputKg = document.getElementById('exer' + id + 'kg' + serie)
         const input = document.getElementById('exer' + id + 'repts' + serie)
 
-
-
         if (input == null) return;
 
         let Exer = getName(id)
@@ -353,10 +292,8 @@
             let sugundosTotais = segundos * repeticao
 
             if (input.value != null && input.value != undefined && input.value != '0') {
-                console.log('Entrou')
                 addTraining(id, serie)
                 return 'ok'
-
             }
         }
 
@@ -529,12 +466,20 @@
     });
 
     function addTraining(id, serie) {
-        oldNewtraining = true
-
+        const check = document.getElementById('exer' + id + 'check' + serie)
+        const line = document.getElementById('exer' + id + 'line' + serie)
+        const fontSerie = document.getElementById('exer' + id + 'fontSerie' + serie)
+        const fontAnt = document.getElementById('exer' + id + 'fontAnt' + serie)
+        const bgFontSt = document.getElementById('exer' + id + 'bgFontSt' + serie)
+        const bgKg1 = document.getElementById('exer' + id + 'bgKg' + serie)
+        const bgCheck = document.getElementById('exer' + id + 'bgCheck' + serie)
+        const inputKg = document.getElementById('exer' + id + 'kg' + serie)
+        const input = document.getElementById('exer' + id + 'repts' + serie)
         let strKG = 'exer' + id + 'kg' + serie
         let str = 'exer' + id + 'repts' + serie
-        const inputKg = document.getElementById(strKG)
-        const input = document.getElementById(str)
+
+        oldNewtraining = true
+
 
         //Se nao tiver pode ser por repetição ou segundos
         if (inputKg == null) {
@@ -542,8 +487,17 @@
             if (input.value == NaN || input.value == 0) {
                 dangerInput(str)
                 return;
-            } else {
+            } 
+            else {
                 clearInput(str)
+                creatCronometro()
+                //Add os stylos de sucesso
+                line.classList.add('bg-sucess-exer')
+                fontSerie.style.color = 'white';
+                fontAnt.style.color = 'white';
+                bgFontSt.style.color = 'white';
+                inputKg != null ? inputKg.style.color = 'white' : null
+                input.style.color = 'white'
             }
         }
         else {
@@ -551,25 +505,35 @@
             if (inputKg.value == NaN || inputKg.value == 0) {
                 dangerInput(strKG)
                 return;
-            } else {
+            } 
+            else {
                 clearInput(strKG)
+                creatCronometro()
+                //Add os stylos de sucesso
+                line.classList.add('bg-sucess-exer')
+                fontSerie.style.color = 'white';
+                fontAnt.style.color = 'white';
+                bgFontSt.style.color = 'white';
+                inputKg != null ? inputKg.style.color = 'white' : null
+                input.style.color = 'white'
             }
             //Input rept
             if (input.value == NaN || input.value == 0) {
                 dangerInput(str)
                 return;
-            } else {
+            } 
+            else {
                 clearInput(str)
+                creatCronometro()
+                //Add os stylos de sucesso
+                line.classList.add('bg-sucess-exer')
+                fontSerie.style.color = 'white';
+                fontAnt.style.color = 'white';
+                bgFontSt.style.color = 'white';
+                inputKg != null ? inputKg.style.color = 'white' : null
+                input.style.color = 'white'
             }
         }
-
-
-
-
-        clearInput(str)
-        clearInput(strKG)
-
-
 
         let newData = getName(id)
         let indexNewTraining = valueNewTraining.findIndex(e => e.name === newData.name)
