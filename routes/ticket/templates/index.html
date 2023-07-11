@@ -8,8 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="manifest" href="assets/manifest.json" />
 
-    <title>Chat</title>
+    <title>Ticket</title>
 
     <style>
         H1,
@@ -36,18 +40,20 @@
         }
 
         .ticket {
+            background-color: white;
+            border: 1px solid rgba(112, 112, 112, 0.8);
             height: fit-content;
-            padding: 10px 5px 10px 5px;
-            border-radius: 15px;
             max-width: 100vw;
         }
 
         .btn-chat {
+            height: 41px;
+            width: 141px;
             border: none;
-            background-color: #ffffff;
-            color: black;
-            border-radius: 10px;
-            padding: 10px 20px 10px 20px;
+            background-color: #1995A8;
+            border-radius: 8px;
+            font-size: 15px;
+            color: white;
         }
 
         .scrollable-content {
@@ -63,87 +69,400 @@
 </head>
 
 <body>
-    <div class="row fixed-top reset">
-        <div class="col-12 d-flex justify-content-center bg-black text-white pt-4 pb-4 w-100"
-            style="border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;">
-            <h1>Seus Tickets</h1>
+    <div id="menu" class=" d-flex d-lg-none fixed-top justify-content-start align-items-center"
+        style="width: 100vw !important; height: 70px; background-color: #E5E5E5;">
+
+        <!-- <img class="icon-menu position-absolute" style="left: 15px; top: 15px; height: 40px;" src="assets/img/menu.svg"
+            data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop"> -->
+
+        <svg onclick="window.location.href='/'" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#545454"
+            stroke="#545454" stroke-width="0" class="bi bi-chevron-left position-absolute" viewBox="0 0 16 16"
+            style="top: 16px; left: 8px; color: #545454; z-index: 998;">
+            <path fill-rule="evenodd"
+                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+        </svg>
+
+
+        <div class="row w-100 reset-Padding h-100">
+            <div class="col-12 w-100 d-flex justify-content-center align-items-center">
+                <h3 class="reset font-Bungee">Meu ticket's</h3>
+            </div>
         </div>
     </div>
 
-    <div class="row content-margin margin-top reset">
-        {% if data[3] == '' %}
+    <div class="row reset-Padding">
 
-        <div class="col-12 d-flex justify-content-center align-content-center">
-            <h3 class="text-black-50 mt-5">Você não tem tickets</h3>
-        </div>
+        <div class="menu-desktop border d-none d-lg-block reset-Padding "
+            style="position: fixed; top: 0; right: 0; left: 0; z-index: 1030; height: 100vh;">
 
-        {% else %}
-        
-        <div class="col-12 scrollable-content"> <!-- Envolve o conteúdo em uma div com scroll -->
+            <div class=" d-flex justify-content-center row-menu-header">
+                <div class="row reset-Padding ">
+                    <div class="col-12 d-flex justify-content-end align-items-end w-100">
+                        <h1 class="reset font-Bungee menu-header">Tracker</h1>
+                    </div>
+                </div>
+            </div>
 
-            {% for room in data[3] %}
-            <div class="col-12 d-flex justify-content-around align-items-center ticket mt-3"
-                onclick="window.location.href='/room/{{ room.name }}'">
-                <div class="d-flex flex-column">
-                    <span>Nome do ticket</span>
-                    <strong>
-                        <h5>{{ room.name }}</h5>
-                    </strong>
 
-                    <small>Código de intentificação: {{room.id}}</small>
+            <div
+                class="row reset-Padding mt-2 d-flex flex-column align-items-center justify-content-between row-content-menu">
+                <div class="col-10 reset-Padding">
+
+                    <div class="d-flex justify-content-start align-items-center div-item-menu {%if data[3]['nav'] == 'home' %} menu-item-active {%endif%}"
+                        onclick="window.location.href='/'">
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="menu-item-icon" viewBox="0 0 24 24" fill="none"
+                            stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-home">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <h3 class="reset menu-item-text">Início</h3>
+                    </div>
+
+                    {% if data[5] == True %}
+                    <div class="d-flex justify-content-start align-items-center div-item-menu {%if data[3]['nav'] == 'creat' %} menu-item-active {%endif%}"
+                        onclick="window.location.href='/exercice'">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="menu-item-icon" viewBox="0 0 24 24" fill="none"
+                            stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-home ">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <h5 class="reset pt-1 menu-item-text">Lista de exercícios</h5>
+                    </div>
+
+                    <div class="d-flex justify-content-start align-items-center div-item-menu {%if data[3]['nav'] == 'user' %} menu-item-active {%endif%}"
+                        style="margin-inline: auto;" onclick="window.location.href='/user'">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="menu-item-icon" viewBox="0 0 24 24" fill="none"
+                            stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-user">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <h5 class="reset pt-1 menu-item-text">Meu perfil</h5>
+
+                    </div>
+                    {% endif %}
+
+                    <!-- <div id="btn-install-button1"
+                        class="d-flex justify-content-center align-items-center reset-Padding div-btn-app">
+
+                        <svg id="download-icon" xmlns="http://www.w3.org/2000/svg" width="70" height="70"
+                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="d-none d-xxl-block  feather-download"
+                            style="margin-left: 10px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+
+                        <svg id="download-icon" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="d-none d-lg-block d-xxl-none  feather-download"
+                            style="margin-left: 10px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+
+                       
+                        <button id="install-button" class="w-100 text-uppercase text-white fw-bolder reset-Padding"
+                            style="display:none;">Baixar APP</button>
+                    </div> -->
+
                 </div>
 
-                <i class="bi bi-arrow-right-square" style="font-size: 60px!important;"></i>
+                <div class="col-10 d-flex justify-content-between align-items-lg-center reset-Padding position-relative"
+                    style="margin-inline: auto;">
+
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="#FFC400"
+                            class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            <path fill-rule="evenodd"
+                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                        </svg>
+
+                        <span class="reset name-user">{{data[0]}}</span>
+                    </div>
+
+
+
+                    <div id="content-floating">
+                        <div class="nd2 nds" data-toggle="tooltip" data-placement="left" data-original-title="">
+                            <p class="item-btn-float" onclick="window.location.href='/suport'">Suport</p>
+                        </div>
+
+                        <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="">
+                            <p class="item-btn-float" onclick="window.location.href='/logout'">Logout</p>
+                        </div>
+
+                        <div id="floating-button" data-toggle="tooltip" data-placement="left"
+                            data-original-title="Create">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="black"
+                                class="bi bi-three-dots-vertical plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                class="bi bi-three-dots-vertical edit" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+                        </div>
+
+                    </div>
+                </div>
 
 
             </div>
-            {% endfor %}
+
         </div>
-        {% endif %}
+
+        <div id="body-content" class="col-12 col-lg-8  reset-Padding margin-Body">
+            <div class="row content-margin" style="margin-left: 15px; margin-right: 15px;">
+
+                <div class="col-12 mt-3 d-flex justify-content-start align-items-center gap-3">
+                    <div class="squad2-active" style="background-color: rgba(25, 149, 168, 0.5)!important;">Todos</div>
+                    <div class="squad2-active" style="background-color: rgba(230, 174, 18, 1)!important;">Em espera
+                    </div>
+                    <div class="squad2-active" style="background-color: rgba(85, 148, 89, 1)!important;">Finalizados
+                    </div>
+                </div>
+
+                <div class="col-12 mt-3">
+                    <button onclick="openModal('newTicket')"
+                        class="btn d-flex justify-content-center align-content-center w-100"
+                        style="height: 43px; border: none; background-color: #E5E5E5; font-weight: 600; color: #545454; border-radius: 0px; font-size: 20px;">
+                        NOVO TICKET
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                            class="bi bi-plus" viewBox="0 0 16 16">
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                        </svg>
+                    </button>
+                </div>
+                {% if data[3] == '' %}
+
+                <div class="col-12 d-flex justify-content-center align-content-center">
+                    <h3 class="text-black-50 mt-5">Você não tem tickets</h3>
+                </div>
+
+                {% else %}
+
+                <div class="col-12 scrollable-content"> <!-- Envolve o conteúdo em uma div com scroll -->
+
+                    {% for room in data[3] %}
+                    <div class="col-12 d-flex justify-content-around align-items-center ticket mt-3 py-3" onclick="window.location.href='/room/{{ room.name }}'">
+
+                        <div class="d-flex flex-column">
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <small style="font-size: 10px; color: rgba(112, 112, 112, 0.5);">Ticket#1</small>
+                                <small style="font-size: 10px; color: rgba(112, 112, 112, 0.5);">Código de
+                                    intentificação: {{room.id}}</small>
+                            </div>
+                            <div class="squad2-active my-1" style="background-color: rgba(230, 174, 18, 1)!important;">
+                                Em espera
+                            </div>
+
+                            <div style="font-size: 18px ; color:rgba(112, 112, 112, 1) ; font-weight: 800;"> 
+                                {{ room.name }}
+                            </div>
+                        </div>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                          </svg>
+
+
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+
     </div>
     </div>
 
-    <div class="row bg-black pe-5 ps-5 pt-1 fixed-bottom"
-        style="border-top-left-radius: 25px; border-top-right-radius: 25px;">
-        <div class="col-12 d-flex justify-content-center">
-            <h2 class="text-white">Abrir um ticket</h2>
-        </div>
-        <form action="/create_room" method="POST">
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <input class="w-100 text-center rounded-1" type="text" placeholder="Nome do ticket"
-                        name="ticket_name">
-                </div>
-                <div class="col-12 d-flex justify-content-center mt-1 mb-4">
-                    <button class="btn-chat text-uppercase fw-bolder" type="submit">Criar</button>
+    <!-- Menu -->
+    <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop"
+        aria-labelledby="staticBackdropLabel" style="width: 80% !important;">
+
+        <div class=" d-flex justify-content-">
+            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="#545454"
+                stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-x position-absolute" style="top: 11px; left: 8px; color: #545454; z-index: 998;"
+                data-bs-dismiss="offcanvas" aria-label="Close">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+
+            <div class="row reset-Padding position-absolute"
+                style="left: 0; top: 0;width: 100vw; height: 70px;z-index: 997;">
+                <div class="col-12 d-flex justify-content-center align-items-center w-100 m-auto">
+                    <h3 class="reset font-Bungee">Tracker</h3>
                 </div>
             </div>
-        </form>
+        </div>
+
+        <div class="offcanvas-body">
+
+            <div class="row reset-Padding" style="margin-top: 100px;">
+
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'home' %} menu-item-active {%endif%}"
+                    onclick="window.location.href='/'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                        stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-home">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <h3 class="reset menu-item-text">Início</h3>
+                </div>
+
+                {% if data[5] == True %}
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2  {%if data[3]['nav'] == 'creat' %} menu-item-active {%endif%}"
+                    onclick="window.location.href='/exercice'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                        stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-home">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <h5 class="reset pt-1 menu-item-text">Lista de exercícios</h5>
+                </div>
+
+                <div class="col-12 d-flex justify-content-start align-items-center gap-4 p-2 {%if data[3]['nav'] == 'user' %} menu-item-active {%endif%}"
+                    onclick="window.location.href='/user'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                        stroke="#545454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-user">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <h5 class="reset pt-1 menu-item-text">Meu perfil</h5>
+
+                </div>
+
+
+                {% endif %}
+
+                <div id="downloadPWA"></div>
+
+                <div class="d-flex justify-content-center align-items-center fixed-bottom "
+                    style="top: 88%; left: 0; width: 80vw;">
+
+                    <div class="d-flex justify-content-start align-items-center gap-3 w-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="#FFC400"
+                            class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            <path fill-rule="evenodd"
+                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                        </svg>
+
+                        <span class="reset name-user">{{data[0]}}</span>
+                    </div>
+
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                        class="bi bi-three-dots-vertical" viewBox="0 0 16 16" style="margin-right: 10px;">
+                        <path
+                            d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                    </svg> -->
+                    <div id="content-floating">
+                        <div class="nd2 nds" data-toggle="tooltip" data-placement="left" data-original-title="">
+                            <p class="item-btn-float" onclick="window.location.href='/suport'">Suport</p>
+                        </div>
+
+                        <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="">
+                            <p class="item-btn-float" onclick="window.location.href='/logout'">Logout</p>
+                        </div>
+
+                        <div id="floating-button" data-toggle="tooltip" data-placement="left"
+                            data-original-title="Create">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="black"
+                                class="bi bi-three-dots-vertical plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                class="bi bi-three-dots-vertical edit" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                            </svg>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
     </div>
 
+
+    <div id="loading" class="loading d-none d-flex justify-content-center align-content-center flex-column">
+        <div class="roll-loading align-self-center"></div>
+        <span class="text-center mt-2">CARREGANDO...</span>
+    </div>
+
+
+    <div class="modal fade" id="newTicket" tabindex="-1" aria-labelledby="newTicketLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content position-relative d-flex justify-content-center align-items-center"
+                style="border: none!important; margin-inline: 15px;">
+
+
+                <span class="fw-bolder mt-4" style="color:#707070; font-size: 20px;">PRECISA DE AJUDA?</span>
+                <button type="button" class="btn-close position-absolute" style="top: 20px; right: 20px;"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+
+                <div class="col-12 d-flex justify-content-center my-2">
+                    <span style="font-size: 15px; color:#707070">Digite um nome para o seu ticket:</span>
+                </div>
+
+                <form action="/create_room" method="POST">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <input class="w-100 text-center"
+                                style="border-radius: 21px; border: 1px solid #707070; height: 41px;" type="text"
+                                placeholder="Digite aqui..." name="ticket_name">
+                        </div>
+                        <div class="col-12 d-flex justify-content-center mt-2 mb-4">
+                            <button class="btn-chat text-uppercase" type="submit">ABRIR
+                                TICKET</button>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script type="module" src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        window.addEventListener('load', () => {
-            // Chama a função randomColor() quando a página é carregada
-            randomColor();
-        });
-
-        function randomColor() {
-            var circle = document.querySelectorAll('.ticket');
-
-            var colors = ['#55bd2c', '#FFFF00', '#ffc400', '#00d9ff', '#00ffea'];
-            var numColors = colors.length;
-
-            circle.forEach(e => {
-                var randomIndex = Math.floor(Math.random() * numColors);
-                var color = colors[randomIndex];
-                e.style.backgroundColor = color;
-            });
+        function openModal(id) {
+            var modal = new bootstrap.Modal(document.querySelector(`#${id}`));
+            modal.show()
         }
-
     </script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
-    </script>
-
-</html>

@@ -3,6 +3,36 @@
 
 {% block content %}
 
+{% if data[3].fistAcess == 'true' %}
+
+<div class="modal fade transparent" id="firstAcess" tabindex="-1" aria-labelledby="firstAcessLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen transparent">
+        <div class="modal-content transparent">
+            <div id="firstAcessSlides" class="carousel slide transparent">
+                <div class="carousel-inner transparent">
+                    <div class="carousel-item active slide-firstAcess">
+                        <img src="assets/img/firstAcess/inicio.png" style="width: auto; height: 80%;">
+                        <button class="btn btn-next-slide" type="button" data-bs-target="#firstAcessSlides" data-bs-slide="next"> Avançar</button>
+                    </div>
+
+                    <div class="carousel-item slide-firstAcess">
+                        <img src="assets/img/firstAcess/inicio.png" style="width: auto; height: 80%;">
+                        <button class="btn btn-next-slide" type="button" data-bs-target="#firstAcessSlides" data-bs-slide="next"> Avançar</button>
+                    </div>
+
+                    <div class="carousel-item slide-firstAcess">
+                        <img src="assets/img/firstAcess/inicio.png" style="width: auto; height: 80%;">
+                        <button onclick="togglefirstAcess()" class="btn btn-next-slide" type="button" data-bs-target="#firstAcessSlides" data-bs-slide="next"> Finalizar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
 <div id="contentHome" class="row reset-Padding-x mt-5">
 
 </div>
@@ -18,11 +48,11 @@
         let fullTraining = JSON.parse(data.Training)
         verificationChosenTraining(data)
 
-        if(trainingInExecution == "false")return;
+        if (trainingInExecution == "false") return;
 
         var lastElement = trainingInExecution[trainingInExecution.length - 1];
         trainingInExecution.splice(trainingInExecution.length - 1)
-        
+
         //Cria o Btn com o texto em parametro
         creatBtn('Verificamos que você tem um treino em andamento')
         //Cria a função click do btn de continuar
@@ -52,7 +82,7 @@
                 var inputChosenDay = document.createElement('input');
                 inputChosenDay.type = 'hidden';
                 inputChosenDay.name = 'chosenDay';
-                inputChosenDay.value = chosenDay === 'd1' ? '1' : chosenDay === 'd2'? '2': '0'; // Converta 'd1' para 1 e 'd2' para 2 conforme necessário
+                inputChosenDay.value = chosenDay === 'd1' ? '1' : chosenDay === 'd2' ? '2' : '0'; // Converta 'd1' para 1 e 'd2' para 2 conforme necessário
 
                 // Adicione os elementos de entrada ocultos ao formulário
                 form.appendChild(inputData);
@@ -73,12 +103,21 @@
         const btnCancel = document.getElementById('negativo')
         btnCancel.addEventListener("click", async function () {
             let response = await apiPost('Delet/TrainingInExecution', false)
-            response == 'Sucess Delet'? document.getElementById('float-btn').classList.add('d-none'): null
+            response == 'Sucess Delet' ? document.getElementById('float-btn').classList.add('d-none') : null
         })
     })
 
+    window.addEventListener('DOMContentLoaded', () => {
+        const firstAcess = document.getElementById('firstAcess')
+
+        if (firstAcess != null) {
+            var modal = new bootstrap.Modal(document.querySelector('#firstAcess'));
+            modal.show()
+        }
+    })
+
     function verificationChosenTraining(data) {
-        
+
         if (data.ChosenTraining == null) {
             if (data.TrainingDays == 4) {
                 document.getElementById('contentHome').innerHTML = `
@@ -312,13 +351,13 @@
                 location.reload();
             }
         }
-        
+
         var trainingFull = JSON.parse(data.Training);
         var Requireds = JSON.parse(data.Requireds);
 
-         var ChosenTraining = data.ChosenTraining.charAt(0).toLowerCase() + data.ChosenTraining.slice(1);
+        var ChosenTraining = data.ChosenTraining.charAt(0).toLowerCase() + data.ChosenTraining.slice(1);
         var training = trainingFull[ChosenTraining];
-        
+
         let indexDaysOfWeek = Requireds.findIndex(e => e.name == 'DaysChosen')
         var daysOfWeek = converterNomesDias(Requireds[indexDaysOfWeek].value)
         if (data.ChosenTraining == 'Fullbody') {
@@ -428,22 +467,22 @@
             });
 
         }
-   
+
         const DivdaysOfWeek = document.getElementById('daysOfWeek')
         const DivdaysOfWeek2 = document.getElementById('daysOfWeek2')
 
-        if(daysOfWeek.length == 3){
+        if (daysOfWeek.length == 3) {
             daysOfWeek.forEach(day => {
                 let newDiv = `<div class="squad2-active">${day}</div>`;
                 DivdaysOfWeek.innerHTML += newDiv;
             });
         }
-        else{
+        else {
             DivdaysOfWeek.innerHTML = `<div class="squad2-active">${daysOfWeek[0]}</div> <div class="squad2-active">${daysOfWeek[2]}</div>`
-           
+
 
             DivdaysOfWeek2.innerHTML = `<div class="squad2-active">${daysOfWeek[1]}</div> <div class="squad2-active">${daysOfWeek[3]}</div>`
-            
+
         }
     }
 
@@ -522,7 +561,14 @@
         document.body.appendChild(newDiv);
     }
 
+    function togglefirstAcess(){
+        apiPost('firstAcess', false)
+        var modal = new bootstrap.Modal(document.querySelector('#firstAcess'));
+        modal.hide()
+        window.location.reload()
+    }
 
+    window.togglefirstAcess = togglefirstAcess
     window.creatBtn = creatBtn
     window.chosenRoutine = chosenRoutine
     window.converterNomesDias = converterNomesDias

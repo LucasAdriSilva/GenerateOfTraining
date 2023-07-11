@@ -120,7 +120,7 @@ def webhookRegisterUser():
   data = request.get_data().decode()
   data = json.loads(data)
 
-  data['FirstAcess'] = True
+  data['FirstAcess'] = "true"
   data['TrainingInExecution'] = False
 
   if data["status"] == "approved":
@@ -286,3 +286,27 @@ def DelTrainingInExecution():
   except Exception as e:
     response_data = {'message': f"Erro na requisição -> {e}"}
     return 'Err in request', 400
+  
+@api.route('/firstAcess', methods=['POST'])
+def firstAcess():
+  try:
+    if 'login' in session:
+
+      data = Db.get_login(session['login']).data
+      chaves = ['Ip', 'Login', 'Password', 'UserData', 'BaseTraining', 'TrainingDays', 'Requireds', 'Training', 'ChosenTraining', 'HistoryTraining']
+      data = dict(zip(chaves, data))
+
+      userData = json.loads(data['UserData'])
+
+      userData['FirstAcess'] = 'false'
+
+      Db.update_data('Login', session['login'], 'UserData', userData )
+
+      return 'Save data', 200
+    else:
+      response_data = {'message': "Usuário não logado"}
+      return 'Not Save Data', 400
+
+  except Exception as e:
+    response_data = {'message': f"Erro na requisição -> {e}"}
+    return 'Err in request', 400  

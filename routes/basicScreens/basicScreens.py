@@ -62,13 +62,6 @@ def index():
                 newInfo = userData[data]
                 break
         
-        if newInfo == 'true':
-            newInfo = True
-        else:
-            newInfo = False
-        
-        if newInfo is None:
-            newInfo = True
           
         data= {
           'nav': 'home', 

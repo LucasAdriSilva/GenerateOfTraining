@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, curren
 from flask_socketio import emit
 import datetime, json
 from model.db import Db
+import base64
+import io as Io
 from basicFunction import getUrl, random_generator
 
 ticket = Blueprint('ticket', __name__, template_folder='templates')
@@ -10,6 +12,7 @@ ticket = Blueprint('ticket', __name__, template_folder='templates')
 def suporte():
     if 'login' not in session:
         return getUrl('login.html')
+    
     #Se for um ADM ele irá ver todas as conversar
     if session['login'] == 'Lucas':
         rooms = Db.getTickets().data
@@ -75,6 +78,9 @@ def create_room():
 
 @ticket.route('/room/<ticket_name>')
 def room(ticket_name):
+    if 'login' not in session:
+        return  getUrl('login.html')
+    
     teste = Db.getNameTicket(ticket_name).data[0]
     id = teste['id']
     res = {'name': ticket_name, 'user': session['login'], 'id': id}
@@ -90,12 +96,16 @@ def register_chat_events(io):
                 UserData = room 
                 messages = UserData['messagens']
                 user_name = f"{msg['name']}--{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"
+
+                # Verificar se a mensagem já existe
+                if user_name in messages:
+                    return
+
                 messages[user_name] = msg['msg']
                 UserData['messagens'] = messages
                 Db.attMsg(UserData['name'], user_name,  msg['msg'])
                 emit('getMessages', messages, broadcast=True)
-                       
-
+                
     @io.on('message')
     def message_handler(ticket_name):
         rooms = Db.getTickets().data
@@ -107,11 +117,63 @@ def register_chat_events(io):
         print(data)
         user_found = Db.get_login(data['user']).data
         if user_found[3] is not None:
-            info = json.loads(user_found[3])[0]
+            info = json.loads(user_found[3])
             if 'rooms' in info:
                 for rooms in info['rooms']:
                     if rooms['name'] == data['name']:
                         rooms['activate'] = False
                         res = [info]
                         save = Db.update_data('Login', data['user'], 'UserData', res)
-                
+
+    @io.on('sendImage')
+    def send_image_handler(data):
+        room_name = data['room'].strip()
+        image_data = data['image']
+        user_name = f"{data['name']}--{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"
+
+        # Salvar os dados em base64 no banco de dados
+        Db.attMsg(room_name, user_name, image_data)
+
+        # Emitir o evento 'getImage' para todos os clientes na sala
+        emit('getImage', {'image': image_data}, room=room_name)
+
+
+
+
+    @io.on('loadingMessage')
+    def handle_message2(user):         
+        if user[0] == 'Suporte':
+            user[0] = 'Lucas'   
+        user_found = Db.get_login(user[0].strip()).data
+
+        user_data = json.loads(user_found[3])
+
+        roomSelect={}
+        if user[0] == 'Lucas':
+            roomSelect = Db.getNameTicket(user[1]).data[0]
+        else:    
+            for room in user_data['rooms']:
+                if room['name'].strip() == user[1].strip():
+                    roomSelect = room
+
+        if 'messagens' in roomSelect:
+            data = roomSelect['messagens']
+            emit('loadingPage', data, broadcast=True)
+
+
+    @io.on('Messagem')
+    def handle_message(data):     
+
+        room = Db.getNameTicket(data['room']).data[0]
+        new_msg = room['messagens'][f'{data["user"]}--{data["timestamp"]}'] = data['message']
+        
+        Db.attMsg(data['room'], f"{data['user']}--{data['timestamp']}", new_msg)
+
+        data = {'message': data['message'], 'user': data['user'], 'timestamp': data['timestamp']}
+        emit('returnMessage', data ,broadcast=True)
+
+    @io.on('image')
+    def handle_image(image):
+        timestamp = datetime.datetime.now().strftime('%H:%M:%S--%d/%m/%y')
+        data = {'image': image, 'user': 'Usuário', 'timestamp': timestamp}
+        emit('image', data, broadcast=True)
